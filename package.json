@@ -1,0 +1,15 @@
+{
+  "name": "versatil-gama-industrial",
+  "version": "1.0.0",
+  "description": "Versatil Gama Industrial - Catálogo com Sistema de Pedidos",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemailer": "^8.0.5"
+  }
+}
