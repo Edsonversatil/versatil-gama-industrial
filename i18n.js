@@ -275,7 +275,19 @@
             'contact.tag': 'Fale conosco', 'contact.title': 'Entre em Contato', 'contact.desc': 'Solicite seu orçamento agora e receba atendimento direto da nossa equipe comercial.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'E-mail Comercial', 'contact.loc.label': 'Localização', 'contact.loc.value': 'Sorocaba/SP — Brasil', 'contact.cta': 'Falar no WhatsApp agora',
             'footer.rights': '© 2002 Versatil Gama Industrial. Todos os direitos reservados.', 'footer.loc': 'Sorocaba/SP — Brasil',
             'btn.adicionar': 'Adicionar', 'btn.adicionado': 'Adicionado!', 'btn.finalizar': 'Finalizar Pedido via WhatsApp', 'cart.title': 'Seu Pedido', 'cart.empty': 'Seu carrinho está vazio', 'cart.total': 'TOTAL',
-            'currency.notice': '', 'unit': '/ un'
+            'currency.notice': '', 'unit': '/ un',
+            // Checkout
+            'ck.title': 'Finalizar Pedido', 'ck.step1': 'Comprador', 'ck.step2': 'Entrega', 'ck.step3': 'Pagamento', 'ck.step4': 'Resumo',
+            'ck.pf': 'Pessoa Física', 'ck.pj': 'Pessoa Jurídica',
+            'ck.dados.pf': 'Dados Pessoais', 'ck.dados.pj': 'Dados da Empresa',
+            'ck.nome': 'Nome completo *', 'ck.cpf': 'CPF *', 'ck.email': 'E-mail *', 'ck.phone': 'Telefone / WhatsApp *',
+            'ck.razao': 'Razão Social *', 'ck.fantasia': 'Nome Fantasia', 'ck.cnpj': 'CNPJ *', 'ck.ie': 'Inscrição Estadual', 'ck.responsavel': 'Responsável *',
+            'ck.endereco.cad': 'Endereço (Cadastro / Fiscal)', 'ck.cep': 'CEP *', 'ck.rua': 'Rua *', 'ck.numero': 'Número *', 'ck.complemento': 'Complemento', 'ck.bairro': 'Bairro *', 'ck.cidade': 'Cidade *', 'ck.estado': 'Estado *',
+            'ck.entrega.title': 'Endereço de Entrega', 'ck.entrega.same': 'Mesmo endereço do cadastro', 'ck.entrega.diff': 'Informar outro endereço de entrega', 'ck.referencia': 'Referência',
+            'ck.pag.title': 'Forma de Pagamento', 'ck.pix': 'PIX', 'ck.pix.desc': 'Pagamento instantâneo', 'ck.transf': 'Transferência Bancária', 'ck.transf.desc': 'Dados Sicredi', 'ck.usdt': 'USDT (TRC20)', 'ck.usdt.desc': 'Cripto internacional', 'ck.cartao': 'Cartão de Crédito', 'ck.cartao.taxa': '+5% taxa operacional',
+            'ck.confirm': 'Confirmar e Avançar →', 'ck.back': '← Voltar', 'ck.next': 'Próximo →', 'ck.send': 'Enviar Pedido via WhatsApp',
+            'ck.resumo.produtos': 'Produtos', 'ck.resumo.comprador': 'Dados do Comprador', 'ck.resumo.entrega': 'Endereço de Entrega', 'ck.resumo.pagamento': 'Forma de Pagamento', 'ck.resumo.fiscal': 'Dados para Nota Fiscal',
+            'ck.pedido': 'PEDIDO', 'ck.required': 'Preencha todos os campos obrigatórios.', 'ck.required.entrega': 'Preencha o endereço de entrega.'
         },
         en: {
             'nav.produtos': 'Products', 'nav.pagamento': 'Payment', 'nav.contato': 'Contact', 'nav.pedido': 'Order', 'nav.whatsapp': 'WhatsApp',
@@ -290,7 +302,19 @@
             'contact.tag': 'Get In Touch', 'contact.title': 'Contact Us', 'contact.desc': 'Request your quote now and receive direct support from our sales team.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'Commercial E-mail', 'contact.loc.label': 'Location', 'contact.loc.value': 'Sorocaba/SP — Brazil', 'contact.cta': 'Chat on WhatsApp now',
             'footer.rights': '© 2002 Versatil Gama Industrial. All rights reserved.', 'footer.loc': 'Sorocaba/SP — Brazil',
             'btn.adicionar': 'Add to Cart', 'btn.adicionado': 'Added!', 'btn.finalizar': 'Complete Order via WhatsApp', 'cart.title': 'Your Order', 'cart.empty': 'Your cart is empty', 'cart.total': 'TOTAL',
-            'currency.notice': 'Prices for international customers are displayed in USD', 'unit': '/ ea'
+            'currency.notice': 'Prices for international customers are displayed in USD', 'unit': '/ ea',
+            // Checkout
+            'ck.title': 'Checkout', 'ck.step1': 'Buyer', 'ck.step2': 'Shipping', 'ck.step3': 'Payment', 'ck.step4': 'Summary',
+            'ck.pf': 'Individual', 'ck.pj': 'Company',
+            'ck.dados.pf': 'Personal Details', 'ck.dados.pj': 'Company Details',
+            'ck.nome': 'Full name *', 'ck.cpf': 'Tax ID (CPF) *', 'ck.email': 'E-mail *', 'ck.phone': 'Phone / WhatsApp *',
+            'ck.razao': 'Company Name *', 'ck.fantasia': 'Trade Name', 'ck.cnpj': 'Tax ID (CNPJ) *', 'ck.ie': 'State Registration', 'ck.responsavel': 'Contact Person *',
+            'ck.endereco.cad': 'Address (Registration / Tax)', 'ck.cep': 'Zip Code *', 'ck.rua': 'Street *', 'ck.numero': 'Number *', 'ck.complemento': 'Unit / Suite', 'ck.bairro': 'District *', 'ck.cidade': 'City *', 'ck.estado': 'State *',
+            'ck.entrega.title': 'Shipping Address', 'ck.entrega.same': 'Same as registration address', 'ck.entrega.diff': 'Use a different shipping address', 'ck.referencia': 'Landmark',
+            'ck.pag.title': 'Payment Method', 'ck.pix': 'PIX', 'ck.pix.desc': 'Instant payment', 'ck.transf': 'Bank Transfer', 'ck.transf.desc': 'Banking details', 'ck.usdt': 'USDT (TRC20)', 'ck.usdt.desc': 'International crypto', 'ck.cartao': 'Credit Card', 'ck.cartao.taxa': '+5% processing fee',
+            'ck.confirm': 'Confirm & Continue →', 'ck.back': '← Back', 'ck.next': 'Next →', 'ck.send': 'Send Order via WhatsApp',
+            'ck.resumo.produtos': 'Products', 'ck.resumo.comprador': 'Buyer Details', 'ck.resumo.entrega': 'Shipping Address', 'ck.resumo.pagamento': 'Payment Method', 'ck.resumo.fiscal': 'Tax Invoice Details',
+            'ck.pedido': 'ORDER', 'ck.required': 'Please fill in all required fields.', 'ck.required.entrega': 'Please fill in the shipping address.'
         },
         es: {
             'nav.produtos': 'Productos', 'nav.pagamento': 'Pago', 'nav.contato': 'Contacto', 'nav.pedido': 'Pedido', 'nav.whatsapp': 'WhatsApp',
@@ -305,7 +329,19 @@
             'contact.tag': 'Contáctenos', 'contact.title': 'Contacto', 'contact.desc': 'Solicite su presupuesto ahora y reciba atención directa de nuestro equipo comercial.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'E-mail Comercial', 'contact.loc.label': 'Ubicación', 'contact.loc.value': 'Sorocaba/SP — Brasil', 'contact.cta': 'Hablar por WhatsApp ahora',
             'footer.rights': '© 2002 Versatil Gama Industrial. Todos los derechos reservados.', 'footer.loc': 'Sorocaba/SP — Brasil',
             'btn.adicionar': 'Agregar', 'btn.adicionado': '¡Agregado!', 'btn.finalizar': 'Finalizar Pedido por WhatsApp', 'cart.title': 'Su Pedido', 'cart.empty': 'Su carrito está vacío', 'cart.total': 'TOTAL',
-            'currency.notice': 'Los precios para clientes internacionales se muestran en USD', 'unit': '/ un'
+            'currency.notice': 'Los precios para clientes internacionales se muestran en USD', 'unit': '/ un',
+            // Checkout
+            'ck.title': 'Finalizar Pedido', 'ck.step1': 'Comprador', 'ck.step2': 'Envío', 'ck.step3': 'Pago', 'ck.step4': 'Resumen',
+            'ck.pf': 'Persona Física', 'ck.pj': 'Persona Jurídica',
+            'ck.dados.pf': 'Datos Personales', 'ck.dados.pj': 'Datos de la Empresa',
+            'ck.nome': 'Nombre completo *', 'ck.cpf': 'Identificación (CPF) *', 'ck.email': 'E-mail *', 'ck.phone': 'Teléfono / WhatsApp *',
+            'ck.razao': 'Razón Social *', 'ck.fantasia': 'Nombre Comercial', 'ck.cnpj': 'Identificación (CNPJ) *', 'ck.ie': 'Inscripción Estadual', 'ck.responsavel': 'Responsable *',
+            'ck.endereco.cad': 'Dirección (Registro / Fiscal)', 'ck.cep': 'Código Postal *', 'ck.rua': 'Calle *', 'ck.numero': 'Número *', 'ck.complemento': 'Complemento', 'ck.bairro': 'Barrio *', 'ck.cidade': 'Ciudad *', 'ck.estado': 'Estado *',
+            'ck.entrega.title': 'Dirección de Envío', 'ck.entrega.same': 'Misma dirección de registro', 'ck.entrega.diff': 'Informar otra dirección de envío', 'ck.referencia': 'Referencia',
+            'ck.pag.title': 'Forma de Pago', 'ck.pix': 'PIX', 'ck.pix.desc': 'Pago instantáneo', 'ck.transf': 'Transferencia Bancaria', 'ck.transf.desc': 'Datos bancarios', 'ck.usdt': 'USDT (TRC20)', 'ck.usdt.desc': 'Cripto internacional', 'ck.cartao': 'Tarjeta de Crédito', 'ck.cartao.taxa': '+5% tasa operacional',
+            'ck.confirm': 'Confirmar y Continuar →', 'ck.back': '← Volver', 'ck.next': 'Siguiente →', 'ck.send': 'Enviar Pedido por WhatsApp',
+            'ck.resumo.produtos': 'Productos', 'ck.resumo.comprador': 'Datos del Comprador', 'ck.resumo.entrega': 'Dirección de Envío', 'ck.resumo.pagamento': 'Forma de Pago', 'ck.resumo.fiscal': 'Datos para Factura',
+            'ck.pedido': 'PEDIDO', 'ck.required': 'Complete todos los campos obligatorios.', 'ck.required.entrega': 'Complete la dirección de envío.'
         }
     };
 
@@ -500,6 +536,7 @@
         translateProducts(lang);
         updateDisplayPrices(lang);
         reformatCartForLang();
+        translateCheckout(lang);
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
@@ -692,6 +729,167 @@
         init();
     }
 
+    // =============================================
+    // 15. TRADUZIR CHECKOUT MODAL
+    // =============================================
+    function translateCheckout(lang) {
+        lang = lang || currentLang;
+        const modal = document.getElementById('checkout-modal-overlay');
+        if (!modal) return;
+
+        // Helper: set text of element by selector
+        function setText(sel, key) {
+            const el = modal.querySelector(sel);
+            if (el) el.textContent = t(key, lang);
+        }
+        function setLabel(inputId, key) {
+            const input = modal.querySelector('#' + inputId);
+            if (input) {
+                const label = input.closest('.ck-field')?.querySelector('label');
+                if (label) label.textContent = t(key, lang);
+            }
+        }
+
+        // Title
+        const h3 = modal.querySelector('.ck-header h3');
+        if (h3) {
+            const svg = h3.querySelector('svg');
+            h3.textContent = '';
+            if (svg) h3.appendChild(svg);
+            h3.appendChild(document.createTextNode(' ' + t('ck.title', lang)));
+        }
+
+        // Step indicators
+        modal.querySelectorAll('.ck-step').forEach(step => {
+            const num = step.dataset.step;
+            const span = step.querySelector('span');
+            const key = 'ck.step' + num;
+            step.textContent = '';
+            if (span) { step.appendChild(span); }
+            else { const s = document.createElement('span'); s.textContent = num; step.appendChild(s); }
+            step.appendChild(document.createTextNode(' ' + t(key, lang)));
+        });
+
+        // PF/PJ buttons
+        const pfBtn = modal.querySelector('#ck-type-pf');
+        const pjBtn = modal.querySelector('#ck-type-pj');
+        if (pfBtn) { const svg = pfBtn.querySelector('svg'); pfBtn.textContent = ''; if (svg) pfBtn.appendChild(svg); pfBtn.appendChild(document.createTextNode(' ' + t('ck.pf', lang))); }
+        if (pjBtn) { const svg = pjBtn.querySelector('svg'); pjBtn.textContent = ''; if (svg) pjBtn.appendChild(svg); pjBtn.appendChild(document.createTextNode(' ' + t('ck.pj', lang))); }
+
+        // Section titles
+        const sectionTitles = modal.querySelectorAll('.ck-section-title');
+        const sectionMap = {
+            'Dados Pessoais': 'ck.dados.pf', 'Personal Details': 'ck.dados.pf', 'Datos Personales': 'ck.dados.pf',
+            'Dados da Empresa': 'ck.dados.pj', 'Company Details': 'ck.dados.pj', 'Datos de la Empresa': 'ck.dados.pj',
+            'Endereço (Cadastro / Fiscal)': 'ck.endereco.cad', 'Address (Registration / Tax)': 'ck.endereco.cad', 'Dirección (Registro / Fiscal)': 'ck.endereco.cad',
+            'Endereço de Entrega': 'ck.entrega.title', 'Shipping Address': 'ck.entrega.title', 'Dirección de Envío': 'ck.entrega.title',
+            'Forma de Pagamento': 'ck.pag.title', 'Payment Method': 'ck.pag.title', 'Forma de Pago': 'ck.pag.title'
+        };
+        sectionTitles.forEach(st => {
+            const key = sectionMap[st.textContent.trim()];
+            if (key) st.textContent = t(key, lang);
+        });
+
+        // PF labels
+        setLabel('ck-pf-nome', 'ck.nome'); setLabel('ck-pf-cpf', 'ck.cpf'); setLabel('ck-pf-email', 'ck.email'); setLabel('ck-pf-phone', 'ck.phone');
+        setLabel('ck-pf-cep', 'ck.cep'); setLabel('ck-pf-rua', 'ck.rua'); setLabel('ck-pf-numero', 'ck.numero'); setLabel('ck-pf-complemento', 'ck.complemento');
+        setLabel('ck-pf-bairro', 'ck.bairro'); setLabel('ck-pf-cidade', 'ck.cidade'); setLabel('ck-pf-estado', 'ck.estado');
+
+        // PJ labels
+        setLabel('ck-pj-razao', 'ck.razao'); setLabel('ck-pj-fantasia', 'ck.fantasia'); setLabel('ck-pj-cnpj', 'ck.cnpj'); setLabel('ck-pj-ie', 'ck.ie');
+        setLabel('ck-pj-responsavel', 'ck.responsavel'); setLabel('ck-pj-email', 'ck.email'); setLabel('ck-pj-phone', 'ck.phone');
+        setLabel('ck-pj-cep', 'ck.cep'); setLabel('ck-pj-rua', 'ck.rua'); setLabel('ck-pj-numero', 'ck.numero'); setLabel('ck-pj-complemento', 'ck.complemento');
+        setLabel('ck-pj-bairro', 'ck.bairro'); setLabel('ck-pj-cidade', 'ck.cidade'); setLabel('ck-pj-estado', 'ck.estado');
+
+        // Delivery labels
+        setLabel('ck-ent-cep', 'ck.cep'); setLabel('ck-ent-rua', 'ck.rua'); setLabel('ck-ent-numero', 'ck.numero'); setLabel('ck-ent-complemento', 'ck.complemento');
+        setLabel('ck-ent-bairro', 'ck.bairro'); setLabel('ck-ent-cidade', 'ck.cidade'); setLabel('ck-ent-estado', 'ck.estado'); setLabel('ck-ent-referencia', 'ck.referencia');
+
+        // Delivery radio labels
+        const radioLabels = modal.querySelectorAll('.ck-radio-label');
+        if (radioLabels[0]) {
+            const input0 = radioLabels[0].querySelector('input');
+            const span0 = radioLabels[0].querySelector('.ck-radio-custom');
+            radioLabels[0].textContent = '';
+            if (input0) radioLabels[0].appendChild(input0);
+            if (span0) radioLabels[0].appendChild(span0);
+            radioLabels[0].appendChild(document.createTextNode(' ' + t('ck.entrega.same', lang)));
+        }
+        if (radioLabels[1]) {
+            const input1 = radioLabels[1].querySelector('input');
+            const span1 = radioLabels[1].querySelector('.ck-radio-custom');
+            radioLabels[1].textContent = '';
+            if (input1) radioLabels[1].appendChild(input1);
+            if (span1) radioLabels[1].appendChild(span1);
+            radioLabels[1].appendChild(document.createTextNode(' ' + t('ck.entrega.diff', lang)));
+        }
+
+        // Payment options
+        const payCards = modal.querySelectorAll('.ck-pay-card');
+        const payMap = [
+            { strong: 'ck.pix', span: 'ck.pix.desc' },
+            { strong: 'ck.transf', span: 'ck.transf.desc' },
+            { strong: 'ck.usdt', span: 'ck.usdt.desc' },
+            { strong: 'ck.cartao', span: 'ck.cartao.taxa' }
+        ];
+        payCards.forEach((card, i) => {
+            if (payMap[i]) {
+                const strong = card.querySelector('strong');
+                const span = card.querySelector('span');
+                if (strong) strong.textContent = t(payMap[i].strong, lang);
+                if (span) span.textContent = t(payMap[i].span, lang);
+            }
+        });
+
+        // Nav buttons
+        const backBtn = modal.querySelector('#ck-btn-back');
+        const nextBtn = modal.querySelector('#ck-btn-next');
+        const sendBtn = modal.querySelector('#ck-btn-send');
+        if (backBtn) backBtn.textContent = t('ck.back', lang);
+        if (nextBtn) nextBtn.textContent = t('ck.next', lang);
+        if (sendBtn) {
+            const svg = sendBtn.querySelector('svg');
+            sendBtn.textContent = '';
+            if (svg) sendBtn.appendChild(svg);
+            sendBtn.appendChild(document.createTextNode(' ' + t('ck.send', lang)));
+        }
+
+        // Summary section titles
+        const sumTitles = modal.querySelectorAll('.ck-summary-title');
+        const sumMap = ['ck.resumo.produtos', 'ck.resumo.comprador', 'ck.resumo.entrega', 'ck.resumo.pagamento', 'ck.resumo.fiscal'];
+        sumTitles.forEach((st, i) => {
+            if (sumMap[i]) st.textContent = t(sumMap[i], lang);
+        });
+
+        // Confirm button
+        const confirmBtn = modal.querySelector('#ck-pay-exec-confirm');
+        if (confirmBtn) confirmBtn.textContent = t('ck.confirm', lang);
+
+        console.log('[i18n] Checkout translated to:', lang);
+    }
+
+    // =============================================
+    // 16. OBSERVER: detectar abertura do checkout modal
+    // =============================================
+    const checkoutObserver = new MutationObserver(mutations => {
+        for (const m of mutations) {
+            for (const node of m.addedNodes) {
+                if (node.id === 'checkout-modal-overlay' || (node.querySelector && node.querySelector('#checkout-modal-overlay'))) {
+                    setTimeout(() => translateCheckout(currentLang), 50);
+                    return;
+                }
+            }
+        }
+    });
+    // Start observing body for checkout modal insertion
+    if (document.body) {
+        checkoutObserver.observe(document.body, { childList: true });
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            checkoutObserver.observe(document.body, { childList: true });
+        });
+    }
+
     // Expose API
     window.VGI_i18n = {
         switchLanguage,
@@ -699,7 +897,8 @@
         convertPrice,
         getCurrentLang: () => currentLang,
         getExchangeRate: () => EXCHANGE_RATE,
-        t
+        t,
+        translateCheckout
     };
 
 })();
