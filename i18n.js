@@ -865,7 +865,76 @@
         const confirmBtn = modal.querySelector('#ck-pay-exec-confirm');
         if (confirmBtn) confirmBtn.textContent = t('ck.confirm', lang);
 
+        // Translate dynamic payment panel content
+        translatePaymentPanel(lang);
+
         console.log('[i18n] Checkout translated to:', lang);
+    }
+
+    // =============================================
+    // 15B. TRADUZIR PAINEL DE PAGAMENTO DINÂMICO
+    // =============================================
+    const PAY_PANEL_TRANSLATIONS = {
+        pt: {
+            'title.boleto': 'Transferência Bancária', 'title.usdt': 'Pagamento em USDT (TRC20)', 'title.cartao': 'Cartão de Crédito',
+            'items.count': (n) => `${n} item(ns) no pedido`,
+            'bank.title': 'Dados Bancários — Santander', 'bank.banco': 'Banco:', 'bank.agencia': 'Agência:', 'bank.conta': 'Conta Corrente:', 'bank.titular': 'Titular:',
+            'bank.instrucao': 'Realize a transferência e envie o comprovante pelo WhatsApp.',
+            'usdt.desconto': '-5% DESCONTO via USDT', 'usdt.cotacao': 'Cotação em tempo real:', 'usdt.wallet': 'Wallet TRC20:', 'usdt.copiar': 'Copiar endereço', 'usdt.copiado': '✓ Copiado!', 'usdt.txid': 'Envie o TXID (hash da transação) junto com o pedido pelo WhatsApp.',
+            'cartao.taxa': 'Incluso +5% taxa operacional', 'cartao.seguro': 'Processamento seguro via Asaas', 'cartao.dados': 'Os dados do cartão serão solicitados na etapa de confirmação final.', 'cartao.bandeiras': 'Bandeiras aceitas:', 'cartao.processado': 'O pagamento será processado após a confirmação do pedido.',
+            'confirm': 'Confirmar e Avançar →',
+            'pix.aguardando': '⏳ Aguardando pagamento', 'pix.instrucao': 'Escaneie o QR Code ou cole o código no app do seu banco', 'pix.japaguei': '✓ Já paguei — Avançar para resumo'
+        },
+        en: {
+            'title.boleto': 'Bank Transfer', 'title.usdt': 'USDT Payment (TRC20)', 'title.cartao': 'Credit Card',
+            'items.count': (n) => `${n} item(s) in order`,
+            'bank.title': 'Banking Details — Santander', 'bank.banco': 'Bank:', 'bank.agencia': 'Branch:', 'bank.conta': 'Account:', 'bank.titular': 'Account Holder:',
+            'bank.instrucao': 'Complete the transfer and send the receipt via WhatsApp.',
+            'usdt.desconto': '-5% DISCOUNT via USDT', 'usdt.cotacao': 'Live exchange rate:', 'usdt.wallet': 'Wallet TRC20:', 'usdt.copiar': 'Copy address', 'usdt.copiado': '✓ Copied!', 'usdt.txid': 'Send the TXID (transaction hash) along with your order via WhatsApp.',
+            'cartao.taxa': 'Includes +5% processing fee', 'cartao.seguro': 'Secure processing via Asaas', 'cartao.dados': 'Card details will be requested at the final confirmation step.', 'cartao.bandeiras': 'Accepted brands:', 'cartao.processado': 'Payment will be processed after order confirmation.',
+            'confirm': 'Confirm & Continue →',
+            'pix.aguardando': '⏳ Awaiting payment', 'pix.instrucao': 'Scan the QR Code or paste the code in your banking app', 'pix.japaguei': '✓ Payment sent — Continue to summary'
+        },
+        es: {
+            'title.boleto': 'Transferencia Bancaria', 'title.usdt': 'Pago en USDT (TRC20)', 'title.cartao': 'Tarjeta de Crédito',
+            'items.count': (n) => `${n} artículo(s) en el pedido`,
+            'bank.title': 'Datos Bancarios — Santander', 'bank.banco': 'Banco:', 'bank.agencia': 'Agencia:', 'bank.conta': 'Cuenta Corriente:', 'bank.titular': 'Titular:',
+            'bank.instrucao': 'Realice la transferencia y envíe el comprobante por WhatsApp.',
+            'usdt.desconto': '-5% DESCUENTO vía USDT', 'usdt.cotacao': 'Cotización en tiempo real:', 'usdt.wallet': 'Wallet TRC20:', 'usdt.copiar': 'Copiar dirección', 'usdt.copiado': '✓ ¡Copiado!', 'usdt.txid': 'Envíe el TXID (hash de la transacción) junto con el pedido por WhatsApp.',
+            'cartao.taxa': 'Incluye +5% tasa operacional', 'cartao.seguro': 'Procesamiento seguro vía Asaas', 'cartao.dados': 'Los datos de la tarjeta serán solicitados en la etapa de confirmación final.', 'cartao.bandeiras': 'Marcas aceptadas:', 'cartao.processado': 'El pago será procesado después de la confirmación del pedido.',
+            'confirm': 'Confirmar y Continuar →',
+            'pix.aguardando': '⏳ Esperando pago', 'pix.instrucao': 'Escanee el QR Code o pegue el código en su app bancaria', 'pix.japaguei': '✓ Ya pagué — Continuar al resumen'
+        }
+    };
+
+    function translatePaymentPanel(lang) {
+        lang = lang || currentLang;
+        const tr = PAY_PANEL_TRANSLATIONS[lang] || PAY_PANEL_TRANSLATIONS.pt;
+        const execTitle = document.getElementById('ck-pay-exec-title');
+        const execBody = document.getElementById('ck-pay-exec-body');
+        const confirmBtn = document.getElementById('ck-pay-exec-confirm');
+
+        if (!execTitle || !execBody) return;
+
+        // Translate exec title
+        const titleMap = {
+            'Transferência Bancária': 'title.boleto', 'Bank Transfer': 'title.boleto', 'Transferencia Bancaria': 'title.boleto',
+            'Pagamento em USDT (TRC20)': 'title.usdt', 'USDT Payment (TRC20)': 'title.usdt', 'Pago en USDT (TRC20)': 'title.usdt',
+            'Cartão de Crédito': 'title.cartao', 'Credit Card': 'title.cartao', 'Tarjeta de Crédito': 'title.cartao'
+        };
+        const titleKey = titleMap[execTitle.textContent.trim()];
+        if (titleKey && tr[titleKey]) execTitle.textContent = tr[titleKey];
+
+        // Translate confirm button
+        if (confirmBtn && confirmBtn.style.display !== 'none') {
+            const txt = confirmBtn.textContent.trim();
+            if (txt.includes('Confirmar') || txt.includes('Confirm') || txt.includes('Avançar') || txt.includes('Continue')) {
+                confirmBtn.textContent = tr['confirm'];
+            }
+            if (txt.includes('Já paguei') || txt.includes('Payment sent') || txt.includes('Ya pagué')) {
+                confirmBtn.textContent = tr['pix.japaguei'];
+            }
+        }
     }
 
     // =============================================
