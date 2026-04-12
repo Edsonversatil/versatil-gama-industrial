@@ -177,16 +177,17 @@
             const price = getPrice(productName);
             const productId = 'prod-' + index;
 
-            // Add data attribute
+            // Add data attributes (BRL price is the source of truth, NEVER overwritten)
             card.setAttribute('data-product-id', productId);
             card.setAttribute('data-product-name', productName);
             card.setAttribute('data-product-price', price);
+            card.setAttribute('data-product-price-brl', price);
 
             // Create price + controls element
             const controlsHTML = `
                 <div class="product-price-row">
                     <span class="product-price-prefix" style="font-size:inherit;font-weight:inherit;color:#25D366;">R$</span>
-                    <input type="text" class="price-input" data-id="${productId}" value="${price.toFixed(2).replace('.', ',')}" style="background:transparent;border:none;color:#25D366;font-family:inherit;font-size:inherit;font-weight:inherit;width:85px;padding:0;margin:0 0 0 4px;outline:none;">
+                    <input type="text" class="price-input" data-id="${productId}" data-price-brl="${price}" value="${price.toFixed(2).replace('.', ',')}" style="background:transparent;border:none;color:#25D366;font-family:inherit;font-size:inherit;font-weight:inherit;width:85px;padding:0;margin:0 0 0 4px;outline:none;" readonly>
                     <span class="product-unit">/ un</span>
                 </div>
                 <div class="product-controls">
@@ -195,7 +196,7 @@
                         <input type="number" class="qty-input" data-id="${productId}" value="0" min="0" max="9999" step="1">
                         <button class="qty-btn qty-plus" data-id="${productId}" aria-label="Aumentar quantidade">+</button>
                     </div>
-                    <button class="btn-add-cart" data-id="${productId}" data-name="${productName}" data-price="${price}">
+                    <button class="btn-add-cart" data-id="${productId}" data-name="${productName}" data-price="${price}" data-price-brl="${price}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                         Adicionar
                     </button>
@@ -473,12 +474,19 @@
             if (addBtn) {
                 const name = addBtn.dataset.name;
                 const id = addBtn.dataset.id;
-                const priceInput = document.querySelector(`.price-input[data-id="${id}"]`);
-                const editedPrice = priceInput ? parseFloat(priceInput.value.replace(',', '.')) : parseFloat(addBtn.dataset.price);
+                // ALWAYS use BRL price from data attribute — NEVER from displayed value
+                const brlPrice = parseFloat(addBtn.dataset.priceBrl) || parseFloat(addBtn.dataset.price);
                 const input = document.querySelector(`.qty-input[data-id="${id}"]`);
                 const qty = parseInt(input.value) || 0;
-                console.log('[CART] CLICK ADD BTN', { name, id, editedPrice, qty, priceInputValue: priceInput ? priceInput.value : 'N/A' });
-                addToCart(name, editedPrice, qty);
+                
+                // GUARD: block addition with invalid price
+                if (!brlPrice || brlPrice <= 0) {
+                    console.error('[CART] BLOCKED: produto sem preço válido', { name, brlPrice });
+                    showToast('Erro: preço do produto não encontrado.');
+                    return;
+                }
+                console.log('[CART] CLICK ADD BTN', { name, id, brlPrice, qty });
+                addToCart(name, brlPrice, qty);
 
                 // Visual feedback
                 addBtn.classList.add('added');
