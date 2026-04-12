@@ -37,6 +37,72 @@
         'Rebolos Convencionais':               { base: 55.00,  unit: 'un' },
         'Rebolos Especiais (CBN/Diamante)':    { base: 320.00, unit: 'un' },
 
+        // ═══════════════════════════════════════════════════════
+        // LINHA PREMIUM EXPORTAÇÃO — HIGH TICKET (50 produtos)
+        // ═══════════════════════════════════════════════════════
+
+        // --- Rebolos Diamantados (1-10) ---
+        'Rebolo Diamantado Copo Segmentado Heavy Duty':     { base: 0, unit: 'un', fixed: 2450.00 },
+        'Rebolo Diamantado Reto para Metal Duro':           { base: 0, unit: 'un', fixed: 1890.00 },
+        'Rebolo Diamantado Perfilado Alta Precisão':        { base: 0, unit: 'un', fixed: 3180.00 },
+        'Rebolo Diamantado para Cerâmica Técnica':          { base: 0, unit: 'un', fixed: 1650.00 },
+        'Rebolo Diamantado para Retífica Plana':            { base: 0, unit: 'un', fixed: 2780.00 },
+        'Rebolo Diamantado Resinóide Alta Performance':     { base: 0, unit: 'un', fixed: 1420.00 },
+        'Rebolo Diamantado Vitrificado Industrial':         { base: 0, unit: 'un', fixed: 3490.00 },
+        'Rebolo Diamantado para Vidro Industrial':          { base: 0, unit: 'un', fixed: 1280.00 },
+        'Rebolo Diamantado para Carbeto de Tungstênio':     { base: 0, unit: 'un', fixed: 2950.00 },
+        'Rebolo Diamantado para Afiação de Ferramentas':    { base: 0, unit: 'un', fixed: 980.00 },
+
+        // --- Rebolos CBN (11-20) ---
+        'Rebolo CBN Vitrificado para Aço Temperado':       { base: 0, unit: 'un', fixed: 3850.00 },
+        'Rebolo CBN Resinóide Alta Precisão':               { base: 0, unit: 'un', fixed: 2680.00 },
+        'Rebolo CBN Copo Industrial':                       { base: 0, unit: 'un', fixed: 3290.00 },
+        'Rebolo CBN para Retífica Interna':                 { base: 0, unit: 'un', fixed: 1890.00 },
+        'Rebolo CBN para Retífica Cilíndrica':              { base: 0, unit: 'un', fixed: 4150.00 },
+        'Rebolo CBN para Engrenagens':                      { base: 0, unit: 'un', fixed: 4480.00 },
+        'Rebolo CBN Alta Velocidade':                       { base: 0, unit: 'un', fixed: 3680.00 },
+        'Rebolo CBN Ultra Precisão':                        { base: 0, unit: 'un', fixed: 4290.00 },
+        'Rebolo CBN para Rolamentos Industriais':           { base: 0, unit: 'un', fixed: 2950.00 },
+        'Rebolo CBN para Moldes e Matrizes':                { base: 0, unit: 'un', fixed: 3490.00 },
+
+        // --- Cintas Abrasivas (21-30) ---
+        'Cinta Abrasiva Zircônia Heavy Duty':               { base: 0, unit: 'un', fixed: 1850.00 },
+        'Cinta Abrasiva Cerâmica Premium':                  { base: 0, unit: 'un', fixed: 2280.00 },
+        'Cinta Abrasiva para Aço Inox Industrial':          { base: 0, unit: 'un', fixed: 1480.00 },
+        'Cinta Abrasiva para Caldeiraria Pesada':           { base: 0, unit: 'un', fixed: 1680.00 },
+        'Cinta Abrasiva Banda Larga Industrial':            { base: 0, unit: 'un', fixed: 2780.00 },
+        'Cinta Abrasiva Alta Remoção para Fundição':        { base: 0, unit: 'un', fixed: 1950.00 },
+        'Cinta Abrasiva para Tubulações Industriais':       { base: 0, unit: 'un', fixed: 890.00 },
+        'Cinta Abrasiva para Estruturas Metálicas':         { base: 0, unit: 'un', fixed: 750.00 },
+        'Cinta Abrasiva para Equipamentos de Mineração':    { base: 0, unit: 'un', fixed: 2450.00 },
+        'Cinta Abrasiva para Solda e Rebarbação Pesada':    { base: 0, unit: 'un', fixed: 1180.00 },
+
+        // --- Discos (31-40) ---
+        'Disco Diamantado Segmentado para Concreto Armado': { base: 0, unit: 'un', fixed: 890.00 },
+        'Disco Diamantado Turbo Alta Performance':          { base: 0, unit: 'un', fixed: 680.00 },
+        'Disco Diamantado Contínuo para Cerâmica Técnica':  { base: 0, unit: 'un', fixed: 520.00 },
+        'Disco Diamantado para Granito Industrial':         { base: 0, unit: 'un', fixed: 1280.00 },
+        'Disco Diamantado para Mármore Profissional':       { base: 0, unit: 'un', fixed: 780.00 },
+        'Disco Diamantado Heavy Duty para Corte Profundo':  { base: 0, unit: 'un', fixed: 1780.00 },
+        'Disco Diamantado para Pedra Natural':              { base: 0, unit: 'un', fixed: 580.00 },
+        'Disco de Corte Abrasivo para Aço Estrutural':      { base: 0, unit: 'un', fixed: 380.00 },
+        'Disco Flap Zircônia Industrial':                   { base: 0, unit: 'un', fixed: 290.00 },
+        'Disco Flap Cerâmico Alta Remoção':                 { base: 0, unit: 'un', fixed: 420.00 },
+
+        // --- Dressadores (41-45) ---
+        'Dressador Diamantado Ponta Única':                 { base: 0, unit: 'un', fixed: 1480.00 },
+        'Dressador Diamantado Multiponta':                  { base: 0, unit: 'un', fixed: 1890.00 },
+        'Dressador Diamantado Tipo Placa':                  { base: 0, unit: 'un', fixed: 2180.00 },
+        'Dressador Diamantado Rotativo':                    { base: 0, unit: 'un', fixed: 1650.00 },
+        'Dressador Diamantado Alta Precisão':               { base: 0, unit: 'un', fixed: 980.00 },
+
+        // --- Pastas Diamantadas (46-50) ---
+        'Pasta Diamantada Grão Grosso Industrial':          { base: 0, unit: 'un', fixed: 450.00 },
+        'Pasta Diamantada Grão Médio':                      { base: 0, unit: 'un', fixed: 520.00 },
+        'Pasta Diamantada Grão Fino':                       { base: 0, unit: 'un', fixed: 680.00 },
+        'Pasta Diamantada para Polimento Espelhado':        { base: 0, unit: 'un', fixed: 890.00 },
+        'Pasta Diamantada para Lapidação Técnica':          { base: 0, unit: 'un', fixed: 750.00 },
+
         // === CATÁLOGO TÉCNICO — Discos ===
         'Discos de Corte':                     { base: 8.50,   unit: 'un' },
         'Discos Flap':                         { base: 14.00,  unit: 'un', fixed: 26.80 },
