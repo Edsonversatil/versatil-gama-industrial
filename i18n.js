@@ -235,27 +235,35 @@
         },
 
         // ── CATÁLOGO NACIONAL (produtos existentes) ──
+        'Disco Diamantado Premium Porcelanato 230mm': { en: { name: 'Premium Diamond Disc Porcelain 230mm', desc: 'High performance for precise cutting of porcelain, ceramics and high-hardness materials. Superior finish.' }, es: { name: 'Disco Diamantado Premium Porcelanato 230mm', desc: 'Alta performance para corte preciso en porcelanato, cerámica y materiales de alta dureza. Acabado superior.' } },
+        'Disco de Corte Diamantado': { en: { name: 'Diamond Cutting Disc', desc: 'Precise cutting in concrete, stone and hard materials.' }, es: { name: 'Disco de Corte Diamantado', desc: 'Corte preciso en concreto, piedra y materiales duros.' } },
+        'Disco Cerâmico de Alta Performance': { en: { name: 'High Performance Ceramic Disc', desc: 'Aggressive removal with extended tool life.' }, es: { name: 'Disco Cerámico de Alta Performance', desc: 'Remoción agresiva con vida útil prolongada.' } },
+        'Disco de Corte p/ Metal e Aço': { en: { name: 'Metal & Steel Cut-Off Disc', desc: 'High speed cutting in carbon steel and stainless.' }, es: { name: 'Disco de Corte p/ Metal y Acero', desc: 'Alta velocidad de corte en acero carbono e inox.' } },
+        'Disco de Desbaste Industrial': { en: { name: 'Industrial Grinding Disc', desc: 'Heavy material removal on metallic surfaces.' }, es: { name: 'Disco de Desbaste Industrial', desc: 'Remoción pesada de material en superficies metálicas.' } },
+        'Disco Turbo Diamantado': { en: { name: 'Turbo Diamond Disc', desc: 'Fast and clean cutting in masonry and reinforced concrete.' }, es: { name: 'Disco Turbo Diamantado', desc: 'Corte rápido y limpio en albañilería y concreto armado.' } },
+        'Disco Contínuo Diamantado': { en: { name: 'Continuous Rim Diamond Disc', desc: 'Chip-free fine finishing in ceramics and porcelain.' }, es: { name: 'Disco Continuo Diamantado', desc: 'Acabado fino sin lascas en cerámica y porcelanato.' } },
+        'Disco Flap Profissional': { en: { name: 'Professional Flap Disc', desc: 'Grinding and finishing in simultaneous operation on steel and stainless.' }, es: { name: 'Disco Flap Profesional', desc: 'Desbaste y acabado simultáneo en acero e inox.' } },
+        'Disco Flap Zircônia': { en: { name: 'Zirconia Flap Disc', desc: 'Zirconia grain for high removal and long durability.' }, es: { name: 'Disco Flap Circonia', desc: 'Grano zirconia para alta remoción y larga durabilidad.' } },
         'Disco de Corte': { en: { name: 'Cut-Off Disc' }, es: { name: 'Disco de Corte' } },
         'Disco de Desbaste': { en: { name: 'Grinding Disc' }, es: { name: 'Disco de Desbaste' } },
-        'Disco Flap Profissional': { en: { name: 'Professional Flap Disc' }, es: { name: 'Disco Flap Profesional' } },
-        'Disco Flap Zircônia': { en: { name: 'Zirconia Flap Disc' }, es: { name: 'Disco Flap Circonia' } },
         'Lixas Diamantadas': { en: { name: 'Diamond Sanding Sheets' }, es: { name: 'Lijas Diamantadas' } },
-        'Lixas Cerâmicas': { en: { name: 'Ceramic Sanding Sheets' }, es: { name: 'Lijas Cerámicas' } },
+        'Lixas Cerâmicas': { en: { name: 'Ceramic Sanding Sheets', desc: 'Self-sharpening grain for high removal rate.' }, es: { name: 'Lijas Cerámicas', desc: 'Grano autocortante para alta tasa de remoción.' } },
         'Cintas p/ Alta Remoção': { en: { name: 'High Removal Belts' }, es: { name: 'Cintas Alta Remoción' } },
         'Cintas p/ Retíficas Severas e Processos Industriais': { en: { name: 'Heavy Grinding & Industrial Process Belts' }, es: { name: 'Cintas para Rectificado Severo y Procesos Industriales' } },
+        'Rebolos Vitrificados': { en: { name: 'Vitrified Grinding Wheels', desc: 'High rigidity and precision for surface grinding.' }, es: { name: 'Muelas Vitrificadas', desc: 'Alta rigidez y precisión para rectificado de superficie.' } },
         'Rebolos Convencionais': { en: { name: 'Conventional Grinding Wheels' }, es: { name: 'Muelas Convencionales' } },
-        'Rebolos Resinados': { en: { name: 'Resinoid Grinding Wheels' }, es: { name: 'Muelas Resinadas' } },
-        'Rebolos Diamantados': { en: { name: 'Diamond Grinding Wheels' }, es: { name: 'Muelas Diamantadas' } },
-        'Rebolos CBN': { en: { name: 'CBN Grinding Wheels' }, es: { name: 'Muelas CBN' } },
-        'Lixas Óxido de Alumínio': { en: { name: 'Aluminum Oxide Sanding Sheets' }, es: { name: 'Lijas Óxido de Aluminio' } },
-        'Lixas Carbeto de Silício': { en: { name: 'Silicon Carbide Sanding Sheets' }, es: { name: 'Lijas Carburo de Silicio' } },
-        'Cintas Abrasivas': { en: { name: 'Abrasive Belts' }, es: { name: 'Cintas Abrasivas' } },
-        'Folhas Abrasivas': { en: { name: 'Abrasive Sheets' }, es: { name: 'Hojas Abrasivas' } },
-        'Escovas de Aço': { en: { name: 'Wire Brushes' }, es: { name: 'Cepillos de Acero' } },
-        'Escovas Inox / Circulares': { en: { name: 'Stainless / Circular Brushes' }, es: { name: 'Cepillos Inox / Circulares' } },
-        'Escovas Copo': { en: { name: 'Cup Brushes' }, es: { name: 'Cepillos Copa' } },
-        'Fresas de Metal Duro': { en: { name: 'Carbide Burrs' }, es: { name: 'Fresas de Metal Duro' } },
-        'Pontas Montadas': { en: { name: 'Mounted Points' }, es: { name: 'Puntas Montadas' } }
+        'Rebolos Resinados': { en: { name: 'Resinoid Grinding Wheels', desc: 'Flexibility and finish for cutting and grinding operations.' }, es: { name: 'Muelas Resinadas', desc: 'Flexibilidad y acabado para operaciones de corte y desbaste.' } },
+        'Rebolos Diamantados': { en: { name: 'Diamond Grinding Wheels', desc: 'Superabrasives for hard materials and technical ceramics.' }, es: { name: 'Muelas Diamantadas', desc: 'Superabrasivos para materiales duros y cerámicas técnicas.' } },
+        'Rebolos CBN': { en: { name: 'CBN Grinding Wheels', desc: 'Grinding of hardened steels with minimal heat generation.' }, es: { name: 'Muelas CBN', desc: 'Rectificado de aceros templados con mínima generación de calor.' } },
+        'Lixas Óxido de Alumínio': { en: { name: 'Aluminum Oxide Sanding Sheets', desc: 'Versatility for metal, wood and paint.' }, es: { name: 'Lijas Óxido de Aluminio', desc: 'Versatilidad para metal, madera y pintura.' } },
+        'Lixas Carbeto de Silício': { en: { name: 'Silicon Carbide Sanding Sheets', desc: 'Ideal for glass, ceramics and non-ferrous materials.' }, es: { name: 'Lijas Carburo de Silicio', desc: 'Ideal para vidrio, cerámica y materiales no ferrosos.' } },
+        'Cintas Abrasivas': { en: { name: 'Abrasive Belts', desc: 'For belt sanders in heavy-duty operations.' }, es: { name: 'Cintas Abrasivas', desc: 'Para lijadoras de cinta en operaciones pesadas.' } },
+        'Folhas Abrasivas': { en: { name: 'Abrasive Sheets', desc: 'Manual sanding and fine surface finishing.' }, es: { name: 'Hojas Abrasivas', desc: 'Lijado manual y acabado fino de superficies.' } },
+        'Escovas de Aço': { en: { name: 'Wire Brushes', desc: 'Removal of scale, rust and burrs on carbon steel.' }, es: { name: 'Cepillos de Acero', desc: 'Remoción de cascarilla, óxido y rebabas en acero carbono.' } },
+        'Escovas Inox / Circulares': { en: { name: 'Stainless / Circular Brushes', desc: 'Cleaning and finishing without contamination on stainless steel.' }, es: { name: 'Cepillos Inox / Circulares', desc: 'Limpieza y acabado sin contaminación en inox.' } },
+        'Escovas Copo': { en: { name: 'Cup Brushes', desc: 'Flat surface cleaning with angle grinder.' }, es: { name: 'Cepillos Copa', desc: 'Limpieza de superficies planas con amoladora.' } },
+        'Fresas de Metal Duro': { en: { name: 'Carbide Burrs', desc: 'Tungsten carbide for machining and deburring.' }, es: { name: 'Fresas de Metal Duro', desc: 'Carburo de tungsteno para maquinado y desbarbado.' } },
+        'Pontas Montadas': { en: { name: 'Mounted Points', desc: 'Internal grinding and cavity finishing.' }, es: { name: 'Puntas Montadas', desc: 'Rectificado interno y acabado en cavidades.' } }
     };
 
     // =============================================
@@ -408,7 +416,36 @@
     // =============================================
     // 7. TRADUZIR NOMES E DESCRIÇÕES DOS PRODUTOS
     // =============================================
+
+    // Group title translations
+    const GROUP_TITLES = {
+        'Rebolos Diamantados — Export Grade': { en: 'Diamond Grinding Wheels — Export Grade', es: 'Muelas Diamantadas — Export Grade' },
+        'Rebolos CBN — Export Grade': { en: 'CBN Grinding Wheels — Export Grade', es: 'Muelas CBN — Export Grade' },
+        'Cintas Abrasivas Industriais — Export Grade': { en: 'Industrial Abrasive Belts — Export Grade', es: 'Cintas Abrasivas Industriales — Export Grade' },
+        'Discos Diamantados & Flap — Export Grade': { en: 'Diamond & Flap Discs — Export Grade', es: 'Discos Diamantados & Flap — Export Grade' },
+        'Dressadores Diamantados — Export Grade': { en: 'Diamond Dressers — Export Grade', es: 'Rectificadores Diamantados — Export Grade' },
+        'Pastas Diamantadas — Export Grade': { en: 'Diamond Pastes — Export Grade', es: 'Pastas Diamantadas — Export Grade' },
+        'Discos Industriais': { en: 'Industrial Discs', es: 'Discos Industriales' },
+        'Discos Diamantados': { en: 'Diamond Discs', es: 'Discos Diamantados' },
+        'Discos de Corte e Desbaste': { en: 'Cut-Off & Grinding Discs', es: 'Discos de Corte y Desbaste' },
+        'Discos Flap': { en: 'Flap Discs', es: 'Discos Flap' },
+        'Rebolos': { en: 'Grinding Wheels', es: 'Muelas' },
+        'Lixas': { en: 'Sanding Sheets', es: 'Lijas' },
+        'Lixas & Cintas Abrasivas': { en: 'Sanding Sheets & Abrasive Belts', es: 'Lijas y Cintas Abrasivas' },
+        'Escovas Industriais': { en: 'Industrial Brushes', es: 'Cepillos Industriales' },
+        'Ferramentas Rotativas': { en: 'Rotary Tools', es: 'Herramientas Rotativas' }
+    };
+
+    // Badge translations
+    const BADGE_TRANSLATIONS = {
+        'EXPORTAÇÃO': { en: 'EXPORT', es: 'EXPORTACIÓN' },
+        'HIGH PERFORMANCE': { en: 'HIGH PERFORMANCE', es: 'ALTO RENDIMIENTO' },
+        'PREMIUM': { en: 'PREMIUM', es: 'PREMIUM' },
+        'PRINCIPAL': { en: 'PRIMARY', es: 'PRINCIPAL' }
+    };
+
     function translateProducts(lang) {
+        // Translate product cards
         document.querySelectorAll('.product-card').forEach(card => {
             const h4 = card.querySelector('.product-info h4');
             const descEl = card.querySelector('.product-info .product-desc');
@@ -433,7 +470,41 @@
                     descEl.textContent = translation[lang].desc;
                 }
             }
-            // If no translation found, keep PT name (fallback)
+
+            // Translate badges
+            const badge = card.querySelector('.product-badge-premium');
+            if (badge) {
+                if (!badge.hasAttribute('data-badge-pt')) {
+                    badge.setAttribute('data-badge-pt', badge.textContent.trim());
+                }
+                const ptBadge = badge.getAttribute('data-badge-pt');
+                if (lang === 'pt') {
+                    badge.textContent = ptBadge;
+                } else if (BADGE_TRANSLATIONS[ptBadge] && BADGE_TRANSLATIONS[ptBadge][lang]) {
+                    badge.textContent = BADGE_TRANSLATIONS[ptBadge][lang];
+                }
+            }
+        });
+
+        // Translate group titles
+        document.querySelectorAll('.group-title').forEach(gt => {
+            if (!gt.hasAttribute('data-title-pt')) {
+                // Extract text only (ignore child SVG)
+                const textNodes = [];
+                gt.childNodes.forEach(n => { if (n.nodeType === 3) textNodes.push(n.textContent.trim()); });
+                gt.setAttribute('data-title-pt', textNodes.join(' ').trim());
+            }
+            const ptTitle = gt.getAttribute('data-title-pt');
+            const icon = gt.querySelector('.group-icon');
+            if (lang === 'pt') {
+                gt.textContent = '';
+                if (icon) gt.appendChild(icon);
+                gt.appendChild(document.createTextNode('\n                    ' + ptTitle + '\n                '));
+            } else if (GROUP_TITLES[ptTitle] && GROUP_TITLES[ptTitle][lang]) {
+                gt.textContent = '';
+                if (icon) gt.appendChild(icon);
+                gt.appendChild(document.createTextNode('\n                    ' + GROUP_TITLES[ptTitle][lang] + '\n                '));
+            }
         });
     }
 
