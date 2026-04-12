@@ -441,18 +441,16 @@
     function reformatCartForLang() {
         if (currentLang === 'pt') return; // pedido.js already formats in BRL
 
-        // Cart item prices (BRL values from pedido.js → convert to display currency)
-        document.querySelectorAll('.cart-item-price').forEach(el => {
-            const raw = el.textContent;
-            const brlVal = parseFloat(raw.replace(/[^\d,\.]/g, '').replace(',', '.'));
+        // Cart item prices — read BRL from data-brl attribute (reliable, no text parsing)
+        document.querySelectorAll('.cart-item-price[data-brl]').forEach(el => {
+            const brlVal = parseFloat(el.getAttribute('data-brl'));
             if (!isNaN(brlVal) && brlVal > 0) {
                 el.textContent = formatPrice(brlVal, currentLang) + ' ' + t('unit', currentLang);
             }
         });
 
-        document.querySelectorAll('.cart-item-subtotal').forEach(el => {
-            const raw = el.textContent;
-            const brlVal = parseFloat(raw.replace(/[^\d,\.]/g, '').replace(',', '.'));
+        document.querySelectorAll('.cart-item-subtotal[data-brl]').forEach(el => {
+            const brlVal = parseFloat(el.getAttribute('data-brl'));
             if (!isNaN(brlVal) && brlVal > 0) {
                 el.textContent = formatPrice(brlVal, currentLang);
             }
@@ -460,8 +458,7 @@
 
         const totalEl = document.getElementById('cart-total');
         if (totalEl) {
-            const raw = totalEl.textContent;
-            const brlVal = parseFloat(raw.replace(/[^\d,\.]/g, '').replace(',', '.'));
+            const brlVal = parseFloat(totalEl.getAttribute('data-brl'));
             if (!isNaN(brlVal)) {
                 totalEl.textContent = formatPrice(brlVal, currentLang);
             }

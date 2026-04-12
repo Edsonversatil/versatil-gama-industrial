@@ -331,7 +331,6 @@
         const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
         countEl.textContent = totalItems;
 
-        // Animate badge
         if (totalItems > 0) {
             floatBtn.classList.add('has-items');
             countEl.classList.add('bounce');
@@ -351,28 +350,33 @@
         itemsEl.style.display = 'block';
         footerEl.style.display = 'block';
 
-        itemsEl.innerHTML = cart.map(item => `
-            <div class="cart-item">
+        itemsEl.innerHTML = cart.map(item => {
+            const escapedName = item.name.replace(/'/g, "\\'");
+            const subtotal = item.price * item.qty;
+            return `
+            <div class="cart-item" data-brl-price="${item.price}" data-brl-subtotal="${subtotal}">
                 <div class="cart-item-info">
                     <span class="cart-item-name">${item.name}</span>
-                    <span class="cart-item-price">${formatBRL(item.price)} / un</span>
+                    <span class="cart-item-price" data-brl="${item.price}">${formatBRL(item.price)} / un</span>
                 </div>
                 <div class="cart-item-actions">
                     <div class="cart-qty-control">
-                        <button class="cart-qty-btn" onclick="window.__cartQtyChange('${item.name.replace(/'/g, "\\'")}', -1)">−</button>
-                        <input type="number" class="cart-qty-input" value="${item.qty}" min="0" 
-                            onchange="window.__cartQtyUpdate('${item.name.replace(/'/g, "\\\'")}', this.value)">
-                        <button class="cart-qty-btn" onclick="window.__cartQtyChange('${item.name.replace(/'/g, "\\'")}', 1)">+</button>
+                        <button class="cart-qty-btn" onclick="window.__cartQtyChange('${escapedName}', -1)">&#8722;</button>
+                        <input type="number" class="cart-qty-input" value="${item.qty}" min="0"
+                            onchange="window.__cartQtyUpdate('${escapedName}', this.value)">
+                        <button class="cart-qty-btn" onclick="window.__cartQtyChange('${escapedName}', 1)">+</button>
                     </div>
-                    <span class="cart-item-subtotal">${formatBRL(item.price * item.qty)}</span>
-                    <button class="cart-item-remove" onclick="window.__cartRemove('${item.name.replace(/'/g, "\\'")}')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <span class="cart-item-subtotal" data-brl="${subtotal}">${formatBRL(subtotal)}</span>
+                    <button class="cart-item-remove" onclick="window.__cartRemove('${escapedName}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                 </div>
-            </div>
-        `).join('');
+            </div>`;
+        }).join('');
 
-        totalEl.textContent = formatBRL(getCartTotal());
+        const brlTotal = getCartTotal();
+        totalEl.setAttribute('data-brl', brlTotal);
+        totalEl.textContent = formatBRL(brlTotal);
     }
 
     function showCart() {
