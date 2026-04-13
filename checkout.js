@@ -487,13 +487,16 @@
         const type = isInternational ? 'INT' : 'NAC';
 
         if (weightKg <= 5)  return `🟢 ${type} — Faixa 1: até 5 kg`;
-        if (weightKg <= 10) return `🟡 ${type} — Faixa 2: 5 a 10 kg`;
-        if (weightKg <= 15) return `🟠 ${type} — Faixa 3: 10 a 15 kg`;
-        if (weightKg <= 20) return `🔶 ${type} — Faixa 4: 15 a 20 kg`;
-        if (weightKg <= 30) return `🔴 ${type} — Faixa 5: 20 a 30 kg`;
-        if (weightKg <= 40) return `🔴 ${type} — Faixa 6: 30 a 40 kg`;
-        if (weightKg <= 50) return `⚫ ${type} — Faixa 7: 40 a 50 kg`;
-        return `⚫ ${type} — Faixa 8: acima de 50 kg (carga especial)`;
+        if (weightKg <= 10) return `🟢 ${type} — Faixa 2: 5 a 10 kg`;
+        if (weightKg <= 15) return `🟡 ${type} — Faixa 3: 10 a 15 kg`;
+        if (weightKg <= 20) return `🟡 ${type} — Faixa 4: 15 a 20 kg`;
+        if (weightKg <= 25) return `🟠 ${type} — Faixa 5: 20 a 25 kg`;
+        if (weightKg <= 30) return `🟠 ${type} — Faixa 6: 25 a 30 kg`;
+        if (weightKg <= 35) return `🔶 ${type} — Faixa 7: 30 a 35 kg`;
+        if (weightKg <= 40) return `🔶 ${type} — Faixa 8: 35 a 40 kg`;
+        if (weightKg <= 45) return `🔴 ${type} — Faixa 9: 40 a 45 kg`;
+        if (weightKg <= 50) return `🔴 ${type} — Faixa 10: 45 a 50 kg`;
+        return `⚫ ${type} — Acima de 50 kg (carga especial)`;
     }
 
     function getShippingData() {
