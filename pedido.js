@@ -15,122 +15,125 @@
     // Preços base de mercado (sem markup) — estimativas industriais reais
     const CATALOG = {
         // === DISCOS INDUSTRIAIS (Seção 1) ===
-        'Disco Diamantado Premium Porcelanato 230mm': { base: 589.90, unit: 'un', fixed: 707.90 },
-        'Disco de Corte Diamantado':          { base: 85.00,  unit: 'un' },
-        'Disco Cerâmico de Alta Performance':  { base: 42.00,  unit: 'un' },
-        'Disco de Corte p/ Metal e Aço':       { base: 8.50,   unit: 'un' },
-        'Disco de Desbaste Industrial':        { base: 12.00,  unit: 'un' },
-        'Disco Turbo Diamantado':              { base: 65.00,  unit: 'un' },
-        'Disco Contínuo Diamantado':           { base: 55.00,  unit: 'un' },
-        'Disco Flap Profissional':             { base: 14.00,  unit: 'un', fixed: 26.80 },
-        'Disco Flap Zircônia':                 { base: 18.00,  unit: 'un' },
+        'Disco Diamantado Premium Porcelanato 230mm': { base: 589.90, unit: 'un', fixed: 707.90, weight: 0.8 },
+        'Disco de Corte Diamantado':          { base: 85.00,  unit: 'un', weight: 0.5 },
+        'Disco Cerâmico de Alta Performance':  { base: 42.00,  unit: 'un', weight: 0.4 },
+        'Disco de Corte p/ Metal e Aço':       { base: 8.50,   unit: 'un', weight: 0.3 },
+        'Disco de Desbaste Industrial':        { base: 12.00,  unit: 'un', weight: 0.4 },
+        'Disco Turbo Diamantado':              { base: 65.00,  unit: 'un', weight: 0.5 },
+        'Disco Contínuo Diamantado':           { base: 55.00,  unit: 'un', weight: 0.4 },
+        'Disco Flap Profissional':             { base: 14.00,  unit: 'un', fixed: 26.80, weight: 0.3 },
+        'Disco Flap Zircônia':                 { base: 18.00,  unit: 'un', weight: 0.3 },
 
         // === LIXAS & CINTAS (Seção 2) ===
-        'Lixas Diamantadas':                   { base: 35.00,  unit: 'un' },
-        'Lixas Cerâmicas':                     { base: 1500.00, unit: 'un', fixed: 1800.00 }, // FIXA: Lixas cerâmicas p/ retífica
+        'Lixas Diamantadas':                   { base: 35.00,  unit: 'un', weight: 0.2 },
+        'Lixas Cerâmicas':                     { base: 1500.00, unit: 'un', fixed: 1800.00, weight: 1.5 },
 
-        'Cintas p/ Alta Remoção':              { base: 1500.00, unit: 'un', fixed: 1800.00 },
-        'Cintas p/ Retíficas Severas e Processos Industriais': { base: 1800.00, unit: 'un', fixed: 2160.00 },
+        'Cintas p/ Alta Remoção':              { base: 1500.00, unit: 'un', fixed: 1800.00, weight: 1.8 },
+        'Cintas p/ Retíficas Severas e Processos Industriais': { base: 1800.00, unit: 'un', fixed: 2160.00, weight: 2.0 },
 
 
         // === ABRASIVOS ESPECIAIS (Seção 1) ===
-        'Rebolos Convencionais':               { base: 55.00,  unit: 'un' },
-        'Rebolos Especiais (CBN/Diamante)':    { base: 320.00, unit: 'un' },
+        'Rebolos Convencionais':               { base: 55.00,  unit: 'un', weight: 2.0 },
+        'Rebolos Especiais (CBN/Diamante)':    { base: 320.00, unit: 'un', weight: 1.5 },
 
         // ═══════════════════════════════════════════════════════
         // LINHA PREMIUM EXPORTAÇÃO — HIGH TICKET (50 produtos)
         // ═══════════════════════════════════════════════════════
 
         // --- Rebolos Diamantados (1-10) ---
-        'Rebolo Diamantado Copo Segmentado Heavy Duty':     { base: 0, unit: 'un', fixed: 2450.00 },
-        'Rebolo Diamantado Reto para Metal Duro':           { base: 0, unit: 'un', fixed: 1890.00 },
-        'Rebolo Diamantado Perfilado Alta Precisão':        { base: 0, unit: 'un', fixed: 3180.00 },
-        'Rebolo Diamantado para Cerâmica Técnica':          { base: 0, unit: 'un', fixed: 1650.00 },
-        'Rebolo Diamantado para Retífica Plana':            { base: 0, unit: 'un', fixed: 2780.00 },
-        'Rebolo Diamantado Resinóide Alta Performance':     { base: 0, unit: 'un', fixed: 1420.00 },
-        'Rebolo Diamantado Vitrificado Industrial':         { base: 0, unit: 'un', fixed: 3490.00 },
-        'Rebolo Diamantado para Vidro Industrial':          { base: 0, unit: 'un', fixed: 1280.00 },
-        'Rebolo Diamantado para Carbeto de Tungstênio':     { base: 0, unit: 'un', fixed: 2950.00 },
-        'Rebolo Diamantado para Afiação de Ferramentas':    { base: 0, unit: 'un', fixed: 980.00 },
+        'Rebolo Diamantado Copo Segmentado Heavy Duty':     { base: 0, unit: 'un', fixed: 2450.00, weight: 3.5 },
+        'Rebolo Diamantado Reto para Metal Duro':           { base: 0, unit: 'un', fixed: 1890.00, weight: 2.8 },
+        'Rebolo Diamantado Perfilado Alta Precisão':        { base: 0, unit: 'un', fixed: 3180.00, weight: 2.2 },
+        'Rebolo Diamantado para Cerâmica Técnica':          { base: 0, unit: 'un', fixed: 1650.00, weight: 1.8 },
+        'Rebolo Diamantado para Retífica Plana':            { base: 0, unit: 'un', fixed: 2780.00, weight: 4.5 },
+        'Rebolo Diamantado Resinóide Alta Performance':     { base: 0, unit: 'un', fixed: 1420.00, weight: 1.5 },
+        'Rebolo Diamantado Vitrificado Industrial':         { base: 0, unit: 'un', fixed: 3490.00, weight: 3.0 },
+        'Rebolo Diamantado para Vidro Industrial':          { base: 0, unit: 'un', fixed: 1280.00, weight: 1.8 },
+        'Rebolo Diamantado para Carbeto de Tungstênio':     { base: 0, unit: 'un', fixed: 2950.00, weight: 2.5 },
+        'Rebolo Diamantado para Afiação de Ferramentas':    { base: 0, unit: 'un', fixed: 980.00, weight: 1.2 },
 
         // --- Rebolos CBN (11-20) ---
-        'Rebolo CBN Vitrificado para Aço Temperado':       { base: 0, unit: 'un', fixed: 3850.00 },
-        'Rebolo CBN Resinóide Alta Precisão':               { base: 0, unit: 'un', fixed: 2680.00 },
-        'Rebolo CBN Copo Industrial':                       { base: 0, unit: 'un', fixed: 3290.00 },
-        'Rebolo CBN para Retífica Interna':                 { base: 0, unit: 'un', fixed: 1890.00 },
-        'Rebolo CBN para Retífica Cilíndrica':              { base: 0, unit: 'un', fixed: 4150.00 },
-        'Rebolo CBN para Engrenagens':                      { base: 0, unit: 'un', fixed: 4480.00 },
-        'Rebolo CBN Alta Velocidade':                       { base: 0, unit: 'un', fixed: 3680.00 },
-        'Rebolo CBN Ultra Precisão':                        { base: 0, unit: 'un', fixed: 4290.00 },
-        'Rebolo CBN para Rolamentos Industriais':           { base: 0, unit: 'un', fixed: 2950.00 },
-        'Rebolo CBN para Moldes e Matrizes':                { base: 0, unit: 'un', fixed: 3490.00 },
+        'Rebolo CBN Vitrificado para Aço Temperado':       { base: 0, unit: 'un', fixed: 3850.00, weight: 3.2 },
+        'Rebolo CBN Resinóide Alta Precisão':               { base: 0, unit: 'un', fixed: 2680.00, weight: 2.0 },
+        'Rebolo CBN Copo Industrial':                       { base: 0, unit: 'un', fixed: 3290.00, weight: 2.8 },
+        'Rebolo CBN para Retífica Interna':                 { base: 0, unit: 'un', fixed: 1890.00, weight: 0.8 },
+        'Rebolo CBN para Retífica Cilíndrica':              { base: 0, unit: 'un', fixed: 4150.00, weight: 4.0 },
+        'Rebolo CBN para Engrenagens':                      { base: 0, unit: 'un', fixed: 4480.00, weight: 3.5 },
+        'Rebolo CBN Alta Velocidade':                       { base: 0, unit: 'un', fixed: 3680.00, weight: 2.5 },
+        'Rebolo CBN Ultra Precisão':                        { base: 0, unit: 'un', fixed: 4290.00, weight: 2.0 },
+        'Rebolo CBN para Rolamentos Industriais':           { base: 0, unit: 'un', fixed: 2950.00, weight: 2.2 },
+        'Rebolo CBN para Moldes e Matrizes':                { base: 0, unit: 'un', fixed: 3490.00, weight: 2.8 },
 
         // --- Cintas Abrasivas (21-30) ---
-        'Cinta Abrasiva Zircônia Heavy Duty':               { base: 0, unit: 'un', fixed: 1850.00 },
-        'Cinta Abrasiva Cerâmica Premium':                  { base: 0, unit: 'un', fixed: 2280.00 },
-        'Cinta Abrasiva para Aço Inox Industrial':          { base: 0, unit: 'un', fixed: 1480.00 },
-        'Cinta Abrasiva para Caldeiraria Pesada':           { base: 0, unit: 'un', fixed: 1680.00 },
-        'Cinta Abrasiva Banda Larga Industrial':            { base: 0, unit: 'un', fixed: 2780.00 },
-        'Cinta Abrasiva Alta Remoção para Fundição':        { base: 0, unit: 'un', fixed: 1950.00 },
-        'Cinta Abrasiva para Tubulações Industriais':       { base: 0, unit: 'un', fixed: 890.00 },
-        'Cinta Abrasiva para Estruturas Metálicas':         { base: 0, unit: 'un', fixed: 750.00 },
-        'Cinta Abrasiva para Equipamentos de Mineração':    { base: 0, unit: 'un', fixed: 2450.00 },
-        'Cinta Abrasiva para Solda e Rebarbação Pesada':    { base: 0, unit: 'un', fixed: 1180.00 },
+        'Cinta Abrasiva Zircônia Heavy Duty':               { base: 0, unit: 'un', fixed: 1850.00, weight: 1.5 },
+        'Cinta Abrasiva Cerâmica Premium':                  { base: 0, unit: 'un', fixed: 2280.00, weight: 1.8 },
+        'Cinta Abrasiva para Aço Inox Industrial':          { base: 0, unit: 'un', fixed: 1480.00, weight: 1.2 },
+        'Cinta Abrasiva para Caldeiraria Pesada':           { base: 0, unit: 'un', fixed: 1680.00, weight: 2.0 },
+        'Cinta Abrasiva Banda Larga Industrial':            { base: 0, unit: 'un', fixed: 2780.00, weight: 3.5 },
+        'Cinta Abrasiva Alta Remoção para Fundição':        { base: 0, unit: 'un', fixed: 1950.00, weight: 2.2 },
+        'Cinta Abrasiva para Tubulações Industriais':       { base: 0, unit: 'un', fixed: 890.00, weight: 0.8 },
+        'Cinta Abrasiva para Estruturas Metálicas':         { base: 0, unit: 'un', fixed: 750.00, weight: 1.0 },
+        'Cinta Abrasiva para Equipamentos de Mineração':    { base: 0, unit: 'un', fixed: 2450.00, weight: 2.5 },
+        'Cinta Abrasiva para Solda e Rebarbação Pesada':    { base: 0, unit: 'un', fixed: 1180.00, weight: 1.5 },
 
         // --- Discos (31-40) ---
-        'Disco Diamantado Segmentado para Concreto Armado': { base: 0, unit: 'un', fixed: 890.00 },
-        'Disco Diamantado Turbo Alta Performance':          { base: 0, unit: 'un', fixed: 680.00 },
-        'Disco Diamantado Contínuo para Cerâmica Técnica':  { base: 0, unit: 'un', fixed: 520.00 },
-        'Disco Diamantado para Granito Industrial':         { base: 0, unit: 'un', fixed: 1280.00 },
-        'Disco Diamantado para Mármore Profissional':       { base: 0, unit: 'un', fixed: 780.00 },
-        'Disco Diamantado Heavy Duty para Corte Profundo':  { base: 0, unit: 'un', fixed: 1780.00 },
-        'Disco Diamantado para Pedra Natural':              { base: 0, unit: 'un', fixed: 580.00 },
-        'Disco de Corte Abrasivo para Aço Estrutural':      { base: 0, unit: 'un', fixed: 380.00 },
-        'Disco Flap Zircônia Industrial':                   { base: 0, unit: 'un', fixed: 290.00 },
-        'Disco Flap Cerâmico Alta Remoção':                 { base: 0, unit: 'un', fixed: 420.00 },
+        'Disco Diamantado Segmentado para Concreto Armado': { base: 0, unit: 'un', fixed: 890.00, weight: 1.2 },
+        'Disco Diamantado Turbo Alta Performance':          { base: 0, unit: 'un', fixed: 680.00, weight: 0.8 },
+        'Disco Diamantado Contínuo para Cerâmica Técnica':  { base: 0, unit: 'un', fixed: 520.00, weight: 0.6 },
+        'Disco Diamantado para Granito Industrial':         { base: 0, unit: 'un', fixed: 1280.00, weight: 1.5 },
+        'Disco Diamantado para Mármore Profissional':       { base: 0, unit: 'un', fixed: 780.00, weight: 0.7 },
+        'Disco Diamantado Heavy Duty para Corte Profundo':  { base: 0, unit: 'un', fixed: 1780.00, weight: 2.0 },
+        'Disco Diamantado para Pedra Natural':              { base: 0, unit: 'un', fixed: 580.00, weight: 0.6 },
+        'Disco de Corte Abrasivo para Aço Estrutural':      { base: 0, unit: 'un', fixed: 380.00, weight: 0.5 },
+        'Disco Flap Zircônia Industrial':                   { base: 0, unit: 'un', fixed: 290.00, weight: 0.3 },
+        'Disco Flap Cerâmico Alta Remoção':                 { base: 0, unit: 'un', fixed: 420.00, weight: 0.4 },
 
         // --- Dressadores (41-45) ---
-        'Dressador Diamantado Ponta Única':                 { base: 0, unit: 'un', fixed: 1480.00 },
-        'Dressador Diamantado Multiponta':                  { base: 0, unit: 'un', fixed: 1890.00 },
-        'Dressador Diamantado Tipo Placa':                  { base: 0, unit: 'un', fixed: 2180.00 },
-        'Dressador Diamantado Rotativo':                    { base: 0, unit: 'un', fixed: 1650.00 },
-        'Dressador Diamantado Alta Precisão':               { base: 0, unit: 'un', fixed: 980.00 },
+        'Dressador Diamantado Ponta Única':                 { base: 0, unit: 'un', fixed: 1480.00, weight: 0.5 },
+        'Dressador Diamantado Multiponta':                  { base: 0, unit: 'un', fixed: 1890.00, weight: 0.6 },
+        'Dressador Diamantado Tipo Placa':                  { base: 0, unit: 'un', fixed: 2180.00, weight: 0.8 },
+        'Dressador Diamantado Rotativo':                    { base: 0, unit: 'un', fixed: 1650.00, weight: 0.7 },
+        'Dressador Diamantado Alta Precisão':               { base: 0, unit: 'un', fixed: 980.00, weight: 0.3 },
 
         // --- Pastas Diamantadas (46-50) ---
-        'Pasta Diamantada Grão Grosso Industrial':          { base: 0, unit: 'un', fixed: 450.00 },
-        'Pasta Diamantada Grão Médio':                      { base: 0, unit: 'un', fixed: 520.00 },
-        'Pasta Diamantada Grão Fino':                       { base: 0, unit: 'un', fixed: 680.00 },
-        'Pasta Diamantada para Polimento Espelhado':        { base: 0, unit: 'un', fixed: 890.00 },
-        'Pasta Diamantada para Lapidação Técnica':          { base: 0, unit: 'un', fixed: 750.00 },
+        'Pasta Diamantada Grão Grosso Industrial':          { base: 0, unit: 'un', fixed: 450.00, weight: 0.3 },
+        'Pasta Diamantada Grão Médio':                      { base: 0, unit: 'un', fixed: 520.00, weight: 0.3 },
+        'Pasta Diamantada Grão Fino':                       { base: 0, unit: 'un', fixed: 680.00, weight: 0.25 },
+        'Pasta Diamantada para Polimento Espelhado':        { base: 0, unit: 'un', fixed: 890.00, weight: 0.2 },
+        'Pasta Diamantada para Lapidação Técnica':          { base: 0, unit: 'un', fixed: 750.00, weight: 0.3 },
 
         // === CATÁLOGO TÉCNICO — Discos ===
-        'Discos de Corte':                     { base: 8.50,   unit: 'un' },
-        'Discos Flap':                         { base: 14.00,  unit: 'un', fixed: 26.80 },
-        'Discos de Desbaste':                  { base: 12.00,  unit: 'un', fixed: 28.40 },
-        'Discos Diamantados':                  { base: 75.00,  unit: 'un' },
-        'Discos Cerâmicos':                    { base: 42.00,  unit: 'un' },
+        'Discos de Corte':                     { base: 8.50,   unit: 'un', weight: 0.3 },
+        'Discos Flap':                         { base: 14.00,  unit: 'un', fixed: 26.80, weight: 0.3 },
+        'Discos de Desbaste':                  { base: 12.00,  unit: 'un', fixed: 28.40, weight: 0.4 },
+        'Discos Diamantados':                  { base: 75.00,  unit: 'un', weight: 0.5 },
+        'Discos Cerâmicos':                    { base: 42.00,  unit: 'un', weight: 0.4 },
 
         // === CATÁLOGO TÉCNICO — Rebolos ===
-        'Rebolos Vitrificados':                { base: 65.00,  unit: 'un' },
-        'Rebolos Resinados':                   { base: 50.00,  unit: 'un' },
-        'Rebolos Diamantados':                 { base: 380.00, unit: 'un' },
-        'Rebolos CBN':                         { base: 420.00, unit: 'un' },
+        'Rebolos Vitrificados':                { base: 65.00,  unit: 'un', weight: 2.5 },
+        'Rebolos Resinados':                   { base: 50.00,  unit: 'un', weight: 2.0 },
+        'Rebolos Diamantados':                 { base: 380.00, unit: 'un', weight: 1.5 },
+        'Rebolos CBN':                         { base: 420.00, unit: 'un', weight: 1.8 },
 
         // === CATÁLOGO TÉCNICO — Lixas ===
-        'Lixas Óxido de Alumínio':             { base: 6.00,   unit: 'un', fixed: 77.20 },
-        'Lixas Carbeto de Silício':            { base: 7.50,   unit: 'un', fixed: 29.00 },
-        'Cintas Abrasivas':                    { base: 28.00,  unit: 'un', fixed: 83.60 },
-        'Folhas Abrasivas':                    { base: 4.50,   unit: 'un' },
+        'Lixas Óxido de Alumínio':             { base: 6.00,   unit: 'un', fixed: 77.20, weight: 0.15 },
+        'Lixas Carbeto de Silício':            { base: 7.50,   unit: 'un', fixed: 29.00, weight: 0.15 },
+        'Cintas Abrasivas':                    { base: 28.00,  unit: 'un', fixed: 83.60, weight: 1.0 },
+        'Folhas Abrasivas':                    { base: 4.50,   unit: 'un', weight: 0.1 },
 
         // === CATÁLOGO TÉCNICO — Escovas ===
-        'Escovas de Aço':                      { base: 22.00,  unit: 'un' },
-        'Escovas Inox / Circulares':           { base: 35.00,  unit: 'un' },
-        'Escovas Copo':                        { base: 28.00,  unit: 'un' },
+        'Escovas de Aço':                      { base: 22.00,  unit: 'un', weight: 0.5 },
+        'Escovas Inox / Circulares':           { base: 35.00,  unit: 'un', weight: 0.6 },
+        'Escovas Copo':                        { base: 28.00,  unit: 'un', weight: 0.4 },
 
         // === CATÁLOGO TÉCNICO — Ferramentas Rotativas ===
-        'Fresas de Metal Duro':                { base: 45.00,  unit: 'un', fixed: 75.50 },
-        'Pontas Montadas':                     { base: 18.00,  unit: 'un' },
+        'Fresas de Metal Duro':                { base: 45.00,  unit: 'un', fixed: 75.50, weight: 0.3 },
+        'Pontas Montadas':                     { base: 18.00,  unit: 'un', weight: 0.15 },
     };
+
+    // Default weight for products not in catalog
+    const DEFAULT_WEIGHT = 1.0; // kg
 
     // =============================================
     // 2. ESTADO DO CARRINHO
@@ -157,6 +160,11 @@
         if (!item) return 25.00 * MARKUP; // fallback genérico
         if (item.fixed) return item.fixed;
         return Math.round(item.base * MARKUP * 100) / 100;
+    }
+
+    function getWeight(name) {
+        const item = CATALOG[name];
+        return (item && item.weight) ? item.weight : DEFAULT_WEIGHT;
     }
 
     function formatBRL(value) {
@@ -275,14 +283,16 @@
             showToast('Informe um preço válido.');
             return;
         }
+        const itemWeight = getWeight(name);
         const existing = cart.find(item => item.name === name);
         if (existing) {
             existing.qty += qty;
             existing.price = parsedPrice;
+            existing.weight = itemWeight;
             console.log('[CART] UPDATED EXISTING', existing);
         } else {
-            cart.push({ name, price: parsedPrice, qty });
-            console.log('[CART] PUSHED NEW ITEM', { name, price: parsedPrice, qty });
+            cart.push({ name, price: parsedPrice, qty, weight: itemWeight });
+            console.log('[CART] PUSHED NEW ITEM', { name, price: parsedPrice, qty, weight: itemWeight });
         }
         console.log('[CART] AFTER ADD', JSON.parse(JSON.stringify(cart)));
         saveCart();
@@ -312,6 +322,10 @@
 
     function getCartTotal() {
         return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    }
+
+    function getCartWeight() {
+        return cart.reduce((sum, item) => sum + ((item.weight || getWeight(item.name)) * item.qty), 0);
     }
 
     function updateCartUI() {
@@ -838,6 +852,8 @@
 
     // Expose for checkout.js
     window.__getCart = function () { return cart; };
+    window.__getCartWeight = getCartWeight;
+    window.__getWeight = getWeight;
     window.__formatBRL = formatBRL;
     window.__showToast = showToast;
     window.__clearCart = function () {

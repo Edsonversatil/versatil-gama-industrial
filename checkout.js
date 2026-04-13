@@ -306,6 +306,35 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- MODALIDADE DE ENVIO -->
+                    <div class="ck-section-title" style="margin-top:24px;" data-i18n="shipping_mode_title">Modalidade de Envio</div>
+                    <div class="ck-form-block">
+                        <div class="ck-field">
+                            <select id="ck-shipping-mode" style="width:100%;padding:12px 14px;background:#1a1a2e;border:1px solid #333;border-radius:8px;color:#fff;font-size:15px;cursor:pointer;">
+                                <option value="retirada" data-i18n="shipping_pickup">📦 Retirada no local</option>
+                                <option value="nacional" selected data-i18n="shipping_national">🚚 Envio nacional</option>
+                                <option value="internacional" data-i18n="shipping_international">✈️ Envio internacional direto</option>
+                                <option value="logistica" data-i18n="shipping_logistics">🏢 Envio para centro logístico (exportação)</option>
+                                <option value="cliente" data-i18n="shipping_customer">🔄 Retirada / despacho pelo cliente</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- PESO ESTIMADO -->
+                    <div id="ck-weight-info" style="margin-top:16px;padding:14px 18px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);border-radius:10px;">
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                            <span style="font-size:18px;">⚖️</span>
+                            <strong style="color:#22c55e;" data-i18n="estimated_weight">Peso estimado do pedido:</strong>
+                            <strong id="ck-total-weight" style="color:#FFD700;font-size:18px;">0 kg</strong>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                            <span style="font-size:14px;">📦</span>
+                            <span style="color:#888;font-size:13px;" data-i18n="freight_category_label">Categoria de frete:</span>
+                            <strong id="ck-freight-category" style="color:#fff;font-size:13px;">—</strong>
+                        </div>
+                        <p style="color:#888;font-size:12px;margin:8px 0 0;" data-i18n="freight_note">💡 O frete será calculado e informado após análise do pedido.</p>
+                    </div>
                 </div>
 
                 <!-- ==================== STEP 3: PAGAMENTO ==================== -->
@@ -434,8 +463,56 @@
         document.getElementById('ck-btn-next').style.display = step < TOTAL_STEPS ? '' : 'none';
         document.getElementById('ck-btn-send').style.display = step === TOTAL_STEPS ? '' : 'none';
 
+        // Update weight info on step 2
+        if (step === 2) updateWeightInfo();
+
         // Build summary on step 4
         if (step === TOTAL_STEPS) buildSummary();
+    }
+
+    // =============================================
+    // 5A. LÓGICA DE PESO E FRETE
+    // =============================================
+    function updateWeightInfo() {
+        const totalWeight = window.__getCartWeight ? window.__getCartWeight() : 0;
+        const weightEl = document.getElementById('ck-total-weight');
+        const categoryEl = document.getElementById('ck-freight-category');
+        if (weightEl) weightEl.textContent = totalWeight.toFixed(1) + ' kg';
+        if (categoryEl) categoryEl.textContent = getFreightCategory(totalWeight);
+    }
+
+    function getFreightCategory(weightKg) {
+        const mode = document.getElementById('ck-shipping-mode');
+        const isInternational = mode && (mode.value === 'internacional' || mode.value === 'logistica');
+
+        if (isInternational) {
+            if (weightKg <= 2) return '🟢 Leve (até 2 kg)';
+            if (weightKg <= 10) return '🟡 Médio (2-10 kg)';
+            return '🔴 Pesado (acima de 10 kg)';
+        } else {
+            if (weightKg <= 5) return '🟢 Leve (até 5 kg)';
+            if (weightKg <= 20) return '🟡 Médio (5-20 kg)';
+            return '🔴 Pesado (acima de 20 kg)';
+        }
+    }
+
+    function getShippingData() {
+        const modeEl = document.getElementById('ck-shipping-mode');
+        const mode = modeEl ? modeEl.value : 'nacional';
+        const labels = {
+            'retirada': 'Retirada no local',
+            'nacional': 'Envio nacional',
+            'internacional': 'Envio internacional direto',
+            'logistica': 'Envio para centro logístico (exportação)',
+            'cliente': 'Retirada / despacho pelo cliente'
+        };
+        const totalWeight = window.__getCartWeight ? window.__getCartWeight() : 0;
+        return {
+            mode: mode,
+            label: labels[mode] || mode,
+            weight: totalWeight,
+            category: getFreightCategory(totalWeight)
+        };
     }
 
     // =============================================
@@ -1009,7 +1086,15 @@
         const buyerName = data.buyer.type === 'PF' ? data.buyer.nome : data.buyer.razao;
         msg += `${data.buyer.type === 'PF' ? 'CPF' : 'CNPJ'}: ${data.buyer.cpfCnpj}\n`;
         msg += `Nome/Razão: ${buyerName}\n`;
-        msg += `End. Fiscal: ${data.buyer.rua}, ${data.buyer.numero}, ${data.buyer.cidade}/${data.buyer.estado}\n`;
+        msg += `End. Fiscal: ${data.buyer.rua}, ${data.buyer.numero}, ${data.buyer.cidade}/${data.buyer.estado}\n\n`;
+
+        // Logistics info
+        const shipping = getShippingData();
+        msg += `*INFORMAÇÕES LOGÍSTICAS:*\n`;
+        msg += `Modalidade: ${shipping.label}\n`;
+        msg += `Peso estimado: ${shipping.weight.toFixed(1)} kg\n`;
+        msg += `Categoria de frete: ${shipping.category}\n`;
+        msg += `Obs: Frete será calculado e informado após análise.\n`;
 
         const encoded = encodeURIComponent(msg);
         const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
@@ -1083,6 +1168,12 @@
                     document.getElementById('ck-delivery-diff').checked ? '' : 'none';
             });
         });
+
+        // Shipping mode change → update freight category
+        const shippingMode = document.getElementById('ck-shipping-mode');
+        if (shippingMode) {
+            shippingMode.addEventListener('change', updateWeightInfo);
+        }
 
         // Next / Back
         document.getElementById('ck-btn-next').addEventListener('click', () => {
