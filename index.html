@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="pedido.css">
     <link rel="stylesheet" href="checkout.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#22c55e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Versatil">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
 </head>
 <body>
 
@@ -804,5 +811,15 @@
     <script src="pedido.js"></script>
     <script src="checkout.js"></script>
     <script src="i18n.js"></script>
+    <!-- PWA Service Worker -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
+                .catch(err => console.warn('[PWA] SW registration failed:', err));
+        });
+    }
+    </script>
 </body>
 </html>
