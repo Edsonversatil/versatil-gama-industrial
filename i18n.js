@@ -264,13 +264,17 @@
         'Escovas Copo': { en: { name: 'Cup Brushes', desc: 'Flat surface cleaning with angle grinder.' }, es: { name: 'Cepillos Copa', desc: 'Limpieza de superficies planas con amoladora.' } },
         'Fresas de Metal Duro': { en: { name: 'Carbide Burrs', desc: 'Tungsten carbide for machining and deburring.' }, es: { name: 'Fresas de Metal Duro', desc: 'Carburo de tungsteno para maquinado y desbarbado.' } },
         'Pontas Montadas': { en: { name: 'Mounted Points', desc: 'Internal grinding and cavity finishing.' }, es: { name: 'Puntas Montadas', desc: 'Rectificado interno y acabado en cavidades.' } },
-        // Technical catalog variants (plural names)
+        // ── CATÁLOGO TÉCNICO (nomes alternativos) ──
         'Discos de Corte': { en: { name: 'Cut-Off Discs', desc: 'For steel, stainless and metal. Fast and precise cutting.' }, es: { name: 'Discos de Corte', desc: 'Para acero, inox y metal. Corte rápido y preciso.' } },
-        'Discos Flap': { en: { name: 'Flap Discs', desc: 'Grinding and finishing in simultaneous operation with high conformability.' }, es: { name: 'Discos Flap', desc: 'Desbaste y acabado simultáneo con alta conformabilidad.' } },
+        'Discos Flap': { en: { name: 'Flap Discs', desc: 'Simultaneous grinding and finishing with high conformability.' }, es: { name: 'Discos Flap', desc: 'Desbaste y acabado simultáneo con alta conformabilidad.' } },
         'Discos de Desbaste': { en: { name: 'Grinding Discs', desc: 'Aggressive material removal on metallic surfaces.' }, es: { name: 'Discos de Desbaste', desc: 'Remoción agresiva de material en superficies metálicas.' } },
-        'Discos Diamantados': { en: { name: 'Diamond Discs', desc: 'Segmented, turbo and continuous rim for concrete and stone.' }, es: { name: 'Discos Diamantados', desc: 'Segmentados, turbo y continuos para concreto y piedra.' } },
+        'Discos Diamantados': { en: { name: 'Diamond Discs', desc: 'Segmented, turbo and continuous for concrete and stone.' }, es: { name: 'Discos Diamantados', desc: 'Segmentados, turbo y continuos para concreto y piedra.' } },
         'Discos Cerâmicos': { en: { name: 'Ceramic Discs', desc: 'Self-sharpening ceramic grain for high performance.' }, es: { name: 'Discos Cerámicos', desc: 'Grano cerámico autocortante para alto rendimiento.' } },
-        'Rebolos Especiais (CBN/Diamante)': { en: { name: 'Special Wheels (CBN/Diamond)', desc: 'Superabrasives for hardened metals and ceramics.' }, es: { name: 'Muelas Especiales (CBN/Diamante)', desc: 'Superabrasivos para metales templados y cerámicas.' } }
+        'Rebolos Especiais (CBN/Diamante)': { en: { name: 'Special Wheels (CBN/Diamond)', desc: 'Superabrasives for hardened metals and ceramics.' }, es: { name: 'Muelas Especiales (CBN/Diamante)', desc: 'Superabrasivos para metales templados y cerámicas.' } },
+        'Rebolos Convencionais': { en: { name: 'Conventional Grinding Wheels', desc: 'Cylindrical and surface grinding for general use.' }, es: { name: 'Muelas Convencionales', desc: 'Rectificado cilíndrico y plano para uso general.' } },
+        'Lixas Diamantadas': { en: { name: 'Diamond Sanding Sheets', desc: 'High-precision polishing and leveling.' }, es: { name: 'Lijas Diamantadas', desc: 'Pulido y nivelación de alta precisión.' } },
+        'Cintas p/ Alta Remoção': { en: { name: 'High Removal Belts', desc: 'Coarse grains for heavy grinding on metal and wood.' }, es: { name: 'Cintas Alta Remoción', desc: 'Grano grueso para desbaste pesado en metal y madera.' } },
+        'Cintas p/ Retíficas Severas e Processos Industriais': { en: { name: 'Heavy Grinding & Industrial Process Belts', desc: '150x2000mm — High performance for heavy grinding, rotary dryers, granulators and large equipment.' }, es: { name: 'Cintas para Rectificado Severo y Procesos Industriales', desc: '150x2000mm — Alto desempeño para rectificado pesado, secadores rotativos, granuladores y equipos de gran porte.' } }
     };
 
     // =============================================
@@ -292,13 +296,13 @@
             'footer.rights': '© 2002 Versatil Gama Industrial. Todos os direitos reservados.', 'footer.loc': 'Sorocaba/SP — Brasil',
             'btn.adicionar': 'Adicionar', 'btn.adicionado': 'Adicionado!', 'btn.finalizar': 'Finalizar Pedido via WhatsApp', 'cart.title': 'Seu Pedido', 'cart.empty': 'Seu carrinho está vazio', 'cart.total': 'TOTAL',
             'currency.notice': '', 'unit': '/ un',
+            // Abrasive grid items
+            'abr.pontas': 'Pontas Montadas', 'abr.pastas': 'Pastas Abrasivas', 'abr.dagua': 'Lixas D\'água', 'abr.inox': 'Abrasivos p/ Inox', 'abr.oxido': 'Óxido de Alumínio', 'abr.carbeto': 'Carbeto de Silício',
             // Payment section (landing page)
             'pay.pix.desc': 'Pagamento instantâneo via PIX', 'pay.pix.key': 'Chave PIX (CNPJ)', 'pay.pix.holder': 'Edson de Oliveira Silva / Recebimento via Asaas', 'pay.pix.instrucao': 'Envie seu comprovante via WhatsApp após o pagamento',
             'pay.bank.title': 'Dados Bancários', 'pay.bank.desc': 'Transferência ou depósito bancário', 'pay.bank.banco': 'Banco', 'pay.bank.agencia': 'Agência', 'pay.bank.conta': 'Conta Corrente', 'pay.bank.titular': 'Titular',
             'pay.usdt.badge': '-5% DESCONTO', 'pay.usdt.desc': 'Aceitamos pagamentos em USDT (TRC20) para clientes nacionais e internacionais.', 'pay.usdt.copiar': 'Copiar endereço',
             'pay.cc.badge': '+5% TAXA', 'pay.cc.title': 'Cartão de Crédito', 'pay.cc.desc': 'Pague diretamente com seu cartão de crédito de forma segura.', 'pay.cc.notice': 'Pagamentos via cartão de crédito possuem acréscimo de 5% referente às taxas operacionais.', 'pay.cc.btn': 'Pagar com Cartão',
-            // Abrasive specialty cards
-            'abr.pontas': 'Pontas Montadas', 'abr.pastas': 'Pastas Abrasivas', 'abr.dagua': "Lixas D'água", 'abr.inox': 'Abrasivos p/ Inox', 'abr.aluminio': 'Óxido de Alumínio', 'abr.silicio': 'Carbeto de Silício',
             // Checkout
             'ck.title': 'Finalizar Pedido', 'ck.step1': 'Comprador', 'ck.step2': 'Entrega', 'ck.step3': 'Pagamento', 'ck.step4': 'Resumo',
             'ck.pf': 'Pessoa Física', 'ck.pj': 'Pessoa Jurídica',
@@ -327,13 +331,13 @@
             'footer.rights': '© 2002 Versatil Gama Industrial. All rights reserved.', 'footer.loc': 'Sorocaba/SP — Brazil',
             'btn.adicionar': 'Add to Cart', 'btn.adicionado': 'Added!', 'btn.finalizar': 'Complete Order via WhatsApp', 'cart.title': 'Your Order', 'cart.empty': 'Your cart is empty', 'cart.total': 'TOTAL',
             'currency.notice': 'Prices for international customers are displayed in USD', 'unit': '/ ea',
+            // Abrasive grid items
+            'abr.pontas': 'Mounted Points', 'abr.pastas': 'Abrasive Pastes', 'abr.dagua': 'Wet Sandpaper', 'abr.inox': 'Stainless Steel Abrasives', 'abr.oxido': 'Aluminum Oxide', 'abr.carbeto': 'Silicon Carbide',
             // Payment section (landing page)
             'pay.pix.desc': 'Instant payment via PIX', 'pay.pix.key': 'PIX Key (CNPJ)', 'pay.pix.holder': 'Edson de Oliveira Silva / Processed via Asaas', 'pay.pix.instrucao': 'Send your receipt via WhatsApp after payment',
             'pay.bank.title': 'Banking Details', 'pay.bank.desc': 'Wire transfer or bank deposit', 'pay.bank.banco': 'Bank', 'pay.bank.agencia': 'Branch', 'pay.bank.conta': 'Account', 'pay.bank.titular': 'Account Holder',
             'pay.usdt.badge': '-5% DISCOUNT', 'pay.usdt.desc': 'We accept USDT (TRC20) payments for domestic and international customers.', 'pay.usdt.copiar': 'Copy address',
             'pay.cc.badge': '+5% FEE', 'pay.cc.title': 'Credit Card', 'pay.cc.desc': 'Pay securely with your credit card.', 'pay.cc.notice': 'Credit card payments include a 5% processing fee.', 'pay.cc.btn': 'Pay with Card',
-            // Abrasive specialty cards
-            'abr.pontas': 'Mounted Points', 'abr.pastas': 'Abrasive Pastes', 'abr.dagua': 'Wet/Dry Sandpaper', 'abr.inox': 'Stainless Steel Abrasives', 'abr.aluminio': 'Aluminum Oxide', 'abr.silicio': 'Silicon Carbide',
             // Checkout
             'ck.title': 'Checkout', 'ck.step1': 'Buyer', 'ck.step2': 'Shipping', 'ck.step3': 'Payment', 'ck.step4': 'Summary',
             'ck.pf': 'Individual', 'ck.pj': 'Company',
@@ -362,13 +366,13 @@
             'footer.rights': '© 2002 Versatil Gama Industrial. Todos los derechos reservados.', 'footer.loc': 'Sorocaba/SP — Brasil',
             'btn.adicionar': 'Agregar', 'btn.adicionado': '¡Agregado!', 'btn.finalizar': 'Finalizar Pedido por WhatsApp', 'cart.title': 'Su Pedido', 'cart.empty': 'Su carrito está vacío', 'cart.total': 'TOTAL',
             'currency.notice': 'Los precios para clientes internacionales se muestran en USD', 'unit': '/ un',
+            // Abrasive grid items
+            'abr.pontas': 'Puntas Montadas', 'abr.pastas': 'Pastas Abrasivas', 'abr.dagua': 'Lijas al Agua', 'abr.inox': 'Abrasivos p/ Inox', 'abr.oxido': 'Óxido de Aluminio', 'abr.carbeto': 'Carburo de Silicio',
             // Payment section (landing page)
             'pay.pix.desc': 'Pago instantáneo vía PIX', 'pay.pix.key': 'Clave PIX (CNPJ)', 'pay.pix.holder': 'Edson de Oliveira Silva / Procesado vía Asaas', 'pay.pix.instrucao': 'Envíe su comprobante por WhatsApp después del pago',
             'pay.bank.title': 'Datos Bancarios', 'pay.bank.desc': 'Transferencia o depósito bancario', 'pay.bank.banco': 'Banco', 'pay.bank.agencia': 'Agencia', 'pay.bank.conta': 'Cuenta Corriente', 'pay.bank.titular': 'Titular',
             'pay.usdt.badge': '-5% DESCUENTO', 'pay.usdt.desc': 'Aceptamos pagos en USDT (TRC20) para clientes nacionales e internacionales.', 'pay.usdt.copiar': 'Copiar dirección',
             'pay.cc.badge': '+5% TASA', 'pay.cc.title': 'Tarjeta de Crédito', 'pay.cc.desc': 'Pague directamente con su tarjeta de crédito de forma segura.', 'pay.cc.notice': 'Los pagos con tarjeta de crédito incluyen un 5% de tasa operacional.', 'pay.cc.btn': 'Pagar con Tarjeta',
-            // Abrasive specialty cards
-            'abr.pontas': 'Puntas Montadas', 'abr.pastas': 'Pastas Abrasivas', 'abr.dagua': 'Lijas al Agua', 'abr.inox': 'Abrasivos p/ Inox', 'abr.aluminio': 'Óxido de Aluminio', 'abr.silicio': 'Carburo de Silicio',
             // Checkout
             'ck.title': 'Finalizar Pedido', 'ck.step1': 'Comprador', 'ck.step2': 'Envío', 'ck.step3': 'Pago', 'ck.step4': 'Resumen',
             'ck.pf': 'Persona Física', 'ck.pj': 'Persona Jurídica',
@@ -448,7 +452,7 @@
         'Escovas Industriais': { en: 'Industrial Brushes', es: 'Cepillos Industriales' },
         'Ferramentas Rotativas': { en: 'Rotary Tools', es: 'Herramientas Rotativas' },
         'Discos Abrasivos': { en: 'Abrasive Discs', es: 'Discos Abrasivos' },
-        'Abrasivos Especiais': { en: 'Specialty Abrasives', es: 'Abrasivos Especiales' }
+        'Abrasivos Especiais': { en: 'Special Abrasives', es: 'Abrasivos Especiales' }
     };
 
     // Badge translations
