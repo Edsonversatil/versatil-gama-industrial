@@ -487,12 +487,18 @@
 
         if (isInternational) {
             if (weightKg <= 2) return '🟢 Leve (até 2 kg)';
-            if (weightKg <= 10) return '🟡 Médio (2-10 kg)';
-            return '🔴 Pesado (acima de 10 kg)';
+            if (weightKg <= 5) return '🟡 Leve-Médio (2-5 kg)';
+            if (weightKg <= 10) return '🟠 Médio (5-10 kg)';
+            if (weightKg <= 20) return '🔴 Pesado (10-20 kg)';
+            return '⚫ Extra Pesado (acima de 20 kg)';
         } else {
-            if (weightKg <= 5) return '🟢 Leve (até 5 kg)';
-            if (weightKg <= 20) return '🟡 Médio (5-20 kg)';
-            return '🔴 Pesado (acima de 20 kg)';
+            if (weightKg <= 5) return '🟢 Faixa 1 — até 5 kg';
+            if (weightKg <= 10) return '🟡 Faixa 2 — 5 a 10 kg';
+            if (weightKg <= 15) return '🟠 Faixa 3 — 10 a 15 kg';
+            if (weightKg <= 20) return '🔶 Faixa 4 — 15 a 20 kg';
+            if (weightKg <= 30) return '🔴 Faixa 5 — 20 a 30 kg';
+            if (weightKg <= 50) return '🔴 Faixa 6 — 30 a 50 kg';
+            return '⚫ Faixa 7 — acima de 50 kg (carga)';
         }
     }
 
