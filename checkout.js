@@ -484,19 +484,34 @@
     function getFreightCategory(weightKg) {
         const mode = document.getElementById('ck-shipping-mode');
         const isInternational = mode && (mode.value === 'internacional' || mode.value === 'logistica');
-        const type = isInternational ? 'INT' : 'NAC';
 
-        if (weightKg <= 5)  return `🟢 ${type} — Faixa 1: até 5 kg`;
-        if (weightKg <= 10) return `🟢 ${type} — Faixa 2: 5 a 10 kg`;
-        if (weightKg <= 15) return `🟡 ${type} — Faixa 3: 10 a 15 kg`;
-        if (weightKg <= 20) return `🟡 ${type} — Faixa 4: 15 a 20 kg`;
-        if (weightKg <= 25) return `🟠 ${type} — Faixa 5: 20 a 25 kg`;
-        if (weightKg <= 30) return `🟠 ${type} — Faixa 6: 25 a 30 kg`;
-        if (weightKg <= 35) return `🔶 ${type} — Faixa 7: 30 a 35 kg`;
-        if (weightKg <= 40) return `🔶 ${type} — Faixa 8: 35 a 40 kg`;
-        if (weightKg <= 45) return `🔴 ${type} — Faixa 9: 40 a 45 kg`;
-        if (weightKg <= 50) return `🔴 ${type} — Faixa 10: 45 a 50 kg`;
-        return `⚫ ${type} — Acima de 50 kg (carga especial)`;
+        if (isInternational) {
+            // Valores estimados USD — frete aéreo internacional (DHL/FedEx)
+            if (weightKg <= 5)  return '🟢 INT — Faixa 1: até 5 kg • ~US$ 45,00';
+            if (weightKg <= 10) return '🟢 INT — Faixa 2: 5 a 10 kg • ~US$ 85,00';
+            if (weightKg <= 15) return '🟡 INT — Faixa 3: 10 a 15 kg • ~US$ 130,00';
+            if (weightKg <= 20) return '🟡 INT — Faixa 4: 15 a 20 kg • ~US$ 180,00';
+            if (weightKg <= 25) return '🟠 INT — Faixa 5: 20 a 25 kg • ~US$ 230,00';
+            if (weightKg <= 30) return '🟠 INT — Faixa 6: 25 a 30 kg • ~US$ 290,00';
+            if (weightKg <= 35) return '🔶 INT — Faixa 7: 30 a 35 kg • ~US$ 350,00';
+            if (weightKg <= 40) return '🔶 INT — Faixa 8: 35 a 40 kg • ~US$ 420,00';
+            if (weightKg <= 45) return '🔴 INT — Faixa 9: 40 a 45 kg • ~US$ 500,00';
+            if (weightKg <= 50) return '🔴 INT — Faixa 10: 45 a 50 kg • ~US$ 580,00';
+            return '⚫ INT — Acima de 50 kg • Cotação especial';
+        } else {
+            // Valores estimados BRL — frete nacional (PAC/Transportadora)
+            if (weightKg <= 5)  return '🟢 NAC — Faixa 1: até 5 kg • ~R$ 25,00';
+            if (weightKg <= 10) return '🟢 NAC — Faixa 2: 5 a 10 kg • ~R$ 45,00';
+            if (weightKg <= 15) return '🟡 NAC — Faixa 3: 10 a 15 kg • ~R$ 65,00';
+            if (weightKg <= 20) return '🟡 NAC — Faixa 4: 15 a 20 kg • ~R$ 85,00';
+            if (weightKg <= 25) return '🟠 NAC — Faixa 5: 20 a 25 kg • ~R$ 110,00';
+            if (weightKg <= 30) return '🟠 NAC — Faixa 6: 25 a 30 kg • ~R$ 140,00';
+            if (weightKg <= 35) return '🔶 NAC — Faixa 7: 30 a 35 kg • ~R$ 175,00';
+            if (weightKg <= 40) return '🔶 NAC — Faixa 8: 35 a 40 kg • ~R$ 210,00';
+            if (weightKg <= 45) return '🔴 NAC — Faixa 9: 40 a 45 kg • ~R$ 260,00';
+            if (weightKg <= 50) return '🔴 NAC — Faixa 10: 45 a 50 kg • ~R$ 320,00';
+            return '⚫ NAC — Acima de 50 kg • Cotação especial';
+        }
     }
 
     function getShippingData() {
