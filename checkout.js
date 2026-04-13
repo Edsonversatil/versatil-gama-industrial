@@ -486,30 +486,30 @@
         const isInternational = mode && (mode.value === 'internacional' || mode.value === 'logistica');
 
         if (isInternational) {
-            // Valores estimados USD — frete aéreo internacional (DHL/FedEx)
-            if (weightKg <= 5)  return '🟢 INT — Faixa 1: até 5 kg • ~US$ 45,00';
-            if (weightKg <= 10) return '🟢 INT — Faixa 2: 5 a 10 kg • ~US$ 85,00';
-            if (weightKg <= 15) return '🟡 INT — Faixa 3: 10 a 15 kg • ~US$ 130,00';
-            if (weightKg <= 20) return '🟡 INT — Faixa 4: 15 a 20 kg • ~US$ 180,00';
-            if (weightKg <= 25) return '🟠 INT — Faixa 5: 20 a 25 kg • ~US$ 230,00';
-            if (weightKg <= 30) return '🟠 INT — Faixa 6: 25 a 30 kg • ~US$ 290,00';
-            if (weightKg <= 35) return '🔶 INT — Faixa 7: 30 a 35 kg • ~US$ 350,00';
-            if (weightKg <= 40) return '🔶 INT — Faixa 8: 35 a 40 kg • ~US$ 420,00';
-            if (weightKg <= 45) return '🔴 INT — Faixa 9: 40 a 45 kg • ~US$ 500,00';
-            if (weightKg <= 50) return '🔴 INT — Faixa 10: 45 a 50 kg • ~US$ 580,00';
+            // Valores estimados USD — frete aéreo internacional (DHL/FedEx) +30%
+            if (weightKg <= 5)  return '🟢 INT — Faixa 1: até 5 kg • ~US$ 58,50';
+            if (weightKg <= 10) return '🟢 INT — Faixa 2: 5 a 10 kg • ~US$ 110,50';
+            if (weightKg <= 15) return '🟡 INT — Faixa 3: 10 a 15 kg • ~US$ 169,00';
+            if (weightKg <= 20) return '🟡 INT — Faixa 4: 15 a 20 kg • ~US$ 234,00';
+            if (weightKg <= 25) return '🟠 INT — Faixa 5: 20 a 25 kg • ~US$ 299,00';
+            if (weightKg <= 30) return '🟠 INT — Faixa 6: 25 a 30 kg • ~US$ 377,00';
+            if (weightKg <= 35) return '🔶 INT — Faixa 7: 30 a 35 kg • ~US$ 455,00';
+            if (weightKg <= 40) return '🔶 INT — Faixa 8: 35 a 40 kg • ~US$ 546,00';
+            if (weightKg <= 45) return '🔴 INT — Faixa 9: 40 a 45 kg • ~US$ 650,00';
+            if (weightKg <= 50) return '🔴 INT — Faixa 10: 45 a 50 kg • ~US$ 754,00';
             return '⚫ INT — Acima de 50 kg • Cotação especial';
         } else {
-            // Valores estimados BRL — frete nacional (PAC/Transportadora)
-            if (weightKg <= 5)  return '🟢 NAC — Faixa 1: até 5 kg • ~R$ 25,00';
-            if (weightKg <= 10) return '🟢 NAC — Faixa 2: 5 a 10 kg • ~R$ 45,00';
-            if (weightKg <= 15) return '🟡 NAC — Faixa 3: 10 a 15 kg • ~R$ 65,00';
-            if (weightKg <= 20) return '🟡 NAC — Faixa 4: 15 a 20 kg • ~R$ 85,00';
-            if (weightKg <= 25) return '🟠 NAC — Faixa 5: 20 a 25 kg • ~R$ 110,00';
-            if (weightKg <= 30) return '🟠 NAC — Faixa 6: 25 a 30 kg • ~R$ 140,00';
-            if (weightKg <= 35) return '🔶 NAC — Faixa 7: 30 a 35 kg • ~R$ 175,00';
-            if (weightKg <= 40) return '🔶 NAC — Faixa 8: 35 a 40 kg • ~R$ 210,00';
-            if (weightKg <= 45) return '🔴 NAC — Faixa 9: 40 a 45 kg • ~R$ 260,00';
-            if (weightKg <= 50) return '🔴 NAC — Faixa 10: 45 a 50 kg • ~R$ 320,00';
+            // Valores estimados BRL — frete nacional (PAC/Transportadora) +30%
+            if (weightKg <= 5)  return '🟢 NAC — Faixa 1: até 5 kg • ~R$ 32,50';
+            if (weightKg <= 10) return '🟢 NAC — Faixa 2: 5 a 10 kg • ~R$ 58,50';
+            if (weightKg <= 15) return '🟡 NAC — Faixa 3: 10 a 15 kg • ~R$ 84,50';
+            if (weightKg <= 20) return '🟡 NAC — Faixa 4: 15 a 20 kg • ~R$ 110,50';
+            if (weightKg <= 25) return '🟠 NAC — Faixa 5: 20 a 25 kg • ~R$ 143,00';
+            if (weightKg <= 30) return '🟠 NAC — Faixa 6: 25 a 30 kg • ~R$ 182,00';
+            if (weightKg <= 35) return '🔶 NAC — Faixa 7: 30 a 35 kg • ~R$ 227,50';
+            if (weightKg <= 40) return '🔶 NAC — Faixa 8: 35 a 40 kg • ~R$ 273,00';
+            if (weightKg <= 45) return '🔴 NAC — Faixa 9: 40 a 45 kg • ~R$ 338,00';
+            if (weightKg <= 50) return '🔴 NAC — Faixa 10: 45 a 50 kg • ~R$ 416,00';
             return '⚫ NAC — Acima de 50 kg • Cotação especial';
         }
     }
