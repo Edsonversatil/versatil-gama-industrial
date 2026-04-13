@@ -194,18 +194,14 @@
 
                 // Intercept "Next" click — save customer when leaving Step 1
                 nextBtn.addEventListener('click', () => {
-                    // Only capture on step 1 → 2 transition
-                    const step1 = document.getElementById('ck-step-1');
-                    if (step1 && step1.classList.contains('active')) {
-                        // Small delay to let validation run first
-                        setTimeout(() => {
-                            // Only save if validation passed (step moved to 2)
-                            const step2 = document.getElementById('ck-step-2');
-                            if (step2 && step2.classList.contains('active')) {
-                                captureFromCheckout();
-                            }
-                        }, 200);
-                    }
+                    // Delay to let checkout.js validate + transition first
+                    setTimeout(() => {
+                        const step2 = document.getElementById('ck-step-2');
+                        if (step2 && step2.classList.contains('active')) {
+                            // Step 1 validated OK and moved to Step 2 — capture customer
+                            captureFromCheckout();
+                        }
+                    }, 500);
                 });
 
                 console.log('[CRM] Hooked into checkout flow');
