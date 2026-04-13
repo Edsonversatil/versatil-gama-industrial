@@ -188,26 +188,23 @@
     function hookCheckout() {
         // Wait for checkout DOM to be available
         const observer = new MutationObserver(() => {
-            const nextBtn = document.getElementById('ck-btn-next');
-            if (nextBtn && !nextBtn._crmHooked) {
-                nextBtn._crmHooked = true;
+            // Hook into SEND button (Step 4 — Finalizar Pedido)
+            const sendBtn = document.getElementById('ck-btn-send');
+            if (sendBtn && !sendBtn._crmHooked) {
+                sendBtn._crmHooked = true;
 
-                // Intercept "Next" click — save customer when leaving Step 1
-                nextBtn.addEventListener('click', () => {
-                    // Delay to let checkout.js validate + transition first
-                    setTimeout(() => {
-                        const step2 = document.getElementById('ck-step-2');
-                        if (step2 && step2.classList.contains('active')) {
-                            // Step 1 validated OK and moved to Step 2 — capture customer
-                            captureFromCheckout();
-                        }
-                    }, 500);
+                sendBtn.addEventListener('click', () => {
+                    // Only capture when on Step 4 (Resumo/Finalização)
+                    const step4 = document.getElementById('ck-step-4');
+                    if (step4 && step4.classList.contains('active')) {
+                        captureFromCheckout();
+                    }
                 });
 
-                console.log('[CRM] Hooked into checkout flow');
+                console.log('[CRM] Hooked into checkout SEND button (Step 4 only)');
             }
 
-            // Auto-fill when checkout opens
+            // Auto-fill when checkout opens (returning customer)
             const modal = document.getElementById('checkout-modal');
             if (modal && !modal._crmAutoFilled) {
                 const modalObserver = new MutationObserver(() => {
