@@ -1,14 +1,14 @@
 {
-  "name": "Versatil Gama Industrial",
-  "short_name": "Versatil",
-  "description": "High-performance industrial abrasives for demanding applications",
+  "name": "Versátil Services Industrial",
+  "short_name": "Versátil",
+  "description": "Software de Serviços Industriais — Solicite manutenção, usinagem e inspeções",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#22c55e",
+  "background_color": "#ffffff",
+  "theme_color": "#BF2026",
   "orientation": "portrait",
   "lang": "pt-BR",
-  "categories": ["business", "shopping"],
+  "categories": ["business", "productivity"],
   "icons": [
     {
       "src": "/icons/icon-192.png",

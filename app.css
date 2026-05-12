@@ -1,0 +1,425 @@
+/* =============================================
+   VERSÁTIL SERVICES — App Styles
+   Estilos para Formulários e Telas do App
+   ============================================= */
+
+/* Layout Principal */
+.app-main {
+    padding: 100px 0 60px;
+    min-height: 100vh;
+    background: var(--bg-body);
+}
+
+.app-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.app-header h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.app-header p {
+    font-size: 1rem;
+    color: var(--gray-300);
+}
+
+/* =============================================
+   FORMULÁRIO DE SERVIÇO
+   ============================================= */
+.form-servico {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.form-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+}
+
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--red);
+    display: inline-block;
+}
+
+.form-group {
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-300);
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background: var(--bg-body);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all var(--transition);
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px var(--red-soft);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--gray-500);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-hint {
+    font-size: 0.85rem;
+    color: var(--gray-300);
+    margin-bottom: 16px;
+}
+
+/* =============================================
+   ANEXOS (Fotos e Arquivos)
+   ============================================= */
+.anexos-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.btn-anexo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 24px 16px;
+    background: var(--bg-body);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: center;
+}
+
+.btn-anexo:hover {
+    border-color: var(--red);
+    background: var(--red-soft);
+}
+
+.btn-anexo svg {
+    width: 32px;
+    height: 32px;
+    color: var(--red);
+}
+
+.btn-anexo span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-body);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Preview de Anexos */
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.preview-item {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 1;
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-item .file-icon {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-body);
+    gap: 4px;
+}
+
+.preview-item .file-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--red);
+}
+
+.preview-item .file-icon span {
+    font-size: 0.65rem;
+    color: var(--gray-300);
+    text-align: center;
+    padding: 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.preview-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+/* =============================================
+   BOTÕES DE AÇÃO
+   ============================================= */
+.form-actions {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-salvar,
+.btn-enviar-wa,
+.btn-enviar-email {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 24px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.btn-salvar svg,
+.btn-enviar-wa svg,
+.btn-enviar-email svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.btn-salvar {
+    background: var(--bg-body);
+    color: var(--text-body);
+    border: 2px solid var(--border);
+}
+
+.btn-salvar:hover {
+    border-color: var(--text-body);
+}
+
+.btn-enviar-wa {
+    background: #25D366;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+}
+
+.btn-enviar-wa:hover {
+    background: #1faf53;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
+}
+
+.btn-enviar-email {
+    background: var(--red);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(191,32,38,0.3);
+}
+
+.btn-enviar-email:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   RASCUNHOS SALVOS
+   ============================================= */
+.rascunhos-section {
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.rascunhos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rascunho-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all var(--transition);
+}
+
+.rascunho-card:hover {
+    border-color: var(--red);
+}
+
+.rascunho-info h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.rascunho-info p {
+    font-size: 0.8rem;
+    color: var(--gray-300);
+}
+
+.rascunho-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.rascunho-actions button {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.btn-carregar {
+    background: var(--red-soft);
+    color: var(--red);
+}
+
+.btn-carregar:hover {
+    background: var(--red);
+    color: #fff;
+}
+
+.btn-excluir {
+    background: var(--bg-body);
+    color: var(--gray-500);
+}
+
+.btn-excluir:hover {
+    background: #fee;
+    color: var(--red);
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 14px 28px;
+    background: var(--text-dark);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    z-index: 9999;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    background: #25D366;
+}
+
+.toast.error {
+    background: var(--red);
+}
+
+/* =============================================
+   RESPONSIVO
+   ============================================= */
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-section {
+        padding: 20px 16px;
+    }
+
+    .anexos-actions {
+        flex-direction: column;
+    }
+
+    .app-header h1 {
+        font-size: 1.5rem;
+    }
+}
