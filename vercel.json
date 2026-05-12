@@ -2,11 +2,55 @@
   "version": 2,
   "builds": [
     {
-      "src": "**",
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.json",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "Fotos/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "icons/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/api/pix/create",
+      "dest": "/api/pix/create.js"
+    },
+    {
+      "src": "/api/pix/status",
+      "dest": "/api/pix/status.js"
+    },
+    {
+      "src": "/api/pix/status/(.*)",
+      "dest": "/api/pix/status.js?paymentId=$1"
+    },
+    {
+      "src": "/api/asaas/customers",
+      "dest": "/api/asaas/customers.js"
+    },
+    {
+      "src": "/api/asaas/payments",
+      "dest": "/api/asaas/payments.js"
+    },
     {
       "src": "/service-worker.js",
       "headers": {

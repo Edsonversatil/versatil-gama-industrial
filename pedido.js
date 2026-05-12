@@ -206,7 +206,7 @@
                     </div>
                     <button class="btn-add-cart" data-id="${productId}" data-name="${productName}" data-price="${price}" data-price-brl="${price}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                        Adicionar
+                        ${(window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('btn.adicionar') : 'Adicionar'}
                     </button>
                 </div>
             `;
@@ -275,12 +275,14 @@
         console.log('[CART] addToCart CALLED', { name, price, qty });
         console.log('[CART] BEFORE ADD', JSON.parse(JSON.stringify(cart)));
         if (qty <= 0) {
-            showToast('Informe uma quantidade maior que zero.');
+            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.qty.zero') : 'Informe uma quantidade maior que zero.';
+            showToast(msg);
             return;
         }
         const parsedPrice = parseFloat(price);
         if (isNaN(parsedPrice) || parsedPrice <= 0) {
-            showToast('Informe um preço válido.');
+            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.price.invalid') : 'Informe um preço válido.';
+            showToast(msg);
             return;
         }
         const itemWeight = getWeight(name);
@@ -297,7 +299,12 @@
         console.log('[CART] AFTER ADD', JSON.parse(JSON.stringify(cart)));
         saveCart();
         updateCartUI();
-        showToast(`${name} adicionado ao pedido!`);
+        let toastMsg = `${name} adicionado ao pedido!`;
+        if (window.VGI_i18n && window.VGI_i18n.t) {
+            const fn = window.VGI_i18n.t('toast.added');
+            toastMsg = typeof fn === 'function' ? fn(name) : `${name} adicionado ao pedido!`;
+        }
+        showToast(toastMsg);
     }
 
     function removeFromCart(name) {
@@ -391,6 +398,11 @@
         const brlTotal = getCartTotal();
         totalEl.setAttribute('data-brl', brlTotal);
         totalEl.textContent = formatBRL(brlTotal);
+
+        // Re-translate cart drawer if i18n is active
+        if (window.VGI_i18n && window.VGI_i18n.translateCartDrawer) {
+            setTimeout(() => window.VGI_i18n.translateCartDrawer(), 30);
+        }
     }
 
     function showCart() {
@@ -452,7 +464,8 @@
     function copyUSDTAddress() {
         const address = 'TE1diztxiihihn7cWpvkYSSBjSJp7bPUZe';
         navigator.clipboard.writeText(address).then(() => {
-            showToast('Endereço USDT copiado!');
+            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.usdt.copied') : 'Endereço USDT copiado!';
+            showToast(msg);
         }).catch(() => {
             // Fallback
             const ta = document.createElement('textarea');
@@ -461,7 +474,8 @@
             ta.select();
             document.execCommand('copy');
             document.body.removeChild(ta);
-            showToast('Endereço USDT copiado!');
+            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.usdt.copied') : 'Endereço USDT copiado!';
+            showToast(msg);
         });
     }
 
@@ -500,7 +514,8 @@
                 // GUARD: block addition with invalid price
                 if (!brlPrice || brlPrice <= 0) {
                     console.error('[CART] BLOCKED: produto sem preço válido', { name, brlPrice });
-                    showToast('Erro: preço do produto não encontrado.');
+                    const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.price.missing') : 'Erro: preço do produto não encontrado.';
+                    showToast(msg);
                     return;
                 }
                 console.log('[CART] CLICK ADD BTN', { name, id, brlPrice, qty });
@@ -508,15 +523,17 @@
 
                 // Visual feedback
                 addBtn.classList.add('added');
+                const addedText = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('btn.adicionado') : 'Adicionado!';
                 addBtn.innerHTML = `
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    Adicionado!
+                    ${addedText}
                 `;
                 setTimeout(() => {
                     addBtn.classList.remove('added');
+                    const addText = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('btn.adicionar') : 'Adicionar';
                     addBtn.innerHTML = `
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                        Adicionar
+                        ${addText}
                     `;
                 }, 1500);
             }
@@ -669,7 +686,8 @@
 
     function openCCModal() {
         if (cart.length === 0) {
-            showToast('Adicione produtos ao pedido primeiro!');
+            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.cart.empty') : 'Adicione produtos ao pedido primeiro!';
+            showToast(msg);
             return;
         }
 
@@ -714,7 +732,8 @@
 
         // Validate
         if (!name || !cpf || !email || !cep || !addressNumber || !cardNumber || !expiryMonth || !expiryYear || !cvv) {
-            showToast('Preencha todos os campos obrigatórios.');
+            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.fields.required') : 'Preencha todos os campos obrigatórios.';
+            showToast(msg);
             return;
         }
 

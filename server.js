@@ -341,7 +341,7 @@ const emailsSent = new Set();
 
 app.get('/api/pix/status/:paymentId', async (req, res) => {
     try {
-        const { paymentId } = req.params;
+        const paymentId = req.params.paymentId || req.query.paymentId;
         const result = await asaasRequest(`/payments/${paymentId}`, 'GET');
 
         if (result.status >= 200 && result.status < 300) {
@@ -357,6 +357,35 @@ app.get('/api/pix/status/:paymentId', async (req, res) => {
                 console.log(`[PIX STATUS] Pagamento ${paymentId} CONFIRMADO!`);
             }
 
+            res.json({
+                success: true,
+                paymentId: paymentId,
+                status: confirmed ? 'CONFIRMED' : 'PENDING',
+                rawStatus: status,
+                confirmedDate: result.data.confirmedDate || null
+            });
+        } else {
+            res.status(result.status).json({ success: false, error: 'Pagamento não encontrado.' });
+        }
+    } catch (err) {
+        console.error('[PIX STATUS] Erro:', err);
+        res.status(500).json({ success: false, error: 'Erro interno.' });
+    }
+});
+
+// Also handle query-param format: /api/pix/status?paymentId=xxx (Vercel serverless compat)
+app.get('/api/pix/status', async (req, res) => {
+    try {
+        const paymentId = req.query.paymentId;
+        if (!paymentId) {
+            return res.status(400).json({ success: false, error: 'paymentId é obrigatório.' });
+        }
+        const result = await asaasRequest(`/payments/${paymentId}`, 'GET');
+
+        if (result.status >= 200 && result.status < 300) {
+            const status = result.data.status;
+            const confirmed = status === 'RECEIVED' || status === 'CONFIRMED';
+            console.log(`[PIX STATUS] ${paymentId}: ${status}`);
             res.json({
                 success: true,
                 paymentId: paymentId,

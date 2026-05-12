@@ -744,7 +744,7 @@
                             return;
                         }
                         try {
-                            const statusRes = await fetch(`/api/pix/status/${currentPaymentId}`);
+                            const statusRes = await fetch(`/api/pix/status?paymentId=${currentPaymentId}`);
                             const statusData = await statusRes.json();
                             if (statusData.success && statusData.status === 'CONFIRMED') {
                                 clearInterval(pollInterval);

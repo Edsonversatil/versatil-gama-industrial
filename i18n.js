@@ -288,8 +288,10 @@
             'pay.tag': 'Formas de Pagamento', 'pay.title': 'Métodos de Pagamento', 'pay.desc': 'Oferecemos diversas formas de pagamento para facilitar sua compra.',
             'contact.tag': 'Fale conosco', 'contact.title': 'Entre em Contato', 'contact.desc': 'Solicite seu orçamento agora e receba atendimento direto da nossa equipe comercial.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'E-mail Comercial', 'contact.loc.label': 'Localização', 'contact.loc.value': 'Sorocaba/SP — Brasil', 'contact.cta': 'Falar no WhatsApp agora',
             'footer.rights': '© 2002 Versatil Gama Industrial. Todos os direitos reservados.', 'footer.loc': 'Sorocaba/SP — Brasil',
-            'btn.adicionar': 'Adicionar', 'btn.adicionado': 'Adicionado!', 'btn.finalizar': 'Finalizar Pedido via WhatsApp', 'cart.title': 'Seu Pedido', 'cart.empty': 'Seu carrinho está vazio', 'cart.total': 'TOTAL',
+            'btn.adicionar': 'Adicionar', 'btn.adicionado': 'Adicionado!', 'btn.finalizar': 'Finalizar Pedido via WhatsApp', 'cart.title': 'Meu Pedido', 'cart.empty': 'Seu pedido está vazio', 'cart.empty.sub': 'Adicione produtos do catálogo', 'cart.total': 'TOTAL',
             'currency.notice': '', 'unit': '/ un',
+            'toast.added': (name) => `${name} adicionado ao pedido!`, 'toast.qty.zero': 'Informe uma quantidade maior que zero.', 'toast.price.invalid': 'Informe um preço válido.', 'toast.price.missing': 'Erro: preço do produto não encontrado.', 'toast.cart.empty': 'Adicione produtos ao pedido primeiro!', 'toast.fields.required': 'Preencha todos os campos obrigatórios.', 'toast.usdt.copied': 'Endereço USDT copiado!',
+            'cc.title': 'Pagamento com Cartão', 'cc.total.label': 'Total com cartão', 'cc.surcharge': 'Acréscimo de 5% referente às taxas operacionais do cartão.', 'cc.section.personal': 'Dados Pessoais', 'cc.name': 'Nome completo', 'cc.name.placeholder': 'Nome como no cartão', 'cc.cpf': 'CPF / CNPJ', 'cc.email': 'E-mail', 'cc.phone': 'Telefone', 'cc.cep': 'CEP', 'cc.address': 'Número do endereço', 'cc.section.card': 'Dados do Cartão', 'cc.number': 'Número do cartão', 'cc.month': 'Mês (MM)', 'cc.year': 'Ano (AAAA)', 'cc.cvv': 'CVV', 'cc.submit': 'Pagar Agora', 'cc.processing': 'Processando pagamento...', 'cc.processing.sub': 'Aguarde, estamos validando seu cartão.', 'cc.close': 'Fechar', 'cc.approved': 'Pagamento Aprovado!', 'cc.pending': 'Em Processamento', 'cc.declined': 'Pagamento Não Aprovado',
             // Abrasive grid items
             'abr.pontas': 'Pontas Montadas', 'abr.pastas': 'Pastas Abrasivas', 'abr.dagua': 'Lixas D\'água', 'abr.inox': 'Abrasivos p/ Inox', 'abr.oxido': 'Óxido de Alumínio', 'abr.carbeto': 'Carbeto de Silício',
             // Payment section (landing page)
@@ -323,8 +325,10 @@
             'pay.tag': 'Payment Methods', 'pay.title': 'Payment Options', 'pay.desc': 'We offer multiple payment methods for your convenience.',
             'contact.tag': 'Get In Touch', 'contact.title': 'Contact Us', 'contact.desc': 'Request your quote now and receive direct support from our sales team.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'Commercial E-mail', 'contact.loc.label': 'Location', 'contact.loc.value': 'Sorocaba/SP — Brazil', 'contact.cta': 'Chat on WhatsApp now',
             'footer.rights': '© 2002 Versatil Gama Industrial. All rights reserved.', 'footer.loc': 'Sorocaba/SP — Brazil',
-            'btn.adicionar': 'Add to Cart', 'btn.adicionado': 'Added!', 'btn.finalizar': 'Complete Order via WhatsApp', 'cart.title': 'Your Order', 'cart.empty': 'Your cart is empty', 'cart.total': 'TOTAL',
+            'btn.adicionar': 'Add to Cart', 'btn.adicionado': 'Added!', 'btn.finalizar': 'Complete Order via WhatsApp', 'cart.title': 'My Order', 'cart.empty': 'Your order is empty', 'cart.empty.sub': 'Add products from the catalog', 'cart.total': 'TOTAL',
             'currency.notice': 'Prices for international customers are displayed in USD', 'unit': '/ ea',
+            'toast.added': (name) => `${name} added to order!`, 'toast.qty.zero': 'Please enter a quantity greater than zero.', 'toast.price.invalid': 'Please enter a valid price.', 'toast.price.missing': 'Error: product price not found.', 'toast.cart.empty': 'Add products to your order first!', 'toast.fields.required': 'Please fill in all required fields.', 'toast.usdt.copied': 'USDT address copied!',
+            'cc.title': 'Card Payment', 'cc.total.label': 'Total with card', 'cc.surcharge': '5% processing fee applied for credit card payments.', 'cc.section.personal': 'Personal Details', 'cc.name': 'Full name', 'cc.name.placeholder': 'Name as on card', 'cc.cpf': 'Tax ID (CPF/CNPJ)', 'cc.email': 'E-mail', 'cc.phone': 'Phone', 'cc.cep': 'Zip Code', 'cc.address': 'Address number', 'cc.section.card': 'Card Details', 'cc.number': 'Card number', 'cc.month': 'Month (MM)', 'cc.year': 'Year (YYYY)', 'cc.cvv': 'CVV', 'cc.submit': 'Pay Now', 'cc.processing': 'Processing payment...', 'cc.processing.sub': 'Please wait, we are validating your card.', 'cc.close': 'Close', 'cc.approved': 'Payment Approved!', 'cc.pending': 'Processing', 'cc.declined': 'Payment Declined',
             // Abrasive grid items
             'abr.pontas': 'Mounted Points', 'abr.pastas': 'Abrasive Pastes', 'abr.dagua': 'Wet Sandpaper', 'abr.inox': 'Stainless Steel Abrasives', 'abr.oxido': 'Aluminum Oxide', 'abr.carbeto': 'Silicon Carbide',
             // Payment section (landing page)
@@ -358,8 +362,10 @@
             'pay.tag': 'Formas de Pago', 'pay.title': 'Métodos de Pago', 'pay.desc': 'Ofrecemos diversas formas de pago para facilitar su compra.',
             'contact.tag': 'Contáctenos', 'contact.title': 'Contacto', 'contact.desc': 'Solicite su presupuesto ahora y reciba atención directa de nuestro equipo comercial.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'E-mail Comercial', 'contact.loc.label': 'Ubicación', 'contact.loc.value': 'Sorocaba/SP — Brasil', 'contact.cta': 'Hablar por WhatsApp ahora',
             'footer.rights': '© 2002 Versatil Gama Industrial. Todos los derechos reservados.', 'footer.loc': 'Sorocaba/SP — Brasil',
-            'btn.adicionar': 'Agregar', 'btn.adicionado': '¡Agregado!', 'btn.finalizar': 'Finalizar Pedido por WhatsApp', 'cart.title': 'Su Pedido', 'cart.empty': 'Su carrito está vacío', 'cart.total': 'TOTAL',
+            'btn.adicionar': 'Agregar', 'btn.adicionado': '¡Agregado!', 'btn.finalizar': 'Finalizar Pedido por WhatsApp', 'cart.title': 'Mi Pedido', 'cart.empty': 'Su pedido está vacío', 'cart.empty.sub': 'Agregue productos del catálogo', 'cart.total': 'TOTAL',
             'currency.notice': 'Los precios para clientes internacionales se muestran en USD', 'unit': '/ un',
+            'toast.added': (name) => `${name} agregado al pedido!`, 'toast.qty.zero': 'Ingrese una cantidad mayor que cero.', 'toast.price.invalid': 'Ingrese un precio válido.', 'toast.price.missing': 'Error: precio del producto no encontrado.', 'toast.cart.empty': '¡Agregue productos al pedido primero!', 'toast.fields.required': 'Complete todos los campos obligatorios.', 'toast.usdt.copied': '¡Dirección USDT copiada!',
+            'cc.title': 'Pago con Tarjeta', 'cc.total.label': 'Total con tarjeta', 'cc.surcharge': 'Recargo del 5% por tasas operacionales de la tarjeta.', 'cc.section.personal': 'Datos Personales', 'cc.name': 'Nombre completo', 'cc.name.placeholder': 'Nombre como en la tarjeta', 'cc.cpf': 'Identificación (CPF/CNPJ)', 'cc.email': 'E-mail', 'cc.phone': 'Teléfono', 'cc.cep': 'Código Postal', 'cc.address': 'Número de dirección', 'cc.section.card': 'Datos de la Tarjeta', 'cc.number': 'Número de tarjeta', 'cc.month': 'Mes (MM)', 'cc.year': 'Año (AAAA)', 'cc.cvv': 'CVV', 'cc.submit': 'Pagar Ahora', 'cc.processing': 'Procesando pago...', 'cc.processing.sub': 'Aguarde, estamos validando su tarjeta.', 'cc.close': 'Cerrar', 'cc.approved': '¡Pago Aprobado!', 'cc.pending': 'En Procesamiento', 'cc.declined': 'Pago No Aprobado',
             // Abrasive grid items
             'abr.pontas': 'Puntas Montadas', 'abr.pastas': 'Pastas Abrasivas', 'abr.dagua': 'Lijas al Agua', 'abr.inox': 'Abrasivos p/ Inox', 'abr.oxido': 'Óxido de Aluminio', 'abr.carbeto': 'Carburo de Silicio',
             // Payment section (landing page)
@@ -639,6 +645,8 @@
         updateDisplayPrices(lang);
         reformatCartForLang();
         translateCheckout(lang);
+        translateCartDrawer(lang);
+        translateCCModal(lang);
 
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
@@ -1061,6 +1069,121 @@
         });
     }
 
+    // =============================================
+    // 17. TRADUZIR CART DRAWER (pedido.js)
+    // =============================================
+    function translateCartDrawer(lang) {
+        lang = lang || currentLang;
+
+        // Cart header title
+        const cartHeader = document.querySelector('#cart-panel .cart-header h3');
+        if (cartHeader) {
+            const svg = cartHeader.querySelector('svg');
+            cartHeader.textContent = '';
+            if (svg) cartHeader.appendChild(svg);
+            cartHeader.appendChild(document.createTextNode('\n                    ' + t('cart.title', lang) + '\n                '));
+        }
+
+        // Cart empty state
+        const emptyP = document.querySelector('#cart-empty p');
+        const emptySub = document.querySelector('#cart-empty span');
+        if (emptyP) emptyP.textContent = t('cart.empty', lang);
+        if (emptySub) emptySub.textContent = t('cart.empty.sub', lang);
+
+        // Cart footer button
+        const btnCheckout = document.getElementById('btn-checkout');
+        if (btnCheckout) {
+            const svg = btnCheckout.querySelector('svg');
+            btnCheckout.textContent = '';
+            if (svg) btnCheckout.appendChild(svg);
+            btnCheckout.appendChild(document.createTextNode('\n                    ' + t('btn.finalizar', lang) + '\n                '));
+        }
+
+        // Cart item names — translate if products have translations
+        document.querySelectorAll('#cart-items .cart-item-name').forEach(nameEl => {
+            const ptName = nameEl.textContent.trim();
+            // Try to find this product in translations
+            if (lang !== 'pt' && PRODUCT_TRANSLATIONS[ptName] && PRODUCT_TRANSLATIONS[ptName][lang]) {
+                nameEl.textContent = PRODUCT_TRANSLATIONS[ptName][lang].name;
+            }
+        });
+
+        // Cart close button aria-label
+        const closeBtn = document.getElementById('cart-close');
+        if (closeBtn) {
+            closeBtn.setAttribute('aria-label', lang === 'pt' ? 'Fechar carrinho' : lang === 'es' ? 'Cerrar carrito' : 'Close cart');
+        }
+    }
+
+    // =============================================
+    // 18. TRADUZIR CC MODAL (pedido.js)
+    // =============================================
+    function translateCCModal(lang) {
+        lang = lang || currentLang;
+        const modal = document.getElementById('cc-modal-overlay');
+        if (!modal) return;
+
+        // Title
+        const h3 = modal.querySelector('.cc-modal-header h3');
+        if (h3) {
+            const svg = h3.querySelector('svg');
+            h3.textContent = '';
+            if (svg) h3.appendChild(svg);
+            h3.appendChild(document.createTextNode('\n                        ' + t('cc.title', lang) + '\n                    '));
+        }
+
+        // Total label
+        const totalLabel = modal.querySelector('.cc-modal-total-label');
+        if (totalLabel) totalLabel.textContent = t('cc.total.label', lang);
+
+        // Surcharge note
+        const surchargeSpan = modal.querySelector('.cc-surcharge-note span');
+        if (surchargeSpan) surchargeSpan.textContent = t('cc.surcharge', lang);
+
+        // Section titles
+        const sectionTitles = modal.querySelectorAll('.cc-form-section-title');
+        if (sectionTitles[0]) sectionTitles[0].textContent = t('cc.section.personal', lang);
+        if (sectionTitles[1]) sectionTitles[1].textContent = t('cc.section.card', lang);
+
+        // Labels
+        const labelMap = [
+            ['cc-name', 'cc.name'], ['cc-cpf', 'cc.cpf'], ['cc-email', 'cc.email'],
+            ['cc-phone', 'cc.phone'], ['cc-cep', 'cc.cep'], ['cc-address-number', 'cc.address'],
+            ['cc-card-number', 'cc.number'], ['cc-expiry-month', 'cc.month'],
+            ['cc-expiry-year', 'cc.year'], ['cc-cvv', 'cc.cvv']
+        ];
+        labelMap.forEach(([id, key]) => {
+            const input = modal.querySelector('#' + id);
+            if (input) {
+                const label = input.closest('.cc-field')?.querySelector('label');
+                if (label) label.textContent = t(key, lang);
+            }
+        });
+
+        // Placeholder for name
+        const ccNameInput = modal.querySelector('#cc-name');
+        if (ccNameInput) ccNameInput.placeholder = t('cc.name.placeholder', lang);
+
+        // Submit button
+        const submitBtn = modal.querySelector('#btn-submit-cc');
+        if (submitBtn) {
+            const svg = submitBtn.querySelector('svg');
+            submitBtn.textContent = '';
+            if (svg) submitBtn.appendChild(svg);
+            submitBtn.appendChild(document.createTextNode('\n                            ' + t('cc.submit', lang) + '\n                        '));
+        }
+
+        // Loading text
+        const loadingP = modal.querySelector('#cc-loading-view p');
+        const loadingSpan = modal.querySelector('#cc-loading-view span');
+        if (loadingP) loadingP.textContent = t('cc.processing', lang);
+        if (loadingSpan) loadingSpan.textContent = t('cc.processing.sub', lang);
+
+        // Close result button
+        const closeResultBtn = modal.querySelector('#btn-cc-close-result');
+        if (closeResultBtn) closeResultBtn.textContent = t('cc.close', lang);
+    }
+
     // Expose API
     window.VGI_i18n = {
         switchLanguage,
@@ -1069,7 +1192,9 @@
         getCurrentLang: () => currentLang,
         getExchangeRate: () => EXCHANGE_RATE,
         t,
-        translateCheckout
+        translateCheckout,
+        translateCartDrawer,
+        translateCCModal
     };
 
 })();

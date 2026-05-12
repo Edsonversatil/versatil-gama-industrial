@@ -1,6 +1,6 @@
 /* =============================================
-   VERSATIL GAMA INDUSTRIAL — Design System
-   Paleta: Preto / Cinza / Vermelho (detalhes)
+   VERSÁTIL SERVICES — Design System
+   Paleta: Preto / Cinza / Vermelho Industrial
    ============================================= */
 
 :root {
@@ -13,8 +13,8 @@
     --green: #25D366;
     --green-glow: rgba(37, 211, 102, 0.25);
     --green-soft: rgba(37, 211, 102, 0.12);
-    --red: #c62828;
-    --red-soft: rgba(198, 40, 40, 0.12);
+    --red: #BF2026;
+    --red-soft: rgba(191, 32, 38, 0.12);
     --white: #ffffff;
     --gray-100: #e0e0e0;
     --gray-300: #9e9e9e;
@@ -572,6 +572,48 @@ a { color: inherit; text-decoration: none; }
     font-size: 1.05rem;
     color: var(--gray-300);
     margin-bottom: 36px;
+}
+
+/* =============================================
+   GALERIA DE SERVIÇOS
+   ============================================= */
+.service-gallery {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--red) var(--bg-card);
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.service-gallery::-webkit-scrollbar {
+    height: 6px;
+}
+.service-gallery::-webkit-scrollbar-track {
+    background: var(--bg-card);
+}
+.service-gallery::-webkit-scrollbar-thumb {
+    background: var(--red);
+    border-radius: 4px;
+}
+
+.gallery-track {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    width: max-content;
+}
+
+.gallery-img {
+    width: 280px;
+    min-width: 280px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-color: #1a1a1a;
+    scroll-snap-align: start;
+    border-bottom: 1px solid var(--border);
 }
 
 /* =============================================

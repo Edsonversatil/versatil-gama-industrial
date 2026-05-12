@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VERSATIL GAMA INDUSTRIAL | Abrasivos de Alta Performance</title>
-    <meta name="description" content="Abrasivos industriais de alta performance: lixas diamantadas, cerâmicas, rebolos, discos de corte e desbaste. Atendimento nacional e internacional.">
+    <title>VERSÁTIL SERVICES | Manutenção Industrial e Usinagem de Campo</title>
+    <meta name="description" content="Especialistas em Manutenção Industrial, Usinagem de Campo, Fabricação e Manutenção de Trocadores de Calor, e Ensaios Não Destrutivos (END).">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="pedido.css">
-    <link rel="stylesheet" href="checkout.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#22c55e">
+    <meta name="theme-color" content="#BF2026">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Versatil">
+    <meta name="apple-mobile-web-app-title" content="Versátil Services">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
 </head>
 <body>
@@ -22,17 +20,13 @@
     <!-- Navbar -->
     <header class="navbar" id="top">
         <div class="navbar-inner">
-            <div class="logo">VERSATIL GAMA INDUSTRIAL</div>
+            <div class="logo">VERSÁTIL SERVICES</div>
             <nav class="nav-links">
-                <a href="#produtos" data-i18n="nav.produtos">Produtos</a>
-                <a href="#pagamento" data-i18n="nav.pagamento">Pagamento</a>
+                <a href="#servicos" data-i18n="nav.servicos">Serviços</a>
+                <a href="#global" data-i18n="nav.global">Presença Global</a>
                 <a href="#contato" data-i18n="nav.contato">Contato</a>
             </nav>
             <div class="nav-actions">
-                <a href="#" id="nav-cart-link" class="btn-nav btn-nav-cart">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                    <span data-i18n="nav.pedido">Pedido</span>
-                </a>
                 <a href="https://wa.me/5513991509140" target="_blank" class="btn-nav" data-i18n="nav.whatsapp">WhatsApp</a>
             </div>
         </div>
@@ -42,756 +36,220 @@
     <!-- 1. HERO -->
     <!-- ======================== -->
     <section class="hero">
-        <div class="hero-grid-bg"></div>
-        <div class="hero-overlay-dark"></div>
-        <div class="hero-glow"></div>
+        <div class="hero-grid-bg" style="background-image: linear-gradient(rgba(10,10,10,0.8), rgba(10,10,10,0.9)), url('Fotos/hero_bg.png');"></div>
+        <div class="hero-glow" style="background: radial-gradient(circle, rgba(191,32,38,0.2) 0%, transparent 70%);"></div>
         <div class="hero-content">
-            <div class="hero-badge" data-i18n="hero.badge">Abrasivos Industriais</div>
-            <h1>VERSATIL GAMA INDUSTRIAL</h1>
-            <p class="hero-sub" data-i18n="hero.sub">Alta performance em abrasivos industriais para aplicações exigentes</p>
-            <a href="https://wa.me/5513991509140" target="_blank" class="btn-primary btn-lg">
+            <div class="hero-badge" data-i18n="hero.badge" style="color: var(--red); border-color: rgba(191,32,38,0.4);">Serviços B2B Enterprise</div>
+            <h1>VERSÁTIL SERVICES</h1>
+            <p class="hero-sub" data-i18n="hero.sub">Excelência em Manutenção Industrial e Usinagem de Campo para operações de alta criticidade.</p>
+            <a href="https://wa.me/5513991509140" target="_blank" class="btn-primary btn-lg" style="background: var(--red); box-shadow: 0 4px 20px rgba(191,32,38,0.3); color: white;">
                 <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                <span data-i18n="hero.cta">Falar no WhatsApp agora</span>
+                <span data-i18n="hero.cta">Solicitar Avaliação Técnica</span>
             </a>
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════ -->
-    <!-- LINHA PREMIUM — EXPORTAÇÃO HIGH TICKET         -->
-    <!-- ═══════════════════════════════════════════════ -->
-    <section class="produtos" id="produtos">
+    <!-- ======================== -->
+    <!-- 2. SERVIÇOS TÉCNICOS -->
+    <!-- ======================== -->
+    <section class="produtos" id="servicos">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag" data-i18n="premium.tag" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;font-size:0.75rem;">★ EXPORT QUALITY</span>
-                <h2 data-i18n="premium.title">Linha Premium para Exportação</h2>
-                <p class="section-desc" data-i18n="premium.desc">Superabrasivos e ferramentas de precisão para aplicações industriais críticas — alta performance, maior vida útil e redução de parada de máquina.</p>
+                <span class="section-tag" data-i18n="services.tag" style="color: var(--red);">Soluções Corporativas</span>
+                <h2 data-i18n="services.title">Nossos Pilares de Atuação</h2>
+                <p class="section-desc" data-i18n="services.desc">Oferecemos soluções completas para o setor industrial, garantindo a disponibilidade e integridade dos seus ativos.</p>
             </div>
 
-            <!-- ─── GRUPO 1: Rebolos Diamantados (1-10) ─── -->
-            <div class="product-group">
-                <h3 class="group-title" style="color:#FFD700;">
-                    <span class="group-icon" style="background:rgba(255,215,0,0.12);color:#FFD700;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    </span>
-                    Rebolos Diamantados — Export Grade
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_copo_segmentado.png')"></div><div class="product-info"><h4>Rebolo Diamantado Copo Segmentado Heavy Duty</h4><p class="product-desc">Retífica de superfície com segmentos diamantados de alta concentração. Aplicação: retífica plana de metal duro e cerâmicas técnicas. Abrasivo: diamante sintético. Performance: uso industrial severo.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_reto_metal.png')"></div><div class="product-info"><h4>Rebolo Diamantado Reto para Metal Duro</h4><p class="product-desc">Perfil reto para usinagem de carbetos. Aplicação: afiação e retífica de insertos. Abrasivo: diamante resinóide. Performance: alta remoção com acabamento fino.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_perfilado.png')"></div><div class="product-info"><h4>Rebolo Diamantado Perfilado Alta Precisão</h4><p class="product-desc">Perfil sob medida para ferramentaria de precisão. Aplicação: retífica de perfis complexos. Abrasivo: diamante vitrificado. Performance: tolerância micrométrica.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_ceramica.png')"></div><div class="product-info"><h4>Rebolo Diamantado para Cerâmica Técnica</h4><p class="product-desc">Grão fino para cerâmicas avançadas e zircônia. Aplicação: componentes cerâmicos de engenharia. Abrasivo: diamante resinóide fino. Performance: mínimo lascamento.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_retifica_plana.png')"></div><div class="product-info"><h4>Rebolo Diamantado para Retífica Plana</h4><p class="product-desc">Grande diâmetro para retífica de superfícies planas. Aplicação: produção seriada de peças planas. Abrasivo: diamante com corpo de alumínio. Performance: estabilidade dimensional.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_resinoid.png')"></div><div class="product-info"><h4>Rebolo Diamantado Resinóide Alta Performance</h4><p class="product-desc">Liga resinóide para acabamento premium. Aplicação: polimento e retífica fina de metal duro. Abrasivo: diamante em matriz resinóide. Performance: acabamento superficial Ra < 0.2 µm.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_vitrificado.png')"></div><div class="product-info"><h4>Rebolo Diamantado Vitrificado Industrial</h4><p class="product-desc">Liga vitrificada para máxima rigidez e retenção de perfil. Aplicação: retífica de precisão em série. Abrasivo: diamante vitrificado. Performance: longa vida útil em produção contínua.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_vidro.png')"></div><div class="product-info"><h4>Rebolo Diamantado para Vidro Industrial</h4><p class="product-desc">Lapidação e biselamento de vidros técnicos. Aplicação: vidro óptico e temperado. Abrasivo: diamante resinóide fino. Performance: acabamento sem trincas.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_carbeto.png')"></div><div class="product-info"><h4>Rebolo Diamantado para Carbeto de Tungstênio</h4><p class="product-desc">Retífica de insertos e peças em carbeto de tungstênio. Aplicação: ferramentaria e usinagem de metal duro. Abrasivo: diamante de alta concentração. Performance: remoção controlada sem danos térmicos.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_diamantado_afiacao.png')"></div><div class="product-info"><h4>Rebolo Diamantado para Afiação de Ferramentas</h4><p class="product-desc">Perfil prato para afiação de brocas, fresas e ferramentas de corte. Aplicação: afiação de ferramentas de metal duro. Abrasivo: diamante resinóide. Performance: gume de corte perfeito.</p></div></div>
-                </div>
-            </div>
-
-            <!-- ─── GRUPO 2: Rebolos CBN (11-20) ─── -->
-            <div class="product-group">
-                <h3 class="group-title" style="color:#FFD700;">
-                    <span class="group-icon" style="background:rgba(255,215,0,0.12);color:#FFD700;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                    </span>
-                    Rebolos CBN — Export Grade
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_vitrificado.png')"></div><div class="product-info"><h4>Rebolo CBN Vitrificado para Aço Temperado</h4><p class="product-desc">Retífica de aços endurecidos acima de 55 HRC. Aplicação: eixos, virabrequins e engrenagens temperadas. Abrasivo: CBN vitrificado. Performance: estabilidade térmica e dimensional superior.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_resinoid.png')"></div><div class="product-info"><h4>Rebolo CBN Resinóide Alta Precisão</h4><p class="product-desc">Acabamento fino em aços endurecidos com mínimo calor. Aplicação: retífica de precisão de ferramentas e moldes. Abrasivo: CBN resinóide. Performance: Ra < 0.4 µm.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_copo.png')"></div><div class="product-info"><h4>Rebolo CBN Copo Industrial</h4><p class="product-desc">Retífica de superfície em aço ferramenta e peças endurecidas. Aplicação: usinagem plana de componentes de alta precisão. Abrasivo: CBN vitrificado tipo copo. Performance: planicidade máxima.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_retifica_interna.png')"></div><div class="product-info"><h4>Rebolo CBN para Retífica Interna</h4><p class="product-desc">Diâmetros reduzidos para furos e cavidades internas. Aplicação: retífica interna de rolamentos e buchas. Abrasivo: CBN com corpo de aço. Performance: concentricidade perfeita.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_retifica_cilindrica.png')"></div><div class="product-info"><h4>Rebolo CBN para Retífica Cilíndrica</h4><p class="product-desc">Grande formato para retífica externa de eixos e cilindros. Aplicação: produção seriada automotiva e aeronáutica. Abrasivo: CBN vitrificado de alta velocidade. Performance: remoção 10x superior ao convencional.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_engrenagens.png')"></div><div class="product-info"><h4>Rebolo CBN para Engrenagens</h4><p class="product-desc">Perfis especiais para dentes de engrenagens temperadas. Aplicação: indústria automotiva e transmissões. Abrasivo: CBN perfilado. Performance: classe de precisão DIN 3962.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_alta_velocidade.png')"></div><div class="product-info"><h4>Rebolo CBN Alta Velocidade</h4><p class="product-desc">Corpo balanceado para operação em altas RPMs. Aplicação: retífica de alta velocidade em CNC. Abrasivo: CBN vitrificado reforçado. Performance: até 120 m/s de velocidade periférica.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_ultra_precisao.png')"></div><div class="product-info"><h4>Rebolo CBN Ultra Precisão</h4><p class="product-desc">Tolerância submicron para aplicações críticas. Aplicação: componentes aeroespaciais e médicos. Abrasivo: CBN vitrificado nanométrico. Performance: rugosidade Ra < 0.1 µm.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_rolamentos.png')"></div><div class="product-info"><h4>Rebolo CBN para Rolamentos Industriais</h4><p class="product-desc">Retífica de pistas internas e externas de rolamentos. Aplicação: indústria de rolamentos de precisão. Abrasivo: CBN vitrificado especial. Performance: IT5 e circularidade < 1 µm.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/rebolo_cbn_moldes_matrizes.png')"></div><div class="product-info"><h4>Rebolo CBN para Moldes e Matrizes</h4><p class="product-desc">Formato especial para cavidades e perfis de moldes. Aplicação: ferramentaria de injeção plástica e estamparia. Abrasivo: CBN resinóide de alta durabilidade. Performance: vida útil 50x superior ao convencional.</p></div></div>
-                </div>
-            </div>
-
-            <!-- ─── GRUPO 3: Cintas Abrasivas (21-30) ─── -->
-            <div class="product-group">
-                <h3 class="group-title" style="color:#FFD700;">
-                    <span class="group-icon" style="background:rgba(255,215,0,0.12);color:#FFD700;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                    </span>
-                    Cintas Abrasivas Industriais — Export Grade
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_zirconia.png')"></div><div class="product-info"><h4>Cinta Abrasiva Zircônia Heavy Duty</h4><p class="product-desc">Grão zircônia autocortante para desbaste pesado. Aplicação: caldeiraria, fundição e estruturas metálicas. Abrasivo: zircônia sobre polyester. Performance: remoção 3x superior ao óxido de alumínio.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_ceramica.png')"></div><div class="product-info"><h4>Cinta Abrasiva Cerâmica Premium</h4><p class="product-desc">Grão cerâmico de última geração para alta remoção contínua. Aplicação: retífica centerless e desbaste seriado. Abrasivo: cerâmico microcristalino. Performance: 5x vida útil padrão.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_inox.png')"></div><div class="product-info"><h4>Cinta Abrasiva para Aço Inox Industrial</h4><p class="product-desc">Acabamento livre de contaminação ferrosa. Aplicação: polimento e acabamento de tubos e chapas inox. Abrasivo: zircônia/cerâmica sem ferro. Performance: acabamento sanitário e farmacêutico.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_caldeiraria.png')"></div><div class="product-info"><h4>Cinta Abrasiva para Caldeiraria Pesada</h4><p class="product-desc">Construção reforçada para remoção bruta em chapas grossas. Aplicação: preparação de juntas soldadas e chanfros. Abrasivo: zircônia grão 24-36. Performance: resistência ao calor extremo.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_banda_larga.png')"></div><div class="product-info"><h4>Cinta Abrasiva Banda Larga Industrial</h4><p class="product-desc">Formato extra-largo para calibradoras e plainas industriais. Aplicação: calibração de painéis metálicos e MDF industrial. Abrasivo: óxido de alumínio/cerâmica. Performance: uniformidade de espessura ±0.02mm.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_fundicao.png')"></div><div class="product-info"><h4>Cinta Abrasiva Alta Remoção para Fundição</h4><p class="product-desc">Grão extra-grosso para limpeza de peças fundidas. Aplicação: remoção de canais, rebarbas e areia de fundição. Abrasivo: zircônia grão 16-24. Performance: operação com carga pesada contínua.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_tubulacoes.png')"></div><div class="product-info"><h4>Cinta Abrasiva para Tubulações Industriais</h4><p class="product-desc">Formato estreito para lixadeiras portáteis de tubos. Aplicação: acabamento de tubulações em campo. Abrasivo: zircônia flexível. Performance: acabamento uniforme em superfícies curvas.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_estruturas.png')"></div><div class="product-info"><h4>Cinta Abrasiva para Estruturas Metálicas</h4><p class="product-desc">Preparação de superfície para pintura industrial. Aplicação: limpeza de perfis e vigas metálicas. Abrasivo: óxido de alumínio grão 40-80. Performance: perfil de rugosidade ideal para aderência.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_mineracao.png')"></div><div class="product-info"><h4>Cinta Abrasiva para Equipamentos de Mineração</h4><p class="product-desc">Ultra resistente para uso severo em mineradoras. Aplicação: manutenção de correias, rolos e componentes pesados. Abrasivo: zircônia reforçada. Performance: resistência extrema ao impacto e abrasão.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/cinta_abrasiva_solda.png')"></div><div class="product-info"><h4>Cinta Abrasiva para Solda e Rebarbação Pesada</h4><p class="product-desc">Remoção de cordões de solda e rebarbas em peças pesadas. Aplicação: caldeiraria, estaleiros e maquinário pesado. Abrasivo: cerâmica/zircônia grão 24-36. Performance: remoção agressiva sem empastamento.</p></div></div>
-                </div>
-            </div>
-
-            <!-- ─── GRUPO 4: Discos (31-40) ─── -->
-            <div class="product-group">
-                <h3 class="group-title" style="color:#FFD700;">
-                    <span class="group-icon" style="background:rgba(255,215,0,0.12);color:#FFD700;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
-                    </span>
-                    Discos Diamantados & Flap — Export Grade
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/disco_diamantado_concreto.png')"></div><div class="product-info"><h4>Disco Diamantado Segmentado para Concreto Armado</h4><p class="product-desc">Segmentos soldados a laser para concreto armado pesado. Aplicação: corte de lajes, vigas e pilares. Abrasivo: diamante com alta concentração. Performance: corte sem travamento em ferragens.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/disco_diamantado_turbo_hp.png')"></div><div class="product-info"><h4>Disco Diamantado Turbo Alta Performance</h4><p class="product-desc">Borda turbo para corte rápido e refrigerado. Aplicação: granito, concreto e alvenaria estrutural. Abrasivo: diamante turbo. Performance: velocidade de corte 40% superior ao segmentado.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/disco_diamantado_ceramica_tec.png')"></div><div class="product-info"><h4>Disco Diamantado Contínuo para Cerâmica Técnica</h4><p class="product-desc">Borda contínua fina para corte sem lascas. Aplicação: cerâmica técnica, porcelanato e vidro. Abrasivo: diamante contínuo fino. Performance: acabamento de borda lisa sem retrabalho.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/disco_diamantado_granito.png')"></div><div class="product-info"><h4>Disco Diamantado para Granito Industrial</h4><p class="product-desc">Segmentos reforçados para granitos abrasivos e duros. Aplicação: marmorarias industriais e pedreiras. Abrasivo: diamante de alta dureza. Performance: corte linear sem desvio em granitos escuros.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/disco_diamantado_marmore.png')"></div><div class="product-info"><h4>Disco Diamantado para Mármore Profissional</h4><p class="product-desc">Corte delicado sem trincas ou lascamento. Aplicação: mármore, travertino e limestones. Abrasivo: diamante contínuo. Performance: acabamento de borda polida diretamente no corte.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/disco_diamantado_corte_profundo.png')"></div><div class="product-info"><h4>Disco Diamantado Heavy Duty para Corte Profundo</h4><p class="product-desc">Segmentos extra-altos para profundidade máxima. Aplicação: corte profundo em concreto armado e asfaltado. Abrasivo: diamante com segmentos de 15mm. Performance: profundidade de corte de até 65mm.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/disco_diamantado_pedra.png')"></div><div class="product-info"><h4>Disco Diamantado para Pedra Natural</h4><p class="product-desc">Segmentado universal para arenitos e pedras naturais. Aplicação: cantarias e restauração de patrimônio. Abrasivo: diamante segmentado. Performance: corte limpo sem estilhaçamento.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/disco_corte_aco_estrutural.png')"></div><div class="product-info"><h4>Disco de Corte Abrasivo para Aço Estrutural</h4><p class="product-desc">Disco reforçado para corte de perfis pesados. Aplicação: corte de vigas, tubos e chapas grossas. Abrasivo: óxido de alumínio com dupla tela. Performance: 350mm para corte de seções de até 120mm.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/disco_flap_zirconia_ind.png')"></div><div class="product-info"><h4>Disco Flap Zircônia Industrial</h4><p class="product-desc">Lamelas zircônia para desbaste e acabamento em metais. Aplicação: preparação de soldas e acabamento industrial. Abrasivo: zircônia grão 40-120. Performance: conformabilidade em superfícies irregulares.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/disco_flap_ceramico.png')"></div><div class="product-info"><h4>Disco Flap Cerâmico Alta Remoção</h4><p class="product-desc">Grão cerâmico para máxima agressividade com acabamento. Aplicação: desbaste de soldas e chanfros em inox e aço. Abrasivo: cerâmico autocortante. Performance: 3x vida útil vs. zircônia convencional.</p></div></div>
-                </div>
-            </div>
-
-            <!-- ─── GRUPO 5: Dressadores (41-45) ─── -->
-            <div class="product-group">
-                <h3 class="group-title" style="color:#FFD700;">
-                    <span class="group-icon" style="background:rgba(255,215,0,0.12);color:#FFD700;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-                    </span>
-                    Dressadores Diamantados — Export Grade
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/dressador_ponta_unica.png')"></div><div class="product-info"><h4>Dressador Diamantado Ponta Única</h4><p class="product-desc">Diamante natural selecionado para dressagem de precisão. Aplicação: perfilamento e afiação de rebolos convencionais. Abrasivo: diamante natural monocristalino. Performance: acabamento superficial controlado do rebolo.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/dressador_multiponta.png')"></div><div class="product-info"><h4>Dressador Diamantado Multiponta</h4><p class="product-desc">Cluster de diamantes para dressagem rápida e agressiva. Aplicação: retífica de produção em série. Abrasivo: diamantes naturais multicristalinos. Performance: maior remoção do rebolo por passada.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/dressador_tipo_placa.png')"></div><div class="product-info"><h4>Dressador Diamantado Tipo Placa</h4><p class="product-desc">Placa com diamantes distribuídos para dressagem CNC automatizada. Aplicação: retificadoras CNC de alta produção. Abrasivo: diamantes impregnados em placa metálica. Performance: uniformidade de dressagem micrométrica.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/dressador_rotativo.png')"></div><div class="product-info"><h4>Dressador Diamantado Rotativo</h4><p class="product-desc">Rolo diamantado para perfilamento de rebolos com perfis complexos. Aplicação: retífica de engrenagens e roscas. Abrasivo: diamante sinterizado rotativo. Performance: perfis com tolerância de ±2 µm.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/dressador_alta_precisao.png')"></div><div class="product-info"><h4>Dressador Diamantado Alta Precisão</h4><p class="product-desc">Diamante natural premium para dressagem de acabamento. Aplicação: rebolos para retífica de precisão e lapidação. Abrasivo: diamante natural de alta qualidade. Performance: acabamento superficial Ra < 0.2 µm no rebolo.</p></div></div>
-                </div>
-            </div>
-
-            <!-- ─── GRUPO 6: Pastas Diamantadas (46-50) ─── -->
-            <div class="product-group">
-                <h3 class="group-title" style="color:#FFD700;">
-                    <span class="group-icon" style="background:rgba(255,215,0,0.12);color:#FFD700;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    </span>
-                    Pastas Diamantadas — Export Grade
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/pasta_diamantada_grosso.png')"></div><div class="product-info"><h4>Pasta Diamantada Grão Grosso Industrial</h4><p class="product-desc">Granulometria 40-60 µm para remoção rápida. Aplicação: lapidação grosseira de metal duro e cerâmicas. Abrasivo: diamante policristalino em veículo oleoso. Performance: taxa de remoção superior com baixa geração de calor.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/pasta_diamantada_medio.png')"></div><div class="product-info"><h4>Pasta Diamantada Grão Médio</h4><p class="product-desc">Granulometria 9-15 µm para etapa intermediária. Aplicação: preparação de superfície antes do polimento final. Abrasivo: diamante monocristalino. Performance: transição uniforme sem riscos profundos.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">HIGH PERFORMANCE</div><div class="product-img" style="background-image:url('Fotos/premium/pasta_diamantada_fino.png')"></div><div class="product-info"><h4>Pasta Diamantada Grão Fino</h4><p class="product-desc">Granulometria 3-6 µm para polimento de precisão. Aplicação: polimento de ferramentas, moldes e componentes ópticos. Abrasivo: diamante monocristalino fino. Performance: acabamento semi-espelhado consistente.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">EXPORTAÇÃO</div><div class="product-img" style="background-image:url('Fotos/premium/pasta_diamantada_espelhado.png')"></div><div class="product-info"><h4>Pasta Diamantada para Polimento Espelhado</h4><p class="product-desc">Granulometria 0.5-1 µm para acabamento espelhado. Aplicação: polimento espelhado de moldes de injeção e matrizes. Abrasivo: diamante nanométrico. Performance: Ra < 0.02 µm — acabamento tipo espelho.</p></div></div>
-                    <div class="product-card product-card-premium"><div class="product-badge-premium" style="background:linear-gradient(135deg,#FFD700,#B8860B);color:#111;">PREMIUM</div><div class="product-img" style="background-image:url('Fotos/premium/pasta_diamantada_lapidacao.png')"></div><div class="product-info"><h4>Pasta Diamantada para Lapidação Técnica</h4><p class="product-desc">Formulação especial para lapidação de peças técnicas. Aplicação: lapidação de selos mecânicos, válvulas e peças aeronáuticas. Abrasivo: diamante em veículo aquoso/oleoso. Performance: planicidade óptica certificada.</p></div></div>
-                </div>
-            </div>
-
-            <!-- CTA Premium -->
-            <div class="catalogo-footer">
-                <p class="catalogo-position">Soluções de exportação com qualidade certificada para aplicações industriais críticas — atendimento técnico especializado.</p>
-                <a href="https://wa.me/5513991509140?text=Ol%C3%A1%2C%20tenho%20interesse%20na%20linha%20premium%20de%20exportação." target="_blank" class="btn-primary btn-lg btn-pulse">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                    Solicitar Cotação Premium
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ======================== -->
-    <!-- 2. PRODUTOS (CATÁLOGO NACIONAL - mantido) -->
-    <!-- ======================== -->
-    <section class="produtos" id="catalogo-nacional">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag" data-i18n="catalog.tag">Catálogo</span>
-                <h2 data-i18n="catalog.title">Linha Completa de Produtos</h2>
-                <p class="section-desc" data-i18n="catalog.desc">Fornecemos soluções abrasivas para aplicações industriais leves e severas.</p>
-            </div>
-
-        <!-- GRUPO 1: Discos Industriais -->
-            <div class="product-group">
-                <h3 class="group-title">
-                    <span class="group-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
-                    </span>
-                    Discos Industriais
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card product-card-premium">
-                        <div class="product-badge-premium">PREMIUM</div>
-                        <div class="product-img" style="background-image:url('Fotos/disco_premium_porcelanato.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco Diamantado Premium Porcelanato 230mm</h4>
-                            <p class="product-desc">Alta performance para corte preciso em porcelanato, cerâmica e materiais de alta dureza. Acabamento superior.</p>
+            <div class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                
+                <!-- 1. Equipamentos Rotativos (NEW) -->
+                <div class="product-card" style="padding-bottom: 20px;">
+                    <div class="service-gallery">
+                        <div class="gallery-track">
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_1.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_2.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_3.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_4.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_5.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_6.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_7.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_8.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_9.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/rotativos_10.png');"></div>
                         </div>
                     </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_diamantado.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco de Corte Diamantado</h4>
-                            <p class="product-desc">Corte preciso em concreto, pedra e materiais duros.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_ceramico.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco Cerâmico de Alta Performance</h4>
-                            <p class="product-desc">Remoção agressiva com vida útil prolongada.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_de_corte.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco de Corte p/ Metal e Aço</h4>
-                            <p class="product-desc">Alta velocidade de corte em aço carbono e inox.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_de_desbaste.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco de Desbaste Industrial</h4>
-                            <p class="product-desc">Remoção pesada de material em superfícies metálicas.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_turbo.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco Turbo Diamantado</h4>
-                            <p class="product-desc">Corte rápido e limpo em alvenaria e concreto armado.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_continuo.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco Contínuo Diamantado</h4>
-                            <p class="product-desc">Acabamento fino sem lascas em cerâmica e porcelanato.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_flap.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco Flap Profissional</h4>
-                            <p class="product-desc">Desbaste e acabamento simultâneo em aço e inox.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_flap_pro.png')"></div>
-                        <div class="product-info">
-                            <h4>Disco Flap Zircônia</h4>
-                            <p class="product-desc">Grão zircônia para alta remoção e longa durabilidade.</p>
-                        </div>
+                    <div class="product-info">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Manutenção de Equipamentos Rotativos</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;">Inspeção técnica, alinhamento a laser, retífica de campo e recuperação estrutural de secadores, fornos, tambores e resfriadores.</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- GRUPO 2: Lixas & Cintas -->
-            <div class="product-group">
-                <h3 class="group-title">
-                    <span class="group-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                    </span>
-                    Lixas & Cintas Abrasivas
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/lixa_diamantada_pro.png')"></div>
-                        <div class="product-info">
-                            <h4>Lixas Diamantadas</h4>
-                            <p class="product-desc">Polimento e nivelamento de alta precisão.</p>
+                <!-- 2. Manutenção Industrial -->
+                <div class="product-card" style="padding-bottom: 20px;">
+                    <div class="service-gallery">
+                        <div class="gallery-track">
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_1.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_2.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_3.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_4.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_5.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_6.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_7.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_8.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_9.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/manut_ind_10.png');"></div>
                         </div>
                     </div>
-
-
-
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/01.jpeg')"></div>
-                        <div class="product-info">
-                            <h4>Cintas p/ Alta Remoção</h4>
-                            <p class="product-desc">Grãos grossos para desbaste pesado em metal e madeira.</p>
-                        </div>
-                    </div>
-                    <div class="product-card product-card-premium">
-                        <div class="product-badge-premium">PREMIUM</div>
-                        <div class="product-img" style="background-image:url('Fotos/03.jpeg')"></div>
-                        <div class="product-info">
-                            <h4>Cintas p/ Retíficas Severas e Processos Industriais</h4>
-                            <p class="product-desc">150x2000mm — Alto desempenho para retífica pesada, secadores rotativos, granuladores e equipamentos de grande porte.</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- GRUPO 3: Abrasivos Especiais -->
-            <div class="product-group">
-                <h3 class="group-title">
-                    <span class="group-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    </span>
-                    Abrasivos Especiais
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/rebolo.png')"></div>
-                        <div class="product-info">
-                            <h4>Rebolos Convencionais</h4>
-                            <p class="product-desc">Retífica cilíndrica e plana para uso geral.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/rebolo_especial.png')"></div>
-                        <div class="product-info">
-                            <h4>Rebolos Especiais (CBN/Diamante)</h4>
-                            <p class="product-desc">Superabrasivos para metais temperados e cerâmicas.</p>
-                        </div>
+                    <div class="product-info">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Manutenção Industrial</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;">Planejamento, execução e gestão de paradas de manutenção. Revitalização de equipamentos estáticos e tubulações industriais.</p>
                     </div>
                 </div>
-                <div class="abrasive-grid" style="margin-top: 24px;">
-                    <div class="abrasive-card" data-i18n="abr.pontas"><span class="abrasive-dot"></span>Pontas Montadas</div>
-                    <div class="abrasive-card" data-i18n="abr.pastas"><span class="abrasive-dot"></span>Pastas Abrasivas</div>
-                    <div class="abrasive-card" data-i18n="abr.dagua"><span class="abrasive-dot"></span>Lixas D'água</div>
-                    <div class="abrasive-card" data-i18n="abr.inox"><span class="abrasive-dot"></span>Abrasivos p/ Inox</div>
-                    <div class="abrasive-card" data-i18n="abr.oxido"><span class="abrasive-dot"></span>Óxido de Alumínio</div>
-                    <div class="abrasive-card" data-i18n="abr.carbeto"><span class="abrasive-dot"></span>Carbeto de Silício</div>
+
+                <!-- 3. Usinagem de Campo -->
+                <div class="product-card" style="padding-bottom: 20px;">
+                    <div class="service-gallery">
+                        <div class="gallery-track">
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_1.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_2.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_3.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_4.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_5.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_6.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_7.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_8.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_9.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/usinagem_10.png');"></div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Usinagem de Campo</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;">Usinagem in loco com tolerâncias micrométricas. Faceamento de flanges, mandrilhamento, fresamento e torneamento de eixos sem desmontagem.</p>
+                    </div>
+                </div>
+
+                <!-- 4. Trocadores de Calor -->
+                <div class="product-card" style="padding-bottom: 20px;">
+                    <div class="service-gallery">
+                        <div class="gallery-track">
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_1.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_2.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_3.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_4.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_5.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_6.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_7.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_8.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_9.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/troc_calor_10.png');"></div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Trocadores de Calor</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;">Fabricação, retubagem, limpeza química e hidrojateamento de trocadores de calor casco e tubo, serpentinas e resfriadores a ar.</p>
+                    </div>
+                </div>
+
+                <!-- 5. Ensaios Não Destrutivos -->
+                <div class="product-card" style="padding-bottom: 20px;">
+                    <div class="service-gallery">
+                        <div class="gallery-track">
+                            <div class="gallery-img" style="background-image:url('Fotos/end_1.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_2.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_3.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_4.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_5.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_6.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_7.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_8.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_9.png');"></div>
+                            <div class="gallery-img" style="background-image:url('Fotos/end_10.png');"></div>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Ensaios Não Destrutivos</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;">Inspeções END (Líquido Penetrante, Partículas Magnéticas, Ultrassom e Medição de Espessura) para garantia da integridade física.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ======================== -->
-    <!-- CATÁLOGO TÉCNICO VISUAL -->
+    <!-- 3. PRESENÇA GLOBAL -->
     <!-- ======================== -->
-    <section class="catalogo">
+    <section class="diferenciais" id="global">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag" data-i18n="tech.tag">Catálogo Técnico</span>
-                <h2 data-i18n="tech.title">Linha Completa de Abrasivos Industriais</h2>
-                <p class="section-desc" data-i18n="tech.desc">Trabalhamos com uma linha completa de abrasivos industriais, atendendo operações de corte, desbaste, acabamento e polimento técnico.</p>
-            </div>
-
-            <!-- 🔹 Discos Abrasivos -->
-            <div class="product-group">
-                <h3 class="group-title">
-                    <span class="group-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
-                    </span>
-                    Discos Abrasivos
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_de_corte.png')"></div>
-                        <div class="product-info">
-                            <h4>Discos de Corte</h4>
-                            <p class="product-desc">Para aço, inox e metal. Corte rápido e preciso.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_flap.png')"></div>
-                        <div class="product-info">
-                            <h4>Discos Flap</h4>
-                            <p class="product-desc">Desbaste e acabamento simultâneo com alta conformabilidade.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_de_desbaste.png')"></div>
-                        <div class="product-info">
-                            <h4>Discos de Desbaste</h4>
-                            <p class="product-desc">Remoção agressiva de material em superfícies metálicas.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_diamantado.png')"></div>
-                        <div class="product-info">
-                            <h4>Discos Diamantados</h4>
-                            <p class="product-desc">Segmentados, turbo e contínuos para concreto e pedra.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/disco_ceramico.png')"></div>
-                        <div class="product-info">
-                            <h4>Discos Cerâmicos</h4>
-                            <p class="product-desc">Grão cerâmico autocortante para alta performance.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 🔹 Rebolos -->
-            <div class="product-group">
-                <h3 class="group-title">
-                    <span class="group-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                    </span>
-                    Rebolos
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/rebolo_vitrificado.png')"></div>
-                        <div class="product-info">
-                            <h4>Rebolos Vitrificados</h4>
-                            <p class="product-desc">Alta rigidez e precisão para retífica de superfície.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/rebolo_resinado.png')"></div>
-                        <div class="product-info">
-                            <h4>Rebolos Resinados</h4>
-                            <p class="product-desc">Flexibilidade e acabamento para operações de corte e desbaste.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/rebolo_especial.png')"></div>
-                        <div class="product-info">
-                            <h4>Rebolos Diamantados</h4>
-                            <p class="product-desc">Superabrasivos para materiais duros e cerâmicas técnicas.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/rebolo.png')"></div>
-                        <div class="product-info">
-                            <h4>Rebolos CBN</h4>
-                            <p class="product-desc">Retífica de aços temperados com mínima geração de calor.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 🔹 Lixas -->
-            <div class="product-group">
-                <h3 class="group-title">
-                    <span class="group-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line></svg>
-                    </span>
-                    Lixas
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/02.jpeg')"></div>
-                        <div class="product-info">
-                            <h4>Lixas Cerâmicas</h4>
-                            <p class="product-desc">Grão autocortante para alta taxa de remoção.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/lixa_oxido_aluminio.png')"></div>
-                        <div class="product-info">
-                            <h4>Lixas Óxido de Alumínio</h4>
-                            <p class="product-desc">Versatilidade para metal, madeira e pintura.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/lixa_carbeto_silicio.png')"></div>
-                        <div class="product-info">
-                            <h4>Lixas Carbeto de Silício</h4>
-                            <p class="product-desc">Ideal para vidro, cerâmica e materiais não-ferrosos.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/cinta_abrasiva.png')"></div>
-                        <div class="product-info">
-                            <h4>Cintas Abrasivas</h4>
-                            <p class="product-desc">Para lixadeiras de cinta em operações pesadas.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/folha_abrasiva.png')"></div>
-                        <div class="product-info">
-                            <h4>Folhas Abrasivas</h4>
-                            <p class="product-desc">Lixamento manual e acabamento fino de superfícies.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 🔹 Escovas Industriais -->
-            <div class="product-group">
-                <h3 class="group-title">
-                    <span class="group-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"></path><path d="M2 12h20"></path><circle cx="12" cy="12" r="4"></circle></svg>
-                    </span>
-                    Escovas Industriais
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/escova_aco.png')"></div>
-                        <div class="product-info">
-                            <h4>Escovas de Aço</h4>
-                            <p class="product-desc">Remoção de carepa, ferrugem e rebarbas em aço carbono.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/escova_circular.png')"></div>
-                        <div class="product-info">
-                            <h4>Escovas Inox / Circulares</h4>
-                            <p class="product-desc">Limpeza e acabamento sem contaminação em inox.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/escova_copo.png')"></div>
-                        <div class="product-info">
-                            <h4>Escovas Copo</h4>
-                            <p class="product-desc">Limpeza de superfícies planas com esmerilhadeira.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 🔹 Ferramentas Rotativas -->
-            <div class="product-group">
-                <h3 class="group-title">
-                    <span class="group-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    </span>
-                    Ferramentas Rotativas
-                </h3>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/fresa_metal_duro.png')"></div>
-                        <div class="product-info">
-                            <h4>Fresas de Metal Duro</h4>
-                            <p class="product-desc">Carbeto de tungstênio para usinagem e rebarbação.</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img" style="background-image:url('Fotos/ponta_montada.png')"></div>
-                        <div class="product-info">
-                            <h4>Pontas Montadas</h4>
-                            <p class="product-desc">Retífica interna e acabamento em cavidades.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Posicionamento + CTA -->
-            <div class="catalogo-footer">
-                <p class="catalogo-position" data-i18n="catalog.footer">Atuamos em parceria com grandes fabricantes mundiais, garantindo qualidade e desempenho para aplicações industriais exigentes.</p>
-                <a href="https://wa.me/5513991509140?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20uma%20cota%C3%A7%C3%A3o%20de%20abrasivos%20industriais." target="_blank" class="btn-primary btn-lg btn-pulse">
-                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                    <span data-i18n="premium.cta">Solicitar Cotação</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ======================== -->
-    <!-- 3. ESPECIFICAÇÕES -->
-    <!-- ======================== -->
-    <section class="specs-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag" data-i18n="specs.tag">Técnico</span>
-                <h2 data-i18n="specs.title">Especificações</h2>
-            </div>
-            <div class="specs-bar">
-                <div class="specs-row">
-                    <span class="specs-label" data-i18n="specs.graos">Grãos disponíveis</span>
-                    <div class="grain-tags">
-                        <span class="grain">36</span>
-                        <span class="grain">60</span>
-                        <span class="grain">80</span>
-                        <span class="grain">120</span>
-                        <span class="grain">220</span>
-                        <span class="grain">400</span>
-                    </div>
-                </div>
-                <div class="specs-row">
-                    <span class="specs-label" data-i18n="specs.medidas">Medidas</span>
-                    <span class="specs-value" data-i18n="specs.medidas.val">Sob demanda — consulte nossa equipe</span>
-                </div>
-            </div>
-            <p class="specs-note" data-i18n="specs.note">Fornecemos soluções abrasivas para aplicações industriais leves e severas.</p>
-            <div class="text-center">
-                <a href="https://wa.me/5513991509140" target="_blank" class="btn-primary" data-i18n="specs.cta">Consultar especificações</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ======================== -->
-    <!-- 4. DIFERENCIAIS -->
-    <!-- ======================== -->
-    <section class="diferenciais" id="diferenciais">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag" data-i18n="diff.tag">Por que nos escolher</span>
-                <h2 data-i18n="diff.title">Nossos Diferenciais</h2>
+                <span class="section-tag" data-i18n="global.tag" style="color: var(--red);">Alcance Internacional</span>
+                <h2 data-i18n="global.title">Presença Global</h2>
+                <p class="section-desc" data-i18n="global.desc">Com operações estratégicas, garantimos mobilização rápida e padronização técnica para projetos complexos ao redor do mundo.</p>
             </div>
             <div class="diff-grid">
-                <div class="diff-card">
-                    <div class="diff-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <div class="diff-card" style="border-color: rgba(191,32,38,0.2);">
+                    <div class="diff-icon" style="background: rgba(191,32,38,0.1); color: var(--red);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     </div>
-                    <h3 data-i18n="diff.dur">Alta Durabilidade</h3>
-                    <p data-i18n="diff.dur.desc">Materiais que resistem ao uso mais severo e contínuo.</p>
+                    <h3 data-i18n="global.br">Brasil</h3>
+                    <p data-i18n="global.br.desc">Base principal e pólo de engenharia, atuando de norte a sul do país em grandes paradas.</p>
                 </div>
-                <div class="diff-card">
-                    <div class="diff-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                <div class="diff-card" style="border-color: rgba(191,32,38,0.2);">
+                    <div class="diff-icon" style="background: rgba(191,32,38,0.1); color: var(--red);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     </div>
-                    <h3 data-i18n="diff.prec">Precisão Industrial</h3>
-                    <p data-i18n="diff.prec.desc">Grãos rigorosamente calibrados para acabamentos perfeitos.</p>
+                    <h3 data-i18n="global.es">Espanha</h3>
+                    <p data-i18n="global.es.desc">Hub europeu focado em suporte técnico e integração com padrões industriais da UE.</p>
                 </div>
-                <div class="diff-card">
-                    <div class="diff-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                <div class="diff-card" style="border-color: rgba(191,32,38,0.2);">
+                    <div class="diff-icon" style="background: rgba(191,32,38,0.1); color: var(--red);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     </div>
-                    <h3 data-i18n="diff.ent">Entrega Rápida</h3>
-                    <p data-i18n="diff.ent.desc">Logística ágil para sua produção não parar.</p>
-                </div>
-                <div class="diff-card">
-                    <div class="diff-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                    </div>
-                    <h3 data-i18n="diff.global">Atendimento Global</h3>
-                    <p data-i18n="diff.global.desc">Nacional e internacional, adaptado à sua demanda.</p>
+                    <h3 data-i18n="global.uae">Emirados Árabes (EAU)</h3>
+                    <p data-i18n="global.uae.desc">Operações onshore e atendimento ao setor de Óleo & Gás no Oriente Médio.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ======================== -->
-    <!-- 5. FORMAS DE PAGAMENTO -->
-    <!-- ======================== -->
-    <section class="pagamento-section" id="pagamento">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag" data-i18n="pay.tag">Pagamento</span>
-                <h2 data-i18n="pay.title">Formas de Pagamento</h2>
-                <p class="section-desc" data-i18n="pay.desc">Oferecemos diversas formas de pagamento para sua conveniência — nacional e internacional.</p>
-            </div>
-
-            <div class="payment-grid">
-                <!-- PIX (PRINCIPAL) -->
-                <div class="payment-card pix-card">
-                    <div class="payment-badge">PRINCIPAL</div>
-                    <div class="payment-icon pix-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 8v4l3 3"/></svg>
-                    </div>
-                    <h3>PIX</h3>
-                    <p class="payment-desc" data-i18n="pay.pix.desc">Pagamento instantâneo via PIX</p>
-                    <div class="payment-detail">
-                        <span class="payment-detail-label" data-i18n="pay.pix.key">Chave PIX (CNPJ)</span>
-                        <span class="payment-detail-value">05.325.884/0001-78</span>
-                        <span class="payment-detail-sub" data-i18n="pay.pix.holder">Edson de Oliveira Silva / Recebimento via Asaas</span>
-                    </div>
-                    <div class="pix-highlight">
-                        <span data-i18n="pay.pix.instrucao">Envie seu comprovante via WhatsApp após o pagamento</span>
-                    </div>
-                </div>
-
-                <!-- DADOS BANCÁRIOS -->
-                <div class="payment-card bank-card">
-                    <div class="payment-icon bank-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7-3 7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v3"/><path d="M12 14v3"/><path d="M16 14v3"/></svg>
-                    </div>
-                    <h3 data-i18n="pay.bank.title">Dados Bancários</h3>
-                    <p class="payment-desc" data-i18n="pay.bank.desc">Transferência ou depósito bancário</p>
-                    <div class="bank-details">
-                        <div class="bank-row">
-                            <span class="bank-label" data-i18n="pay.bank.banco">Banco</span>
-                            <span class="bank-value">Santander (033)</span>
-                        </div>
-                        <div class="bank-row">
-                            <span class="bank-label" data-i18n="pay.bank.agencia">Agência</span>
-                            <span class="bank-value">0135</span>
-                        </div>
-                        <div class="bank-row">
-                            <span class="bank-label" data-i18n="pay.bank.conta">Conta Corrente</span>
-                            <span class="bank-value">13.005213-0</span>
-                        </div>
-                        <div class="bank-row">
-                            <span class="bank-label" data-i18n="pay.bank.titular">Titular</span>
-                            <span class="bank-value">Versatil Services</span>
-                        </div>
-                        <div class="bank-row">
-                            <span class="bank-label">CNPJ</span>
-                            <span class="bank-value" style="font-size:0.85em;color:#888;">05.325.884/0001-78</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- USDT (TRC20) -->
-                <div class="payment-card usdt-card">
-                    <div class="payment-badge usdt-badge" data-i18n="pay.usdt.badge">-5% DESCONTO</div>
-                    <div class="payment-icon usdt-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="M15.5 9.5c0-1.38-1.57-2.5-3.5-2.5S8.5 8.12 8.5 9.5c0 1.38 1.57 2.5 3.5 2.5s3.5 1.12 3.5 2.5c0 1.38-1.57 2.5-3.5 2.5s-3.5-1.12-3.5-2.5"/></svg>
-                    </div>
-                    <h3>USDT (TRC20)</h3>
-                    <p class="payment-desc" data-i18n="pay.usdt.desc">Aceitamos pagamentos em USDT (TRC20) para clientes nacionais e internacionais.</p>
-                    <div class="usdt-qr-container">
-                        <img src="Fotos/usdt_qr.png" alt="QR Code USDT TRC20" class="usdt-qr-img" id="usdt-qr-img">
-                    </div>
-                    <div class="usdt-address-box">
-                        <code id="usdt-address">TE1diztxiihihn7cWpvkYSSBjSJp7bPUZe</code>
-                    </div>
-                    <button class="btn-copy-usdt" id="btn-copy-usdt">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                        <span data-i18n="pay.usdt.copiar">Copiar endereço</span>
-                    </button>
-                </div>
-
-                <!-- CARTÃO DE CRÉDITO (ASAAS) -->
-                <div class="payment-card cc-card">
-                    <div class="payment-badge cc-badge" data-i18n="pay.cc.badge">+5% TAXA</div>
-                    <div class="payment-icon cc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                    </div>
-                    <h3 data-i18n="pay.cc.title">Cartão de Crédito</h3>
-                    <p class="payment-desc" data-i18n="pay.cc.desc">Pague diretamente com seu cartão de crédito de forma segura.</p>
-                    <div class="cc-notice">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        <span data-i18n="pay.cc.notice">Pagamentos via cartão de crédito possuem acréscimo de 5% referente às taxas operacionais.</span>
-                    </div>
-                    <button class="btn-pay-cc" id="btn-pay-cc">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                        <span data-i18n="pay.cc.btn">Pagar com Cartão</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ======================== -->
-    <!-- 6. CONTATO -->
+    <!-- 4. CONTATO B2B -->
     <!-- ======================== -->
     <section class="contato" id="contato">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag" data-i18n="contact.tag">Fale conosco</span>
-                <h2 data-i18n="contact.title">Entre em Contato</h2>
-                <p class="section-desc" data-i18n="contact.desc">Solicite seu orçamento agora e receba atendimento direto da nossa equipe comercial.</p>
+                <span class="section-tag" data-i18n="contact.tag" style="color: var(--red);">Engenharia & Negócios</span>
+                <h2 data-i18n="contact.title">Fale com Nossa Equipe Técnica</h2>
+                <p class="section-desc" data-i18n="contact.desc">Estamos prontos para analisar seu projeto, fornecer orçamentos detalhados e planejar a próxima parada da sua planta industrial.</p>
             </div>
 
             <div class="contact-grid">
                 <div class="contact-card">
-                    <div class="contact-icon">
+                    <div class="contact-icon" style="background: rgba(37,211,102,0.1); color: #25D366;">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                     </div>
-                    <span class="contact-label" data-i18n="contact.wa">WhatsApp</span>
+                    <span class="contact-label" data-i18n="contact.wa">Atendimento Global</span>
                     <a href="https://wa.me/5513991509140" target="_blank" class="contact-value">+55 13 99150-9140</a>
                 </div>
                 <div class="contact-card">
-                    <div class="contact-icon">
+                    <div class="contact-icon" style="background: rgba(191,32,38,0.1); color: var(--red);">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     </div>
-                    <span class="contact-label" data-i18n="contact.email.label">E-mail Comercial</span>
-                    <a href="mailto:comercial@versatilservices.com.br" class="contact-value">comercial@versatilservices.com.br</a>
+                    <span class="contact-label" data-i18n="contact.email.label">Projetos & Orçamentos</span>
+                    <a href="mailto:dp.tecnico@versatilservices.com.br" class="contact-value">dp.tecnico@versatilservices.com.br</a>
                 </div>
                 <div class="contact-card">
-                    <div class="contact-icon">
+                    <div class="contact-icon" style="background: rgba(191,32,38,0.1); color: var(--red);">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                     </div>
-                    <span class="contact-label" data-i18n="contact.loc.label">Localização</span>
+                    <span class="contact-label" data-i18n="contact.loc.label">Sede Administrativa</span>
                     <span class="contact-value" data-i18n="contact.loc.value">Sorocaba/SP — Brasil</span>
                 </div>
             </div>
 
             <div class="cta-final">
-                <a href="https://wa.me/5513991509140" target="_blank" class="btn-primary btn-lg btn-pulse">
+                <a href="https://wa.me/5513991509140" target="_blank" class="btn-primary btn-lg" style="background: var(--red); box-shadow: 0 4px 20px rgba(191,32,38,0.3); color: white;">
                     <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                    <span data-i18n="contact.cta">Falar no WhatsApp agora</span>
+                    <span data-i18n="contact.cta">Iniciar Conversa</span>
                 </a>
             </div>
         </div>
@@ -801,16 +259,12 @@
     <footer>
         <div class="container">
             <div class="footer-inner">
-                <div class="footer-brand">VERSATIL GAMA INDUSTRIAL</div>
-                <p data-i18n="footer.rights">&copy; 2002 Versatil Gama Industrial. Todos os direitos reservados.</p>
-                <p data-i18n="footer.loc">Sorocaba/SP — Brasil</p>
+                <div class="footer-brand" style="color: var(--red); background: none; -webkit-text-fill-color: var(--red);">VERSÁTIL SERVICES</div>
+                <p data-i18n="footer.rights">&copy; 2002 Versátil Services. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <script src="pedido.js"></script>
-    <script src="checkout.js"></script>
-    <script src="customers.js"></script>
     <script src="i18n.js"></script>
     <!-- PWA Service Worker -->
     <script>
