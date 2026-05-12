@@ -422,4 +422,398 @@
     .app-header h1 {
         font-size: 1.5rem;
     }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .foto-categorias {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =============================================
+   TELA DE PIN
+   ============================================= */
+.pin-box {
+    max-width: 380px;
+    margin: 80px auto 0;
+    text-align: center;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 48px 32px;
+}
+
+.pin-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.pin-box h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.pin-box > p {
+    font-size: 0.9rem;
+    color: var(--gray-300);
+    margin-bottom: 28px;
+}
+
+.pin-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.pin-input-group input {
+    flex: 1;
+    padding: 14px 16px;
+    font-size: 1.5rem;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    letter-spacing: 8px;
+    color: var(--text-dark);
+    background: var(--bg-body);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: all var(--transition);
+}
+
+.pin-input-group input:focus {
+    border-color: var(--red);
+}
+
+.btn-pin {
+    padding: 14px 24px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.btn-pin:hover {
+    background: var(--red-dark);
+}
+
+.pin-erro {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--red);
+    font-weight: 600;
+}
+
+/* =============================================
+   TABS
+   ============================================= */
+.tabs {
+    display: flex;
+    gap: 4px;
+    max-width: 700px;
+    margin: 0 auto 24px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-300);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.tab.active {
+    background: var(--red);
+    color: #fff;
+}
+
+.tab:not(.active):hover {
+    color: var(--text-dark);
+    background: var(--bg-body);
+}
+
+.tab-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* =============================================
+   FILTROS
+   ============================================= */
+.filtros {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filtro {
+    padding: 8px 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    color: var(--gray-300);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.filtro.active {
+    background: var(--red);
+    color: #fff;
+    border-color: var(--red);
+}
+
+.filtro:not(.active):hover {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+/* =============================================
+   ORDENS DE SERVIÇO
+   ============================================= */
+.ordens-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sem-dados {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--gray-300);
+}
+
+.sem-dados p {
+    margin-bottom: 16px;
+    font-size: 1rem;
+}
+
+.btn-criar-os {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+/* =============================================
+   INFO DA O.S.
+   ============================================= */
+.os-info-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--red);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+}
+
+.os-info-card h3 {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.os-info-card p {
+    font-size: 0.9rem;
+    color: var(--text-body);
+    margin-bottom: 4px;
+}
+
+.os-info-card p span,
+.os-info-card p strong {
+    font-weight: 700;
+}
+
+/* =============================================
+   CATEGORIAS DE FOTO
+   ============================================= */
+.foto-categorias {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+.foto-cat {
+    text-align: center;
+}
+
+.foto-cat h4 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.foto-cat .btn-anexo {
+    padding: 16px 12px;
+    margin-bottom: 8px;
+}
+
+.foto-cat .btn-anexo svg {
+    width: 24px;
+    height: 24px;
+}
+
+.foto-cat .btn-anexo span {
+    font-size: 0.7rem;
+}
+
+/* =============================================
+   RELATÓRIO TÉCNICO
+   ============================================= */
+.relatorio-container {
+    max-width: 700px;
+    margin: 0 auto 24px;
+}
+
+.relatorio {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.rel-header {
+    padding: 32px 28px 24px;
+    text-align: center;
+}
+
+.rel-logo {
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 4px;
+}
+
+.rel-titulo {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--gray-300);
+}
+
+.rel-bar {
+    height: 4px;
+    background: var(--red);
+}
+
+.rel-dados {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+}
+
+.rel-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.9rem;
+}
+
+.rel-row span {
+    color: var(--gray-300);
+}
+
+.rel-row strong {
+    color: var(--text-dark);
+}
+
+.rel-section {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+}
+
+.rel-section h4 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--red);
+    display: inline-block;
+}
+
+.rel-section p {
+    font-size: 0.9rem;
+    color: var(--text-body);
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.rel-fotos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+}
+
+.rel-fotos img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.rel-footer {
+    padding: 20px 28px;
+    text-align: center;
+}
+
+.rel-footer p {
+    font-size: 0.8rem;
+    color: var(--gray-300);
+}
+
+/* Print styles */
+@media print {
+    .navbar, .form-actions, .tabs, footer, .btn-salvar {
+        display: none !important;
+    }
+    .app-main {
+        padding: 0;
+    }
+    .relatorio-container {
+        max-width: 100%;
+    }
+    .relatorio {
+        border: none;
+        border-radius: 0;
+    }
+    .rel-fotos img {
+        height: 100px;
+    }
 }

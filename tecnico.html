@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Técnica | VERSÁTIL SERVICES</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="app.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#BF2026">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar" id="top">
+        <div class="navbar-inner">
+            <a href="index.html" class="logo">VERSÁTIL SERVICES</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="solicitar.html">Solicitar</a>
+                <a href="tecnico.html" style="color: var(--red); font-weight: 800;">Área Técnica</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- TELA DE PIN -->
+    <div id="telaPin" class="app-main">
+        <div class="container">
+            <div class="pin-box">
+                <div class="pin-icon">🔧</div>
+                <h2>Área Técnica</h2>
+                <p>Acesso restrito para técnicos Versátil Services</p>
+                <div class="pin-input-group">
+                    <input type="password" id="pinInput" maxlength="4" placeholder="PIN" inputmode="numeric" pattern="[0-9]*">
+                    <button id="btnPin" class="btn-pin">Entrar</button>
+                </div>
+                <p id="pinErro" class="pin-erro" style="display:none;">PIN incorreto. Tente novamente.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA PRINCIPAL (após login) -->
+    <div id="telaPrincipal" class="app-main" style="display:none;">
+        <div class="container">
+
+            <!-- Header -->
+            <div class="app-header">
+                <h1>🔧 Área Técnica</h1>
+                <p>Gerencie ordens de serviço e documente a execução</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" data-tab="ordens">Ordens de Serviço</button>
+                <button class="tab" data-tab="nova">+ Nova O.S.</button>
+            </div>
+
+            <!-- TAB: Lista de Ordens -->
+            <div id="tabOrdens" class="tab-content active">
+                <div class="filtros">
+                    <button class="filtro active" data-status="todas">Todas</button>
+                    <button class="filtro" data-status="pendente">Pendentes</button>
+                    <button class="filtro" data-status="em_execucao">Em Execução</button>
+                    <button class="filtro" data-status="concluido">Concluídas</button>
+                </div>
+                <div id="listaOrdens" class="ordens-list"></div>
+                <div id="semOrdens" class="sem-dados" style="display:none;">
+                    <p>Nenhuma ordem de serviço encontrada.</p>
+                    <button class="btn-criar-os" onclick="mostrarTab('nova')">+ Criar Primeira O.S.</button>
+                </div>
+            </div>
+
+            <!-- TAB: Nova O.S. -->
+            <div id="tabNova" class="tab-content" style="display:none;">
+                <form id="formOS" class="form-servico">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Dados da Ordem de Serviço</h3>
+                        <div class="form-group">
+                            <label for="osCliente">Cliente / Empresa *</label>
+                            <input type="text" id="osCliente" placeholder="Ex: Petrobras — Refinaria Cubatão" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="osTipo">Tipo de Serviço *</label>
+                                <select id="osTipo" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="rotativos">Equipamentos Rotativos</option>
+                                    <option value="manutencao">Manutenção Industrial</option>
+                                    <option value="usinagem">Usinagem de Campo</option>
+                                    <option value="trocadores">Trocadores de Calor</option>
+                                    <option value="end">Ensaios Não Destrutivos</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="osTecnico">Técnico Responsável</label>
+                                <input type="text" id="osTecnico" placeholder="Nome do técnico">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="osDescricao">Descrição do Serviço *</label>
+                            <textarea id="osDescricao" rows="4" placeholder="Equipamento, localização, escopo do trabalho..." required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="btnCriarOS" class="btn-enviar-wa" style="background: var(--red); box-shadow: 0 4px 16px rgba(191,32,38,0.3);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+                            Criar Ordem de Serviço
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- TELA: Documentar O.S. (dinâmica) -->
+            <div id="telaDocumentar" class="tab-content" style="display:none;">
+                <div class="os-header-info" id="osHeaderInfo"></div>
+
+                <!-- Registro de Fotos -->
+                <div class="form-section">
+                    <h3 class="form-section-title">📸 Registro Fotográfico</h3>
+                    <div class="foto-categorias">
+                        <div class="foto-cat">
+                            <h4>Antes</h4>
+                            <p class="form-hint">Estado do equipamento antes da intervenção</p>
+                            <label class="btn-anexo">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                <span>Fotografar</span>
+                                <input type="file" accept="image/*" capture="environment" multiple class="inputFotoTec" data-tipo="antes" hidden>
+                            </label>
+                            <div class="preview-grid foto-preview" data-tipo="antes"></div>
+                        </div>
+                        <div class="foto-cat">
+                            <h4>Durante</h4>
+                            <p class="form-hint">Registro do trabalho em andamento</p>
+                            <label class="btn-anexo">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                <span>Fotografar</span>
+                                <input type="file" accept="image/*" capture="environment" multiple class="inputFotoTec" data-tipo="durante" hidden>
+                            </label>
+                            <div class="preview-grid foto-preview" data-tipo="durante"></div>
+                        </div>
+                        <div class="foto-cat">
+                            <h4>Depois</h4>
+                            <p class="form-hint">Resultado final do serviço</p>
+                            <label class="btn-anexo">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                <span>Fotografar</span>
+                                <input type="file" accept="image/*" capture="environment" multiple class="inputFotoTec" data-tipo="depois" hidden>
+                            </label>
+                            <div class="preview-grid foto-preview" data-tipo="depois"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notas Técnicas -->
+                <div class="form-section">
+                    <h3 class="form-section-title">📝 Notas Técnicas</h3>
+                    <div class="form-group">
+                        <label for="notasTecnicas">Medições, observações e conclusões</label>
+                        <textarea id="notasTecnicas" rows="6" placeholder="Descreva as medições realizadas, condições encontradas, serviços executados, peças substituídas, etc."></textarea>
+                    </div>
+                    <button type="button" id="btnSalvarNotas" class="btn-salvar" style="width:100%;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                        Salvar Notas
+                    </button>
+                </div>
+
+                <!-- Ações da O.S. -->
+                <div class="form-actions">
+                    <button type="button" id="btnIniciarOS" class="btn-enviar-wa" style="background: #f59e0b; box-shadow: 0 4px 16px rgba(245,158,11,0.3);">
+                        ⚡ Iniciar Execução
+                    </button>
+                    <button type="button" id="btnConcluirOS" class="btn-enviar-wa" style="background: #25D366;">
+                        ✅ Concluir Serviço
+                    </button>
+                    <button type="button" id="btnGerarRelatorio" class="btn-enviar-email">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        Gerar Relatório
+                    </button>
+                    <button type="button" class="btn-salvar" onclick="voltarLista()">
+                        ← Voltar para Lista
+                    </button>
+                </div>
+            </div>
+
+            <!-- TELA: Relatório -->
+            <div id="telaRelatorio" class="tab-content" style="display:none;">
+                <div class="relatorio-container" id="relatorioContainer"></div>
+                <div class="form-actions">
+                    <button type="button" id="btnImprimirRelatorio" class="btn-enviar-email" onclick="window.print()">
+                        🖨️ Imprimir / Salvar PDF
+                    </button>
+                    <button type="button" id="btnEnviarRelatorio" class="btn-enviar-wa" style="background:#25D366;">
+                        📤 Enviar via WhatsApp
+                    </button>
+                    <button type="button" class="btn-salvar" onclick="voltarDocumentar()">
+                        ← Voltar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <p class="footer-brand">VERSÁTIL SERVICES</p>
+                <p>Desde 2002 — Manutenção Industrial de Excelência</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="db.js"></script>
+    <script src="tecnico.js"></script>
+</body>
+</html>
