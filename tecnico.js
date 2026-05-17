@@ -88,6 +88,10 @@ function mostrarTab(nome) {
     } else if (nome === 'nova') {
         document.getElementById('tabNova').style.display = 'block';
         document.querySelector('[data-tab="nova"]').classList.add('active');
+    } else if (nome === 'portfolio') {
+        document.getElementById('tabPortfolio').style.display = 'block';
+        document.querySelector('[data-tab="portfolio"]').classList.add('active');
+        carregarPortfolio();
     }
 }
 
@@ -444,4 +448,137 @@ function mostrarToast(msg, tipo = '') {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
+}
+
+// =============================================
+// PORTFÓLIO DE SERVIÇOS REALIZADOS
+// =============================================
+let portFotosTemp = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const portInput = document.getElementById('portFotos');
+    if (portInput) {
+        portInput.addEventListener('change', handlePortfolioFotos);
+    }
+    const btnPub = document.getElementById('btnPublicarPortfolio');
+    if (btnPub) {
+        btnPub.addEventListener('click', publicarPortfolio);
+    }
+});
+
+async function handlePortfolioFotos(e) {
+    const files = Array.from(e.target.files);
+    const preview = document.getElementById('portPreview');
+
+    for (const file of files) {
+        const dataUrl = await readFileAsDataUrl(file);
+        portFotosTemp.push({ dataUrl, name: file.name });
+
+        const div = document.createElement('div');
+        div.className = 'preview-item';
+        div.innerHTML = `
+            <img src="${dataUrl}" alt="${file.name}">
+            <button class="preview-remove" onclick="this.parentElement.remove()">✕</button>
+        `;
+        preview.appendChild(div);
+    }
+    e.target.value = '';
+    mostrarToast(`📸 ${files.length} foto(s) selecionada(s)`, 'success');
+}
+
+async function publicarPortfolio() {
+    const titulo = document.getElementById('portTitulo').value.trim();
+    const categoria = document.getElementById('portCategoria').value;
+    const cliente = document.getElementById('portCliente').value.trim();
+
+    if (!titulo) {
+        mostrarToast('Informe o título do serviço', 'error');
+        return;
+    }
+    if (portFotosTemp.length === 0) {
+        mostrarToast('Selecione ao menos uma foto', 'error');
+        return;
+    }
+
+    const catLabels = {
+        rotativos: 'Equipamentos Rotativos',
+        manutencao: 'Manutenção Industrial',
+        usinagem: 'Usinagem de Campo',
+        trocadores: 'Trocadores de Calor',
+        end: 'Ensaios N.D.'
+    };
+
+    try {
+        for (const foto of portFotosTemp) {
+            await salvarFotoPortfolio({
+                titulo,
+                categoria,
+                categoriaLabel: catLabels[categoria] || categoria,
+                cliente,
+                foto: foto.dataUrl
+            });
+        }
+
+        mostrarToast(`✓ ${portFotosTemp.length} foto(s) publicada(s)!`, 'success');
+
+        // Limpar
+        document.getElementById('portTitulo').value = '';
+        document.getElementById('portCliente').value = '';
+        document.getElementById('portPreview').innerHTML = '';
+        portFotosTemp = [];
+
+        carregarPortfolio();
+    } catch (err) {
+        mostrarToast('Erro ao publicar', 'error');
+        console.error(err);
+    }
+}
+
+async function carregarPortfolio() {
+    const lista = document.getElementById('listaPortfolio');
+    const semPort = document.getElementById('semPortfolio');
+    if (!lista) return;
+
+    try {
+        const fotos = await listarFotosPortfolio();
+        fotos.sort((a, b) => new Date(b.criadoEm) - new Date(a.criadoEm));
+
+        if (fotos.length === 0) {
+            lista.innerHTML = '';
+            semPort.style.display = 'block';
+            return;
+        }
+
+        semPort.style.display = 'none';
+        lista.innerHTML = '';
+
+        fotos.forEach(f => {
+            const data = new Date(f.criadoEm).toLocaleDateString('pt-BR');
+            const card = document.createElement('div');
+            card.className = 'rascunho-card';
+            card.style.borderLeft = '4px solid var(--red)';
+            card.innerHTML = `
+                <div style="display:flex; gap:12px; align-items:center; flex:1; min-width:0;">
+                    <img src="${f.foto}" alt="${f.titulo}" style="width:64px; height:64px; object-fit:cover; border-radius:8px; flex-shrink:0;">
+                    <div class="rascunho-info" style="min-width:0;">
+                        <h4 style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${f.titulo}</h4>
+                        <p>${f.categoriaLabel} · ${data}${f.cliente ? ' · ' + f.cliente : ''}</p>
+                    </div>
+                </div>
+                <div class="rascunho-actions">
+                    <button class="btn-excluir" onclick="excluirPortfolioItem(${f.id})">Excluir</button>
+                </div>
+            `;
+            lista.appendChild(card);
+        });
+    } catch (err) {
+        console.error('Erro ao carregar portfólio:', err);
+    }
+}
+
+async function excluirPortfolioItem(id) {
+    if (!confirm('Excluir esta foto do portfólio?')) return;
+    await excluirFotoPortfolio(id);
+    mostrarToast('Foto removida', 'success');
+    carregarPortfolio();
 }

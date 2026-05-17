@@ -4,7 +4,7 @@
    ============================================= */
 
 const DB_NAME = 'VersatilServicesDB';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 function openDB() {
     return new Promise((resolve, reject) => {
@@ -32,6 +32,13 @@ function openDB() {
                 const store = db.createObjectStore('registrosTecnicos', { keyPath: 'id', autoIncrement: true });
                 store.createIndex('ordemId', 'ordemId', { unique: false });
                 store.createIndex('tipo', 'tipo', { unique: false });
+            }
+
+            // Store de portfólio (fotos de serviços realizados)
+            if (!db.objectStoreNames.contains('portfolio')) {
+                const store = db.createObjectStore('portfolio', { keyPath: 'id', autoIncrement: true });
+                store.createIndex('categoria', 'categoria', { unique: false });
+                store.createIndex('criadoEm', 'criadoEm', { unique: false });
             }
         };
 
@@ -195,6 +202,53 @@ async function excluirRegistro(id) {
     return new Promise((resolve, reject) => {
         const tx = db.transaction('registrosTecnicos', 'readwrite');
         const store = tx.objectStore('registrosTecnicos');
+        store.delete(id);
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+    });
+}
+
+// =============================================
+// PORTFÓLIO (Fotos de Serviços Realizados)
+// =============================================
+async function salvarFotoPortfolio(dados) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('portfolio', 'readwrite');
+        const store = tx.objectStore('portfolio');
+        if (dados.id) {
+            store.put(dados);
+        } else {
+            dados.criadoEm = new Date().toISOString();
+            store.add(dados);
+        }
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+    });
+}
+
+async function listarFotosPortfolio(categoria) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('portfolio', 'readonly');
+        const store = tx.objectStore('portfolio');
+        let request;
+        if (categoria) {
+            const index = store.index('categoria');
+            request = index.getAll(categoria);
+        } else {
+            request = store.getAll();
+        }
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function excluirFotoPortfolio(id) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('portfolio', 'readwrite');
+        const store = tx.objectStore('portfolio');
         store.delete(id);
         tx.oncomplete = () => resolve(true);
         tx.onerror = () => reject(tx.error);

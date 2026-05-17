@@ -54,6 +54,7 @@
             <div class="tabs">
                 <button class="tab active" data-tab="ordens">Ordens de Serviço</button>
                 <button class="tab" data-tab="nova">+ Nova O.S.</button>
+                <button class="tab" data-tab="portfolio">📸 Portfólio</button>
             </div>
 
             <!-- TAB: Lista de Ordens -->
@@ -201,6 +202,60 @@
             </div>
 
         </div>
+
+            <!-- TAB: Portfólio de Serviços Realizados -->
+            <div id="tabPortfolio" class="tab-content" style="display:none;">
+                <div class="form-section">
+                    <h3 class="form-section-title">📸 Publicar Foto de Serviço</h3>
+                    <p class="form-hint">Adicione fotos reais de serviços realizados. Elas aparecerão na Home e no Portfólio.</p>
+
+                    <div class="form-group">
+                        <label for="portTitulo">Título do Serviço *</label>
+                        <input type="text" id="portTitulo" placeholder="Ex: Retífica de Pista — Secador Rotativo">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="portCategoria">Categoria *</label>
+                            <select id="portCategoria">
+                                <option value="rotativos">Equipamentos Rotativos</option>
+                                <option value="manutencao">Manutenção Industrial</option>
+                                <option value="usinagem">Usinagem de Campo</option>
+                                <option value="trocadores">Trocadores de Calor</option>
+                                <option value="end">Ensaios N.D.</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="portCliente">Cliente (opcional)</label>
+                            <input type="text" id="portCliente" placeholder="Ex: Petrobras">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fotos *</label>
+                        <label class="btn-anexo">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            <span>Selecionar Fotos</span>
+                            <input type="file" accept="image/*" multiple id="portFotos" hidden>
+                        </label>
+                        <div id="portPreview" class="preview-grid" style="margin-top: 12px;"></div>
+                    </div>
+
+                    <button type="button" id="btnPublicarPortfolio" class="btn-enviar-wa" style="background: var(--red); box-shadow: 0 4px 16px rgba(191,32,38,0.3); width: 100%;">
+                        📸 Publicar no Portfólio
+                    </button>
+                </div>
+
+                <div class="form-section" style="margin-top: 32px;">
+                    <h3 class="form-section-title">🗂️ Fotos Publicadas</h3>
+                    <div id="listaPortfolio" class="ordens-list"></div>
+                    <div id="semPortfolio" class="sem-dados" style="display:none;">
+                        <p>Nenhuma foto publicada ainda.</p>
+                    </div>
+                </div>
+            </div>
+
+    </div>
     </div>
 
     <!-- Footer -->

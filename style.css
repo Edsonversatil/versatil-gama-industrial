@@ -1106,3 +1106,97 @@ footer p {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
+/* =============================================
+   SERVIÇOS REALIZADOS (Home Showcase)
+   ============================================= */
+.servicos-realizados {
+    padding: 100px 0;
+    background: var(--bg-section-alt);
+    border-top: 4px solid var(--red);
+}
+
+.realizados-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: 16px;
+}
+
+.realizado-item {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.realizado-wide {
+    grid-column: span 2;
+}
+
+.realizado-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.realizado-item:hover img {
+    transform: scale(1.08);
+}
+
+.realizado-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 40%, rgba(0,0,0,0.8) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    transition: background 0.3s ease;
+}
+
+.realizado-item:hover .realizado-overlay {
+    background: linear-gradient(transparent 20%, rgba(0,0,0,0.85) 100%);
+}
+
+.realizado-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: var(--red);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.realizado-overlay h4 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+    .realizados-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 200px;
+    }
+    .realizado-wide {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 500px) {
+    .realizados-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 200px;
+    }
+    .realizado-wide {
+        grid-column: span 1;
+    }
+}

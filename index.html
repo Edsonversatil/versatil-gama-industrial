@@ -23,6 +23,7 @@
             <div class="logo">VERSÁTIL SERVICES</div>
             <nav class="nav-links">
                 <a href="#servicos" data-i18n="nav.servicos">Serviços</a>
+                <a href="portfolio.html">Portfólio</a>
                 <a href="#global" data-i18n="nav.global">Presença Global</a>
                 <a href="#contato" data-i18n="nav.contato">Contato</a>
                 <a href="solicitar.html" style="color: var(--red); font-weight: 800;">Solicitar Serviço</a>
@@ -37,12 +38,12 @@
     <!-- 1. HERO -->
     <!-- ======================== -->
     <section class="hero">
-        <div class="hero-grid-bg" style="background-image: linear-gradient(rgba(10,10,10,0.8), rgba(10,10,10,0.9)), url('Fotos/hero_bg.png');"></div>
+        <div class="hero-grid-bg" style="background-image: linear-gradient(rgba(10,10,10,0.55), rgba(10,10,10,0.75)), url('Fotos/hero_usinagem.png');"></div>
         <div class="hero-glow" style="background: radial-gradient(circle, rgba(191,32,38,0.2) 0%, transparent 70%);"></div>
         <div class="hero-content">
             <div class="hero-badge" data-i18n="hero.badge" style="color: var(--red); border-color: rgba(191,32,38,0.4);">Serviços B2B Enterprise</div>
             <h1>VERSÁTIL SERVICES</h1>
-            <p class="hero-sub" data-i18n="hero.sub">Excelência em Manutenção Industrial e Usinagem de Campo para operações de alta criticidade.</p>
+            <p class="hero-sub" data-i18n="hero.sub">Excelência em Manutenção Industrial e Usinagem de Campo para operações de Alta Complexidade.</p>
             <a href="https://wa.me/5513991509140" target="_blank" class="btn-primary btn-lg" style="background: var(--red); box-shadow: 0 4px 20px rgba(191,32,38,0.3); color: white;">
                 <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                 <span data-i18n="hero.cta">Solicitar Avaliação Técnica</span>
@@ -287,6 +288,106 @@
 
     <!-- BARRA VERMELHA DIVISÓRIA -->
     <div class="red-bar"></div>
+
+    <!-- ======================== -->
+    <!-- SERVIÇOS REALIZADOS -->
+    <!-- ======================== -->
+    <section class="servicos-realizados" id="realizados">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" style="color: var(--red);">Resultados Comprovados</span>
+                <h2>Serviços Realizados</h2>
+                <p class="section-desc">Galeria de trabalhos executados em campo e na oficina. Clique para ampliar.</p>
+            </div>
+
+            <div class="realizados-grid">
+                <div class="realizado-item realizado-wide" onclick="abrirFotoRealizado(this)">
+                    <img src="Fotos/usinagem_1.png" alt="Faceamento de Flange" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">Usinagem de Campo</span>
+                        <h4>Faceamento de Flange</h4>
+                    </div>
+                </div>
+                <div class="realizado-item" onclick="abrirFotoRealizado(this)">
+                    <img src="Fotos/rotativos_2.png" alt="Retífica de Pista" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">Rotativos</span>
+                        <h4>Retífica de Pista</h4>
+                    </div>
+                </div>
+                <div class="realizado-item" onclick="abrirFotoRealizado(this)">
+                    <img src="Fotos/troc_calor_1.png" alt="Retubagem Completa" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">Trocadores</span>
+                        <h4>Retubagem Completa</h4>
+                    </div>
+                </div>
+                <div class="realizado-item" onclick="abrirFotoRealizado(this)">
+                    <img src="Fotos/manut_ind_3.png" alt="Caldeiraria Industrial" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">Manutenção</span>
+                        <h4>Caldeiraria Industrial</h4>
+                    </div>
+                </div>
+                <div class="realizado-item realizado-wide" onclick="abrirFotoRealizado(this)">
+                    <img src="Fotos/end_4.png" alt="Inspeção Radiográfica" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">Ensaios N.D.</span>
+                        <h4>Inspeção Radiográfica</h4>
+                    </div>
+                </div>
+                <div class="realizado-item" onclick="abrirFotoRealizado(this)">
+                    <img src="Fotos/usinagem_5.png" alt="Mandrilhamento" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">Usinagem</span>
+                        <h4>Mandrilhamento</h4>
+                    </div>
+                </div>
+                <div class="realizado-item" onclick="abrirFotoRealizado(this)">
+                    <img src="Fotos/rotativos_7.png" alt="Inspeção de Secador" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">Rotativos</span>
+                        <h4>Inspeção de Secador</h4>
+                    </div>
+                </div>
+                <div class="realizado-item" onclick="abrirFotoRealizado(this)">
+                    <img src="Fotos/troc_calor_7.png" alt="Serpentina Industrial" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">Trocadores</span>
+                        <h4>Serpentina Industrial</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 32px;">
+                <a href="portfolio.html" class="btn-primary btn-lg" style="background: var(--red); box-shadow: 0 4px 20px rgba(191,32,38,0.3); color: white; display: inline-flex; align-items: center; gap: 10px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+                    Ver Portfólio Completo (50 Fotos)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox para Serviços Realizados -->
+    <div id="realizadoLightbox" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.92); z-index:9999; align-items:center; justify-content:center; cursor:pointer;" onclick="this.style.display='none'">
+        <button onclick="document.getElementById('realizadoLightbox').style.display='none'" style="position:absolute; top:20px; right:24px; color:#fff; font-size:2.5rem; background:none; border:none; cursor:pointer;">&times;</button>
+        <img id="realizadoLightboxImg" src="" alt="" style="max-width:90vw; max-height:85vh; border-radius:8px; box-shadow:0 8px 40px rgba(0,0,0,0.5);">
+        <div id="realizadoLightboxCaption" style="position:absolute; bottom:24px; left:50%; transform:translateX(-50%); color:#fff; font-weight:600; background:rgba(0,0,0,0.5); padding:8px 24px; border-radius:20px;"></div>
+    </div>
+
+    <script>
+    function abrirFotoRealizado(el) {
+        const img = el.querySelector('img');
+        const h4 = el.querySelector('h4');
+        const lb = document.getElementById('realizadoLightbox');
+        document.getElementById('realizadoLightboxImg').src = img.src;
+        document.getElementById('realizadoLightboxCaption').textContent = h4 ? h4.textContent : '';
+        lb.style.display = 'flex';
+    }
+    </script>
+
+    <!-- BARRA VERMELHA DIVISÓRIA -->
+    <div class="red-bar"></div>
     <!-- 3. PRESENÇA GLOBAL -->
     <!-- ======================== -->
     <section class="diferenciais" id="global">
@@ -383,7 +484,44 @@
         </div>
     </footer>
 
+    <script src="db.js"></script>
     <script src="i18n.js"></script>
+    <!-- Carregar fotos reais do portfólio -->
+    <script>
+    async function carregarRealizadosDinamicos() {
+        try {
+            const fotos = await listarFotosPortfolio();
+            if (fotos.length === 0) return;
+
+            const grid = document.querySelector('.realizados-grid');
+            if (!grid) return;
+
+            // Inserir fotos reais ANTES das estáticas
+            fotos.sort((a, b) => new Date(b.criadoEm) - new Date(a.criadoEm));
+
+            // Pegar até 8 fotos mais recentes
+            const recentes = fotos.slice(0, 8);
+
+            recentes.reverse().forEach((f, idx) => {
+                const item = document.createElement('div');
+                item.className = 'realizado-item' + (idx === 0 ? ' realizado-wide' : '');
+                item.onclick = function() { abrirFotoRealizado(this); };
+                item.innerHTML = `
+                    <img src="${f.foto}" alt="${f.titulo}" loading="lazy">
+                    <div class="realizado-overlay">
+                        <span class="realizado-badge">${f.categoriaLabel}</span>
+                        <h4>${f.titulo}</h4>
+                    </div>
+                `;
+                grid.insertBefore(item, grid.firstChild);
+            });
+        } catch (e) {
+            console.log('[Portfolio] Sem fotos dinâmicas:', e.message);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarRealizadosDinamicos);
+    </script>
     <!-- PWA Service Worker -->
     <script>
     if ('serviceWorker' in navigator) {
