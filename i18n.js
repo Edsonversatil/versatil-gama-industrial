@@ -328,7 +328,19 @@
             'setor.farmaceutico.name': 'Farmacêutico', 'setor.farmaceutico.desc': 'Laboratórios e instalações de produção',
             'setor.automotivo.name': 'Automotivo', 'setor.automotivo.desc': 'Plantas de montagem e autopeças',
             'setor.sucroalcooleiro.name': 'Sucroalcooleiro', 'setor.sucroalcooleiro.desc': 'Usinas de etanol e açúcar',
-            // Serviços
+            // Aliases para setores usados no HTML
+            'setor.petroquimica.name': 'Petroquímica', 'setor.petroquimica.desc': 'Refinarias e plantas químicas',
+            'setor.refinarias.name': 'Refinarias de Petróleo', 'setor.refinarias.desc': 'Destilação, craqueamento e refino',
+            'setor.quimica.name': 'Químico e Petroquímico', 'setor.quimica.desc': 'Plantas de processo contínuo',
+            'setor.siderurgia.name': 'Siderurgia e Metalúrgico', 'setor.siderurgia.desc': 'Fornos elétricos e laminadores',
+            'setor.papel.name': 'Celulose e Papel', 'setor.papel.desc': 'Secadores, prensas e cilindros Yankee',
+            'setor.naval.name': 'Naval e Offshore', 'setor.naval.desc': 'Embarcações, plataformas e módulos',
+            'setor.saneamento.name': 'Saneamento e Água', 'setor.saneamento.desc': 'ETAs, ETEs e estações de bombeamento',
+            'setor.cimento.name': 'Cimento e Construção', 'setor.cimento.desc': 'Fornos rotativos e moinhos industriais',
+            'setor.ferroviario.name': 'Ferroviário e Logística', 'setor.ferroviario.desc': 'Locomotivas, vagões e infraestrutura',
+            // Contato
+            'contact.comercial': 'Comercial',
+
             'srv.rotativos.title': 'Manutenção de Equipamentos Rotativos',
             'srv.rotativos.desc': 'Inspeção técnica, alinhamento a laser, retífica de campo e recuperação estrutural de secadores, fornos, tambores e resfriadores.',
             'srv.rotativos.b1': 'Alinhamento a Laser de Equipamentos Rotativos',
@@ -511,6 +523,19 @@
             'setor.farmaceutico.name': 'Pharmaceutical', 'setor.farmaceutico.desc': 'Laboratories and production facilities',
             'setor.automotivo.name': 'Automotive', 'setor.automotivo.desc': 'Assembly plants and auto parts',
             'setor.sucroalcooleiro.name': 'Sugar & Ethanol', 'setor.sucroalcooleiro.desc': 'Ethanol and sugar mills',
+            // Aliases for HTML setor keys
+            'setor.petroquimica.name': 'Petrochemical', 'setor.petroquimica.desc': 'Refineries and chemical plants',
+            'setor.refinarias.name': 'Oil Refineries', 'setor.refinarias.desc': 'Distillation, cracking and refining',
+            'setor.quimica.name': 'Chemical & Petrochemical', 'setor.quimica.desc': 'Continuous process plants',
+            'setor.siderurgia.name': 'Steel & Metallurgy', 'setor.siderurgia.desc': 'Electric furnaces and rolling mills',
+            'setor.papel.name': 'Pulp & Paper', 'setor.papel.desc': 'Dryers, presses and Yankee cylinders',
+            'setor.naval.name': 'Naval & Offshore', 'setor.naval.desc': 'Vessels, platforms and modules',
+            'setor.saneamento.name': 'Water & Sanitation', 'setor.saneamento.desc': 'Water treatment and pumping stations',
+            'setor.cimento.name': 'Cement & Construction', 'setor.cimento.desc': 'Rotary kilns and industrial mills',
+            'setor.ferroviario.name': 'Railway & Logistics', 'setor.ferroviario.desc': 'Locomotives, wagons and infrastructure',
+            // Contact
+            'contact.comercial': 'Commercial',
+
             // Services
             'srv.rotativos.title': 'Rotating Equipment Maintenance',
             'srv.rotativos.desc': 'Technical inspection, laser alignment, field grinding and structural recovery of dryers, kilns, drums and coolers.',
@@ -694,6 +719,19 @@
             'setor.farmaceutico.name': 'Farmacéutico', 'setor.farmaceutico.desc': 'Laboratorios e instalaciones de producción',
             'setor.automotivo.name': 'Automotriz', 'setor.automotivo.desc': 'Plantas de ensamblaje y autopartes',
             'setor.sucroalcooleiro.name': 'Azúcar y Etanol', 'setor.sucroalcooleiro.desc': 'Plantas de etanol y azúcar',
+            // Aliases para setores del HTML
+            'setor.petroquimica.name': 'Petroquímica', 'setor.petroquimica.desc': 'Refinerías y plantas químicas',
+            'setor.refinarias.name': 'Refinerías de Petróleo', 'setor.refinarias.desc': 'Destilación, craqueo y refino',
+            'setor.quimica.name': 'Química y Petroquímica', 'setor.quimica.desc': 'Plantas de proceso continuo',
+            'setor.siderurgia.name': 'Siderúrgia y Metalurgia', 'setor.siderurgia.desc': 'Hornos eléctricos y laminadores',
+            'setor.papel.name': 'Celulosa y Papel', 'setor.papel.desc': 'Secadores, prensas y cilindros Yankee',
+            'setor.naval.name': 'Naval y Offshore', 'setor.naval.desc': 'Embarcaciones, plataformas y módulos',
+            'setor.saneamento.name': 'Agua y Saneamiento', 'setor.saneamento.desc': 'Plantas de tratamiento y bombeo',
+            'setor.cimento.name': 'Cemento y Construcción', 'setor.cimento.desc': 'Hornos rotativos y molinos industriales',
+            'setor.ferroviario.name': 'Ferroviario y Logística', 'setor.ferroviario.desc': 'Locomotoras, vagones e infraestructura',
+            // Contacto
+            'contact.comercial': 'Comercial',
+
             // Servicios
             'srv.rotativos.title': 'Mantenimiento de Equipos Rotativos',
             'srv.rotativos.desc': 'Inspección técnica, alineación láser, rectificado de campo y recuperación estructural de secadores, hornos, tambores y enfriadores.',
@@ -876,6 +914,19 @@
             'setor.farmaceutico.name': 'الدوائية', 'setor.farmaceutico.desc': 'مختبرات ومنشآت إنتاج',
             'setor.automotivo.name': 'السيارات', 'setor.automotivo.desc': 'مصانع التجميع وقطع الغيار',
             'setor.sucroalcooleiro.name': 'السكر والإيثانول', 'setor.sucroalcooleiro.desc': 'مصانع الإيثانول والسكر',
+            // ترجمات القطاعات
+            'setor.petroquimica.name': 'البتروكيميائيات', 'setor.petroquimica.desc': 'المصافي والمصانع الكيميائية',
+            'setor.refinarias.name': 'مصافي النفط', 'setor.refinarias.desc': 'التقطير والتكسير والتكرير',
+            'setor.quimica.name': 'الكيميائية والبتروكيميائية', 'setor.quimica.desc': 'مصانع المعالجة المستمرة',
+            'setor.siderurgia.name': 'الصلب والمعادن', 'setor.siderurgia.desc': 'الأفران الكهربائية والمطاحن',
+            'setor.papel.name': 'اللب والورق', 'setor.papel.desc': 'مجففات ومكابس وأسطوانات يانكي',
+            'setor.naval.name': 'البحري والبحر العميق', 'setor.naval.desc': 'السفن والمنصات والوحدات',
+            'setor.saneamento.name': 'المياه والصرف الصحي', 'setor.saneamento.desc': 'محطات معالجة المياه والضخ',
+            'setor.cimento.name': 'الإسمنت والبناء', 'setor.cimento.desc': 'الأفران الدوارة والمطاحن الصناعية',
+            'setor.ferroviario.name': 'السكك الحديدية واللوجستية', 'setor.ferroviario.desc': 'قاطرات وعربات وبنية تحتية',
+            // جهة الاتصال
+            'contact.comercial': 'التجارية',
+
             // بطاقات الخدمات
             'srv.rotativos.title': 'صيانة المعدات الدوارة',
             'srv.rotativos.desc': 'فحص تقني ومحاذاة ليزرية وتشغيل ميداني واستعادة هيكلية للمجففات والأفران والطبول والمبردات.',
@@ -1285,6 +1336,15 @@
         document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
         document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : lang === 'ar' ? 'ar' : 'en');
 
+        // Load Cairo font for Arabic if not already loaded
+        if (isRTL && !document.getElementById('font-cairo')) {
+            const link = document.createElement('link');
+            link.id = 'font-cairo';
+            link.rel = 'stylesheet';
+            link.href = 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap';
+            document.head.appendChild(link);
+        }
+
         applyTranslations(lang);
         translateProducts(lang);
         updateDisplayPrices(lang);
@@ -1320,12 +1380,14 @@
 
         const wrap = document.createElement('div');
         wrap.id = 'lang-switcher-flags';
+        wrap.setAttribute('dir', 'ltr'); // Always LTR — flags never flip with RTL
         wrap.style.cssText = `
             display: flex; align-items: center; gap: 2px;
             background: #fff; border: 1px solid #e0e0e0;
             border-radius: 8px; padding: 3px;
             box-shadow: 0 1px 6px rgba(0,0,0,0.08);
             flex-shrink: 0;
+            direction: ltr;
         `;
 
         function refreshButtons(activeCode) {
