@@ -15,7 +15,8 @@
     const CURRENCY_CONFIG = {
         pt: { symbol: 'R$', code: 'BRL', rate: 1, locale: 'pt-BR' },
         en: { symbol: '$',  code: 'USD', rate: EXCHANGE_RATE, locale: 'en-US' },
-        es: { symbol: '$',  code: 'USD', rate: EXCHANGE_RATE, locale: 'es-ES' }
+        es: { symbol: '$',  code: 'USD', rate: EXCHANGE_RATE, locale: 'es-ES' },
+        ar: { symbol: 'AED', code: 'AED', rate: EXCHANGE_RATE * 0.735, locale: 'ar-AE' }
     };
 
     // =============================================
@@ -276,117 +277,717 @@
     // =============================================
     const TRANSLATIONS = {
         pt: {
-            'nav.produtos': 'Produtos', 'nav.pagamento': 'Pagamento', 'nav.contato': 'Contato', 'nav.pedido': 'Pedido', 'nav.whatsapp': 'WhatsApp',
-            'hero.badge': 'Abrasivos Industriais', 'hero.sub': 'Alta performance em abrasivos industriais para aplicações exigentes', 'hero.cta': 'Falar no WhatsApp agora',
-            'premium.tag': '★ EXPORT QUALITY', 'premium.title': 'Linha Premium para Exportação', 'premium.desc': 'Superabrasivos e ferramentas de precisão para aplicações industriais críticas — alta performance, maior vida útil e redução de parada de máquina.', 'premium.cta': 'Solicitar Cotação Premium', 'premium.footer': 'Soluções de exportação com qualidade certificada para aplicações industriais críticas — atendimento técnico especializado.',
-            'premium.g1': 'Rebolos Diamantados — Export Grade', 'premium.g2': 'Rebolos CBN — Export Grade', 'premium.g3': 'Cintas Abrasivas Industriais — Export Grade', 'premium.g4': 'Discos Diamantados & Flap — Export Grade', 'premium.g5': 'Dressadores Diamantados — Export Grade', 'premium.g6': 'Pastas Diamantadas — Export Grade',
-            'catalog.tag': 'Catálogo', 'catalog.title': 'Linha Completa de Produtos', 'catalog.desc': 'Fornecemos soluções abrasivas para aplicações industriais leves e severas.',
-            'tech.tag': 'Catálogo Técnico', 'tech.title': 'Linha Completa de Abrasivos Industriais', 'tech.desc': 'Trabalhamos com uma linha completa de abrasivos industriais, atendendo operações de corte, desbaste, acabamento e polimento técnico.',
-            'specs.tag': 'Técnico', 'specs.title': 'Especificações', 'specs.graos': 'Grãos disponíveis', 'specs.medidas': 'Medidas', 'specs.medidas.val': 'Sob demanda — consulte nossa equipe', 'specs.note': 'Fornecemos soluções abrasivas para aplicações industriais leves e severas.', 'specs.cta': 'Consultar especificações',
-            'catalog.footer': 'Atuamos em parceria com grandes fabricantes mundiais, garantindo qualidade e desempenho para aplicações industriais exigentes.',
-            'diff.tag': 'Por que nos escolher', 'diff.title': 'Nossos Diferenciais', 'diff.dur': 'Alta Durabilidade', 'diff.dur.desc': 'Materiais que resistem ao uso mais severo e contínuo.', 'diff.prec': 'Precisão Industrial', 'diff.prec.desc': 'Grãos rigorosamente calibrados para acabamentos perfeitos.', 'diff.ent': 'Entrega Rápida', 'diff.ent.desc': 'Logística ágil para sua produção não parar.', 'diff.global': 'Atendimento Global', 'diff.global.desc': 'Nacional e internacional, adaptado à sua demanda.',
-            'pay.tag': 'Formas de Pagamento', 'pay.title': 'Métodos de Pagamento', 'pay.desc': 'Oferecemos diversas formas de pagamento para facilitar sua compra.',
-            'contact.tag': 'Fale conosco', 'contact.title': 'Entre em Contato', 'contact.desc': 'Solicite seu orçamento agora e receba atendimento direto da nossa equipe comercial.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'E-mail Comercial', 'contact.loc.label': 'Localização', 'contact.loc.value': 'Sorocaba/SP — Brasil', 'contact.cta': 'Falar no WhatsApp agora',
-            'footer.rights': '© 2002 Versatil Gama Industrial. Todos os direitos reservados.', 'footer.loc': 'Sorocaba/SP — Brasil',
-            'btn.adicionar': 'Adicionar', 'btn.adicionado': 'Adicionado!', 'btn.finalizar': 'Finalizar Pedido via WhatsApp', 'cart.title': 'Meu Pedido', 'cart.empty': 'Seu pedido está vazio', 'cart.empty.sub': 'Adicione produtos do catálogo', 'cart.total': 'TOTAL',
-            'currency.notice': '', 'unit': '/ un',
-            'toast.added': (name) => `${name} adicionado ao pedido!`, 'toast.qty.zero': 'Informe uma quantidade maior que zero.', 'toast.price.invalid': 'Informe um preço válido.', 'toast.price.missing': 'Erro: preço do produto não encontrado.', 'toast.cart.empty': 'Adicione produtos ao pedido primeiro!', 'toast.fields.required': 'Preencha todos os campos obrigatórios.', 'toast.usdt.copied': 'Endereço USDT copiado!',
-            'cc.title': 'Pagamento com Cartão', 'cc.total.label': 'Total com cartão', 'cc.surcharge': 'Acréscimo de 5% referente às taxas operacionais do cartão.', 'cc.section.personal': 'Dados Pessoais', 'cc.name': 'Nome completo', 'cc.name.placeholder': 'Nome como no cartão', 'cc.cpf': 'CPF / CNPJ', 'cc.email': 'E-mail', 'cc.phone': 'Telefone', 'cc.cep': 'CEP', 'cc.address': 'Número do endereço', 'cc.section.card': 'Dados do Cartão', 'cc.number': 'Número do cartão', 'cc.month': 'Mês (MM)', 'cc.year': 'Ano (AAAA)', 'cc.cvv': 'CVV', 'cc.submit': 'Pagar Agora', 'cc.processing': 'Processando pagamento...', 'cc.processing.sub': 'Aguarde, estamos validando seu cartão.', 'cc.close': 'Fechar', 'cc.approved': 'Pagamento Aprovado!', 'cc.pending': 'Em Processamento', 'cc.declined': 'Pagamento Não Aprovado',
-            // Abrasive grid items
-            'abr.pontas': 'Pontas Montadas', 'abr.pastas': 'Pastas Abrasivas', 'abr.dagua': 'Lixas D\'água', 'abr.inox': 'Abrasivos p/ Inox', 'abr.oxido': 'Óxido de Alumínio', 'abr.carbeto': 'Carbeto de Silício',
-            // Payment section (landing page)
-            'pay.pix.desc': 'Pagamento instantâneo via PIX', 'pay.pix.key': 'Chave PIX (CNPJ)', 'pay.pix.holder': 'Edson de Oliveira Silva / Recebimento via Asaas', 'pay.pix.instrucao': 'Envie seu comprovante via WhatsApp após o pagamento',
-            'pay.bank.title': 'Dados Bancários', 'pay.bank.desc': 'Transferência ou depósito bancário', 'pay.bank.banco': 'Banco', 'pay.bank.agencia': 'Agência', 'pay.bank.conta': 'Conta Corrente', 'pay.bank.titular': 'Titular',
-            'pay.usdt.badge': '-5% DESCONTO', 'pay.usdt.desc': 'Aceitamos pagamentos em USDT (TRC20) para clientes nacionais e internacionais.', 'pay.usdt.copiar': 'Copiar endereço',
-            'pay.cc.badge': '+5% TAXA', 'pay.cc.title': 'Cartão de Crédito', 'pay.cc.desc': 'Pague diretamente com seu cartão de crédito de forma segura.', 'pay.cc.notice': 'Pagamentos via cartão de crédito possuem acréscimo de 5% referente às taxas operacionais.', 'pay.cc.btn': 'Pagar com Cartão',
-            // Checkout
-            'ck.title': 'Finalizar Pedido', 'ck.step1': 'Comprador', 'ck.step2': 'Entrega', 'ck.step3': 'Pagamento', 'ck.step4': 'Resumo',
-            'ck.pf': 'Pessoa Física', 'ck.pj': 'Pessoa Jurídica',
-            'ck.dados.pf': 'Dados Pessoais', 'ck.dados.pj': 'Dados da Empresa',
-            'ck.nome': 'Nome completo *', 'ck.cpf': 'CPF *', 'ck.email': 'E-mail *', 'ck.phone': 'Telefone / WhatsApp *',
-            'ck.razao': 'Razão Social *', 'ck.fantasia': 'Nome Fantasia', 'ck.cnpj': 'CNPJ *', 'ck.ie': 'Inscrição Estadual', 'ck.responsavel': 'Responsável *',
-            'ck.endereco.cad': 'Endereço (Cadastro / Fiscal)', 'ck.cep': 'CEP *', 'ck.rua': 'Rua *', 'ck.numero': 'Número *', 'ck.complemento': 'Complemento', 'ck.bairro': 'Bairro *', 'ck.cidade': 'Cidade *', 'ck.estado': 'Estado *',
-            'ck.entrega.title': 'Endereço de Entrega', 'ck.entrega.same': 'Mesmo endereço do cadastro', 'ck.entrega.diff': 'Informar outro endereço de entrega', 'ck.referencia': 'Referência',
-            'ck.pag.title': 'Forma de Pagamento', 'ck.pix': 'PIX', 'ck.pix.desc': 'Pagamento instantâneo', 'ck.transf': 'Transferência Bancária', 'ck.transf.desc': 'Dados Sicredi', 'ck.usdt': 'USDT (TRC20)', 'ck.usdt.desc': 'Cripto internacional', 'ck.cartao': 'Cartão de Crédito', 'ck.cartao.taxa': '+5% taxa operacional',
-            'ck.confirm': 'Confirmar e Avançar →', 'ck.back': '← Voltar', 'ck.next': 'Próximo →', 'ck.send': 'Enviar Pedido via WhatsApp',
-            'ck.resumo.produtos': 'Produtos', 'ck.resumo.comprador': 'Dados do Comprador', 'ck.resumo.entrega': 'Endereço de Entrega', 'ck.resumo.pagamento': 'Forma de Pagamento', 'ck.resumo.fiscal': 'Dados para Nota Fiscal',
-            'ck.pedido': 'PEDIDO', 'ck.required': 'Preencha todos os campos obrigatórios.', 'ck.required.entrega': 'Preencha o endereço de entrega.'
+            // Navbar
+            'nav.servicos': 'Serviços', 'nav.equipamentos': 'Equipamentos', 'nav.portfolio': 'Portfólio',
+            'nav.global': 'Presença Global', 'nav.contato': 'Contato', 'nav.area': 'Minha Área',
+            'nav.solicitar': 'Solicitar Serviço',
+            // Hero
+            'hero.badge': 'Serviços B2B Enterprise',
+            'hero.sub': 'Excelência em Manutenção Industrial e Usinagem de Campo para operações de Alta Complexidade.',
+            'hero.cta': 'Solicitar Avaliação Técnica',
+            // História
+            'historia.title': 'História',
+            'historia.p1': '<strong>Versátil Services</strong> surgiu em 2002 atuando em Usinagem de Campo e Usinagem de Base, com uma ampla visão do mercado diversificou o seu raio de atuações voltadas para área industrial, hoje pode contar com uma versatilidade consolidada, onde colaboradores e parceiros estão sempre comprometidos com dedicação no pronto atendimento e responsabilidade da satisfação dos seus clientes.',
+            'historia.p2': 'Estabelecemo-nos como uma empresa voltada para manutenção industrial contendo a versatilidade nos seus segmentos.',
+            'historia.valores': 'Planejamento / Segurança / Qualidade / Agilidade / Eficiência, são parte integrante dos nossos princípios.',
+            // Setores
+            'setores.tag': 'Mercados Atendidos', 'setores.title': 'Setores de Atuação',
+            'setores.desc': 'Atendemos todos os segmentos da indústria brasileira e internacional — de refinarias a usinas, de plataformas a fábricas.',
+            // Serviços
+            'services.tag': 'Soluções Corporativas', 'services.title': 'Nossos Pilares de Atuação',
+            'services.desc': 'Oferecemos soluções completas para o setor industrial, garantindo a disponibilidade e integridade dos seus ativos.',
+            // Serviços Realizados
+            'realizados.tag': 'Resultados Comprovados', 'realizados.title': 'Serviços Realizados',
+            'realizados.desc': 'Galeria de trabalhos executados em campo e na oficina. Clique para ampliar.',
+            'realizados.portfolio.btn': 'Ver Portfólio Completo (50 Fotos)',
+            // Equipamentos
+            'equip.tag': 'Expertise Técnica', 'equip.title': 'Equipamentos Atendidos',
+            'equip.desc': 'Atuamos em todos os tipos de trocadores de calor e equipamentos industriais, com pronto atendimento 24h — On/Offshore.',
+            // Números
+            'numeros.tag': 'Resultados', 'numeros.title': 'Nossos Números',
+            'numeros.desc': 'Mais de duas décadas de excelência em manutenção industrial.',
+            'numeros.anos': 'Anos de Mercado', 'numeros.projetos': 'Projetos Executados',
+            // Setores
+            'setor.petroleo.name': 'Petróleo e Gás', 'setor.petroleo.desc': 'Refinarias, plataformas e plantas petroquímicas',
+            'setor.quimico.name': 'Químico e Petroquímico', 'setor.quimico.desc': 'Plantas de processo contínuo e batelada',
+            'setor.mineracao.name': 'Mineração e Siderurgia', 'setor.mineracao.desc': 'Fornos, secadores, cilindros e britadores',
+            'setor.celulose.name': 'Celulose e Papel', 'setor.celulose.desc': 'Secadores, prensas e cilindros yankee',
+            'setor.energia.name': 'Energia e Utilities', 'setor.energia.desc': 'Usinas termelétricas e de biomassa',
+            'setor.alimenticio.name': 'Alimentos e Bebidas', 'setor.alimenticio.desc': 'Linhas de envase e processamento',
+            'setor.fertilizantes.name': 'Fertilizantes', 'setor.fertilizantes.desc': 'Granuladoras, secadores e reatores',
+            'setor.maritimo.name': 'Naval e Offshore', 'setor.maritimo.desc': 'Embarcações, plataformas e módulos',
+            'setor.agua.name': 'Saneamento e Água', 'setor.agua.desc': 'ETAs, ETEs e estações de bombeamento',
+            'setor.borracha.name': 'Borracha e Plásticos', 'setor.borracha.desc': 'Extrusoras e equipamentos de vulcanização',
+            'setor.geracaoeletrica.name': 'Geração Elétrica', 'setor.geracaoeletrica.desc': 'Usinas hidrelétricas e subestações',
+            'setor.construcao.name': 'Construção Pesada', 'setor.construcao.desc': 'Obras industriais e montagem',
+            'setor.farmaceutico.name': 'Farmacêutico', 'setor.farmaceutico.desc': 'Laboratórios e instalações de produção',
+            'setor.automotivo.name': 'Automotivo', 'setor.automotivo.desc': 'Plantas de montagem e autopeças',
+            'setor.sucroalcooleiro.name': 'Sucroalcooleiro', 'setor.sucroalcooleiro.desc': 'Usinas de etanol e açúcar',
+            // Serviços
+            'srv.rotativos.title': 'Manutenção de Equipamentos Rotativos',
+            'srv.rotativos.desc': 'Inspeção técnica, alinhamento a laser, retífica de campo e recuperação estrutural de secadores, fornos, tambores e resfriadores.',
+            'srv.rotativos.b1': 'Alinhamento a Laser de Equipamentos Rotativos',
+            'srv.rotativos.b2': 'Usinagem de Campo em Rotativos',
+            'srv.rotativos.b3': 'Recuperação Estrutural de Secadores e Fornos',
+            'srv.rotativos.b4': 'Balanceamento Dinâmico',
+            'srv.rotativos.b5': 'Retífica de Pista e Cilindro',
+            'srv.rotativos.b6': 'Troca de Pneus e Roletes',
+            'srv.industrial.title': 'Manutenção Industrial',
+            'srv.industrial.desc': 'Planejamento, execução e gestão de paradas de manutenção. Revitalização de equipamentos estáticos e tubulações industriais.',
+            'srv.industrial.b1': 'Apoio à Fiscalização e Gerenciamento de Contratos',
+            'srv.industrial.b2': 'Gestão e Fiscalização de Paradas de Manutenção',
+            'srv.industrial.b3': 'Caldeiraria em Parada de Torres, Vasos e Permutadores',
+            'srv.industrial.b4': 'Inspeção de Integridade em Equipamentos e Tubulações',
+            'srv.industrial.b5': 'Manutenção de Tanques e Esferas',
+            'srv.industrial.b6': 'Manutenção de Fornos e Caldeiras',
+            'srv.industrial.b7': 'Manutenção de Válvulas',
+            'srv.industrial.b8': 'Enquadramento NR13',
+            'srv.usinagem.title': 'Usinagem de Campo',
+            'srv.usinagem.desc': 'Usinagem in loco com tolerâncias micrométricas. Faceamento de flanges, mandrilhamento, fresamento e torneamento de eixos sem desmontagem.',
+            'srv.usinagem.b1': 'Usinagem Flange Face Lisa / Ranhurada / Canal RTJ',
+            'srv.usinagem.b2': 'Fresagem de Base Metálicas',
+            'srv.usinagem.b3': 'Mandrilhamentos',
+            'srv.usinagem.b4': 'Biselamentos de Tubos',
+            'srv.usinagem.b5': 'Retífica em Pista de Secador / Granulador',
+            'srv.usinagem.b6': 'Usinagem / Retífica em Pino de Virabrequim',
+            'srv.usinagem.b7': 'Usinagem em Ponta de Eixo',
+            'srv.trocadores.title': 'Trocadores de Calor',
+            'srv.trocadores.desc': 'Fabricação, retubagem, limpeza química e hidrojateamento de trocadores de calor casco e tubo, serpentinas e resfriadores a ar.',
+            'srv.trocadores.b1': 'Manutenção em Trocadores de Calor',
+            'srv.trocadores.b2': 'Retubagem e Mandrilhamento',
+            'srv.trocadores.b3': 'Limpeza Química e Hidrojateamento',
+            'srv.trocadores.b4': 'Fabricação de Feixes Tubulares',
+            'srv.trocadores.b5': 'Teste Hidrostático',
+            'srv.trocadores.b6': 'Troca de Gaxetas e Espelhos',
+            'srv.ensaios.title': 'Ensaios Não Destrutivos',
+            'srv.ensaios.desc': 'Ensaios END para garantir a integridade de equipamentos, tubulações e estruturas.',
+            'srv.ensaios.b1': 'Líquido Penetrante',
+            'srv.ensaios.b2': 'Partícula Magnética',
+            'srv.ensaios.b3': 'Ultrassom / Medição de Espessura',
+            'srv.ensaios.b4': 'Radiografia Industrial',
+            'srv.ensaios.b5': 'Ensaio Visual',
+            'srv.ensaios.b6': 'Identificação de Ligas Metálicas (PMI)',
+            'srv.ensaios.b7': 'Inspeção de Pintura',
+            'srv.ensaios.b8': 'Inspeção de Fabricação',
+            'srv.ensaios.b9': 'Alpinismo Industrial',
+            'srv.ensaios.b10': 'Controle de Qualidade',
+            // Equipamentos
+            'equip.casco.name': 'Casco e Tubo', 'equip.casco.desc': 'Shell & Tube — manutenção, retubagem e fabricação',
+            'equip.aircooler.name': 'Air Cooler', 'equip.aircooler.desc': 'Resfriadores a ar — limpeza e manutenção preventiva',
+            'equip.condensadores.name': 'Condensadores', 'equip.condensadores.desc': 'Condensadores de vapor — retubagem e teste de hélio',
+            'equip.placas.name': 'Placas', 'equip.placas.desc': 'Limpeza, troca de gaxetas e coberturas',
+            'equip.rotativos.name': 'Rotativos Industriais', 'equip.rotativos.desc': 'Secadores, fornos e tambores — retífica e alinhamento',
+            // Galeria
+            'gal.badge.usinagem': 'Usinagem de Campo', 'gal.badge.rotativos': 'Rotativos', 'gal.badge.trocadores': 'Trocadores',
+            'gal.badge.manutencao': 'Manutenção', 'gal.badge.ensaios': 'Ensaios N.D.', 'gal.badge.usinagem2': 'Usinagem',
+            'gal.title.flange': 'Faceamento de Flange', 'gal.title.pista': 'Retífica de Pista',
+            'gal.title.retubagem': 'Retubagem Completa', 'gal.title.caldeiraria': 'Caldeiraria Industrial',
+            'gal.title.radiografia': 'Radiografia Industrial', 'gal.title.mandrilhamento': 'Mandrilhamento',
+            'gal.title.secador': 'Inspeção de Secador', 'gal.title.serpentina': 'Serpentina Industrial',
+            // Presença Global
+            'global.brasil.name': '🇧🇷 Brasil', 'global.brasil.addr': 'R. Miguel Banhos Gomes, 115<br>Iporanga — Sorocaba/SP<br>Santos - SP<br>CEP 18087-158',
+            'global.espanha.name': '🇪🇸 España', 'global.espanha.addr': 'Calle Massens 16-18, Piso 2, Puerta 3<br>Barcelona 08024<br>Barcelona — España',
+            'global.dubai.name': '🇦🇪 Dubai', 'global.dubai.addr': 'United Arab Emirates<br>DMCC FREE Zone<br>Dubai',
+            'numeros.clientes': 'Clientes Atendidos', 'numeros.continentes': 'Continentes',
+            // Global
+            'global.tag': 'Alcance Internacional', 'global.title': 'Presença Global',
+            'global.desc': 'Com operações estratégicas em 3 continentes, garantimos mobilização rápida e padronização técnica para projetos complexos ao redor do mundo.',
+            // Contato
+            'contact.tag': 'Engenharia & Negócios', 'contact.title': 'Fale com Nossa Equipe Técnica',
+            'contact.desc': 'Estamos prontos para analisar seu projeto, fornecer orçamentos detalhados e planejar a próxima parada da sua planta industrial.',
+            'contact.wa': 'WhatsApp Brasil', 'contact.email.label': 'Departamento Técnico',
+            'contact.loc.label': 'Localização', 'contact.loc.value': 'Sorocaba/SP — Brasil',
+            // Solicitar
+            'sol.title': 'Solicitar Cotação', 'sol.subtitle': 'Preencha os dados abaixo e nossa equipe técnica retornará em até 4 horas.',
+            'sol.sec.cliente': 'Dados do Cliente', 'sol.sec.servico': 'Detalhes do Serviço', 'sol.sec.anexos': 'Fotos e Anexos',
+            'sol.empresa': 'Empresa *', 'sol.empresa.ph': 'Ex: Petrobras, Vale, Braskem...',
+            'sol.responsavel': 'Responsável *', 'sol.responsavel.ph': 'Nome completo',
+            'sol.whatsapp': 'WhatsApp *', 'sol.email': 'Email',
+            'sol.tipo': 'Tipo de Serviço *', 'sol.selecione': 'Selecione...',
+            'sol.tipo.rotativos': 'Equipamentos Rotativos', 'sol.tipo.manutencao': 'Manutenção Industrial',
+            'sol.tipo.usinagem': 'Usinagem de Campo', 'sol.tipo.trocadores': 'Trocadores de Calor',
+            'sol.tipo.end': 'Ensaios Não Destrutivos (END)', 'sol.tipo.outro': 'Outro',
+            'sol.urgencia': 'Urgência', 'sol.urg.prog': 'Programada', 'sol.urg.urg': 'Urgente', 'sol.urg.emer': 'Emergência',
+            'sol.descricao': 'Descrição da Necessidade *', 'sol.descricao.ph': 'Descreva o serviço necessário, equipamento, localização na planta, dimensões, etc.',
+            'sol.obs': 'Observações Adicionais', 'sol.obs.ph': 'Condições de acesso, restrições de horário, EPIs especiais...',
+            'sol.anexos.hint': 'Tire fotos do equipamento ou anexe desenhos técnicos (PDF, imagens).',
+            'sol.btn.foto': 'Tirar Foto', 'sol.btn.arquivo': 'Anexar Arquivo',
+            'sol.btn.salvar': 'Salvar Rascunho', 'sol.btn.wa': 'Enviar via WhatsApp', 'sol.btn.email': 'Enviar por Email',
+            'sol.rascunhos': 'Rascunhos Salvos',
+            'sol.nav.servicos': 'Serviços', 'sol.nav.solicitar': 'Solicitar Cotação',
+            'sol.footer': 'Desde 2002 — Manutenção Industrial de Excelência',
+            'contact.cta': 'Iniciar Conversa',
+            // Footer
+            'footer.rights': '© 2002 Versátil Services. Todos os direitos reservados.',
+            'footer.loc': 'Sorocaba/SP — Brasil',
+            // Misc
+            'toast.added': (name) => `${name} adicionado!`, 'toast.qty.zero': 'Informe quantidade maior que zero.',
+            'toast.price.invalid': 'Informe um preço válido.', 'toast.price.missing': 'Erro: preço não encontrado.',
+            'toast.cart.empty': 'Adicione itens primeiro!', 'toast.fields.required': 'Preencha todos os campos.',
+            'toast.usdt.copied': 'Endereço copiado!', 'currency.notice': '', 'unit': '/ un',
+            'btn.adicionar': 'Adicionar', 'btn.adicionado': 'Adicionado!', 'btn.finalizar': 'Finalizar via WhatsApp',
+            'cart.title': 'Meu Pedido', 'cart.empty': 'Pedido vazio', 'cart.empty.sub': 'Adicione itens', 'cart.total': 'TOTAL',
+            'cc.title': 'Pagamento com Cartão', 'cc.total.label': 'Total', 'cc.surcharge': 'Acréscimo de 5% no cartão.',
+            'cc.section.personal': 'Dados Pessoais', 'cc.name': 'Nome', 'cc.name.placeholder': 'Nome no cartão',
+            'cc.cpf': 'CPF/CNPJ', 'cc.email': 'E-mail', 'cc.phone': 'Telefone', 'cc.cep': 'CEP',
+            'cc.address': 'Número', 'cc.section.card': 'Dados do Cartão', 'cc.number': 'Número do cartão',
+            'cc.month': 'Mês', 'cc.year': 'Ano', 'cc.cvv': 'CVV', 'cc.submit': 'Pagar',
+            'cc.processing': 'Processando...', 'cc.processing.sub': 'Aguarde.', 'cc.close': 'Fechar',
+            'cc.approved': 'Aprovado!', 'cc.pending': 'Processando', 'cc.declined': 'Recusado',
+            'ck.title': 'Finalizar', 'ck.step1': 'Dados', 'ck.step2': 'Entrega', 'ck.step3': 'Pagamento', 'ck.step4': 'Resumo',
+            'ck.pf': 'Pessoa Física', 'ck.pj': 'Pessoa Jurídica', 'ck.dados.pf': 'Dados Pessoais', 'ck.dados.pj': 'Dados da Empresa',
+            'ck.nome': 'Nome *', 'ck.cpf': 'CPF *', 'ck.email': 'E-mail *', 'ck.phone': 'Telefone *',
+            'ck.razao': 'Razão Social *', 'ck.fantasia': 'Fantasia', 'ck.cnpj': 'CNPJ *', 'ck.ie': 'IE', 'ck.responsavel': 'Responsável *',
+            'ck.endereco.cad': 'Endereço', 'ck.cep': 'CEP *', 'ck.rua': 'Rua *', 'ck.numero': 'Número *',
+            'ck.complemento': 'Complemento', 'ck.bairro': 'Bairro *', 'ck.cidade': 'Cidade *', 'ck.estado': 'Estado *',
+            'ck.entrega.title': 'Endereço de Entrega', 'ck.entrega.same': 'Mesmo endereço', 'ck.entrega.diff': 'Outro endereço', 'ck.referencia': 'Referência',
+            'ck.pag.title': 'Pagamento', 'ck.pix': 'PIX', 'ck.pix.desc': 'Instantâneo', 'ck.transf': 'Transferência', 'ck.transf.desc': 'Sicredi',
+            'ck.usdt': 'USDT', 'ck.usdt.desc': 'Cripto', 'ck.cartao': 'Cartão', 'ck.cartao.taxa': '+5%',
+            'ck.confirm': 'Confirmar →', 'ck.back': '← Voltar', 'ck.next': 'Próximo →', 'ck.send': 'Enviar via WhatsApp',
+            'ck.resumo.produtos': 'Itens', 'ck.resumo.comprador': 'Comprador', 'ck.resumo.entrega': 'Entrega',
+            'ck.resumo.pagamento': 'Pagamento', 'ck.resumo.fiscal': 'Fiscal', 'ck.pedido': 'PEDIDO',
+            'ck.required': 'Preencha todos os campos.', 'ck.required.entrega': 'Preencha o endereço de entrega.',
+            'pay.tag': 'Formas de Pagamento', 'pay.title': 'Pagamento', 'pay.desc': 'Formas de pagamento disponíveis.',
+            'pay.pix.desc': 'PIX instantâneo', 'pay.pix.key': 'Chave PIX', 'pay.pix.holder': 'Edson de Oliveira Silva', 'pay.pix.instrucao': 'Envie comprovante pelo WhatsApp',
+            'pay.bank.title': 'Dados Bancários', 'pay.bank.desc': 'Transferência bancária', 'pay.bank.banco': 'Banco', 'pay.bank.agencia': 'Agência', 'pay.bank.conta': 'Conta', 'pay.bank.titular': 'Titular',
+            'pay.usdt.badge': '-5%', 'pay.usdt.desc': 'Aceito USDT (TRC20).', 'pay.usdt.copiar': 'Copiar',
+            'pay.cc.badge': '+5%', 'pay.cc.title': 'Cartão', 'pay.cc.desc': 'Cartão de crédito.', 'pay.cc.notice': '+5% no cartão.', 'pay.cc.btn': 'Pagar com Cartão',
+            'abr.pontas': 'Serviços', 'abr.pastas': 'Projetos', 'abr.dagua': 'Manutenção', 'abr.inox': 'Inspeção', 'abr.oxido': 'Usinagem', 'abr.carbeto': 'Ensaios'
         },
         en: {
-            'nav.produtos': 'Products', 'nav.pagamento': 'Payment', 'nav.contato': 'Contact', 'nav.pedido': 'Order', 'nav.whatsapp': 'WhatsApp',
-            'hero.badge': 'Industrial Abrasives', 'hero.sub': 'High-performance industrial abrasives for demanding applications', 'hero.cta': 'Chat on WhatsApp',
-            'premium.tag': '★ EXPORT QUALITY', 'premium.title': 'Premium Export Line', 'premium.desc': 'Superabrasives and precision tools for critical industrial applications — high performance, extended tool life and reduced machine downtime.', 'premium.cta': 'Request Premium Quote', 'premium.footer': 'Export-grade solutions with certified quality for critical industrial applications — specialized technical support.',
-            'premium.g1': 'Diamond Grinding Wheels — Export Grade', 'premium.g2': 'CBN Grinding Wheels — Export Grade', 'premium.g3': 'Industrial Abrasive Belts — Export Grade', 'premium.g4': 'Diamond & Flap Discs — Export Grade', 'premium.g5': 'Diamond Dressers — Export Grade', 'premium.g6': 'Diamond Pastes — Export Grade',
-            'catalog.tag': 'Catalog', 'catalog.title': 'Complete Product Line', 'catalog.desc': 'We provide abrasive solutions for light and heavy industrial applications.',
-            'tech.tag': 'Technical Catalog', 'tech.title': 'Full Range of Industrial Abrasives', 'tech.desc': 'We work with a complete line of industrial abrasives for cutting, grinding, finishing and technical polishing operations.',
-            'specs.tag': 'Technical', 'specs.title': 'Specifications', 'specs.graos': 'Available grits', 'specs.medidas': 'Sizes', 'specs.medidas.val': 'On demand — contact our team', 'specs.note': 'We provide abrasive solutions for light and heavy industrial applications.', 'specs.cta': 'Check specifications',
-            'catalog.footer': 'We work in partnership with leading global manufacturers, ensuring quality and performance for demanding industrial applications.',
-            'diff.tag': 'Why Choose Us', 'diff.title': 'Our Advantages', 'diff.dur': 'High Durability', 'diff.dur.desc': 'Materials that withstand the most severe and continuous use.', 'diff.prec': 'Industrial Precision', 'diff.prec.desc': 'Rigorously calibrated grains for perfect finishes.', 'diff.ent': 'Fast Delivery', 'diff.ent.desc': 'Agile logistics to keep your production running.', 'diff.global': 'Global Service', 'diff.global.desc': 'National and international, tailored to your demand.',
-            'pay.tag': 'Payment Methods', 'pay.title': 'Payment Options', 'pay.desc': 'We offer multiple payment methods for your convenience.',
-            'contact.tag': 'Get In Touch', 'contact.title': 'Contact Us', 'contact.desc': 'Request your quote now and receive direct support from our sales team.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'Commercial E-mail', 'contact.loc.label': 'Location', 'contact.loc.value': 'Sorocaba/SP — Brazil', 'contact.cta': 'Chat on WhatsApp now',
-            'footer.rights': '© 2002 Versatil Gama Industrial. All rights reserved.', 'footer.loc': 'Sorocaba/SP — Brazil',
-            'btn.adicionar': 'Add to Cart', 'btn.adicionado': 'Added!', 'btn.finalizar': 'Complete Order via WhatsApp', 'cart.title': 'My Order', 'cart.empty': 'Your order is empty', 'cart.empty.sub': 'Add products from the catalog', 'cart.total': 'TOTAL',
-            'currency.notice': 'Prices for international customers are displayed in USD', 'unit': '/ ea',
-            'toast.added': (name) => `${name} added to order!`, 'toast.qty.zero': 'Please enter a quantity greater than zero.', 'toast.price.invalid': 'Please enter a valid price.', 'toast.price.missing': 'Error: product price not found.', 'toast.cart.empty': 'Add products to your order first!', 'toast.fields.required': 'Please fill in all required fields.', 'toast.usdt.copied': 'USDT address copied!',
-            'cc.title': 'Card Payment', 'cc.total.label': 'Total with card', 'cc.surcharge': '5% processing fee applied for credit card payments.', 'cc.section.personal': 'Personal Details', 'cc.name': 'Full name', 'cc.name.placeholder': 'Name as on card', 'cc.cpf': 'Tax ID (CPF/CNPJ)', 'cc.email': 'E-mail', 'cc.phone': 'Phone', 'cc.cep': 'Zip Code', 'cc.address': 'Address number', 'cc.section.card': 'Card Details', 'cc.number': 'Card number', 'cc.month': 'Month (MM)', 'cc.year': 'Year (YYYY)', 'cc.cvv': 'CVV', 'cc.submit': 'Pay Now', 'cc.processing': 'Processing payment...', 'cc.processing.sub': 'Please wait, we are validating your card.', 'cc.close': 'Close', 'cc.approved': 'Payment Approved!', 'cc.pending': 'Processing', 'cc.declined': 'Payment Declined',
-            // Abrasive grid items
-            'abr.pontas': 'Mounted Points', 'abr.pastas': 'Abrasive Pastes', 'abr.dagua': 'Wet Sandpaper', 'abr.inox': 'Stainless Steel Abrasives', 'abr.oxido': 'Aluminum Oxide', 'abr.carbeto': 'Silicon Carbide',
-            // Payment section (landing page)
-            'pay.pix.desc': 'Instant payment via PIX', 'pay.pix.key': 'PIX Key (CNPJ)', 'pay.pix.holder': 'Edson de Oliveira Silva / Processed via Asaas', 'pay.pix.instrucao': 'Send your receipt via WhatsApp after payment',
-            'pay.bank.title': 'Banking Details', 'pay.bank.desc': 'Wire transfer or bank deposit', 'pay.bank.banco': 'Bank', 'pay.bank.agencia': 'Branch', 'pay.bank.conta': 'Account', 'pay.bank.titular': 'Account Holder',
-            'pay.usdt.badge': '-5% DISCOUNT', 'pay.usdt.desc': 'We accept USDT (TRC20) payments for domestic and international customers.', 'pay.usdt.copiar': 'Copy address',
-            'pay.cc.badge': '+5% FEE', 'pay.cc.title': 'Credit Card', 'pay.cc.desc': 'Pay securely with your credit card.', 'pay.cc.notice': 'Credit card payments include a 5% processing fee.', 'pay.cc.btn': 'Pay with Card',
-            // Checkout
-            'ck.title': 'Checkout', 'ck.step1': 'Buyer', 'ck.step2': 'Shipping', 'ck.step3': 'Payment', 'ck.step4': 'Summary',
-            'ck.pf': 'Individual', 'ck.pj': 'Company',
-            'ck.dados.pf': 'Personal Details', 'ck.dados.pj': 'Company Details',
-            'ck.nome': 'Full name *', 'ck.cpf': 'Tax ID (CPF) *', 'ck.email': 'E-mail *', 'ck.phone': 'Phone / WhatsApp *',
-            'ck.razao': 'Company Name *', 'ck.fantasia': 'Trade Name', 'ck.cnpj': 'Tax ID (CNPJ) *', 'ck.ie': 'State Registration', 'ck.responsavel': 'Contact Person *',
-            'ck.endereco.cad': 'Address (Registration / Tax)', 'ck.cep': 'Zip Code *', 'ck.rua': 'Street *', 'ck.numero': 'Number *', 'ck.complemento': 'Unit / Suite', 'ck.bairro': 'District *', 'ck.cidade': 'City *', 'ck.estado': 'State *',
-            'ck.entrega.title': 'Shipping Address', 'ck.entrega.same': 'Same as registration address', 'ck.entrega.diff': 'Use a different shipping address', 'ck.referencia': 'Landmark',
-            'ck.pag.title': 'Payment Method', 'ck.pix': 'PIX', 'ck.pix.desc': 'Instant payment', 'ck.transf': 'Bank Transfer', 'ck.transf.desc': 'Banking details', 'ck.usdt': 'USDT (TRC20)', 'ck.usdt.desc': 'International crypto', 'ck.cartao': 'Credit Card', 'ck.cartao.taxa': '+5% processing fee',
-            'ck.confirm': 'Confirm & Continue →', 'ck.back': '← Back', 'ck.next': 'Next →', 'ck.send': 'Send Order via WhatsApp',
-            'ck.resumo.produtos': 'Products', 'ck.resumo.comprador': 'Buyer Details', 'ck.resumo.entrega': 'Shipping Address', 'ck.resumo.pagamento': 'Payment Method', 'ck.resumo.fiscal': 'Tax Invoice Details',
-            'ck.pedido': 'ORDER', 'ck.required': 'Please fill in all required fields.', 'ck.required.entrega': 'Please fill in the shipping address.'
+            // Navbar
+            'nav.servicos': 'Services', 'nav.equipamentos': 'Equipment', 'nav.portfolio': 'Portfolio',
+            'nav.global': 'Global Presence', 'nav.contato': 'Contact', 'nav.area': 'My Area',
+            'nav.solicitar': 'Request Service',
+            // Hero
+            'hero.badge': 'B2B Enterprise Services',
+            'hero.sub': 'Excellence in Industrial Maintenance and Field Machining for High-Complexity Operations.',
+            'hero.cta': 'Request Technical Assessment',
+            // História
+            'historia.title': 'History',
+            'historia.p1': '<strong>Versátil Services</strong> was founded in 2002 specializing in Field Machining and Base Machining. With a broad market vision, it diversified into the industrial sector. Today, it stands as a consolidated company where employees and partners are always committed to prompt service and client satisfaction.',
+            'historia.p2': 'We established ourselves as a company focused on industrial maintenance with versatility across multiple segments.',
+            'historia.valores': 'Planning / Safety / Quality / Agility / Efficiency — these are the core principles of our company.',
+            // Setores
+            'setores.tag': 'Markets Served', 'setores.title': 'Industry Sectors',
+            'setores.desc': 'We serve all segments of Brazilian and international industry — from refineries to mills, from platforms to factories.',
+            // Serviços
+            'services.tag': 'Corporate Solutions', 'services.title': 'Our Core Services',
+            'services.desc': 'We offer complete solutions for the industrial sector, ensuring the availability and integrity of your assets.',
+            // Realizados
+            'realizados.tag': 'Proven Results', 'realizados.title': 'Completed Services',
+            'realizados.desc': 'Gallery of work carried out in the field and at the workshop. Click to enlarge.',
+            'realizados.portfolio.btn': 'View Full Portfolio (50 Photos)',
+            // Equipamentos
+            'equip.tag': 'Technical Expertise', 'equip.title': 'Equipment We Service',
+            'equip.desc': 'We work with all types of heat exchangers and industrial equipment, with 24h on-call — On/Offshore.',
+            // Números
+            'numeros.tag': 'Results', 'numeros.title': 'Our Numbers',
+            'numeros.desc': 'Over two decades of excellence in industrial maintenance.',
+            'numeros.anos': 'Years in Business', 'numeros.projetos': 'Projects Completed',
+            // Sectors
+            'setor.petroleo.name': 'Oil & Gas', 'setor.petroleo.desc': 'Refineries, platforms and petrochemical plants',
+            'setor.quimico.name': 'Chemical & Petrochemical', 'setor.quimico.desc': 'Continuous and batch process plants',
+            'setor.mineracao.name': 'Mining & Steel', 'setor.mineracao.desc': 'Kilns, dryers, cylinders and crushers',
+            'setor.celulose.name': 'Pulp & Paper', 'setor.celulose.desc': 'Dryers, presses and yankee cylinders',
+            'setor.energia.name': 'Energy & Utilities', 'setor.energia.desc': 'Thermoelectric and biomass plants',
+            'setor.alimenticio.name': 'Food & Beverage', 'setor.alimenticio.desc': 'Bottling and processing lines',
+            'setor.fertilizantes.name': 'Fertilizers', 'setor.fertilizantes.desc': 'Granulators, dryers and reactors',
+            'setor.maritimo.name': 'Naval & Offshore', 'setor.maritimo.desc': 'Vessels, platforms and modules',
+            'setor.agua.name': 'Water & Sanitation', 'setor.agua.desc': 'Water and wastewater treatment plants',
+            'setor.borracha.name': 'Rubber & Plastics', 'setor.borracha.desc': 'Extruders and vulcanization equipment',
+            'setor.geracaoeletrica.name': 'Power Generation', 'setor.geracaoeletrica.desc': 'Hydroelectric plants and substations',
+            'setor.construcao.name': 'Heavy Construction', 'setor.construcao.desc': 'Industrial works and assembly',
+            'setor.farmaceutico.name': 'Pharmaceutical', 'setor.farmaceutico.desc': 'Laboratories and production facilities',
+            'setor.automotivo.name': 'Automotive', 'setor.automotivo.desc': 'Assembly plants and auto parts',
+            'setor.sucroalcooleiro.name': 'Sugar & Ethanol', 'setor.sucroalcooleiro.desc': 'Ethanol and sugar mills',
+            // Services
+            'srv.rotativos.title': 'Rotating Equipment Maintenance',
+            'srv.rotativos.desc': 'Technical inspection, laser alignment, field grinding and structural recovery of dryers, kilns, drums and coolers.',
+            'srv.rotativos.b1': 'Laser Alignment of Rotating Equipment',
+            'srv.rotativos.b2': 'Field Machining on Rotating Equipment',
+            'srv.rotativos.b3': 'Structural Recovery of Dryers and Kilns',
+            'srv.rotativos.b4': 'Dynamic Balancing',
+            'srv.rotativos.b5': 'Track and Cylinder Grinding',
+            'srv.rotativos.b6': 'Tire and Roller Replacement',
+            'srv.industrial.title': 'Industrial Maintenance',
+            'srv.industrial.desc': 'Planning, execution and management of maintenance shutdowns. Revitalization of static equipment and industrial piping.',
+            'srv.industrial.b1': 'Supervision Support and Contract Management',
+            'srv.industrial.b2': 'Shutdown Management and Supervision',
+            'srv.industrial.b3': 'Boilermaking on Towers, Vessels and Exchangers',
+            'srv.industrial.b4': 'Integrity Inspection of Equipment and Piping',
+            'srv.industrial.b5': 'Tank and Sphere Maintenance',
+            'srv.industrial.b6': 'Furnace and Boiler Maintenance',
+            'srv.industrial.b7': 'Valve Maintenance',
+            'srv.industrial.b8': 'NR13 Compliance',
+            'srv.usinagem.title': 'Field Machining',
+            'srv.usinagem.desc': 'On-site machining with micrometric tolerances. Flange facing, line boring, milling and shaft turning without disassembly.',
+            'srv.usinagem.b1': 'Flange Face Machining — Flat / Grooved / RTJ',
+            'srv.usinagem.b2': 'Metal Base Milling',
+            'srv.usinagem.b3': 'Line Boring',
+            'srv.usinagem.b4': 'Pipe Beveling',
+            'srv.usinagem.b5': 'Dryer / Granulator Track Grinding',
+            'srv.usinagem.b6': 'Crankshaft Pin Machining / Grinding',
+            'srv.usinagem.b7': 'Shaft End Machining',
+            'srv.trocadores.title': 'Heat Exchangers',
+            'srv.trocadores.desc': 'Manufacturing, re-tubing, chemical cleaning and hydroblasting of shell-and-tube heat exchangers, coils and air coolers.',
+            'srv.trocadores.b1': 'Heat Exchanger Maintenance',
+            'srv.trocadores.b2': 'Re-tubing and Line Boring',
+            'srv.trocadores.b3': 'Chemical Cleaning and Hydroblasting',
+            'srv.trocadores.b4': 'Tube Bundle Manufacturing',
+            'srv.trocadores.b5': 'Hydrostatic Testing',
+            'srv.trocadores.b6': 'Gasket and Mirror Replacement',
+            'srv.ensaios.title': 'Non-Destructive Testing',
+            'srv.ensaios.desc': 'NDT inspections to ensure the integrity of equipment, piping and structures.',
+            'srv.ensaios.b1': 'Liquid Penetrant',
+            'srv.ensaios.b2': 'Magnetic Particle',
+            'srv.ensaios.b3': 'Ultrasound / Thickness Measurement',
+            'srv.ensaios.b4': 'Industrial Radiography',
+            'srv.ensaios.b5': 'Visual Inspection',
+            'srv.ensaios.b6': 'Metallic Alloy Identification (PMI)',
+            'srv.ensaios.b7': 'Paint Inspection',
+            'srv.ensaios.b8': 'Manufacturing Inspection',
+            'srv.ensaios.b9': 'Industrial Rope Access',
+            'srv.ensaios.b10': 'Quality Control',
+            // Equipment
+            'equip.casco.name': 'Shell & Tube', 'equip.casco.desc': 'Shell & Tube — maintenance, re-tubing and manufacturing',
+            'equip.aircooler.name': 'Air Cooler', 'equip.aircooler.desc': 'Air coolers — cleaning and preventive maintenance',
+            'equip.condensadores.name': 'Condensers', 'equip.condensadores.desc': 'Steam condensers — re-tubing and helium testing',
+            'equip.placas.name': 'Plate Exchangers', 'equip.placas.desc': 'Cleaning, gasket and cover replacement',
+            'equip.rotativos.name': 'Industrial Rotating Equipment', 'equip.rotativos.desc': 'Dryers, kilns and drums — grinding and alignment',
+            // Gallery
+            'gal.badge.usinagem': 'Field Machining', 'gal.badge.rotativos': 'Rotating Equipment', 'gal.badge.trocadores': 'Heat Exchangers',
+            'gal.badge.manutencao': 'Maintenance', 'gal.badge.ensaios': 'NDT Inspections', 'gal.badge.usinagem2': 'Machining',
+            'gal.title.flange': 'Flange Facing', 'gal.title.pista': 'Track Grinding',
+            'gal.title.retubagem': 'Full Re-tubing', 'gal.title.caldeiraria': 'Industrial Boilermaking',
+            'gal.title.radiografia': 'Industrial Radiography', 'gal.title.mandrilhamento': 'Line Boring',
+            'gal.title.secador': 'Dryer Inspection', 'gal.title.serpentina': 'Industrial Coil',
+            // Global Presence
+            'global.brasil.name': '🇧🇷 Brazil', 'global.brasil.addr': 'R. Miguel Banhos Gomes, 115<br>Iporanga — Sorocaba/SP<br>Santos - SP<br>ZIP 18087-158',
+            'global.espanha.name': '🇪🇸 Spain', 'global.espanha.addr': 'Calle Massens 16-18, Floor 2, Door 3<br>Barcelona 08024<br>Barcelona — Spain',
+            'global.dubai.name': '🇦🇪 Dubai', 'global.dubai.addr': 'United Arab Emirates<br>DMCC FREE Zone<br>Dubai',
+            'numeros.clientes': 'Clients Served', 'numeros.continentes': 'Continents',
+            // Global
+            'global.tag': 'International Reach', 'global.title': 'Global Presence',
+            'global.desc': 'With strategic operations on 3 continents, we guarantee rapid mobilization and technical standardization for complex projects worldwide.',
+            // Contato
+            'contact.tag': 'Engineering & Business', 'contact.title': 'Talk to Our Technical Team',
+            'contact.desc': 'We are ready to analyze your project, provide detailed quotes and plan the next shutdown of your industrial plant.',
+            'contact.wa': 'WhatsApp Brazil', 'contact.email.label': 'Technical Department',
+            'contact.loc.label': 'Location', 'contact.loc.value': 'Sorocaba/SP — Brazil',
+            // Solicitar
+            'sol.title': 'Request Quotation', 'sol.subtitle': 'Fill in the details below and our technical team will respond within 4 hours.',
+            'sol.sec.cliente': 'Client Information', 'sol.sec.servico': 'Service Details', 'sol.sec.anexos': 'Photos & Attachments',
+            'sol.empresa': 'Company *', 'sol.empresa.ph': 'Ex: Aramco, ADNOC, Shell...',
+            'sol.responsavel': 'Contact Person *', 'sol.responsavel.ph': 'Full name',
+            'sol.whatsapp': 'WhatsApp *', 'sol.email': 'Email',
+            'sol.tipo': 'Service Type *', 'sol.selecione': 'Select...',
+            'sol.tipo.rotativos': 'Rotating Equipment', 'sol.tipo.manutencao': 'Industrial Maintenance',
+            'sol.tipo.usinagem': 'Field Machining', 'sol.tipo.trocadores': 'Heat Exchangers',
+            'sol.tipo.end': 'Non-Destructive Testing (NDT)', 'sol.tipo.outro': 'Other',
+            'sol.urgencia': 'Priority', 'sol.urg.prog': 'Scheduled', 'sol.urg.urg': 'Urgent', 'sol.urg.emer': 'Emergency',
+            'sol.descricao': 'Service Description *', 'sol.descricao.ph': 'Describe the required service, equipment, plant location, dimensions, etc.',
+            'sol.obs': 'Additional Notes', 'sol.obs.ph': 'Access conditions, time restrictions, special PPE requirements...',
+            'sol.anexos.hint': 'Take photos of the equipment or attach technical drawings (PDF, images).',
+            'sol.btn.foto': 'Take Photo', 'sol.btn.arquivo': 'Attach File',
+            'sol.btn.salvar': 'Save Draft', 'sol.btn.wa': 'Send via WhatsApp', 'sol.btn.email': 'Send by Email',
+            'sol.rascunhos': 'Saved Drafts',
+            'sol.nav.servicos': 'Services', 'sol.nav.solicitar': 'Request Quotation',
+            'sol.footer': 'Since 2002 — Excellence in Industrial Maintenance',
+            'contact.cta': 'Start a Conversation',
+            // Footer
+            'footer.rights': '© 2002 Versátil Services. All rights reserved.',
+            'footer.loc': 'Sorocaba/SP — Brazil',
+            // Misc (same pattern)
+            'toast.added': (name) => `${name} added!`, 'toast.qty.zero': 'Enter quantity > 0.',
+            'toast.price.invalid': 'Enter a valid price.', 'toast.price.missing': 'Error: price not found.',
+            'toast.cart.empty': 'Add items first!', 'toast.fields.required': 'Fill in all required fields.',
+            'toast.usdt.copied': 'Address copied!', 'currency.notice': 'Prices shown in USD', 'unit': '/ ea',
+            'btn.adicionar': 'Add', 'btn.adicionado': 'Added!', 'btn.finalizar': 'Complete via WhatsApp',
+            'cart.title': 'My Order', 'cart.empty': 'Empty order', 'cart.empty.sub': 'Add items', 'cart.total': 'TOTAL',
+            'cc.title': 'Card Payment', 'cc.total.label': 'Total', 'cc.surcharge': '+5% card processing fee.',
+            'cc.section.personal': 'Personal Details', 'cc.name': 'Name', 'cc.name.placeholder': 'Name on card',
+            'cc.cpf': 'Tax ID', 'cc.email': 'E-mail', 'cc.phone': 'Phone', 'cc.cep': 'Zip Code',
+            'cc.address': 'Number', 'cc.section.card': 'Card Details', 'cc.number': 'Card number',
+            'cc.month': 'Month', 'cc.year': 'Year', 'cc.cvv': 'CVV', 'cc.submit': 'Pay Now',
+            'cc.processing': 'Processing...', 'cc.processing.sub': 'Please wait.', 'cc.close': 'Close',
+            'cc.approved': 'Approved!', 'cc.pending': 'Processing', 'cc.declined': 'Declined',
+            'ck.title': 'Checkout', 'ck.step1': 'Details', 'ck.step2': 'Shipping', 'ck.step3': 'Payment', 'ck.step4': 'Summary',
+            'ck.pf': 'Individual', 'ck.pj': 'Company', 'ck.dados.pf': 'Personal Details', 'ck.dados.pj': 'Company Details',
+            'ck.nome': 'Name *', 'ck.cpf': 'Tax ID *', 'ck.email': 'E-mail *', 'ck.phone': 'Phone *',
+            'ck.razao': 'Company Name *', 'ck.fantasia': 'Trade Name', 'ck.cnpj': 'Company ID *', 'ck.ie': 'State Reg.', 'ck.responsavel': 'Contact *',
+            'ck.endereco.cad': 'Address', 'ck.cep': 'Zip *', 'ck.rua': 'Street *', 'ck.numero': 'Number *',
+            'ck.complemento': 'Unit', 'ck.bairro': 'District *', 'ck.cidade': 'City *', 'ck.estado': 'State *',
+            'ck.entrega.title': 'Shipping Address', 'ck.entrega.same': 'Same address', 'ck.entrega.diff': 'Different address', 'ck.referencia': 'Landmark',
+            'ck.pag.title': 'Payment', 'ck.pix': 'PIX', 'ck.pix.desc': 'Instant', 'ck.transf': 'Wire Transfer', 'ck.transf.desc': 'Bank details',
+            'ck.usdt': 'USDT', 'ck.usdt.desc': 'Crypto', 'ck.cartao': 'Card', 'ck.cartao.taxa': '+5% fee',
+            'ck.confirm': 'Confirm →', 'ck.back': '← Back', 'ck.next': 'Next →', 'ck.send': 'Send via WhatsApp',
+            'ck.resumo.produtos': 'Items', 'ck.resumo.comprador': 'Buyer', 'ck.resumo.entrega': 'Shipping',
+            'ck.resumo.pagamento': 'Payment', 'ck.resumo.fiscal': 'Tax', 'ck.pedido': 'ORDER',
+            'ck.required': 'Fill all required fields.', 'ck.required.entrega': 'Fill shipping address.',
+            'pay.tag': 'Payment Methods', 'pay.title': 'Payment', 'pay.desc': 'Available payment options.',
+            'pay.pix.desc': 'Instant PIX', 'pay.pix.key': 'PIX Key', 'pay.pix.holder': 'Edson de Oliveira Silva', 'pay.pix.instrucao': 'Send receipt via WhatsApp',
+            'pay.bank.title': 'Bank Details', 'pay.bank.desc': 'Wire transfer', 'pay.bank.banco': 'Bank', 'pay.bank.agencia': 'Branch', 'pay.bank.conta': 'Account', 'pay.bank.titular': 'Holder',
+            'pay.usdt.badge': '-5%', 'pay.usdt.desc': 'USDT (TRC20) accepted.', 'pay.usdt.copiar': 'Copy',
+            'pay.cc.badge': '+5%', 'pay.cc.title': 'Card', 'pay.cc.desc': 'Credit card.', 'pay.cc.notice': '+5% card fee.', 'pay.cc.btn': 'Pay with Card',
+            'abr.pontas': 'Services', 'abr.pastas': 'Projects', 'abr.dagua': 'Maintenance', 'abr.inox': 'Inspection', 'abr.oxido': 'Machining', 'abr.carbeto': 'Testing'
         },
         es: {
-            'nav.produtos': 'Productos', 'nav.pagamento': 'Pago', 'nav.contato': 'Contacto', 'nav.pedido': 'Pedido', 'nav.whatsapp': 'WhatsApp',
-            'hero.badge': 'Abrasivos Industriales', 'hero.sub': 'Abrasivos industriales de alto rendimiento para aplicaciones exigentes', 'hero.cta': 'Hablar por WhatsApp',
-            'premium.tag': '★ EXPORT QUALITY', 'premium.title': 'Línea Premium de Exportación', 'premium.desc': 'Superabrasivos y herramientas de precisión para aplicaciones industriales críticas — alto rendimiento, mayor vida útil y reducción de paradas.', 'premium.cta': 'Solicitar Cotización Premium', 'premium.footer': 'Soluciones de exportación con calidad certificada para aplicaciones industriales críticas — soporte técnico especializado.',
-            'premium.g1': 'Muelas Diamantadas — Export Grade', 'premium.g2': 'Muelas CBN — Export Grade', 'premium.g3': 'Cintas Abrasivas Industriales — Export Grade', 'premium.g4': 'Discos Diamantados & Flap — Export Grade', 'premium.g5': 'Rectificadores Diamantados — Export Grade', 'premium.g6': 'Pastas Diamantadas — Export Grade',
-            'catalog.tag': 'Catálogo', 'catalog.title': 'Línea Completa de Productos', 'catalog.desc': 'Proporcionamos soluciones abrasivas para aplicaciones industriales ligeras y severas.',
-            'tech.tag': 'Catálogo Técnico', 'tech.title': 'Gama Completa de Abrasivos Industriales', 'tech.desc': 'Trabajamos con una línea completa de abrasivos industriales para operaciones de corte, desbaste, acabado y pulido técnico.',
-            'specs.tag': 'Técnico', 'specs.title': 'Especificaciones', 'specs.graos': 'Granos disponibles', 'specs.medidas': 'Medidas', 'specs.medidas.val': 'Bajo demanda — consulte con nuestro equipo', 'specs.note': 'Proporcionamos soluciones abrasivas para aplicaciones industriales ligeras y severas.', 'specs.cta': 'Consultar especificaciones',
-            'catalog.footer': 'Trabajamos en alianza con grandes fabricantes mundiales, garantizando calidad y rendimiento para aplicaciones industriales exigentes.',
-            'diff.tag': 'Por qué elegirnos', 'diff.title': 'Nuestros Diferenciales', 'diff.dur': 'Alta Durabilidad', 'diff.dur.desc': 'Materiales que resisten el uso más severo y continuo.', 'diff.prec': 'Precisión Industrial', 'diff.prec.desc': 'Granos rigurosamente calibrados para acabados perfectos.', 'diff.ent': 'Entrega Rápida', 'diff.ent.desc': 'Logística ágil para que su producción no pare.', 'diff.global': 'Atención Global', 'diff.global.desc': 'Nacional e internacional, adaptado a su demanda.',
-            'pay.tag': 'Formas de Pago', 'pay.title': 'Métodos de Pago', 'pay.desc': 'Ofrecemos diversas formas de pago para facilitar su compra.',
-            'contact.tag': 'Contáctenos', 'contact.title': 'Contacto', 'contact.desc': 'Solicite su presupuesto ahora y reciba atención directa de nuestro equipo comercial.', 'contact.wa': 'WhatsApp', 'contact.email.label': 'E-mail Comercial', 'contact.loc.label': 'Ubicación', 'contact.loc.value': 'Sorocaba/SP — Brasil', 'contact.cta': 'Hablar por WhatsApp ahora',
-            'footer.rights': '© 2002 Versatil Gama Industrial. Todos los derechos reservados.', 'footer.loc': 'Sorocaba/SP — Brasil',
-            'btn.adicionar': 'Agregar', 'btn.adicionado': '¡Agregado!', 'btn.finalizar': 'Finalizar Pedido por WhatsApp', 'cart.title': 'Mi Pedido', 'cart.empty': 'Su pedido está vacío', 'cart.empty.sub': 'Agregue productos del catálogo', 'cart.total': 'TOTAL',
-            'currency.notice': 'Los precios para clientes internacionales se muestran en USD', 'unit': '/ un',
-            'toast.added': (name) => `${name} agregado al pedido!`, 'toast.qty.zero': 'Ingrese una cantidad mayor que cero.', 'toast.price.invalid': 'Ingrese un precio válido.', 'toast.price.missing': 'Error: precio del producto no encontrado.', 'toast.cart.empty': '¡Agregue productos al pedido primero!', 'toast.fields.required': 'Complete todos los campos obligatorios.', 'toast.usdt.copied': '¡Dirección USDT copiada!',
-            'cc.title': 'Pago con Tarjeta', 'cc.total.label': 'Total con tarjeta', 'cc.surcharge': 'Recargo del 5% por tasas operacionales de la tarjeta.', 'cc.section.personal': 'Datos Personales', 'cc.name': 'Nombre completo', 'cc.name.placeholder': 'Nombre como en la tarjeta', 'cc.cpf': 'Identificación (CPF/CNPJ)', 'cc.email': 'E-mail', 'cc.phone': 'Teléfono', 'cc.cep': 'Código Postal', 'cc.address': 'Número de dirección', 'cc.section.card': 'Datos de la Tarjeta', 'cc.number': 'Número de tarjeta', 'cc.month': 'Mes (MM)', 'cc.year': 'Año (AAAA)', 'cc.cvv': 'CVV', 'cc.submit': 'Pagar Ahora', 'cc.processing': 'Procesando pago...', 'cc.processing.sub': 'Aguarde, estamos validando su tarjeta.', 'cc.close': 'Cerrar', 'cc.approved': '¡Pago Aprobado!', 'cc.pending': 'En Procesamiento', 'cc.declined': 'Pago No Aprobado',
-            // Abrasive grid items
-            'abr.pontas': 'Puntas Montadas', 'abr.pastas': 'Pastas Abrasivas', 'abr.dagua': 'Lijas al Agua', 'abr.inox': 'Abrasivos p/ Inox', 'abr.oxido': 'Óxido de Aluminio', 'abr.carbeto': 'Carburo de Silicio',
-            // Payment section (landing page)
-            'pay.pix.desc': 'Pago instantáneo vía PIX', 'pay.pix.key': 'Clave PIX (CNPJ)', 'pay.pix.holder': 'Edson de Oliveira Silva / Procesado vía Asaas', 'pay.pix.instrucao': 'Envíe su comprobante por WhatsApp después del pago',
-            'pay.bank.title': 'Datos Bancarios', 'pay.bank.desc': 'Transferencia o depósito bancario', 'pay.bank.banco': 'Banco', 'pay.bank.agencia': 'Agencia', 'pay.bank.conta': 'Cuenta Corriente', 'pay.bank.titular': 'Titular',
-            'pay.usdt.badge': '-5% DESCUENTO', 'pay.usdt.desc': 'Aceptamos pagos en USDT (TRC20) para clientes nacionales e internacionales.', 'pay.usdt.copiar': 'Copiar dirección',
-            'pay.cc.badge': '+5% TASA', 'pay.cc.title': 'Tarjeta de Crédito', 'pay.cc.desc': 'Pague directamente con su tarjeta de crédito de forma segura.', 'pay.cc.notice': 'Los pagos con tarjeta de crédito incluyen un 5% de tasa operacional.', 'pay.cc.btn': 'Pagar con Tarjeta',
-            // Checkout
-            'ck.title': 'Finalizar Pedido', 'ck.step1': 'Comprador', 'ck.step2': 'Envío', 'ck.step3': 'Pago', 'ck.step4': 'Resumen',
-            'ck.pf': 'Persona Física', 'ck.pj': 'Persona Jurídica',
-            'ck.dados.pf': 'Datos Personales', 'ck.dados.pj': 'Datos de la Empresa',
-            'ck.nome': 'Nombre completo *', 'ck.cpf': 'Identificación (CPF) *', 'ck.email': 'E-mail *', 'ck.phone': 'Teléfono / WhatsApp *',
-            'ck.razao': 'Razón Social *', 'ck.fantasia': 'Nombre Comercial', 'ck.cnpj': 'Identificación (CNPJ) *', 'ck.ie': 'Inscripción Estadual', 'ck.responsavel': 'Responsable *',
-            'ck.endereco.cad': 'Dirección (Registro / Fiscal)', 'ck.cep': 'Código Postal *', 'ck.rua': 'Calle *', 'ck.numero': 'Número *', 'ck.complemento': 'Complemento', 'ck.bairro': 'Barrio *', 'ck.cidade': 'Ciudad *', 'ck.estado': 'Estado *',
-            'ck.entrega.title': 'Dirección de Envío', 'ck.entrega.same': 'Misma dirección de registro', 'ck.entrega.diff': 'Informar otra dirección de envío', 'ck.referencia': 'Referencia',
-            'ck.pag.title': 'Forma de Pago', 'ck.pix': 'PIX', 'ck.pix.desc': 'Pago instantáneo', 'ck.transf': 'Transferencia Bancaria', 'ck.transf.desc': 'Datos bancarios', 'ck.usdt': 'USDT (TRC20)', 'ck.usdt.desc': 'Cripto internacional', 'ck.cartao': 'Tarjeta de Crédito', 'ck.cartao.taxa': '+5% tasa operacional',
-            'ck.confirm': 'Confirmar y Continuar →', 'ck.back': '← Volver', 'ck.next': 'Siguiente →', 'ck.send': 'Enviar Pedido por WhatsApp',
-            'ck.resumo.produtos': 'Productos', 'ck.resumo.comprador': 'Datos del Comprador', 'ck.resumo.entrega': 'Dirección de Envío', 'ck.resumo.pagamento': 'Forma de Pago', 'ck.resumo.fiscal': 'Datos para Factura',
-            'ck.pedido': 'PEDIDO', 'ck.required': 'Complete todos los campos obligatorios.', 'ck.required.entrega': 'Complete la dirección de envío.'
+            // Navbar
+            'nav.servicos': 'Servicios', 'nav.equipamentos': 'Equipos', 'nav.portfolio': 'Portafolio',
+            'nav.global': 'Presencia Global', 'nav.contato': 'Contacto', 'nav.area': 'Mi Área',
+            'nav.solicitar': 'Solicitar Servicio',
+            // Hero
+            'hero.badge': 'Servicios B2B Enterprise',
+            'hero.sub': 'Excelencia en Mantenimiento Industrial y Mecanizado de Campo para operaciones de Alta Complejidad.',
+            'hero.cta': 'Solicitar Evaluación Técnica',
+            // História
+            'historia.title': 'Historia',
+            'historia.p1': '<strong>Versátil Services</strong> surgió en 2002 trabajando en Mecanizado de Campo y Mecanizado de Base. Con una amplia visión del mercado, diversificó sus actividades hacia el sector industrial, contando hoy con una versatilidad consolidada donde colaboradores y socios están comprometidos con el servicio inmediato y la satisfacción del cliente.',
+            'historia.p2': 'Nos establecimos como una empresa enfocada en el mantenimiento industrial con versatilidad en sus segmentos.',
+            'historia.valores': 'Planificación / Seguridad / Calidad / Agilidad / Eficiencia — son parte integral de nuestros principios.',
+            // Setores
+            'setores.tag': 'Mercados Atendidos', 'setores.title': 'Sectores de Actuación',
+            'setores.desc': 'Atendemos todos los segmentos de la industria brasileña e internacional — de refinerías a plantas, de plataformas a fábricas.',
+            // Serviços
+            'services.tag': 'Soluciones Corporativas', 'services.title': 'Nuestros Pilares',
+            'services.desc': 'Ofrecemos soluciones completas para el sector industrial, garantizando la disponibilidad e integridad de sus activos.',
+            // Realizados
+            'realizados.tag': 'Resultados Comprobados', 'realizados.title': 'Servicios Realizados',
+            'realizados.desc': 'Galería de trabajos ejecutados en campo y en taller. Haga clic para ampliar.',
+            'realizados.portfolio.btn': 'Ver Portafolio Completo (50 Fotos)',
+            // Equipamentos
+            'equip.tag': 'Expertise Técnica', 'equip.title': 'Equipos Atendidos',
+            'equip.desc': 'Trabajamos con todo tipo de intercambiadores de calor y equipos industriales, con atención 24h — On/Offshore.',
+            // Números
+            'numeros.tag': 'Resultados', 'numeros.title': 'Nuestros Números',
+            'numeros.desc': 'Más de dos décadas de excelencia en mantenimiento industrial.',
+            'numeros.anos': 'Años en el Mercado', 'numeros.projetos': 'Proyectos Ejecutados',
+            // Sectores
+            'setor.petroleo.name': 'Petróleo y Gas', 'setor.petroleo.desc': 'Refinerías, plataformas y plantas petroquímicas',
+            'setor.quimico.name': 'Químico y Petroquímico', 'setor.quimico.desc': 'Plantas de proceso continuo y por lotes',
+            'setor.mineracao.name': 'Minería y Siderurgia', 'setor.mineracao.desc': 'Hornos, secadores, cilindros y trituradoras',
+            'setor.celulose.name': 'Celulosa y Papel', 'setor.celulose.desc': 'Secadores, prensas y cilindros yankee',
+            'setor.energia.name': 'Energía y Utilities', 'setor.energia.desc': 'Plantas termoeléctricas y de biomasa',
+            'setor.alimenticio.name': 'Alimentos y Bebidas', 'setor.alimenticio.desc': 'Líneas de envasado y procesamiento',
+            'setor.fertilizantes.name': 'Fertilizantes', 'setor.fertilizantes.desc': 'Granuladoras, secadores y reactores',
+            'setor.maritimo.name': 'Naval y Offshore', 'setor.maritimo.desc': 'Embarcaciones, plataformas y módulos',
+            'setor.agua.name': 'Saneamiento y Agua', 'setor.agua.desc': 'Plantas de tratamiento de agua y aguas residuales',
+            'setor.borracha.name': 'Caucho y Plásticos', 'setor.borracha.desc': 'Extrusoras y equipos de vulcanización',
+            'setor.geracaoeletrica.name': 'Generación Eléctrica', 'setor.geracaoeletrica.desc': 'Plantas hidroeléctricas y subestaciones',
+            'setor.construcao.name': 'Construcción Pesada', 'setor.construcao.desc': 'Obras industriales y montaje',
+            'setor.farmaceutico.name': 'Farmacéutico', 'setor.farmaceutico.desc': 'Laboratorios e instalaciones de producción',
+            'setor.automotivo.name': 'Automotriz', 'setor.automotivo.desc': 'Plantas de ensamblaje y autopartes',
+            'setor.sucroalcooleiro.name': 'Azúcar y Etanol', 'setor.sucroalcooleiro.desc': 'Plantas de etanol y azúcar',
+            // Servicios
+            'srv.rotativos.title': 'Mantenimiento de Equipos Rotativos',
+            'srv.rotativos.desc': 'Inspección técnica, alineación láser, rectificado de campo y recuperación estructural de secadores, hornos, tambores y enfriadores.',
+            'srv.rotativos.b1': 'Alineación Láser de Equipos Rotativos',
+            'srv.rotativos.b2': 'Mecanizado de Campo en Rotativos',
+            'srv.rotativos.b3': 'Recuperación Estructural de Secadores y Hornos',
+            'srv.rotativos.b4': 'Balanceo Dinámico',
+            'srv.rotativos.b5': 'Rectificado de Pista y Cilindro',
+            'srv.rotativos.b6': 'Cambio de Neumáticos y Rodillos',
+            'srv.industrial.title': 'Mantenimiento Industrial',
+            'srv.industrial.desc': 'Planificación, ejecución y gestión de paradas de mantenimiento. Revitalización de equipos estáticos y tuberías industriales.',
+            'srv.industrial.b1': 'Apoyo a la Fiscalización y Gestión de Contratos',
+            'srv.industrial.b2': 'Gestión y Supervisión de Paradas de Mantenimiento',
+            'srv.industrial.b3': 'Calderería en Torres, Vasijas y Permutadores',
+            'srv.industrial.b4': 'Inspección de Integridad en Equipos y Tuberías',
+            'srv.industrial.b5': 'Mantenimiento de Tanques y Esferas',
+            'srv.industrial.b6': 'Mantenimiento de Hornos y Calderas',
+            'srv.industrial.b7': 'Mantenimiento de Válvulas',
+            'srv.industrial.b8': 'Adecuación NR13',
+            'srv.usinagem.title': 'Mecanizado de Campo',
+            'srv.usinagem.desc': 'Mecanizado in situ con tolerancias micrométricas. Refrentado de bridas, mandrinado, fresado y torneado de ejes sin desmontaje.',
+            'srv.usinagem.b1': 'Refrentado de Brida — Liso / Ranurado / RTJ',
+            'srv.usinagem.b2': 'Fresado de Bases Metálicas',
+            'srv.usinagem.b3': 'Mandrinado',
+            'srv.usinagem.b4': 'Biselado de Tubos',
+            'srv.usinagem.b5': 'Rectificado de Pista de Secador / Granulador',
+            'srv.usinagem.b6': 'Mecanizado / Rectificado de Perno de Cigüeñal',
+            'srv.usinagem.b7': 'Mecanizado de Punta de Eje',
+            'srv.trocadores.title': 'Intercambiadores de Calor',
+            'srv.trocadores.desc': 'Fabricación, re-tubado, limpieza química e hidrochorro de intercambiadores de calor carcasa y tubos, serpentinas y enfriadores.',
+            'srv.trocadores.b1': 'Mantenimiento de Intercambiadores de Calor',
+            'srv.trocadores.b2': 'Re-tubado y Mandrinado',
+            'srv.trocadores.b3': 'Limpieza Química e Hidrochorro',
+            'srv.trocadores.b4': 'Fabricación de Haces Tubulares',
+            'srv.trocadores.b5': 'Prueba Hidrostática',
+            'srv.trocadores.b6': 'Cambio de Juntas y Espejos',
+            'srv.ensaios.title': 'Ensayos No Destructivos',
+            'srv.ensaios.desc': 'Ensayos END para garantizar la integridad de equipos, tuberías y estructuras.',
+            'srv.ensaios.b1': 'Líquido Penetrante',
+            'srv.ensaios.b2': 'Partícula Magnética',
+            'srv.ensaios.b3': 'Ultrasonido / Medición de Espesor',
+            'srv.ensaios.b4': 'Radiografía Industrial',
+            'srv.ensaios.b5': 'Inspección Visual',
+            'srv.ensaios.b6': 'Identificación de Aleaciones Metálicas (PMI)',
+            'srv.ensaios.b7': 'Inspección de Pintura',
+            'srv.ensaios.b8': 'Inspección de Fabricación',
+            'srv.ensaios.b9': 'Alpinismo Industrial',
+            'srv.ensaios.b10': 'Control de Calidad',
+            // Equipos
+            'equip.casco.name': 'Carcasa y Tubos', 'equip.casco.desc': 'Shell & Tube — mantenimiento, re-tubado y fabricación',
+            'equip.aircooler.name': 'Air Cooler', 'equip.aircooler.desc': 'Enfriadores de aire — limpieza y mantenimiento preventivo',
+            'equip.condensadores.name': 'Condensadores', 'equip.condensadores.desc': 'Condensadores de vapor — re-tubado y prueba de helio',
+            'equip.placas.name': 'Intercambiador de Placas', 'equip.placas.desc': 'Limpieza, cambio de juntas y cubiertas',
+            'equip.rotativos.name': 'Equipos Rotativos Industriales', 'equip.rotativos.desc': 'Secadores, hornos y tambores — rectificado y alineación',
+            // Galería
+            'gal.badge.usinagem': 'Mecanizado de Campo', 'gal.badge.rotativos': 'Equipos Rotativos', 'gal.badge.trocadores': 'Intercambiadores',
+            'gal.badge.manutencao': 'Mantenimiento', 'gal.badge.ensaios': 'Inspección END', 'gal.badge.usinagem2': 'Mecanizado',
+            'gal.title.flange': 'Refrentado de Brida', 'gal.title.pista': 'Rectificado de Pista',
+            'gal.title.retubagem': 'Re-tubado Completo', 'gal.title.caldeiraria': 'Calderería Industrial',
+            'gal.title.radiografia': 'Radiografía Industrial', 'gal.title.mandrilhamento': 'Mandrinado',
+            'gal.title.secador': 'Inspección de Secador', 'gal.title.serpentina': 'Serpentín Industrial',
+            // Presencia Global
+            'global.brasil.name': '🇧🇷 Brasil', 'global.brasil.addr': 'R. Miguel Banhos Gomes, 115<br>Iporanga — Sorocaba/SP<br>Santos - SP<br>CEP 18087-158',
+            'global.espanha.name': '🇪🇸 España', 'global.espanha.addr': 'Calle Massens 16-18, Piso 2, Puerta 3<br>Barcelona 08024<br>Barcelona — España',
+            'global.dubai.name': '🇦🇪 Dubái', 'global.dubai.addr': 'Emiratos Árabes Unidos<br>Zona Franca DMCC<br>Dubái',
+            'numeros.clientes': 'Clientes Atendidos', 'numeros.continentes': 'Continentes',
+            // Global
+            'global.tag': 'Alcance Internacional', 'global.title': 'Presencia Global',
+            'global.desc': 'Con operaciones estratégicas en 3 continentes, garantizamos movilización rápida y estandarización técnica para proyectos complejos en todo el mundo.',
+            // Contato
+            'contact.tag': 'Ingeniería & Negocios', 'contact.title': 'Hable con Nuestro Equipo Técnico',
+            'contact.desc': 'Estamos listos para analizar su proyecto, proporcionar presupuestos detallados y planificar la próxima parada de su planta industrial.',
+            'contact.wa': 'WhatsApp Brasil', 'contact.email.label': 'Departamento Técnico',
+            'contact.loc.label': 'Ubicación', 'contact.loc.value': 'Sorocaba/SP — Brasil',
+            // Solicitar
+            'sol.title': 'Solicitar Cotización', 'sol.subtitle': 'Complete los datos a continuación y nuestro equipo técnico responderá en 4 horas.',
+            'sol.sec.cliente': 'Datos del Cliente', 'sol.sec.servico': 'Detalles del Servicio', 'sol.sec.anexos': 'Fotos y Archivos',
+            'sol.empresa': 'Empresa *', 'sol.empresa.ph': 'Ej: Repsol, Pemex, YPF...',
+            'sol.responsavel': 'Responsable *', 'sol.responsavel.ph': 'Nombre completo',
+            'sol.whatsapp': 'WhatsApp *', 'sol.email': 'Email',
+            'sol.tipo': 'Tipo de Servicio *', 'sol.selecione': 'Seleccione...',
+            'sol.tipo.rotativos': 'Equipos Rotativos', 'sol.tipo.manutencao': 'Mantenimiento Industrial',
+            'sol.tipo.usinagem': 'Mecanizado de Campo', 'sol.tipo.trocadores': 'Intercambiadores de Calor',
+            'sol.tipo.end': 'Ensayos No Destructivos (END)', 'sol.tipo.outro': 'Otro',
+            'sol.urgencia': 'Urgencia', 'sol.urg.prog': 'Programada', 'sol.urg.urg': 'Urgente', 'sol.urg.emer': 'Emergencia',
+            'sol.descricao': 'Descripción del Servicio *', 'sol.descricao.ph': 'Describa el servicio requerido, equipo, ubicación en planta, dimensiones, etc.',
+            'sol.obs': 'Observaciones Adicionales', 'sol.obs.ph': 'Condiciones de acceso, restricciones horarias, EPP especiales...',
+            'sol.anexos.hint': 'Tome fotos del equipo o adjunte planos técnicos (PDF, imágenes).',
+            'sol.btn.foto': 'Tomar Foto', 'sol.btn.arquivo': 'Adjuntar Archivo',
+            'sol.btn.salvar': 'Guardar Borrador', 'sol.btn.wa': 'Enviar por WhatsApp', 'sol.btn.email': 'Enviar por Email',
+            'sol.rascunhos': 'Borradores Guardados',
+            'sol.nav.servicos': 'Servicios', 'sol.nav.solicitar': 'Solicitar Cotización',
+            'sol.footer': 'Desde 2002 — Excelencia en Mantenimiento Industrial',
+            'contact.cta': 'Iniciar Conversación',
+            // Footer
+            'footer.rights': '© 2002 Versátil Services. Todos los derechos reservados.',
+            'footer.loc': 'Sorocaba/SP — Brasil',
+            'toast.added': (name) => `${name} agregado!`, 'toast.qty.zero': 'Ingrese cantidad > 0.',
+            'toast.price.invalid': 'Ingrese precio válido.', 'toast.price.missing': 'Error: precio no encontrado.',
+            'toast.cart.empty': '¡Agregue ítems primero!', 'toast.fields.required': 'Complete todos los campos.',
+            'toast.usdt.copied': '¡Dirección copiada!', 'currency.notice': 'Precios en USD', 'unit': '/ un',
+            'btn.adicionar': 'Agregar', 'btn.adicionado': '¡Agregado!', 'btn.finalizar': 'Finalizar por WhatsApp',
+            'cart.title': 'Mi Pedido', 'cart.empty': 'Pedido vacío', 'cart.empty.sub': 'Agregue ítems', 'cart.total': 'TOTAL',
+            'cc.title': 'Pago con Tarjeta', 'cc.total.label': 'Total', 'cc.surcharge': '+5% recargo.',
+            'cc.section.personal': 'Datos Personales', 'cc.name': 'Nombre', 'cc.name.placeholder': 'Nombre en la tarjeta',
+            'cc.cpf': 'ID Fiscal', 'cc.email': 'E-mail', 'cc.phone': 'Teléfono', 'cc.cep': 'Código Postal',
+            'cc.address': 'Número', 'cc.section.card': 'Datos de Tarjeta', 'cc.number': 'Número de tarjeta',
+            'cc.month': 'Mes', 'cc.year': 'Año', 'cc.cvv': 'CVV', 'cc.submit': 'Pagar',
+            'cc.processing': 'Procesando...', 'cc.processing.sub': 'Espere.', 'cc.close': 'Cerrar',
+            'cc.approved': '¡Aprobado!', 'cc.pending': 'Procesando', 'cc.declined': 'Rechazado',
+            'ck.title': 'Checkout', 'ck.step1': 'Datos', 'ck.step2': 'Envío', 'ck.step3': 'Pago', 'ck.step4': 'Resumen',
+            'ck.pf': 'Persona Física', 'ck.pj': 'Empresa', 'ck.dados.pf': 'Datos Personales', 'ck.dados.pj': 'Datos Empresa',
+            'ck.nome': 'Nombre *', 'ck.cpf': 'ID *', 'ck.email': 'E-mail *', 'ck.phone': 'Teléfono *',
+            'ck.razao': 'Razón Social *', 'ck.fantasia': 'Nombre Comercial', 'ck.cnpj': 'CNPJ *', 'ck.ie': 'IE', 'ck.responsavel': 'Responsable *',
+            'ck.endereco.cad': 'Dirección', 'ck.cep': 'CP *', 'ck.rua': 'Calle *', 'ck.numero': 'Número *',
+            'ck.complemento': 'Complemento', 'ck.bairro': 'Barrio *', 'ck.cidade': 'Ciudad *', 'ck.estado': 'Estado *',
+            'ck.entrega.title': 'Dirección de Envío', 'ck.entrega.same': 'Misma dirección', 'ck.entrega.diff': 'Otra dirección', 'ck.referencia': 'Referencia',
+            'ck.pag.title': 'Pago', 'ck.pix': 'PIX', 'ck.pix.desc': 'Instantáneo', 'ck.transf': 'Transferencia', 'ck.transf.desc': 'Datos bancarios',
+            'ck.usdt': 'USDT', 'ck.usdt.desc': 'Cripto', 'ck.cartao': 'Tarjeta', 'ck.cartao.taxa': '+5%',
+            'ck.confirm': 'Confirmar →', 'ck.back': '← Volver', 'ck.next': 'Siguiente →', 'ck.send': 'Enviar por WhatsApp',
+            'ck.resumo.produtos': 'Ítems', 'ck.resumo.comprador': 'Comprador', 'ck.resumo.entrega': 'Envío',
+            'ck.resumo.pagamento': 'Pago', 'ck.resumo.fiscal': 'Fiscal', 'ck.pedido': 'PEDIDO',
+            'ck.required': 'Complete todos los campos.', 'ck.required.entrega': 'Complete dirección de envío.',
+            'pay.tag': 'Métodos de Pago', 'pay.title': 'Pago', 'pay.desc': 'Métodos de pago disponibles.',
+            'pay.pix.desc': 'PIX instantáneo', 'pay.pix.key': 'Clave PIX', 'pay.pix.holder': 'Edson de Oliveira Silva', 'pay.pix.instrucao': 'Envíe comprobante por WhatsApp',
+            'pay.bank.title': 'Datos Bancarios', 'pay.bank.desc': 'Transferencia bancaria', 'pay.bank.banco': 'Banco', 'pay.bank.agencia': 'Agencia', 'pay.bank.conta': 'Cuenta', 'pay.bank.titular': 'Titular',
+            'pay.usdt.badge': '-5%', 'pay.usdt.desc': 'Aceptamos USDT (TRC20).', 'pay.usdt.copiar': 'Copiar',
+            'pay.cc.badge': '+5%', 'pay.cc.title': 'Tarjeta', 'pay.cc.desc': 'Tarjeta de crédito.', 'pay.cc.notice': '+5% tarjeta.', 'pay.cc.btn': 'Pagar con Tarjeta',
+            'abr.pontas': 'Servicios', 'abr.pastas': 'Proyectos', 'abr.dagua': 'Mantenimiento', 'abr.inox': 'Inspección', 'abr.oxido': 'Mecanizado', 'abr.carbeto': 'Ensayos'
+        },
+        ar: {
+            // Navbar
+            'nav.servicos': 'الخدمات', 'nav.equipamentos': 'المعدات', 'nav.portfolio': 'المشاريع',
+            'nav.global': 'الحضور العالمي', 'nav.contato': 'اتصل بنا', 'nav.area': 'منطقتي',
+            'nav.solicitar': 'طلب خدمة',
+            // Hero
+            'hero.badge': 'خدمات B2B المؤسسية',
+            'hero.sub': 'التميز في الصيانة الصناعية والتشغيل الميداني للعمليات عالية التعقيد.',
+            'hero.cta': 'طلب تقييم تقني',
+            // História
+            'historia.title': 'تاريخنا',
+            'historia.p1': '<strong>Versátil Services</strong> تأسست عام 2002 متخصصة في التشغيل الميداني والقاعدي. بفضل رؤية واسعة للسوق، تنوعت في القطاع الصناعي، وأصبحت اليوم شركة متعددة الكفاءات حيث يلتزم الموظفون والشركاء بالخدمة الفورية ورضا العميل.',
+            'historia.p2': 'ترسخنا كشركة متخصصة في الصيانة الصناعية بتنوع في قطاعاتها.',
+            'historia.valores': 'التخطيط / السلامة / الجودة / الرشاقة / الكفاءة — هي المبادئ الأساسية لشركتنا.',
+            // Setores
+            'setores.tag': 'الأسواق المخدومة', 'setores.title': 'قطاعات العمل',
+            'setores.desc': 'نخدم جميع قطاعات الصناعة البرازيلية والدولية — من المصافي إلى المصانع، من المنصات إلى المعامل.',
+            // Serviços
+            'services.tag': 'حلول مؤسسية', 'services.title': 'خدماتنا الأساسية',
+            'services.desc': 'نقدم حلولاً متكاملة للقطاع الصناعي، نضمن من خلالها توافر أصولك وسلامتها.',
+            // Realizados
+            'realizados.tag': 'نتائج مثبتة', 'realizados.title': 'خدمات منجزة',
+            'realizados.desc': 'معرض أعمال منفذة في الميدان والورشة. انقر للتكبير.',
+            'realizados.portfolio.btn': 'عرض المحفظة الكاملة (50 صورة)',
+            // Equipamentos
+            'equip.tag': 'الخبرة التقنية', 'equip.title': 'المعدات التي نخدمها',
+            'equip.desc': 'نعمل مع جميع أنواع المبادلات الحرارية والمعدات الصناعية، مع استجابة 24 ساعة — بري وبحري.',
+            // Números
+            'numeros.tag': 'النتائج', 'numeros.title': 'أرقامنا',
+            'numeros.desc': 'أكثر من عقدين من التميز في الصيانة الصناعية.',
+            'numeros.anos': 'سنوات في السوق', 'numeros.projetos': 'مشاريع منجزة',
+            // القطاعات
+            'setor.petroleo.name': 'النفط والغاز', 'setor.petroleo.desc': 'المصافي والمنصات والمصانع البتروكيماوية',
+            'setor.quimico.name': 'الكيمياء والبتروكيماء', 'setor.quimico.desc': 'مصانع المعالجة المستمرة والمتقطعة',
+            'setor.mineracao.name': 'التعدين والصلب', 'setor.mineracao.desc': 'الأفران والمجففات والأسطوانات والكسارات',
+            'setor.celulose.name': 'لب الورق والورق', 'setor.celulose.desc': 'مجففات ومكابس وأسطوانات يانكي',
+            'setor.energia.name': 'الطاقة والمرافق', 'setor.energia.desc': 'محطات الطاقة الحرارية والكتلة الحيوية',
+            'setor.alimenticio.name': 'الغذاء والمشروبات', 'setor.alimenticio.desc': 'خطوط التعبئة والتصنيع',
+            'setor.fertilizantes.name': 'الأسمدة', 'setor.fertilizantes.desc': 'الحبيبات والمجففات والمفاعلات',
+            'setor.maritimo.name': 'البحري والبحر العميق', 'setor.maritimo.desc': 'السفن والمنصات والوحدات',
+            'setor.agua.name': 'الصرف الصحي والمياه', 'setor.agua.desc': 'محطات معالجة المياه والمياه العادمة',
+            'setor.borracha.name': 'المطاط والبلاستيك', 'setor.borracha.desc': 'الباثقات ومعدات الفلكنة',
+            'setor.geracaoeletrica.name': 'توليد الكهرباء', 'setor.geracaoeletrica.desc': 'محطات كهرومائية ومحطات تحويل',
+            'setor.construcao.name': 'البناء الثقيل', 'setor.construcao.desc': 'أعمال صناعية وتجميع',
+            'setor.farmaceutico.name': 'الدوائية', 'setor.farmaceutico.desc': 'مختبرات ومنشآت إنتاج',
+            'setor.automotivo.name': 'السيارات', 'setor.automotivo.desc': 'مصانع التجميع وقطع الغيار',
+            'setor.sucroalcooleiro.name': 'السكر والإيثانول', 'setor.sucroalcooleiro.desc': 'مصانع الإيثانول والسكر',
+            // بطاقات الخدمات
+            'srv.rotativos.title': 'صيانة المعدات الدوارة',
+            'srv.rotativos.desc': 'فحص تقني ومحاذاة ليزرية وتشغيل ميداني واستعادة هيكلية للمجففات والأفران والطبول والمبردات.',
+            'srv.rotativos.b1': 'محاذاة ليزرية للمعدات الدوارة',
+            'srv.rotativos.b2': 'تشغيل ميداني على المعدات الدوارة',
+            'srv.rotativos.b3': 'استعادة هيكلية للمجففات والأفران',
+            'srv.rotativos.b4': 'موازنة ديناميكية',
+            'srv.rotativos.b5': 'جلخ المسار والأسطوانة',
+            'srv.rotativos.b6': 'تغيير الإطارات والبكرات',
+            'srv.industrial.title': 'الصيانة الصناعية',
+            'srv.industrial.desc': 'تخطيط وتنفيذ وإدارة توقفات الصيانة. تجديد المعدات الثابتة والأنابيب الصناعية.',
+            'srv.industrial.b1': 'دعم الإشراف وإدارة العقود',
+            'srv.industrial.b2': 'إدارة وإشراف توقفات الصيانة',
+            'srv.industrial.b3': 'أعمال الغلاية في الأبراج والأوعية والمبادلات',
+            'srv.industrial.b4': 'فحص سلامة المعدات والأنابيب',
+            'srv.industrial.b5': 'صيانة الخزانات والكرات',
+            'srv.industrial.b6': 'صيانة الأفران والغلايات',
+            'srv.industrial.b7': 'صيانة الصمامات',
+            'srv.industrial.b8': 'امتثال NR13',
+            'srv.usinagem.title': 'تشغيل ميداني',
+            'srv.usinagem.desc': 'تشغيل في الموقع بتفاوتات ميكرومترية. تسوية الوجه والتثقيب الخطي والتخطيط وتخريط المحاور دون تفكيك.',
+            'srv.usinagem.b1': 'تسوية وجه الشفة — مسطح / مخدّل / RTJ',
+            'srv.usinagem.b2': 'طحن القواعد المعدنية',
+            'srv.usinagem.b3': 'تثقيب خطي',
+            'srv.usinagem.b4': 'تسديد أطراف الأنابيب',
+            'srv.usinagem.b5': 'جلخ مسار المجفف / الحبيبات',
+            'srv.usinagem.b6': 'تشغيل / جلخ دبوس الكرنكشافت',
+            'srv.usinagem.b7': 'تشغيل طرف المحور',
+            'srv.trocadores.title': 'مبادلات الحرارة',
+            'srv.trocadores.desc': 'تصنيع وإعادة تأنيب وتنظيف كيميائي وإزالة الترسبات بالمياه الضاغطة لمبادلات الحرارة.',
+            'srv.trocadores.b1': 'صيانة مبادلات الحرارة',
+            'srv.trocadores.b2': 'إعادة التأنيب والتثقيب الخطي',
+            'srv.trocadores.b3': 'التنظيف الكيميائي وإزالة الترسبات',
+            'srv.trocadores.b4': 'تصنيع حزم الأنابيب',
+            'srv.trocadores.b5': 'اختبار ضغط الماء',
+            'srv.trocadores.b6': 'تغيير الحشوات والمرايا',
+            'srv.ensaios.title': 'الفحص والاختبارات غير التدميرية',
+            'srv.ensaios.desc': 'اختبارات END لضمان سلامة المعدات والأنابيب والهياكل.',
+            'srv.ensaios.b1': 'اختبار السائل النافذ',
+            'srv.ensaios.b2': 'اختبار الجسيمات المغناطيسية',
+            'srv.ensaios.b3': 'الموجات فوق الصوتية / قياس السمك',
+            'srv.ensaios.b4': 'التصوير بالأشعة الصناعية',
+            'srv.ensaios.b5': 'الفحص البصري',
+            'srv.ensaios.b6': 'تحديد السبائك المعدنية (PMI)',
+            'srv.ensaios.b7': 'فحص الطلاء',
+            'srv.ensaios.b8': 'فحص التصنيع',
+            'srv.ensaios.b9': 'تسلق صناعي',
+            'srv.ensaios.b10': 'ضبط الجودة',
+            // المعدات
+            'equip.casco.name': 'غلاف وأنابيب', 'equip.casco.desc': 'Shell & Tube — صيانة وإعادة تأنيب وتصنيع',
+            'equip.aircooler.name': 'Air Cooler', 'equip.aircooler.desc': 'مبردات هوائية — تنظيف وصيانة وقائية',
+            'equip.condensadores.name': 'المكثفات', 'equip.condensadores.desc': 'مكثفات البخار — إعادة تأنيب واختبار الهيليوم',
+            'equip.placas.name': 'مبادل الصفائح', 'equip.placas.desc': 'تنظيف وتغيير الحشوات والتغطيات',
+            'equip.rotativos.name': 'معدات دوارة صناعية', 'equip.rotativos.desc': 'مجففات وأفران وطبول — جلخ ومحاذاة',
+            // معرض الأعمال
+            'gal.badge.usinagem': 'تشغيل ميداني', 'gal.badge.rotativos': 'معدات دوارة', 'gal.badge.trocadores': 'مبادلات حرارية',
+            'gal.badge.manutencao': 'صيانة', 'gal.badge.ensaios': 'فحص غير تدميري', 'gal.badge.usinagem2': 'تشغيل',
+            'gal.title.flange': 'تسوية وجه الشفة', 'gal.title.pista': 'جلخ المسار',
+            'gal.title.retubagem': 'إعادة تأنيب كاملة', 'gal.title.caldeiraria': 'أعمال غلاية صناعية',
+            'gal.title.radiografia': 'فحص بالأشعة', 'gal.title.mandrilhamento': 'تثقيب خطي',
+            'gal.title.secador': 'فحص المجفف', 'gal.title.serpentina': 'ملف حلزوني صناعي',
+            // الحضور العالمي
+            'global.brasil.name': '🇧🇷 البرازيل', 'global.brasil.addr': 'R. Miguel Banhos Gomes, 115<br>Iporanga — Sorocaba/SP<br>Santos - SP<br>CEP 18087-158',
+            'global.espanha.name': '🇪🇸 إسبانيا', 'global.espanha.addr': 'Calle Massens 16-18, طابق 2, باب 3<br>Barcelona 08024<br>برشلونة — إسبانيا',
+            'global.dubai.name': '🇦🇪 دبي', 'global.dubai.addr': 'الإمارات العربية المتحدة<br>منطقة DMCC الحرة<br>دبي',
+            'numeros.clientes': 'عملاء مخدومون', 'numeros.continentes': 'قارات',
+            // Global
+            'global.tag': 'الامتداد الدولي', 'global.title': 'الحضور العالمي',
+            'global.desc': 'مع عمليات استراتيجية في 3 قارات، نضمن التعبئة السريعة والمعايرة التقنية للمشاريع المعقدة حول العالم.',
+            // Contato
+            'contact.tag': 'الهندسة والأعمال', 'contact.title': 'تحدث مع فريقنا التقني',
+            'contact.desc': 'نحن مستعدون لتحليل مشروعك وتقديم عروض أسعار مفصلة والتخطيط لتوقف مصنعك القادم.',
+            'contact.wa': 'واتساب البرازيل', 'contact.email.label': 'القسم التقني',
+            'contact.loc.label': 'الموقع', 'contact.loc.value': 'Sorocaba/SP — البرازيل',
+            // طلب عروض أسعار
+            'sol.title': 'طلب عرض سعر', 'sol.subtitle': 'أدخل بياناتك أدناه وسيرد فريقنا التقني في غضون 4 ساعات.',
+            'sol.sec.cliente': 'بيانات العميل', 'sol.sec.servico': 'تفاصيل الخدمة', 'sol.sec.anexos': 'الصور والملفات',
+            'sol.empresa': 'الشركة *', 'sol.empresa.ph': 'مثال: Aramco, ADNOC, Saudi Aramco...',
+            'sol.responsavel': 'المسؤول *', 'sol.responsavel.ph': 'الاسم الكامل',
+            'sol.whatsapp': 'WhatsApp *', 'sol.email': 'البريد الإلكتروني',
+            'sol.tipo': 'نوع الخدمة *', 'sol.selecione': 'اختر...',
+            'sol.tipo.rotativos': 'المعدات الدوارة', 'sol.tipo.manutencao': 'الصيانة الصناعية',
+            'sol.tipo.usinagem': 'تشغيل ميداني', 'sol.tipo.trocadores': 'مبادلات الحرارة',
+            'sol.tipo.end': 'الفحص غير التدميري (NDT)', 'sol.tipo.outro': 'أخرى',
+            'sol.urgencia': 'الأولوية', 'sol.urg.prog': 'مجدولة', 'sol.urg.urg': 'عاجل', 'sol.urg.emer': 'طوارئ',
+            'sol.descricao': 'وصف الخدمة *', 'sol.descricao.ph': 'صف الخدمة المطلوبة والمعدات والموقع والأبعاد...',
+            'sol.obs': 'ملاحظات إضافية', 'sol.obs.ph': 'ظروف الوصول وقيود الوقت ومتطلبات معدات الحماية...',
+            'sol.anexos.hint': 'التقط صوراً للمعدات أو أرفق رسومات تقنية (PDF, صور).',
+            'sol.btn.foto': 'التقاط صورة', 'sol.btn.arquivo': 'إرفاق ملف',
+            'sol.btn.salvar': 'حفظ كمسودة', 'sol.btn.wa': 'إرسال عبر WhatsApp', 'sol.btn.email': 'إرسال بالبريد',
+            'sol.rascunhos': 'المسودات المحفوظة',
+            'sol.nav.servicos': 'الخدمات', 'sol.nav.solicitar': 'طلب عرض سعر',
+            'sol.footer': 'منذ 2002 — تميز في الصيانة الصناعية',
+            'contact.cta': 'ابدأ محادثة',
+            // Footer
+            'footer.rights': '© 2002 Versátil Services. جميع الحقوق محفوظة.',
+            'footer.loc': 'Sorocaba/SP — البرازيل',
+            'toast.added': (name) => `تمت إضافة ${name}!`, 'toast.qty.zero': 'أدخل كمية > 0.',
+            'toast.price.invalid': 'أدخل سعراً صحيحاً.', 'toast.price.missing': 'خطأ: السعر غير موجود.',
+            'toast.cart.empty': 'أضف عناصر أولاً!', 'toast.fields.required': 'أكمل جميع الحقول.',
+            'toast.usdt.copied': 'تم نسخ العنوان!', 'currency.notice': 'الأسعار بالدرهم الإماراتي', 'unit': '/ وحدة',
+            'btn.adicionar': 'إضافة', 'btn.adicionado': 'تمت الإضافة!', 'btn.finalizar': 'إتمام عبر WhatsApp',
+            'cart.title': 'طلبي', 'cart.empty': 'الطلب فارغ', 'cart.empty.sub': 'أضف عناصر', 'cart.total': 'المجموع',
+            'cc.title': 'دفع بالبطاقة', 'cc.total.label': 'الإجمالي', 'cc.surcharge': '+5% رسوم.',
+            'cc.section.personal': 'بيانات شخصية', 'cc.name': 'الاسم', 'cc.name.placeholder': 'الاسم على البطاقة',
+            'cc.cpf': 'رقم الهوية', 'cc.email': 'البريد الإلكتروني', 'cc.phone': 'الهاتف', 'cc.cep': 'الرمز البريدي',
+            'cc.address': 'الرقم', 'cc.section.card': 'بيانات البطاقة', 'cc.number': 'رقم البطاقة',
+            'cc.month': 'الشهر', 'cc.year': 'السنة', 'cc.cvv': 'CVV', 'cc.submit': 'ادفع',
+            'cc.processing': 'جاري المعالجة...', 'cc.processing.sub': 'يرجى الانتظار.', 'cc.close': 'إغلاق',
+            'cc.approved': 'موافق عليه!', 'cc.pending': 'قيد المعالجة', 'cc.declined': 'مرفوض',
+            'ck.title': 'إتمام', 'ck.step1': 'البيانات', 'ck.step2': 'التوصيل', 'ck.step3': 'الدفع', 'ck.step4': 'ملخص',
+            'ck.pf': 'فرد', 'ck.pj': 'شركة', 'ck.dados.pf': 'بيانات شخصية', 'ck.dados.pj': 'بيانات الشركة',
+            'ck.nome': 'الاسم *', 'ck.cpf': 'رقم الهوية *', 'ck.email': 'البريد *', 'ck.phone': 'الهاتف *',
+            'ck.razao': 'اسم الشركة *', 'ck.fantasia': 'الاسم التجاري', 'ck.cnpj': 'السجل التجاري *', 'ck.ie': 'رقم الضريبة', 'ck.responsavel': 'المسؤول *',
+            'ck.endereco.cad': 'العنوان', 'ck.cep': 'الرمز البريدي *', 'ck.rua': 'الشارع *', 'ck.numero': 'الرقم *',
+            'ck.complemento': 'تكملة', 'ck.bairro': 'الحي *', 'ck.cidade': 'المدينة *', 'ck.estado': 'الولاية *',
+            'ck.entrega.title': 'عنوان التوصيل', 'ck.entrega.same': 'نفس العنوان', 'ck.entrega.diff': 'عنوان آخر', 'ck.referencia': 'مرجع',
+            'ck.pag.title': 'الدفع', 'ck.pix': 'PIX', 'ck.pix.desc': 'فوري', 'ck.transf': 'تحويل بنكي', 'ck.transf.desc': 'بيانات بنكية',
+            'ck.usdt': 'USDT', 'ck.usdt.desc': 'كريبتو', 'ck.cartao': 'بطاقة', 'ck.cartao.taxa': '+5%',
+            'ck.confirm': 'تأكيد →', 'ck.back': '← رجوع', 'ck.next': 'التالي →', 'ck.send': 'إرسال عبر WhatsApp',
+            'ck.resumo.produtos': 'العناصر', 'ck.resumo.comprador': 'المشتري', 'ck.resumo.entrega': 'التوصيل',
+            'ck.resumo.pagamento': 'الدفع', 'ck.resumo.fiscal': 'ضريبي', 'ck.pedido': 'طلب',
+            'ck.required': 'أكمل جميع الحقول.', 'ck.required.entrega': 'أكمل عنوان التوصيل.',
+            'pay.tag': 'طرق الدفع', 'pay.title': 'الدفع', 'pay.desc': 'طرق الدفع المتاحة.',
+            'pay.pix.desc': 'PIX فوري', 'pay.pix.key': 'مفتاح PIX', 'pay.pix.holder': 'Edson de Oliveira Silva', 'pay.pix.instrucao': 'أرسل الإيصال عبر WhatsApp',
+            'pay.bank.title': 'بيانات بنكية', 'pay.bank.desc': 'تحويل بنكي', 'pay.bank.banco': 'البنك', 'pay.bank.agencia': 'الفرع', 'pay.bank.conta': 'الحساب', 'pay.bank.titular': 'صاحب الحساب',
+            'pay.usdt.badge': '-5%', 'pay.usdt.desc': 'نقبل USDT (TRC20).', 'pay.usdt.copiar': 'نسخ',
+            'pay.cc.badge': '+5%', 'pay.cc.title': 'بطاقة', 'pay.cc.desc': 'بطاقة ائتمان.', 'pay.cc.notice': '+5% رسوم.', 'pay.cc.btn': 'ادفع بالبطاقة',
+            'abr.pontas': 'خدمات', 'abr.pastas': 'مشاريع', 'abr.dagua': 'صيانة', 'abr.inox': 'فحص', 'abr.oxido': 'تشغيل', 'abr.carbeto': 'اختبارات'
         }
     };
+
 
     // =============================================
     // 4. ESTADO
@@ -422,13 +1023,32 @@
     }
 
     function applyTranslations(lang) {
+        // Translate text content
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             const text = t(key, lang);
-            if (text) el.textContent = text;
+            if (text) el.innerHTML = text;
         });
-        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : 'en';
+
+        // Translate placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            const text = t(key, lang);
+            if (text) el.setAttribute('placeholder', text);
+        });
+
+        // Translate page title
+        const titleEl = document.querySelector('[data-i18n-title]');
+        if (titleEl) {
+            const key = titleEl.getAttribute('data-i18n-title');
+            const text = t(key, lang);
+            if (text) document.title = text;
+        }
+
+        // Update html lang attribute
+        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : lang === 'ar' ? 'ar' : 'en';
     }
+
 
     // =============================================
     // 7. TRADUZIR NOMES E DESCRIÇÕES DOS PRODUTOS
@@ -640,6 +1260,11 @@
         currentLang = lang;
         localStorage.setItem('vgi_lang', lang);
 
+        // RTL support for Arabic
+        const isRTL = lang === 'ar';
+        document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+        document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : lang === 'ar' ? 'ar' : 'en');
+
         applyTranslations(lang);
         translateProducts(lang);
         updateDisplayPrices(lang);
@@ -652,33 +1277,86 @@
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        console.log(`[i18n] Language: ${lang} | Currency: ${CURRENCY_CONFIG[lang].symbol} (${CURRENCY_CONFIG[lang].code})`);
+        console.log(`[i18n] Language: ${lang} | RTL: ${isRTL} | Currency: ${CURRENCY_CONFIG[lang].symbol} (${CURRENCY_CONFIG[lang].code})`);
     }
 
     // =============================================
     // 12. CRIAR UI DO SELETOR
     // =============================================
     function createLanguageSwitcher() {
-        const switcher = document.createElement('div');
-        switcher.className = 'lang-switcher';
-        switcher.id = 'lang-switcher';
-        switcher.innerHTML = `
-            <button class="lang-btn ${currentLang === 'pt' ? 'active' : ''}" data-lang="pt" title="Português">
-                <span class="lang-flag">🇧🇷</span><span class="lang-code">PT</span>
-            </button>
-            <button class="lang-btn ${currentLang === 'en' ? 'active' : ''}" data-lang="en" title="English">
-                <span class="lang-flag">🇺🇸</span><span class="lang-code">EN</span>
-            </button>
-            <button class="lang-btn ${currentLang === 'es' ? 'active' : ''}" data-lang="es" title="Español">
-                <span class="lang-flag">🇪🇸</span><span class="lang-code">ES</span>
-            </button>
-        `;
-        const navActions = document.querySelector('.nav-actions');
-        if (navActions) navActions.insertBefore(switcher, navActions.firstChild);
-        switcher.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => switchLanguage(btn.getAttribute('data-lang')));
+        // Clean up any previous versions
+        ['lang-topbar','lang-dropdown-wrap','lang-switcher-flags'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.remove();
         });
+
+        // Uses real flag images (Windows doesn't render emoji flags)
+        const langs = [
+            { code: 'pt', img: 'https://flagcdn.com/w40/br.png', label: 'PT' },
+            { code: 'es', img: 'https://flagcdn.com/w40/es.png', label: 'ES' },
+            { code: 'en', img: 'https://flagcdn.com/w40/us.png', label: 'EN' },
+            { code: 'ar', img: 'https://flagcdn.com/w40/ae.png', label: 'AR' }
+        ];
+
+        const wrap = document.createElement('div');
+        wrap.id = 'lang-switcher-flags';
+        wrap.style.cssText = `
+            display: flex; align-items: center; gap: 2px;
+            background: #fff; border: 1px solid #e0e0e0;
+            border-radius: 8px; padding: 3px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        `;
+
+        function refreshButtons(activeCode) {
+            wrap.querySelectorAll('button').forEach(b => {
+                const isNow = b.getAttribute('data-lang') === activeCode;
+                b.style.background = isNow ? 'rgba(191,32,38,0.09)' : 'transparent';
+                b.style.outline = isNow ? '2px solid #bf2026' : 'none';
+                const lbl = b.querySelector('span');
+                if (lbl) lbl.style.color = isNow ? '#bf2026' : '#888';
+            });
+        }
+
+        langs.forEach(({ code, img, label }) => {
+            const btn = document.createElement('button');
+            btn.setAttribute('data-lang', code);
+            btn.title = label;
+            const isActive = currentLang === code;
+            btn.style.cssText = `
+                display: flex; flex-direction: column; align-items: center; gap: 2px;
+                background: ${isActive ? 'rgba(191,32,38,0.09)' : 'transparent'};
+                border: none; border-radius: 5px; padding: 4px 6px;
+                cursor: pointer; transition: background 0.15s;
+                outline: ${isActive ? '2px solid #bf2026' : 'none'};
+                outline-offset: -2px;
+            `;
+            btn.innerHTML = `
+                <img src="${img}" alt="${label}" width="22" height="15"
+                     style="border-radius:2px;object-fit:cover;display:block;box-shadow:0 1px 3px rgba(0,0,0,0.15)">
+                <span style="font-size:0.58rem;font-weight:800;letter-spacing:0.5px;
+                             color:${isActive ? '#bf2026' : '#888'};line-height:1">${label}</span>
+            `;
+            btn.addEventListener('mouseenter', () => {
+                if (currentLang !== code) btn.style.background = 'rgba(0,0,0,0.05)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                if (currentLang !== code) btn.style.background = 'transparent';
+            });
+            btn.addEventListener('click', () => {
+                switchLanguage(code);
+                localStorage.setItem('vgi_lang', code);
+                refreshButtons(code);
+            });
+            wrap.appendChild(btn);
+        });
+
+        // Append at END of nav-actions so it stays on the right and never shifts
+        const navActions = document.querySelector('.nav-actions');
+        if (navActions) navActions.appendChild(wrap);
     }
+
+
 
     function createCurrencyNotice() {
         const notice = document.createElement('div');

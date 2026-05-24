@@ -88,6 +88,11 @@ function mostrarTab(nome) {
     } else if (nome === 'nova') {
         document.getElementById('tabNova').style.display = 'block';
         document.querySelector('[data-tab="nova"]').classList.add('active');
+        preencherSelectClientes();
+    } else if (nome === 'clientes') {
+        document.getElementById('tabClientes').style.display = 'block';
+        document.querySelector('[data-tab="clientes"]').classList.add('active');
+        carregarListaClientes();
     } else if (nome === 'portfolio') {
         document.getElementById('tabPortfolio').style.display = 'block';
         document.querySelector('[data-tab="portfolio"]').classList.add('active');
@@ -110,17 +115,21 @@ function voltarDocumentar() {
 // =============================================
 async function criarOrdem() {
     const tipoSelect = document.getElementById('osTipo');
-    const cliente = document.getElementById('osCliente').value.trim();
+    const clienteSelect = document.getElementById('osClienteId');
     const descricao = document.getElementById('osDescricao').value.trim();
     const tecnico = document.getElementById('osTecnico').value.trim();
 
-    if (!cliente || !tipoSelect.value || !descricao) {
+    if (!clienteSelect.value || !tipoSelect.value || !descricao) {
         mostrarToast('Preencha os campos obrigatórios', 'error');
         return;
     }
 
+    const clienteId = parseInt(clienteSelect.value);
+    const clienteNome = clienteSelect.options[clienteSelect.selectedIndex].text;
+
     const dados = {
-        cliente,
+        cliente: clienteNome,
+        clienteId,
         tipoServico: tipoSelect.value,
         tipoServicoTexto: tipoSelect.options[tipoSelect.selectedIndex].text,
         descricao,
@@ -132,8 +141,7 @@ async function criarOrdem() {
     try {
         await salvarOrdem(dados);
         mostrarToast('✓ Ordem de Serviço criada!', 'success');
-        // Limpar form
-        document.getElementById('osCliente').value = '';
+        clienteSelect.value = '';
         document.getElementById('osTipo').value = '';
         document.getElementById('osDescricao').value = '';
         document.getElementById('osTecnico').value = '';
@@ -581,4 +589,143 @@ async function excluirPortfolioItem(id) {
     await excluirFotoPortfolio(id);
     mostrarToast('Foto removida', 'success');
     carregarPortfolio();
+}
+
+// =============================================
+// GESTÃO DE CLIENTES
+// =============================================
+document.addEventListener('DOMContentLoaded', () => {
+    const btnCli = document.getElementById('btnCadastrarCliente');
+    if (btnCli) btnCli.addEventListener('click', cadastrarCliente);
+
+    // Máscara CNPJ
+    const cliCnpj = document.getElementById('cliCnpj');
+    if (cliCnpj) {
+        cliCnpj.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 14) v = v.substring(0, 14);
+            if (v.length > 12) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{1,2})/, '$1.$2.$3/$4-$5');
+            else if (v.length > 8) v = v.replace(/^(\d{2})(\d{3})(\d{3})(\d{1,4})/, '$1.$2.$3/$4');
+            else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{1,3})/, '$1.$2.$3');
+            else if (v.length > 2) v = v.replace(/^(\d{2})(\d{1,3})/, '$1.$2');
+            e.target.value = v;
+        });
+    }
+});
+
+async function cadastrarCliente() {
+    const empresa = document.getElementById('cliEmpresa').value.trim();
+    const cnpj = document.getElementById('cliCnpj').value.trim();
+    const contato = document.getElementById('cliContato').value.trim();
+    const telefone = document.getElementById('cliTelefone').value.trim();
+    const email = document.getElementById('cliEmail').value.trim();
+    const pin = document.getElementById('cliPin').value.trim();
+
+    if (!empresa || !cnpj) {
+        mostrarToast('Empresa e CNPJ são obrigatórios', 'error');
+        return;
+    }
+    if (!pin || pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+        mostrarToast('PIN deve ter exatamente 4 dígitos', 'error');
+        return;
+    }
+
+    // Verificar se CNPJ já existe
+    const existente = await buscarClientePorCnpj(cnpj);
+    if (existente) {
+        mostrarToast('CNPJ já cadastrado!', 'error');
+        return;
+    }
+
+    try {
+        await salvarCliente({ empresa, cnpj, contato, telefone, email, pin });
+        mostrarToast('✓ Cliente cadastrado!', 'success');
+
+        // Limpar
+        document.getElementById('cliEmpresa').value = '';
+        document.getElementById('cliCnpj').value = '';
+        document.getElementById('cliContato').value = '';
+        document.getElementById('cliTelefone').value = '';
+        document.getElementById('cliEmail').value = '';
+        document.getElementById('cliPin').value = '';
+
+        carregarListaClientes();
+    } catch (err) {
+        mostrarToast('Erro ao cadastrar cliente', 'error');
+        console.error(err);
+    }
+}
+
+async function carregarListaClientes() {
+    const lista = document.getElementById('listaClientes');
+    const semCli = document.getElementById('semClientes');
+    if (!lista) return;
+
+    try {
+        const clientes = await listarClientes();
+        clientes.sort((a, b) => a.empresa.localeCompare(b.empresa));
+
+        if (clientes.length === 0) {
+            lista.innerHTML = '';
+            semCli.style.display = 'block';
+            return;
+        }
+
+        semCli.style.display = 'none';
+        lista.innerHTML = '';
+
+        for (const c of clientes) {
+            let numOS = 0;
+            try {
+                const ordens = await listarOrdensPorCliente(c.id);
+                numOS = ordens.length;
+            } catch(e) {}
+
+            const card = document.createElement('div');
+            card.className = 'rascunho-card';
+            card.style.borderLeft = '4px solid var(--red)';
+            card.innerHTML = `
+                <div class="rascunho-info" style="flex:1;">
+                    <h4>🏢 ${c.empresa}</h4>
+                    <p>CNPJ: ${c.cnpj} · PIN: ${c.pin} · ${numOS} O.S.</p>
+                    <p style="font-size:0.75rem; color:var(--gray-500);">${c.contato ? c.contato : ''} ${c.telefone ? '· ' + c.telefone : ''} ${c.email ? '· ' + c.email : ''}</p>
+                </div>
+                <div class="rascunho-actions">
+                    <button class="btn-excluir" onclick="excluirClienteItem(${c.id})">Excluir</button>
+                </div>
+            `;
+            lista.appendChild(card);
+        }
+    } catch (err) {
+        console.error('Erro ao carregar clientes:', err);
+    }
+}
+
+async function excluirClienteItem(id) {
+    if (!confirm('Excluir este cliente? As O.S. vinculadas não serão apagadas.')) return;
+    await excluirCliente(id);
+    mostrarToast('Cliente removido', 'success');
+    carregarListaClientes();
+}
+
+async function preencherSelectClientes() {
+    const select = document.getElementById('osClienteId');
+    if (!select) return;
+
+    const valorAtual = select.value;
+    select.innerHTML = '<option value="">Selecione o cliente...</option>';
+
+    try {
+        const clientes = await listarClientes();
+        clientes.sort((a, b) => a.empresa.localeCompare(b.empresa));
+        clientes.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = `${c.empresa} (${c.cnpj})`;
+            select.appendChild(opt);
+        });
+        if (valorAtual) select.value = valorAtual;
+    } catch (err) {
+        console.error('Erro ao carregar clientes:', err);
+    }
 }

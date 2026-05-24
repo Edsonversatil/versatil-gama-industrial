@@ -21,18 +21,37 @@
     <header class="navbar" id="top">
         <div class="navbar-inner">
             <div class="logo">VERSÁTIL SERVICES</div>
+            <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
             <nav class="nav-links">
                 <a href="#servicos" data-i18n="nav.servicos">Serviços</a>
-                <a href="portfolio.html">Portfólio</a>
+                <a href="#equipamentos" data-i18n="nav.equipamentos">Equipamentos</a>
+                <a href="portfolio.html" data-i18n="nav.portfolio">Portfólio</a>
                 <a href="#global" data-i18n="nav.global">Presença Global</a>
                 <a href="#contato" data-i18n="nav.contato">Contato</a>
-                <a href="solicitar.html" style="color: var(--red); font-weight: 800;">Solicitar Serviço</a>
+                <a href="cliente.html" style="color: var(--red);" data-i18n="nav.area">Minha Área</a>
             </nav>
             <div class="nav-actions">
-                <a href="solicitar.html" class="btn-nav" style="background: var(--red); color: #fff; border-color: var(--red);">Solicitar Serviço</a>
+                <a href="solicitar.html" class="btn-nav" style="background: var(--red); color: #fff; border-color: var(--red);" data-i18n="nav.solicitar">Solicitar Serviço</a>
             </div>
         </div>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-menu-nav">
+            <a href="#servicos" data-i18n="nav.servicos">Serviços</a>
+            <a href="#equipamentos" data-i18n="nav.equipamentos">Equipamentos</a>
+            <a href="portfolio.html" data-i18n="nav.portfolio">Portfólio</a>
+            <a href="#global" data-i18n="nav.global">Presença Global</a>
+            <a href="#contato" data-i18n="nav.contato">Contato</a>
+            <a href="cliente.html" data-i18n="nav.area">Minha Área</a>
+            <a href="solicitar.html" class="mobile-menu-cta" data-i18n="nav.solicitar">Solicitar Serviço</a>
+        </nav>
+    </div>
 
     <!-- ======================== -->
     <!-- 1. HERO -->
@@ -60,14 +79,14 @@
     <section class="historia" id="historia">
         <div class="container">
             <div class="historia-content">
-                <h3>História</h3>
-                <p class="historia-text">
+                <h3 data-i18n="historia.title">História</h3>
+                <p class="historia-text" data-i18n="historia.p1">
                     <strong>Versátil Services</strong> surgiu em 2002 atuando em Usinagem de Campo e Usinagem de Base, com uma ampla visão do mercado diversificou o seu raio de atuações voltadas para área industrial, hoje pode contar com uma versatilidade consolidada, onde colaboradores e parceiros estão sempre comprometidos com dedicação no pronto atendimento e responsabilidade da satisfação dos seus clientes.
                 </p>
-                <p class="historia-text">
+                <p class="historia-text" data-i18n="historia.p2">
                     Estabelecemo-nos como uma empresa voltada para manutenção industrial contendo a versatilidade nos seus segmentos.
                 </p>
-                <div class="historia-valores">
+                <div class="historia-valores" data-i18n="historia.valores">
                     Planejamento / Segurança / Qualidade / Agilidade / Eficiência, são parte integrante dos nossos princípios.
                 </div>
             </div>
@@ -78,24 +97,107 @@
     <div class="red-bar"></div>
 
     <!-- ======================== -->
-    <!-- NOSSOS CLIENTES -->
+    <!-- SETORES DE ATUAÇÃO -->
     <!-- ======================== -->
-    <section class="clientes" id="clientes">
+    <section class="setores" id="setores" style="padding: 80px 0; background: var(--bg-body);">
         <div class="container">
-            <h3>Nossos Clientes</h3>
-            <div class="clientes-grid">
-                <div class="cliente-logo"><span>Petrobras</span></div>
-                <div class="cliente-logo"><span>Odebrecht</span></div>
-                <div class="cliente-logo"><span>Klabin</span></div>
-                <div class="cliente-logo"><span>Vale</span></div>
-                <div class="cliente-logo"><span>Braskem</span></div>
-                <div class="cliente-logo"><span>Aracruz</span></div>
-                <div class="cliente-logo"><span>Sulzer</span></div>
-                <div class="cliente-logo"><span>ManServ</span></div>
-                <div class="cliente-logo"><span>Andrade Gutierrez</span></div>
-                <div class="cliente-logo"><span>Cosan</span></div>
-                <div class="cliente-logo"><span>Bunge</span></div>
-                <div class="cliente-logo"><span>Queiroz Galvão</span></div>
+            <div class="section-header">
+                <span class="section-tag" style="color: var(--red);" data-i18n="setores.tag">Mercados Atendidos</span>
+                <h2 data-i18n="setores.title">Setores de Atuação</h2>
+                <p class="section-desc" data-i18n="setores.desc">Atendemos todos os segmentos da indústria brasileira e internacional — de refinarias a usinas, de plataformas a fábricas.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 40px;">
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🛢️</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.petroquimica.name">Petroquímica</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.petroquimica.desc">Refinarias e plantas químicas</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🏗️</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.refinarias.name">Refinarias de Petróleo</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.refinarias.desc">Destilação, craqueamento e refino</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">⚙️</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.siderurgia.name">Siderurgia</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.siderurgia.desc">Usinas e laminadores</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">📄</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.papel.name">Papel &amp; Celulose</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.papel.desc">Fábricas e digestores</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🚢</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.naval.name">Naval &amp; Offshore</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.naval.desc">Plataformas e estaleiros</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">⚡</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.energia.name">Energia</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.energia.desc">Termelétricas, hidrelétricas e nucleares</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">⛏️</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.mineracao.name">Mineração</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.mineracao.desc">Pelotizadoras e beneficiadoras</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🏭</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.cimento.name">Cimento</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.cimento.desc">Fábricas e moinhos de cimento</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🧪</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.quimica.name">Química</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.quimica.desc">Indústria química e farmoquímica</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🍽️</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.alimenticio.name">Alimentício</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.alimenticio.desc">Usinas de açúcar e processamento</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🚂</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.ferroviario.name">Ferroviário</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.ferroviario.desc">Locomotivas e vagões industriais</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🌊</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.saneamento.name">Saneamento</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.saneamento.desc">ETAs, ETEs e bombas</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🫙</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.borracha.name">Borracha &amp; Plástico</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.borracha.desc">Extrusoras e vulcanizadoras</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">💡</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.geracaoeletrica.name">Geração Elétrica</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.geracaoeletrica.desc">Hidrelétricas e subestações</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🏗️</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.construcao.name">Construção Pesada</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.construcao.desc">Obras industriais e montagem</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🩺</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.farmaceutico.name">Farmacêutico</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.farmaceutico.desc">Laboratórios e plantas de produção</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🛞</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.automotivo.name">Automotivo</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.automotivo.desc">Montadoras e autopeças</p>
+                </div>
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 12px; text-align: center; transition: transform 0.3s, border-color 0.3s;" onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='var(--red)'" onmouseout="this.style.transform='';this.style.borderColor='var(--border)'">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🌾</div>
+                    <h4 style="font-size: 0.82rem; font-weight: 800;" data-i18n="setor.sucroalcooleiro.name">Sucroalcooleiro</h4>
+                    <p style="font-size: 0.72rem; color: var(--gray-300); margin-top: 4px;" data-i18n="setor.sucroalcooleiro.desc">Usinas de etanol e açúcar</p>
+                </div>
             </div>
         </div>
     </section>
@@ -116,7 +218,7 @@
 
             <div class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
                 
-                <!-- 1. Equipamentos Rotativos (NEW) -->
+                <!-- 1. Equipamentos Rotativos -->
                 <div class="product-card" style="padding-bottom: 20px;">
                     <div class="service-gallery">
                         <div class="gallery-track">
@@ -133,17 +235,17 @@
                         </div>
                     </div>
                     <div class="product-info">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Manutenção de Equipamentos Rotativos</h4>
-                        <p class="product-desc" style="font-size: 0.95rem;">Inspeção técnica, alinhamento a laser, retífica de campo e recuperação estrutural de secadores, fornos, tambores e resfriadores.</p>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;" data-i18n="srv.rotativos.title">Manutenção de Equipamentos Rotativos</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;" data-i18n="srv.rotativos.desc">Inspeção técnica, alinhamento a laser, retífica de campo e recuperação estrutural de secadores, fornos, tambores e resfriadores.</p>
                     </div>
                     <div class="servico-bullets">
                         <ul>
-                            <li>Alinhamento a Laser de Equipamentos Rotativos</li>
-                            <li>Usinagem de Campo em Rotativos</li>
-                            <li>Recuperação Estrutural de Secadores e Fornos</li>
-                            <li>Balanceamento Dinâmico</li>
-                            <li>Retífica de Pista e Cilindro</li>
-                            <li>Troca de Pneus e Roletes</li>
+                            <li data-i18n="srv.rotativos.b1">Alinhamento a Laser de Equipamentos Rotativos</li>
+                            <li data-i18n="srv.rotativos.b2">Usinagem de Campo em Rotativos</li>
+                            <li data-i18n="srv.rotativos.b3">Recuperação Estrutural de Secadores e Fornos</li>
+                            <li data-i18n="srv.rotativos.b4">Balanceamento Dinâmico</li>
+                            <li data-i18n="srv.rotativos.b5">Retífica de Pista e Cilindro</li>
+                            <li data-i18n="srv.rotativos.b6">Troca de Pneus e Roletes</li>
                         </ul>
                     </div>
                 </div>
@@ -165,19 +267,19 @@
                         </div>
                     </div>
                     <div class="product-info">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Manutenção Industrial</h4>
-                        <p class="product-desc" style="font-size: 0.95rem;">Planejamento, execução e gestão de paradas de manutenção. Revitalização de equipamentos estáticos e tubulações industriais.</p>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;" data-i18n="srv.industrial.title">Manutenção Industrial</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;" data-i18n="srv.industrial.desc">Planejamento, execução e gestão de paradas de manutenção. Revitalização de equipamentos estáticos e tubulações industriais.</p>
                     </div>
                     <div class="servico-bullets">
                         <ul>
-                            <li>Apoio à Fiscalização e Gerenciamento de Contratos</li>
-                            <li>Gestão e Fiscalização de Paradas de Manutenção</li>
-                            <li>Caldeiraria em Parada de Torres, Vasos e Permutadores</li>
-                            <li>Inspeção de Integridade em Equipamentos e Tubulações</li>
-                            <li>Manutenção de Tanques e Esferas</li>
-                            <li>Manutenção de Fornos e Caldeiras</li>
-                            <li>Manutenção de Válvulas</li>
-                            <li>Enquadramento NR13</li>
+                            <li data-i18n="srv.industrial.b1">Apoio à Fiscalização e Gerenciamento de Contratos</li>
+                            <li data-i18n="srv.industrial.b2">Gestão e Fiscalização de Paradas de Manutenção</li>
+                            <li data-i18n="srv.industrial.b3">Caldeiraria em Parada de Torres, Vasos e Permutadores</li>
+                            <li data-i18n="srv.industrial.b4">Inspeção de Integridade em Equipamentos e Tubulações</li>
+                            <li data-i18n="srv.industrial.b5">Manutenção de Tanques e Esferas</li>
+                            <li data-i18n="srv.industrial.b6">Manutenção de Fornos e Caldeiras</li>
+                            <li data-i18n="srv.industrial.b7">Manutenção de Válvulas</li>
+                            <li data-i18n="srv.industrial.b8">Enquadramento NR13</li>
                         </ul>
                     </div>
                 </div>
@@ -199,18 +301,18 @@
                         </div>
                     </div>
                     <div class="product-info">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Usinagem de Campo</h4>
-                        <p class="product-desc" style="font-size: 0.95rem;">Usinagem in loco com tolerâncias micrométricas. Faceamento de flanges, mandrilhamento, fresamento e torneamento de eixos sem desmontagem.</p>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;" data-i18n="srv.usinagem.title">Usinagem de Campo</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;" data-i18n="srv.usinagem.desc">Usinagem in loco com tolerâncias micrométricas. Faceamento de flanges, mandrilhamento, fresamento e torneamento de eixos sem desmontagem.</p>
                     </div>
                     <div class="servico-bullets">
                         <ul>
-                            <li>Usinagem Flange Face Lisa / Ranhurada / Canal RTJ</li>
-                            <li>Fresagem de Base Metálicas</li>
-                            <li>Mandrilhamentos</li>
-                            <li>Biselamentos de Tubos</li>
-                            <li>Retífica em Pista de Secador / Granulador</li>
-                            <li>Usinagem / Retífica em Pino de Virabrequim</li>
-                            <li>Usinagem em Ponta de Eixo</li>
+                            <li data-i18n="srv.usinagem.b1">Usinagem Flange Face Lisa / Ranhurada / Canal RTJ</li>
+                            <li data-i18n="srv.usinagem.b2">Fresagem de Base Metálicas</li>
+                            <li data-i18n="srv.usinagem.b3">Mandrilhamentos</li>
+                            <li data-i18n="srv.usinagem.b4">Biselamentos de Tubos</li>
+                            <li data-i18n="srv.usinagem.b5">Retífica em Pista de Secador / Granulador</li>
+                            <li data-i18n="srv.usinagem.b6">Usinagem / Retífica em Pino de Virabrequim</li>
+                            <li data-i18n="srv.usinagem.b7">Usinagem em Ponta de Eixo</li>
                         </ul>
                     </div>
                 </div>
@@ -232,17 +334,17 @@
                         </div>
                     </div>
                     <div class="product-info">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Trocadores de Calor</h4>
-                        <p class="product-desc" style="font-size: 0.95rem;">Fabricação, retubagem, limpeza química e hidrojateamento de trocadores de calor casco e tubo, serpentinas e resfriadores a ar.</p>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;" data-i18n="srv.trocadores.title">Trocadores de Calor</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;" data-i18n="srv.trocadores.desc">Fabricação, retubagem, limpeza química e hidrojateamento de trocadores de calor casco e tubo, serpentinas e resfriadores a ar.</p>
                     </div>
                     <div class="servico-bullets">
                         <ul>
-                            <li>Manutenção em Trocadores de Calor</li>
-                            <li>Retubagem e Mandrilhamento</li>
-                            <li>Limpeza Química e Hidrojateamento</li>
-                            <li>Fabricação de Feixes Tubulares</li>
-                            <li>Teste Hidrostático</li>
-                            <li>Troca de Juntas e Espelhos</li>
+                            <li data-i18n="srv.trocadores.b1">Manutenção em Trocadores de Calor</li>
+                            <li data-i18n="srv.trocadores.b2">Retubagem e Mandrilhamento</li>
+                            <li data-i18n="srv.trocadores.b3">Limpeza Química e Hidrojateamento</li>
+                            <li data-i18n="srv.trocadores.b4">Fabricação de Feixes Tubulares</li>
+                            <li data-i18n="srv.trocadores.b5">Teste Hidrostático</li>
+                            <li data-i18n="srv.trocadores.b6">Troca de Juntas e Espelhos</li>
                         </ul>
                     </div>
                 </div>
@@ -264,26 +366,25 @@
                         </div>
                     </div>
                     <div class="product-info">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;">Inspeções & Ensaios Não Destrutivos</h4>
-                        <p class="product-desc" style="font-size: 0.95rem;">Inspeções END para garantia da integridade física de equipamentos, tubulações e estruturas.</p>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 8px;" data-i18n="srv.ensaios.title">Inspeções &amp; Ensaios Não Destrutivos</h4>
+                        <p class="product-desc" style="font-size: 0.95rem;" data-i18n="srv.ensaios.desc">Inspeções END para garantia da integridade física de equipamentos, tubulações e estruturas.</p>
                     </div>
                     <div class="servico-bullets">
                         <ul>
-                            <li>Líquido Penetrante</li>
-                            <li>Partícula Magnética</li>
-                            <li>Ultrassom / Medição de Espessura</li>
-                            <li>Radiografia Industrial</li>
-                            <li>Ensaio Visual</li>
-                            <li>Identificação de Ligas Metálicas (PMI)</li>
-                            <li>Inspeção de Pintura</li>
-                            <li>Inspeção de Fabricação</li>
-                            <li>Alpinismo Industrial</li>
-                            <li>Controle de Qualidade</li>
+                            <li data-i18n="srv.ensaios.b1">Líquido Penetrante</li>
+                            <li data-i18n="srv.ensaios.b2">Partícula Magnética</li>
+                            <li data-i18n="srv.ensaios.b3">Ultrassom / Medição de Espessura</li>
+                            <li data-i18n="srv.ensaios.b4">Radiografia Industrial</li>
+                            <li data-i18n="srv.ensaios.b5">Ensaio Visual</li>
+                            <li data-i18n="srv.ensaios.b6">Identificação de Ligas Metálicas (PMI)</li>
+                            <li data-i18n="srv.ensaios.b7">Inspeção de Pintura</li>
+                            <li data-i18n="srv.ensaios.b8">Inspeção de Fabricação</li>
+                            <li data-i18n="srv.ensaios.b9">Alpinismo Industrial</li>
+                            <li data-i18n="srv.ensaios.b10">Controle de Qualidade</li>
                         </ul>
                     </div>
                 </div>
-            </div>
-        </div>
+
     </section>
 
     <!-- BARRA VERMELHA DIVISÓRIA -->
@@ -295,74 +396,75 @@
     <section class="servicos-realizados" id="realizados">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag" style="color: var(--red);">Resultados Comprovados</span>
-                <h2>Serviços Realizados</h2>
-                <p class="section-desc">Galeria de trabalhos executados em campo e na oficina. Clique para ampliar.</p>
+                <span class="section-tag" style="color: var(--red);" data-i18n="realizados.tag">Resultados Comprovados</span>
+                <h2 data-i18n="realizados.title">Serviços Realizados</h2>
+                <p class="section-desc" data-i18n="realizados.desc">Galeria de trabalhos executados em campo e na oficina. Clique para ampliar.</p>
             </div>
 
             <div class="realizados-grid">
                 <div class="realizado-item realizado-wide" onclick="abrirFotoRealizado(this)">
                     <img src="Fotos/usinagem_1.png" alt="Faceamento de Flange" loading="lazy">
                     <div class="realizado-overlay">
-                        <span class="realizado-badge">Usinagem de Campo</span>
-                        <h4>Faceamento de Flange</h4>
+                        <span class="realizado-badge" data-i18n="gal.badge.usinagem">Usinagem de Campo</span>
+                        <h4 data-i18n="gal.title.flange">Faceamento de Flange</h4>
                     </div>
                 </div>
                 <div class="realizado-item" onclick="abrirFotoRealizado(this)">
                     <img src="Fotos/rotativos_2.png" alt="Retífica de Pista" loading="lazy">
                     <div class="realizado-overlay">
-                        <span class="realizado-badge">Rotativos</span>
-                        <h4>Retífica de Pista</h4>
+                        <span class="realizado-badge" data-i18n="gal.badge.rotativos">Rotativos</span>
+                        <h4 data-i18n="gal.title.pista">Retífica de Pista</h4>
                     </div>
                 </div>
                 <div class="realizado-item" onclick="abrirFotoRealizado(this)">
                     <img src="Fotos/troc_calor_1.png" alt="Retubagem Completa" loading="lazy">
                     <div class="realizado-overlay">
-                        <span class="realizado-badge">Trocadores</span>
-                        <h4>Retubagem Completa</h4>
+                        <span class="realizado-badge" data-i18n="gal.badge.trocadores">Trocadores</span>
+                        <h4 data-i18n="gal.title.retubagem">Retubagem Completa</h4>
                     </div>
                 </div>
                 <div class="realizado-item" onclick="abrirFotoRealizado(this)">
                     <img src="Fotos/manut_ind_3.png" alt="Caldeiraria Industrial" loading="lazy">
                     <div class="realizado-overlay">
-                        <span class="realizado-badge">Manutenção</span>
-                        <h4>Caldeiraria Industrial</h4>
+                        <span class="realizado-badge" data-i18n="gal.badge.manutencao">Manutenção</span>
+                        <h4 data-i18n="gal.title.caldeiraria">Caldeiraria Industrial</h4>
                     </div>
                 </div>
                 <div class="realizado-item realizado-wide" onclick="abrirFotoRealizado(this)">
                     <img src="Fotos/end_4.png" alt="Inspeção Radiográfica" loading="lazy">
                     <div class="realizado-overlay">
-                        <span class="realizado-badge">Ensaios N.D.</span>
-                        <h4>Inspeção Radiográfica</h4>
+                        <span class="realizado-badge" data-i18n="gal.badge.ensaios">Ensaios N.D.</span>
+                        <h4 data-i18n="gal.title.radiografia">Inspeção Radiográfica</h4>
                     </div>
                 </div>
                 <div class="realizado-item" onclick="abrirFotoRealizado(this)">
                     <img src="Fotos/usinagem_5.png" alt="Mandrilhamento" loading="lazy">
                     <div class="realizado-overlay">
-                        <span class="realizado-badge">Usinagem</span>
-                        <h4>Mandrilhamento</h4>
+                        <span class="realizado-badge" data-i18n="gal.badge.usinagem2">Usinagem</span>
+                        <h4 data-i18n="gal.title.mandrilhamento">Mandrilhamento</h4>
                     </div>
                 </div>
                 <div class="realizado-item" onclick="abrirFotoRealizado(this)">
                     <img src="Fotos/rotativos_7.png" alt="Inspeção de Secador" loading="lazy">
                     <div class="realizado-overlay">
-                        <span class="realizado-badge">Rotativos</span>
-                        <h4>Inspeção de Secador</h4>
+                        <span class="realizado-badge" data-i18n="gal.badge.rotativos">Rotativos</span>
+                        <h4 data-i18n="gal.title.secador">Inspeção de Secador</h4>
                     </div>
                 </div>
                 <div class="realizado-item" onclick="abrirFotoRealizado(this)">
                     <img src="Fotos/troc_calor_7.png" alt="Serpentina Industrial" loading="lazy">
                     <div class="realizado-overlay">
-                        <span class="realizado-badge">Trocadores</span>
-                        <h4>Serpentina Industrial</h4>
+                        <span class="realizado-badge" data-i18n="gal.badge.trocadores">Trocadores</span>
+                        <h4 data-i18n="gal.title.serpentina">Serpentina Industrial</h4>
                     </div>
                 </div>
+
             </div>
 
             <div style="text-align: center; margin-top: 32px;">
                 <a href="portfolio.html" class="btn-primary btn-lg" style="background: var(--red); box-shadow: 0 4px 20px rgba(191,32,38,0.3); color: white; display: inline-flex; align-items: center; gap: 10px;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
-                    Ver Portfólio Completo (50 Fotos)
+                    <span data-i18n="realizados.portfolio.btn">Ver Portfólio Completo (50 Fotos)</span>
                 </a>
             </div>
         </div>
@@ -385,6 +487,112 @@
         lb.style.display = 'flex';
     }
     </script>
+
+    <!-- BARRA VERMELHA DIVISÓRIA -->
+    <div class="red-bar"></div>
+
+    <!-- ======================== -->
+    <!-- EQUIPAMENTOS ATENDIDOS -->
+    <!-- ======================== -->
+    <section class="equipamentos" id="equipamentos" style="padding: 80px 0;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" style="color: var(--red);" data-i18n="equip.tag">Expertise Técnica</span>
+                <h2 data-i18n="equip.title">Equipamentos Atendidos</h2>
+                <p class="section-desc" data-i18n="equip.desc">Atuamos em todos os tipos de trocadores de calor e equipamentos industriais, com pronto atendimento 24h — On/Offshore.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 40px;">
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="height: 160px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center;">
+                        <img src="img/hero_trocador_calor.png" alt="Trocador Casco e Tubos" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 4px;" data-i18n="equip.casco.name">Casco e Tubos</h4>
+                        <p style="font-size: 0.8rem; color: var(--gray-300);" data-i18n="equip.casco.desc">Shell &amp; Tube — Manutenção, retubagem e fabricação</p>
+                    </div>
+                </div>
+
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="height: 160px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center;">
+                        <img src="img/hero_usinagem_campo.png" alt="Air Cooler" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 4px;" data-i18n="equip.aircooler.name">Air Cooler</h4>
+                        <p style="font-size: 0.8rem; color: var(--gray-300);" data-i18n="equip.aircooler.desc">Resfriadores a ar — Limpeza e manutenção preventiva</p>
+                    </div>
+                </div>
+
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="height: 160px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center;">
+                        <img src="img/hero_limpeza_industrial.png" alt="Condensadores" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 4px;" data-i18n="equip.condensadores.name">Condensadores</h4>
+                        <p style="font-size: 0.8rem; color: var(--gray-300);" data-i18n="equip.condensadores.desc">Condensadores de vapor — Retubagem e teste de hélio</p>
+                    </div>
+                </div>
+
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="height: 160px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center;">
+                        <img src="img/hero_inspecao_end.png" alt="Trocador de Placas" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 4px;" data-i18n="equip.placas.name">Trocador de Placas</h4>
+                        <p style="font-size: 0.8rem; color: var(--gray-300);" data-i18n="equip.placas.desc">Limpeza, troca de gaxetas e revestimentos</p>
+                    </div>
+                </div>
+
+                <div style="background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                    <div style="height: 160px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center;">
+                        <img src="img/hero_petroquimica.png" alt="Equipamentos Rotativos" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 4px;" data-i18n="equip.rotativos.name">Rotativos Industriais</h4>
+                        <p style="font-size: 0.8rem; color: var(--gray-300);" data-i18n="equip.rotativos.desc">Secadores, fornos, tambores — Retífica e alinhamento</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BARRA VERMELHA DIVISÓRIA -->
+    <div class="red-bar"></div>
+
+    <!-- ======================== -->
+    <!-- NÚMEROS DA VERSÁTIL -->
+
+    <!-- BARRA VERMELHA DIVISÓRIA -->
+    <div class="red-bar"></div>
+
+    <!-- ======================== -->
+    <!-- NÚMEROS DA VERSÁTIL -->
+    <!-- ======================== -->
+    <section class="numeros" id="numeros" style="padding: 80px 0; background: linear-gradient(135deg, #0a0a0a, #1a0a0b); color: #fff;">
+        <div class="container">
+            <div class="section-header" style="margin-bottom: 48px;">
+                <span class="section-tag" style="color: var(--red);" data-i18n="numeros.tag">Resultados</span>
+                <h2 style="color: #fff;" data-i18n="numeros.title">Nossos Números</h2>
+                <p class="section-desc" style="color: rgba(255,255,255,0.5);" data-i18n="numeros.desc">Mais de duas décadas de excelência em manutenção industrial.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px; text-align: center;">
+                <div>
+                    <div class="counter-value" data-target="23" style="font-size: 3rem; font-weight: 900; color: var(--red);">0</div>
+                    <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); margin-top: 8px;" data-i18n="numeros.anos">Anos de Mercado</div>
+                </div>
+                <div>
+                    <div class="counter-value" data-target="1067" style="font-size: 3rem; font-weight: 900; color: var(--red);">0</div>
+                    <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); margin-top: 8px;" data-i18n="numeros.projetos">Projetos Executados</div>
+                </div>
+                <div>
+                    <div class="counter-value" data-target="3" style="font-size: 3rem; font-weight: 900; color: var(--red);">0</div>
+                    <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.5); margin-top: 8px;" data-i18n="numeros.continentes">Continentes</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- BARRA VERMELHA DIVISÓRIA -->
     <div class="red-bar"></div>
@@ -531,6 +739,65 @@
                 .catch(err => console.warn('[PWA] SW registration failed:', err));
         });
     }
+    </script>
+
+    <!-- Animated Counters -->
+    <script>
+    function animateCounters() {
+        const counters = document.querySelectorAll('.counter-value');
+        counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+            const update = () => {
+                current += increment;
+                if (current < target) {
+                    counter.textContent = Math.ceil(current) + '+';
+                    requestAnimationFrame(update);
+                } else {
+                    counter.textContent = target + '+';
+                }
+            };
+            update();
+        });
+    }
+
+    const numerosSection = document.getElementById('numeros');
+    if (numerosSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(numerosSection);
+    }
+    </script>
+
+    <!-- Hamburger Menu -->
+    <script>
+    (function() {
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (!hamburger || !mobileMenu) return;
+        hamburger.addEventListener('click', function() {
+            const isOpen = this.classList.toggle('active');
+            mobileMenu.classList.toggle('open');
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+            this.setAttribute('aria-expanded', isOpen);
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+    })();
     </script>
 </body>
 </html>

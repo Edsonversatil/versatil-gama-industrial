@@ -3,125 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio de Serviços | VERSÁTIL SERVICES</title>
+    <title>Portfólio de Serviços | VERSÁTIL SERVICES — Manutenção Industrial</title>
+    <meta name="description" content="Conheça os trabalhos executados pela Versátil Services: usinagem de campo, manutenção de rotativos, trocadores de calor e ensaios não destrutivos. +500 projetos em 3 continentes.">
+    <meta property="og:title" content="Portfólio | VERSÁTIL SERVICES">
+    <meta property="og:description" content="Galeria de serviços industriais executados em campo e oficina. +20 anos de experiência.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#BF2026">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="app.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#BF2026">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <style>
+        /* =============================================
+           PORTFOLIO PAGE — Premium Styles
+           ============================================= */
+
+        /* HERO */
         .portfolio-hero {
-            padding: 120px 0 40px;
-            text-align: center;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d0a0b 100%);
-            color: #fff;
             position: relative;
+            padding: 160px 0 80px;
+            text-align: center;
+            color: #fff;
             overflow: hidden;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .portfolio-hero::after {
-            content: '';
+        .portfolio-hero-bg {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 50% 120%, rgba(191,32,38,0.25) 0%, transparent 60%);
+            inset: 0;
+            background-image: linear-gradient(rgba(10,10,10,0.55), rgba(10,10,10,0.8)), url('Fotos/hero_usinagem.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: 1;
+        }
+        .portfolio-hero-glow {
+            position: absolute;
+            bottom: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 500px;
+            background: radial-gradient(ellipse, rgba(191,32,38,0.3) 0%, transparent 65%);
+            z-index: 2;
             pointer-events: none;
         }
+        .portfolio-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+            animation: fadeUp 0.8s ease-out;
+        }
+        .portfolio-hero .hero-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--red);
+            border: 1px solid rgba(191,32,38,0.4);
+            padding: 6px 20px;
+            border-radius: 100px;
+            margin-bottom: 24px;
+        }
         .portfolio-hero h1 {
-            font-size: 2.5rem;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
             font-weight: 900;
-            letter-spacing: -1px;
-            margin-bottom: 12px;
-            position: relative; z-index: 1;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.4);
         }
         .portfolio-hero p {
             color: rgba(255,255,255,0.7);
             font-size: 1.1rem;
-            position: relative; z-index: 1;
+            max-width: 550px;
+            margin: 0 auto;
+            line-height: 1.7;
         }
-        .portfolio-hero .red-line {
-            width: 60px; height: 4px;
-            background: var(--red);
-            margin: 16px auto 0;
-            border-radius: 2px;
-            position: relative; z-index: 1;
-        }
-        .filter-bar {
+        .hero-stats {
             display: flex;
             justify-content: center;
+            gap: 48px;
+            margin-top: 40px;
             flex-wrap: wrap;
-            gap: 10px;
-            padding: 28px 0 20px;
-            position: sticky;
-            top: 60px;
-            z-index: 50;
-            background: rgba(245,245,245,0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.06);
         }
-        .filter-btn {
-            padding: 10px 22px;
-            border: 2px solid #ddd;
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--red);
+            line-height: 1;
+        }
+        .hero-stat-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 6px;
+        }
+
+        /* CATEGORY SHOWCASE */
+        .category-showcase {
+            padding: 48px 0 20px;
+            background: var(--bg-body);
+        }
+        .category-cards {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 0 0 16px;
+            scrollbar-width: none;
+        }
+        .category-cards::-webkit-scrollbar { display: none; }
+        .category-card {
+            flex: 0 0 220px;
+            scroll-snap-align: start;
+            position: relative;
+            height: 140px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(191,32,38,0.2);
+        }
+        .category-card-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s ease;
+        }
+        .category-card:hover .category-card-bg {
+            transform: scale(1.1);
+        }
+        .category-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 30%, rgba(0,0,0,0.85) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 16px;
+            z-index: 2;
+        }
+        .category-card-icon {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+        .category-card-title {
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .category-card-count {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+        .category-card.active {
+            outline: 3px solid var(--red);
+            outline-offset: -3px;
+        }
+
+        /* SEARCH & FILTER BAR */
+        .portfolio-toolbar {
+            position: sticky;
+            top: 56px;
+            z-index: 50;
+            background: rgba(245,245,245,0.97);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 16px 0;
+        }
+        @media (min-width: 769px) {
+            .portfolio-toolbar { top: 64px; }
+        }
+        .toolbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+            max-width: 360px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px 16px 10px 42px;
+            border: 2px solid var(--border);
+            border-radius: 30px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: #fff;
+            color: var(--text-dark);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+        .search-box input:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(191,32,38,0.1);
+        }
+        .search-box input::placeholder { color: var(--gray-500); }
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+            pointer-events: none;
+        }
+        .search-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: var(--border);
+            border-radius: 50%;
+            color: var(--gray-300);
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .search-clear.visible { display: flex; }
+        .search-clear:hover { background: var(--red); color: #fff; }
+
+        .filter-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex: 2;
+        }
+        .filter-pill {
+            padding: 8px 18px;
+            border: 2px solid var(--border);
             background: #fff;
             border-radius: 30px;
             font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: #555;
+            color: var(--gray-300);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
         }
-        .filter-btn:hover { border-color: var(--red); color: var(--red); }
-        .filter-btn.active {
+        .filter-pill:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .filter-pill.active {
             background: var(--red);
             border-color: var(--red);
             color: #fff;
             box-shadow: 0 4px 14px rgba(191,32,38,0.3);
         }
-        .filter-btn .count {
+        .filter-pill .pill-count {
             display: inline-block;
-            background: rgba(0,0,0,0.1);
-            padding: 2px 8px;
+            background: rgba(0,0,0,0.08);
+            padding: 1px 7px;
             border-radius: 10px;
-            font-size: 0.75rem;
-            margin-left: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
         }
-        .filter-btn.active .count { background: rgba(255,255,255,0.25); }
+        .filter-pill.active .pill-count {
+            background: rgba(255,255,255,0.25);
+        }
+        .filter-pill .pill-icon {
+            font-size: 0.9rem;
+            line-height: 1;
+        }
+
+        .results-info {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* PORTFOLIO GRID */
+        .portfolio-section {
+            padding: 32px 0 80px;
+            background: var(--bg-body);
+            min-height: 400px;
+        }
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            padding: 30px 0 60px;
+            gap: 20px;
         }
         .portfolio-item {
             background: #fff;
-            border-radius: 14px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             cursor: pointer;
-            animation: fadeInUp 0.5s ease both;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .portfolio-item.revealed {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.4s ease;
         }
         .portfolio-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(191,32,38,0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(191,32,38,0.12);
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .portfolio-img {
-            height: 220px;
-            background-size: cover;
-            background-position: center;
+        .portfolio-img-wrap {
             position: relative;
+            height: 220px;
+            overflow: hidden;
         }
-        .portfolio-img::after {
-            content: '';
+        .portfolio-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .portfolio-item:hover .portfolio-img-wrap img {
+            transform: scale(1.08);
+        }
+        .portfolio-img-gradient {
             position: absolute;
             bottom: 0; left: 0; right: 0;
-            height: 60px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.4));
+            height: 80px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.5));
+            pointer-events: none;
         }
         .portfolio-cat-badge {
             position: absolute;
@@ -130,115 +370,295 @@
             color: #fff;
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        .portfolio-zoom {
+        .portfolio-new-badge {
             position: absolute;
             top: 12px; right: 12px;
-            width: 36px; height: 36px;
-            background: rgba(255,255,255,0.9);
+            background: #25D366;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+        .portfolio-zoom-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 48px; height: 48px;
+            background: rgba(255,255,255,0.95);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
             z-index: 2;
-            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+            color: var(--red);
+            font-size: 1.2rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
         }
-        .portfolio-item:hover .portfolio-zoom { opacity: 1; }
+        .portfolio-item:hover .portfolio-zoom-icon {
+            transform: translate(-50%, -50%) scale(1);
+        }
         .portfolio-info {
             padding: 16px 18px;
         }
         .portfolio-info h4 {
             margin: 0 0 4px;
-            color: #1a1a1a;
-            font-size: 1rem;
+            color: var(--text-dark);
+            font-size: 0.95rem;
             font-weight: 700;
         }
         .portfolio-info .sub {
-            color: #888;
-            font-size: 0.82rem;
+            color: var(--gray-500);
+            font-size: 0.8rem;
         }
-        /* Lightbox */
+
+        /* NO RESULTS */
+        .no-results {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray-500);
+        }
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        .no-results h3 {
+            font-size: 1.2rem;
+            color: var(--gray-300);
+            margin-bottom: 8px;
+        }
+
+        /* PREMIUM LIGHTBOX */
         .lightbox {
             display: none;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.92);
+            inset: 0;
+            background: rgba(0,0,0,0.95);
             z-index: 9999;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .lightbox.open { display: flex; }
-        .lightbox img {
-            max-width: 90vw;
-            max-height: 85vh;
+        .lightbox.open {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-header {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            z-index: 10;
+        }
+        .lightbox-counter {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .lightbox-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .lightbox-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+        .lightbox-btn:hover { background: rgba(255,255,255,0.25); }
+        .lightbox-main {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex: 1;
+            padding: 60px 80px;
+        }
+        .lightbox-main img {
+            max-width: 100%;
+            max-height: 100%;
             border-radius: 8px;
             box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-        }
-        .lightbox-close {
-            position: absolute;
-            top: 20px; right: 24px;
-            color: #fff;
-            font-size: 2rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-weight: 300;
+            object-fit: contain;
+            transition: opacity 0.3s ease;
         }
         .lightbox-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             color: #fff;
-            font-size: 2.5rem;
+            font-size: 2rem;
             cursor: pointer;
             background: rgba(255,255,255,0.1);
             border: none;
-            width: 50px; height: 50px;
+            width: 52px; height: 52px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.2s;
+            z-index: 10;
         }
-        .lightbox-nav:hover { background: rgba(255,255,255,0.25); }
-        .lightbox-prev { left: 20px; }
-        .lightbox-next { right: 20px; }
-        .lightbox-caption {
+        .lightbox-nav:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-50%) scale(1.05);
+        }
+        .lightbox-prev { left: 16px; }
+        .lightbox-next { right: 16px; }
+        .lightbox-caption-bar {
             position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 0; left: 0; right: 0;
+            padding: 16px 24px 16px;
+            z-index: 10;
+        }
+        .lightbox-caption {
             color: #fff;
             font-size: 1rem;
             font-weight: 600;
             text-align: center;
-            background: rgba(0,0,0,0.5);
-            padding: 8px 24px;
-            border-radius: 20px;
+            margin-bottom: 12px;
         }
-        .stats-bar {
+        .lightbox-category {
+            color: var(--red);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        /* Thumbnails strip */
+        .lightbox-thumbs {
             display: flex;
+            gap: 6px;
             justify-content: center;
-            gap: 40px;
-            padding: 20px 0;
-            color: #666;
-            font-size: 0.9rem;
+            overflow-x: auto;
+            padding: 0 16px 8px;
+            scrollbar-width: none;
         }
-        .stats-bar strong { color: var(--red); font-size: 1.3rem; }
+        .lightbox-thumbs::-webkit-scrollbar { display: none; }
+        .lightbox-thumb {
+            width: 56px; height: 40px;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: opacity 0.3s, outline 0.3s;
+            flex-shrink: 0;
+            border: 2px solid transparent;
+        }
+        .lightbox-thumb.active {
+            opacity: 1;
+            border-color: var(--red);
+        }
+        .lightbox-thumb:hover { opacity: 0.8; }
+        .lightbox-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* BACK TO TOP */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 48px; height: 48px;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 16px rgba(191,32,38,0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s, background 0.3s;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        .back-to-top:hover {
+            background: var(--red-dark);
+            transform: translateY(-2px);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .portfolio-hero { padding: 120px 0 60px; min-height: 320px; }
+            .portfolio-hero-bg { background-attachment: scroll; }
+            .hero-stats { gap: 28px; }
+            .hero-stat-value { font-size: 1.7rem; }
+            .category-card { flex: 0 0 170px; height: 110px; }
+            .toolbar-inner { flex-direction: column; align-items: stretch; }
+            .search-box { max-width: none; }
+            .filter-pills { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+            .results-info { text-align: center; }
+            .portfolio-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+            .lightbox-main { padding: 60px 16px; }
+            .lightbox-nav { width: 40px; height: 40px; font-size: 1.5rem; }
+            .lightbox-prev { left: 8px; }
+            .lightbox-next { right: 8px; }
+            .lightbox-thumbs { display: none; }
+        }
+
+        @media (max-width: 500px) {
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .filter-pills { gap: 6px; }
+            .filter-pill { padding: 6px 14px; font-size: 0.72rem; }
+        }
+
+        /* Print */
+        @media print {
+            .navbar, .portfolio-toolbar, .back-to-top, .lightbox, footer { display: none; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Navbar -->
     <header class="navbar" id="top">
         <div class="navbar-inner">
             <a href="index.html" class="logo">VERSÁTIL SERVICES</a>
+            <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
             <nav class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="portfolio.html" style="color: var(--red); font-weight: 800;">Portfólio</a>
@@ -250,18 +670,115 @@
         </div>
     </header>
 
-    <section class="portfolio-hero">
-        <h1>Galeria de Serviços</h1>
-        <p>Conheça nossos trabalhos executados em campo e na oficina</p>
-        <div class="red-line"></div>
-    </section>
-
-    <div class="container">
-        <div class="stats-bar" id="statsBar"></div>
-        <div class="filter-bar" id="filterBar"></div>
-        <div class="portfolio-grid" id="portfolioGrid"></div>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-menu-nav">
+            <a href="index.html">Home</a>
+            <a href="portfolio.html" style="color: var(--red); font-weight: 800;">Portfólio</a>
+            <a href="solicitar.html" class="mobile-menu-cta">Solicitar Serviço</a>
+        </nav>
     </div>
 
+    <!-- HERO -->
+    <section class="portfolio-hero">
+        <div class="portfolio-hero-bg"></div>
+        <div class="portfolio-hero-glow"></div>
+        <div class="portfolio-hero-content">
+            <div class="hero-badge">Resultados Comprovados</div>
+            <h1>Galeria de Serviços</h1>
+            <p>Conheça nossos trabalhos executados em campo e na oficina — mais de duas décadas de excelência em manutenção industrial.</p>
+            <div class="hero-stats" id="heroStats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="statTotal">50</div>
+                    <div class="hero-stat-label">Registros</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">5</div>
+                    <div class="hero-stat-label">Categorias</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">+20</div>
+                    <div class="hero-stat-label">Anos de Experiência</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">3</div>
+                    <div class="hero-stat-label">Continentes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RED BAR -->
+    <div class="red-bar"></div>
+
+    <main>
+        <!-- CATEGORY SHOWCASE -->
+        <section class="category-showcase">
+            <div class="container">
+                <div class="category-cards" id="categoryCards"></div>
+            </div>
+        </section>
+
+        <!-- TOOLBAR: Search + Filters -->
+        <div class="portfolio-toolbar">
+            <div class="toolbar-inner">
+                <div class="search-box">
+                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Buscar por serviço..." autocomplete="off">
+                    <button class="search-clear" id="searchClear" aria-label="Limpar busca">&times;</button>
+                </div>
+                <div class="filter-pills" id="filterPills"></div>
+                <div class="results-info" id="resultsInfo"></div>
+            </div>
+        </div>
+
+        <!-- PORTFOLIO GRID -->
+        <section class="portfolio-section">
+            <div class="container">
+                <div class="portfolio-grid" id="portfolioGrid"></div>
+                <div class="no-results" id="noResults" style="display:none;">
+                    <div class="no-results-icon">🔍</div>
+                    <h3>Nenhum resultado encontrado</h3>
+                    <p>Tente outro termo de busca ou altere o filtro.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PREMIUM LIGHTBOX -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-label="Visualizar foto">
+        <div class="lightbox-header">
+            <div class="lightbox-counter" id="lightboxCounter">1 / 50</div>
+            <div class="lightbox-actions">
+                <button class="lightbox-btn" id="lightboxShare" title="Compartilhar via WhatsApp" aria-label="Compartilhar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                </button>
+                <button class="lightbox-btn" id="lightboxClose" title="Fechar" aria-label="Fechar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div class="lightbox-main">
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Anterior">&#8249;</button>
+            <img id="lightboxImg" src="" alt="">
+            <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Próximo">&#8250;</button>
+        </div>
+        <div class="lightbox-caption-bar">
+            <div class="lightbox-category" id="lightboxCategory"></div>
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+            <div class="lightbox-thumbs" id="lightboxThumbs"></div>
+        </div>
+    </div>
+
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"></path></svg>
+    </button>
+
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-inner">
@@ -272,22 +789,19 @@
         </div>
     </footer>
 
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-        <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">&#8249;</button>
-        <img id="lightboxImg" src="" alt="">
-        <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">&#8250;</button>
-        <div class="lightbox-caption" id="lightboxCaption"></div>
-    </div>
+    <!-- IndexedDB -->
+    <script src="db.js"></script>
 
     <script>
+    /* =============================================
+       PORTFOLIO DATA & CONFIG
+       ============================================= */
     const CATEGORIAS = {
-        rotativos:  { label: 'Equipamentos Rotativos', prefix: 'rotativos', count: 10 },
-        manutencao: { label: 'Manutenção Industrial', prefix: 'manut_ind', count: 10 },
-        usinagem:   { label: 'Usinagem de Campo', prefix: 'usinagem', count: 10 },
-        trocadores: { label: 'Trocadores de Calor', prefix: 'troc_calor', count: 10 },
-        end:        { label: 'Ensaios N.D.', prefix: 'end', count: 10 }
+        rotativos:  { label: 'Equip. Rotativos', icon: '⚙️', prefix: 'rotativos', count: 10, cover: 'Fotos/rotativos_1.png' },
+        manutencao: { label: 'Manutenção Industrial', icon: '🏭', prefix: 'manut_ind', count: 10, cover: 'Fotos/manut_ind_1.png' },
+        usinagem:   { label: 'Usinagem de Campo', icon: '🔧', prefix: 'usinagem', count: 10, cover: 'Fotos/usinagem_1.png' },
+        trocadores: { label: 'Trocadores de Calor', icon: '🌡️', prefix: 'troc_calor', count: 10, cover: 'Fotos/troc_calor_1.png' },
+        end:        { label: 'Ensaios N.D.', icon: '🔬', prefix: 'end', count: 10, cover: 'Fotos/end_1.png' }
     };
 
     const TITULOS = {
@@ -298,63 +812,234 @@
         end: ['Líquido Penetrante','Partícula Magnética','Ultrassom Industrial','Radiografia','Ensaio Visual','PMI - Ligas Metálicas','Inspeção de Pintura','Fabricação e Inspeção','Alpinismo Industrial','Controle de Qualidade']
     };
 
-    // Build foto array
-    const fotos = [];
-    Object.entries(CATEGORIAS).forEach(([cat, cfg]) => {
-        for (let i = 1; i <= cfg.count; i++) {
-            fotos.push({
-                categoria: cat,
-                src: `Fotos/${cfg.prefix}_${i}.png`,
-                titulo: TITULOS[cat][i - 1],
-                catLabel: cfg.label
-            });
-        }
-    });
-
-    let filtroAtual = 'todos';
-    let lightboxIdx = 0;
+    /* =============================================
+       STATE
+       ============================================= */
+    let allFotos = [];
     let fotosVisiveis = [];
+    let filtroAtual = 'todos';
+    let buscaAtual = '';
+    let lightboxIdx = 0;
 
-    function renderStats() {
-        const total = fotos.length;
-        const cats = Object.keys(CATEGORIAS).length;
-        document.getElementById('statsBar').innerHTML = `
-            <div><strong>${total}</strong> Registros</div>
-            <div><strong>${cats}</strong> Categorias</div>
-            <div><strong>+20</strong> Anos de Experiência</div>
-        `;
-    }
-
-    function renderFilters() {
-        const bar = document.getElementById('filterBar');
-        let html = `<button class="filter-btn active" onclick="filtrar('todos', this)">Todos <span class="count">${fotos.length}</span></button>`;
+    /* =============================================
+       BUILD STATIC PHOTOS
+       ============================================= */
+    function buildStaticFotos() {
+        const fotos = [];
         Object.entries(CATEGORIAS).forEach(([cat, cfg]) => {
-            html += `<button class="filter-btn" onclick="filtrar('${cat}', this)">${cfg.label} <span class="count">${cfg.count}</span></button>`;
+            for (let i = 1; i <= cfg.count; i++) {
+                fotos.push({
+                    categoria: cat,
+                    src: `Fotos/${cfg.prefix}_${i}.png`,
+                    titulo: TITULOS[cat][i - 1],
+                    catLabel: cfg.label,
+                    catIcon: cfg.icon,
+                    isDynamic: false
+                });
+            }
         });
-        bar.innerHTML = html;
+        return fotos;
     }
 
-    function filtrar(categoria, btn) {
-        filtroAtual = categoria;
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    /* =============================================
+       LOAD DYNAMIC PHOTOS FROM IndexedDB
+       ============================================= */
+    async function loadDynamicFotos() {
+        try {
+            if (typeof DB === 'undefined' || !DB.portfolio) return [];
+            const items = await DB.portfolio.getAll();
+            return items.map(item => {
+                const catKey = item.categoria || 'outro';
+                const catInfo = CATEGORIAS[catKey] || { label: catKey, icon: '📷' };
+                return {
+                    categoria: catKey,
+                    src: item.fotos && item.fotos[0] ? item.fotos[0] : '',
+                    titulo: item.titulo || 'Sem título',
+                    catLabel: catInfo.label,
+                    catIcon: catInfo.icon,
+                    isDynamic: true,
+                    criadoEm: item.criadoEm
+                };
+            }).filter(f => f.src);
+        } catch (e) {
+            console.log('IndexedDB not available:', e);
+            return [];
+        }
+    }
+
+    /* =============================================
+       INIT
+       ============================================= */
+    async function init() {
+        allFotos = buildStaticFotos();
+
+        // Load dynamic photos
+        const dynamicFotos = await loadDynamicFotos();
+        if (dynamicFotos.length > 0) {
+            allFotos = [...dynamicFotos, ...allFotos];
+            document.getElementById('statTotal').textContent = allFotos.length;
+        }
+
+        renderCategoryCards();
+        renderFilterPills();
+        applyFilters();
+        setupSearch();
+        setupBackToTop();
+        setupLightboxEvents();
+    }
+
+    /* =============================================
+       CATEGORY SHOWCASE CARDS
+       ============================================= */
+    function renderCategoryCards() {
+        const container = document.getElementById('categoryCards');
+        let html = '';
+        Object.entries(CATEGORIAS).forEach(([cat, cfg]) => {
+            const count = allFotos.filter(f => f.categoria === cat).length;
+            html += `
+                <div class="category-card" data-cat="${cat}" onclick="filtrarPorCategoria('${cat}', this)">
+                    <div class="category-card-bg" style="background-image: url('${cfg.cover}');"></div>
+                    <div class="category-card-overlay">
+                        <div class="category-card-icon">${cfg.icon}</div>
+                        <div class="category-card-title">${cfg.label}</div>
+                        <div class="category-card-count">${count} registros</div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function filtrarPorCategoria(cat, el) {
+        // Toggle: if already active, go to all
+        if (filtroAtual === cat) {
+            filtroAtual = 'todos';
+        } else {
+            filtroAtual = cat;
+        }
+
+        // Update category card states
+        document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+        if (filtroAtual !== 'todos' && el) el.classList.add('active');
+
+        // Update filter pills
+        document.querySelectorAll('.filter-pill').forEach(p => {
+            p.classList.toggle('active', p.dataset.cat === filtroAtual);
+        });
+
+        applyFilters();
+    }
+
+    /* =============================================
+       FILTER PILLS
+       ============================================= */
+    function renderFilterPills() {
+        const container = document.getElementById('filterPills');
+        let html = `<button class="filter-pill active" data-cat="todos" onclick="filtrar('todos', this)">
+            <span class="pill-icon">📋</span> Todos <span class="pill-count">${allFotos.length}</span>
+        </button>`;
+        Object.entries(CATEGORIAS).forEach(([cat, cfg]) => {
+            const count = allFotos.filter(f => f.categoria === cat).length;
+            html += `<button class="filter-pill" data-cat="${cat}" onclick="filtrar('${cat}', this)">
+                <span class="pill-icon">${cfg.icon}</span> ${cfg.label} <span class="pill-count">${count}</span>
+            </button>`;
+        });
+        container.innerHTML = html;
+    }
+
+    function filtrar(cat, btn) {
+        filtroAtual = cat;
+        document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
         if (btn) btn.classList.add('active');
 
-        fotosVisiveis = categoria === 'todos' ? [...fotos] : fotos.filter(f => f.categoria === categoria);
-        renderGrid();
+        // Update category cards
+        document.querySelectorAll('.category-card').forEach(c => {
+            c.classList.toggle('active', c.dataset.cat === cat);
+        });
+
+        applyFilters();
     }
 
+    /* =============================================
+       SEARCH
+       ============================================= */
+    function setupSearch() {
+        const input = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('searchClear');
+        let debounceTimer;
+
+        input.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                buscaAtual = input.value.trim().toLowerCase();
+                clearBtn.classList.toggle('visible', buscaAtual.length > 0);
+                applyFilters();
+            }, 200);
+        });
+
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            buscaAtual = '';
+            clearBtn.classList.remove('visible');
+            applyFilters();
+            input.focus();
+        });
+    }
+
+    /* =============================================
+       APPLY FILTERS
+       ============================================= */
+    function applyFilters() {
+        let filtered = filtroAtual === 'todos' ? [...allFotos] : allFotos.filter(f => f.categoria === filtroAtual);
+
+        if (buscaAtual) {
+            filtered = filtered.filter(f =>
+                f.titulo.toLowerCase().includes(buscaAtual) ||
+                f.catLabel.toLowerCase().includes(buscaAtual)
+            );
+        }
+
+        fotosVisiveis = filtered;
+
+        // Update results info
+        const info = document.getElementById('resultsInfo');
+        if (buscaAtual || filtroAtual !== 'todos') {
+            info.textContent = `${fotosVisiveis.length} de ${allFotos.length} resultados`;
+        } else {
+            info.textContent = `${allFotos.length} registros`;
+        }
+
+        renderGrid();
+
+        // Toggle no results
+        document.getElementById('noResults').style.display = fotosVisiveis.length === 0 ? 'block' : 'none';
+        document.getElementById('portfolioGrid').style.display = fotosVisiveis.length === 0 ? 'none' : 'grid';
+    }
+
+    /* =============================================
+       RENDER GRID
+       ============================================= */
     function renderGrid() {
         const grid = document.getElementById('portfolioGrid');
         grid.innerHTML = '';
+
         fotosVisiveis.forEach((foto, idx) => {
-            const item = document.createElement('div');
+            const item = document.createElement('article');
             item.className = 'portfolio-item';
-            item.style.animationDelay = `${idx * 0.04}s`;
+            item.style.transitionDelay = `${Math.min(idx * 0.03, 0.5)}s`;
             item.onclick = () => openLightbox(idx);
+
+            const newBadge = foto.isDynamic ? `<span class="portfolio-new-badge">Novo</span>` : '';
+
             item.innerHTML = `
-                <div class="portfolio-img" style="background-image: url('${foto.src}');">
-                    <span class="portfolio-cat-badge">${foto.catLabel}</span>
-                    <span class="portfolio-zoom">🔍</span>
+                <div class="portfolio-img-wrap">
+                    <img src="${foto.src}" alt="${foto.titulo}" loading="lazy">
+                    <div class="portfolio-img-gradient"></div>
+                    <span class="portfolio-cat-badge"><span>${foto.catIcon}</span> ${foto.catLabel}</span>
+                    ${newBadge}
+                    <span class="portfolio-zoom-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+                    </span>
                 </div>
                 <div class="portfolio-info">
                     <h4>${foto.titulo}</h4>
@@ -363,44 +1048,160 @@
             `;
             grid.appendChild(item);
         });
+
+        // Trigger scroll reveal
+        requestAnimationFrame(() => observeItems());
     }
 
+    /* =============================================
+       SCROLL REVEAL
+       ============================================= */
+    function observeItems() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.portfolio-item').forEach(item => observer.observe(item));
+    }
+
+    /* =============================================
+       LIGHTBOX
+       ============================================= */
     function openLightbox(idx) {
         lightboxIdx = idx;
-        const foto = fotosVisiveis[idx];
-        document.getElementById('lightboxImg').src = foto.src;
-        document.getElementById('lightboxCaption').textContent = `${foto.titulo} — ${foto.catLabel}`;
+        updateLightbox();
+        renderLightboxThumbs();
         document.getElementById('lightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
     }
 
     function closeLightbox() {
         document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function updateLightbox() {
+        const foto = fotosVisiveis[lightboxIdx];
+        if (!foto) return;
+        document.getElementById('lightboxImg').src = foto.src;
+        document.getElementById('lightboxCaption').textContent = foto.titulo;
+        document.getElementById('lightboxCategory').textContent = `${foto.catIcon} ${foto.catLabel}`;
+        document.getElementById('lightboxCounter').textContent = `${lightboxIdx + 1} / ${fotosVisiveis.length}`;
+
+        // Update active thumb
+        document.querySelectorAll('.lightbox-thumb').forEach((t, i) => {
+            t.classList.toggle('active', i === lightboxIdx);
+        });
+
+        // Scroll active thumb into view
+        const activeThumb = document.querySelector('.lightbox-thumb.active');
+        if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
 
     function navLightbox(dir) {
-        event.stopPropagation();
         lightboxIdx = (lightboxIdx + dir + fotosVisiveis.length) % fotosVisiveis.length;
-        const foto = fotosVisiveis[lightboxIdx];
-        document.getElementById('lightboxImg').src = foto.src;
-        document.getElementById('lightboxCaption').textContent = `${foto.titulo} — ${foto.catLabel}`;
+        updateLightbox();
     }
 
-    document.getElementById('lightbox').addEventListener('click', (e) => {
-        if (e.target === document.getElementById('lightbox')) closeLightbox();
-    });
+    function renderLightboxThumbs() {
+        const container = document.getElementById('lightboxThumbs');
+        const maxThumbs = 20;
+        const thumbFotos = fotosVisiveis.slice(0, maxThumbs);
+        container.innerHTML = thumbFotos.map((foto, i) =>
+            `<div class="lightbox-thumb ${i === lightboxIdx ? 'active' : ''}" onclick="goToLightbox(${i})">
+                <img src="${foto.src}" alt="${foto.titulo}" loading="lazy">
+            </div>`
+        ).join('');
+    }
 
-    document.addEventListener('keydown', (e) => {
-        if (!document.getElementById('lightbox').classList.contains('open')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') navLightbox(-1);
-        if (e.key === 'ArrowRight') navLightbox(1);
-    });
+    function goToLightbox(idx) {
+        lightboxIdx = idx;
+        updateLightbox();
+    }
 
-    // Init
-    renderStats();
-    renderFilters();
-    fotosVisiveis = [...fotos];
-    renderGrid();
+    function setupLightboxEvents() {
+        const lightbox = document.getElementById('lightbox');
+
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxPrev').addEventListener('click', (e) => { e.stopPropagation(); navLightbox(-1); });
+        document.getElementById('lightboxNext').addEventListener('click', (e) => { e.stopPropagation(); navLightbox(1); });
+
+        // Click on backdrop
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-main')) closeLightbox();
+        });
+
+        // Share via WhatsApp
+        document.getElementById('lightboxShare').addEventListener('click', () => {
+            const foto = fotosVisiveis[lightboxIdx];
+            if (!foto) return;
+            const msg = encodeURIComponent(`🔧 *Versátil Services* — ${foto.catLabel}\n\n📸 ${foto.titulo}\n\n🌐 Conheça nosso portfólio completo!`);
+            window.open(`https://wa.me/?text=${msg}`, '_blank');
+        });
+
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('open')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navLightbox(-1);
+            if (e.key === 'ArrowRight') navLightbox(1);
+        });
+
+        // Touch swipe
+        let touchStartX = 0;
+        const mainArea = document.querySelector('.lightbox-main');
+        mainArea.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+        mainArea.addEventListener('touchend', (e) => {
+            const diff = e.changedTouches[0].screenX - touchStartX;
+            if (Math.abs(diff) > 50) {
+                navLightbox(diff > 0 ? -1 : 1);
+            }
+        }, { passive: true });
+    }
+
+    /* =============================================
+       BACK TO TOP
+       ============================================= */
+    function setupBackToTop() {
+        const btn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            btn.classList.toggle('visible', window.scrollY > 500);
+        }, { passive: true });
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    /* =============================================
+       START
+       ============================================= */
+    init();
+
+    // Hamburger Menu
+    (function() {
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (!hamburger || !mobileMenu) return;
+        hamburger.addEventListener('click', function() {
+            const isOpen = this.classList.toggle('active');
+            mobileMenu.classList.toggle('open');
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+            this.setAttribute('aria-expanded', isOpen);
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+    })();
     </script>
 </body>
 </html>

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Área | Versátil Services</title>
+    <meta name="description" content="Painel do cliente - Acompanhe suas Ordens de Serviço, documentos e histórico de serviços.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="Fotos/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="app.css">
+    <style>
+        /* Login Screen */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1a1a 100%);
+            padding: 24px;
+        }
+
+        .login-box {
+            background: #fff;
+            border-radius: 16px;
+            padding: 48px 36px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .login-logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: var(--red);
+            margin-bottom: 8px;
+        }
+
+        .login-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .login-desc {
+            color: var(--gray-300);
+            margin-bottom: 32px;
+        }
+
+        .login-box .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--red);
+        }
+
+        .login-box label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-300);
+            margin-bottom: 8px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            background: var(--red-dark);
+            transform: translateY(-2px);
+        }
+
+        .login-error {
+            color: var(--red);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* Client Panel */
+        .painel-cliente {
+            display: none;
+            min-height: 100vh;
+            background: var(--bg-body);
+        }
+
+        .painel-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1a1a 100%);
+            padding: 80px 24px 32px;
+            color: #fff;
+        }
+
+        .painel-welcome {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 8px;
+        }
+
+        .painel-empresa {
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .painel-cnpj {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+
+        .btn-sair {
+            position: absolute;
+            top: 76px;
+            right: 24px;
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .btn-sair:hover { background: rgba(255,255,255,0.2); }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: -20px 24px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 20px 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .stat-num {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--red);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        /* OS List */
+        .os-section {
+            padding: 0 24px 32px;
+        }
+
+        .os-section-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .os-filtros {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .os-filtro {
+            padding: 6px 16px;
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            background: transparent;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--gray-300);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .os-filtro.active {
+            border-color: var(--red);
+            color: var(--red);
+            background: var(--red-soft);
+        }
+
+        .os-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--red);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .os-card:hover {
+            border-color: var(--red);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .os-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .os-card-num {
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .os-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .os-status.pendente { background: #FFF3CD; color: #856404; }
+        .os-status.em_execucao { background: #CCE5FF; color: #004085; }
+        .os-status.concluido { background: #D4EDDA; color: #155724; }
+
+        .os-card-tipo {
+            font-size: 0.85rem;
+            color: var(--gray-300);
+        }
+
+        .os-card-data {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        .os-vazia {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--gray-500);
+        }
+
+        /* Detalhe O.S. */
+        .os-detalhe {
+            display: none;
+            padding: 0 24px 32px;
+        }
+
+        .btn-voltar {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--red);
+            font-weight: 700;
+            font-size: 0.9rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+            padding: 8px 0;
+        }
+
+        .detalhe-header {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .detalhe-titulo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .detalhe-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .detalhe-meta span {
+            font-size: 0.85rem;
+            color: var(--gray-300);
+        }
+
+        .detalhe-meta strong {
+            color: var(--text-dark);
+        }
+
+        .fotos-section {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .fotos-section h4 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .fotos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+        }
+
+        .fotos-grid img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .fotos-grid img:hover { transform: scale(1.05); }
+
+        .notas-section {
+            background: #fff;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .notas-section h4 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .notas-texto {
+            font-size: 0.9rem;
+            color: var(--gray-300);
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .stat-card { padding: 14px 8px; }
+            .stat-num { font-size: 1.5rem; }
+            .login-box { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="logo">VERSÁTIL SERVICES</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="solicitar.html" style="color: var(--red);">Solicitar</a>
+                <a href="cliente.html" style="color: var(--red); font-weight: 800;">Minha Área</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LOGIN -->
+    <div id="telaLogin" class="login-screen">
+        <div class="login-box">
+            <div class="login-logo">VERSÁTIL SERVICES</div>
+            <h1 class="login-title">Minha Área</h1>
+            <p class="login-desc">Acesse com seu CNPJ e PIN de 4 dígitos.</p>
+
+            <div class="form-group">
+                <label for="loginCnpj">CNPJ</label>
+                <input type="text" id="loginCnpj" placeholder="12.345.678/0001-90" maxlength="18">
+            </div>
+
+            <div class="form-group">
+                <label for="loginPin">PIN</label>
+                <input type="password" id="loginPin" placeholder="••••" maxlength="4" inputmode="numeric">
+            </div>
+
+            <button class="btn-login" id="btnLogin">Entrar</button>
+            <p class="login-error" id="loginError">CNPJ ou PIN incorreto.</p>
+        </div>
+    </div>
+
+    <!-- PAINEL -->
+    <div id="painelCliente" class="painel-cliente">
+        <div class="painel-header" style="position:relative;">
+            <div class="container">
+                <p class="painel-welcome">Minha Área</p>
+                <h2 class="painel-empresa" id="cliNomeEmpresa"></h2>
+                <p class="painel-cnpj" id="cliCnpjDisplay"></p>
+            </div>
+            <button class="btn-sair" onclick="sairPainel()">Sair ↗</button>
+        </div>
+
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-num" id="statTotal">0</div>
+                    <div class="stat-label">Total O.S.</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" id="statAtivas">0</div>
+                    <div class="stat-label">Ativas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num" id="statConcluidas">0</div>
+                    <div class="stat-label">Concluídas</div>
+                </div>
+            </div>
+
+            <!-- Lista de O.S. -->
+            <div id="secaoOrdens" class="os-section">
+                <h3 class="os-section-title">📋 Ordens de Serviço</h3>
+                <div class="os-filtros">
+                    <button class="os-filtro active" data-f="todas">Todas</button>
+                    <button class="os-filtro" data-f="pendente">Pendentes</button>
+                    <button class="os-filtro" data-f="em_execucao">Em Execução</button>
+                    <button class="os-filtro" data-f="concluido">Concluídas</button>
+                </div>
+                <div id="listaOSCliente"></div>
+                <div id="osVazia" class="os-vazia" style="display:none;">
+                    <p>Nenhuma O.S. encontrada.</p>
+                </div>
+            </div>
+
+            <!-- Detalhe da O.S. -->
+            <div id="detalheOS" class="os-detalhe">
+                <button class="btn-voltar" onclick="voltarListaOS()">← Voltar</button>
+                <div class="detalhe-header">
+                    <h3 class="detalhe-titulo" id="detTitulo"></h3>
+                    <div class="detalhe-meta">
+                        <span>Status: <strong id="detStatus"></strong></span>
+                        <span>Tipo: <strong id="detTipo"></strong></span>
+                        <span>Data: <strong id="detData"></strong></span>
+                        <span>Técnico: <strong id="detTecnico"></strong></span>
+                    </div>
+                </div>
+
+                <div id="detDescricao" class="notas-section" style="margin-bottom: 16px;">
+                    <h4>📝 Descrição</h4>
+                    <p class="notas-texto" id="detDescTexto"></p>
+                </div>
+
+                <div id="secaoFotos"></div>
+
+                <div id="detNotas" class="notas-section" style="display:none;">
+                    <h4>📋 Notas do Técnico</h4>
+                    <p class="notas-texto" id="detNotasTexto"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="display:none;" id="footerCliente">
+        <div class="container">
+            <div class="footer-inner">
+                <p class="footer-brand">VERSÁTIL SERVICES</p>
+                <p>Desde 2002 — Manutenção Industrial de Excelência</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="db.js"></script>
+    <script src="cliente.js"></script>
+</body>
+</html>

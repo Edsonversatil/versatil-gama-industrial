@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitar Serviço | VERSÁTIL SERVICES</title>
-    <meta name="description" content="Solicite manutenção industrial, usinagem de campo ou inspeções diretamente pelo celular.">
+    <title data-i18n-title="sol.page.title">Request Quotation | VERSÁTIL SERVICES</title>
+    <meta name="description" data-i18n-meta-desc="sol.page.desc" content="Request industrial maintenance, field machining or inspections. Global industrial engineering group.">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="app.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -18,12 +18,26 @@
     <header class="navbar" id="top">
         <div class="navbar-inner">
             <a href="index.html" class="logo">VERSÁTIL SERVICES</a>
+            <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
             <nav class="nav-links">
-                <a href="index.html#servicos">Serviços</a>
-                <a href="solicitar.html" style="color: var(--red);">Solicitar</a>
+                <a href="index.html#servicos" data-i18n="sol.nav.servicos">Serviços</a>
+                <a href="solicitar.html" style="color: var(--red);" data-i18n="sol.nav.solicitar">Solicitar Cotação</a>
             </nav>
         </div>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-menu-nav">
+            <a href="index.html#servicos" data-i18n="sol.nav.servicos">Serviços</a>
+            <a href="solicitar.html" style="color: var(--red); font-weight: 800;" data-i18n="sol.nav.solicitar">Solicitar Cotação</a>
+            <a href="solicitar.html" class="mobile-menu-cta" data-i18n="sol.nav.solicitar">Solicitar Cotação</a>
+        </nav>
+    </div>
 
     <!-- Conteúdo Principal -->
     <main class="app-main">
@@ -31,8 +45,8 @@
 
             <!-- Header -->
             <div class="app-header">
-                <h1>Solicitar Serviço</h1>
-                <p>Preencha os dados abaixo. Você pode salvar como rascunho e enviar quando tiver internet.</p>
+                <h1 data-i18n="sol.title">Solicitar Cotação</h1>
+                <p data-i18n="sol.subtitle">Preencha os dados abaixo e nossa equipe técnica retornará em até 4 horas.</p>
             </div>
 
             <!-- Formulário -->
@@ -40,82 +54,82 @@
 
                 <!-- Dados do Cliente -->
                 <div class="form-section">
-                    <h3 class="form-section-title">Dados do Cliente</h3>
+                    <h3 class="form-section-title" data-i18n="sol.sec.cliente">Dados do Cliente</h3>
 
                     <div class="form-group">
-                        <label for="empresa">Empresa *</label>
-                        <input type="text" id="empresa" placeholder="Ex: Petrobras, Klabin, Vale..." required>
+                        <label for="empresa" data-i18n="sol.empresa">Empresa *</label>
+                        <input type="text" id="empresa" data-i18n-placeholder="sol.empresa.ph" placeholder="Ex: Petrobras, Vale, Braskem..." required>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="responsavel">Responsável *</label>
-                            <input type="text" id="responsavel" placeholder="Nome completo" required>
+                            <label for="responsavel" data-i18n="sol.responsavel">Responsável *</label>
+                            <input type="text" id="responsavel" data-i18n-placeholder="sol.responsavel.ph" placeholder="Nome completo" required>
                         </div>
                         <div class="form-group">
-                            <label for="telefone">WhatsApp *</label>
+                            <label for="telefone" data-i18n="sol.whatsapp">WhatsApp *</label>
                             <input type="tel" id="telefone" placeholder="+55 (13) 99999-9999" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="email@empresa.com.br">
+                        <label for="email" data-i18n="sol.email">Email</label>
+                        <input type="email" id="email" placeholder="email@company.com">
                     </div>
                 </div>
 
                 <!-- Detalhes do Serviço -->
                 <div class="form-section">
-                    <h3 class="form-section-title">Detalhes do Serviço</h3>
+                    <h3 class="form-section-title" data-i18n="sol.sec.servico">Detalhes do Serviço</h3>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="tipoServico">Tipo de Serviço *</label>
+                            <label for="tipoServico" data-i18n="sol.tipo">Tipo de Serviço *</label>
                             <select id="tipoServico" required>
-                                <option value="">Selecione...</option>
-                                <option value="rotativos">Equipamentos Rotativos</option>
-                                <option value="manutencao">Manutenção Industrial</option>
-                                <option value="usinagem">Usinagem de Campo</option>
-                                <option value="trocadores">Trocadores de Calor</option>
-                                <option value="end">Ensaios Não Destrutivos (END)</option>
-                                <option value="outro">Outro</option>
+                                <option value="" data-i18n="sol.selecione">Selecione...</option>
+                                <option value="rotativos" data-i18n="sol.tipo.rotativos">Equipamentos Rotativos</option>
+                                <option value="manutencao" data-i18n="sol.tipo.manutencao">Manutenção Industrial</option>
+                                <option value="usinagem" data-i18n="sol.tipo.usinagem">Usinagem de Campo</option>
+                                <option value="trocadores" data-i18n="sol.tipo.trocadores">Trocadores de Calor</option>
+                                <option value="end" data-i18n="sol.tipo.end">Ensaios Não Destrutivos (END)</option>
+                                <option value="outro" data-i18n="sol.tipo.outro">Outro</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="urgencia">Urgência</label>
+                            <label for="urgencia" data-i18n="sol.urgencia">Urgência</label>
                             <select id="urgencia">
-                                <option value="programada">📅 Programada</option>
-                                <option value="urgente">⚡ Urgente</option>
-                                <option value="emergencia">🚨 Emergência</option>
+                                <option value="programada" data-i18n="sol.urg.prog">📅 Programada</option>
+                                <option value="urgente" data-i18n="sol.urg.urg">⚡ Urgente</option>
+                                <option value="emergencia" data-i18n="sol.urg.emer">🚨 Emergência</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="descricao">Descrição da Necessidade *</label>
-                        <textarea id="descricao" rows="5" placeholder="Descreva o serviço necessário, equipamento, localização na planta, dimensões, etc." required></textarea>
+                        <label for="descricao" data-i18n="sol.descricao">Descrição da Necessidade *</label>
+                        <textarea id="descricao" rows="5" data-i18n-placeholder="sol.descricao.ph" placeholder="Descreva o serviço necessário..." required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label for="observacoes">Observações Adicionais</label>
-                        <textarea id="observacoes" rows="3" placeholder="Condições de acesso, restrições de horário, EPIs especiais..."></textarea>
+                        <label for="observacoes" data-i18n="sol.obs">Observações Adicionais</label>
+                        <textarea id="observacoes" rows="3" data-i18n-placeholder="sol.obs.ph" placeholder="Condições de acesso..."></textarea>
                     </div>
                 </div>
 
                 <!-- Anexos -->
                 <div class="form-section">
-                    <h3 class="form-section-title">Fotos e Anexos</h3>
-                    <p class="form-hint">Tire fotos do equipamento ou anexe desenhos técnicos (PDF, imagens).</p>
+                    <h3 class="form-section-title" data-i18n="sol.sec.anexos">Fotos e Anexos</h3>
+                    <p class="form-hint" data-i18n="sol.anexos.hint">Tire fotos do equipamento ou anexe desenhos técnicos (PDF, imagens).</p>
 
                     <div class="anexos-actions">
                         <label class="btn-anexo" id="btnFoto">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                            <span>Tirar Foto</span>
+                            <span data-i18n="sol.btn.foto">Tirar Foto</span>
                             <input type="file" accept="image/*" capture="environment" multiple id="inputFoto" hidden>
                         </label>
                         <label class="btn-anexo" id="btnArquivo">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-                            <span>Anexar Arquivo</span>
+                            <span data-i18n="sol.btn.arquivo">Anexar Arquivo</span>
                             <input type="file" accept="image/*,.pdf,.dwg,.doc,.docx,.xls,.xlsx" multiple id="inputArquivo" hidden>
                         </label>
                     </div>
@@ -127,22 +141,22 @@
                 <div class="form-actions">
                     <button type="button" id="btnSalvar" class="btn-salvar">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                        Salvar Rascunho
+                        <span data-i18n="sol.btn.salvar">Salvar Rascunho</span>
                     </button>
                     <button type="button" id="btnEnviarWA" class="btn-enviar-wa">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                        Enviar via WhatsApp
+                        <span data-i18n="sol.btn.wa">Enviar via WhatsApp</span>
                     </button>
                     <button type="button" id="btnEnviarEmail" class="btn-enviar-email">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        Enviar por Email
+                        <span data-i18n="sol.btn.email">Enviar por Email</span>
                     </button>
                 </div>
             </form>
 
             <!-- Lista de Rascunhos -->
             <div class="rascunhos-section" id="rascunhosSection">
-                <h3 class="form-section-title">📋 Rascunhos Salvos</h3>
+                <h3 class="form-section-title">📋 <span data-i18n="sol.rascunhos">Rascunhos Salvos</span></h3>
                 <div id="listaRascunhos" class="rascunhos-list"></div>
             </div>
 
@@ -154,12 +168,36 @@
         <div class="container">
             <div class="footer-inner">
                 <p class="footer-brand">VERSÁTIL SERVICES</p>
-                <p>Desde 2002 — Manutenção Industrial de Excelência</p>
+                <p data-i18n="sol.footer">Desde 2002 — Manutenção Industrial de Excelência</p>
             </div>
         </div>
     </footer>
 
     <script src="db.js"></script>
+    <script src="i18n.js"></script>
     <script src="solicitar.js"></script>
+
+    <!-- Hamburger Menu -->
+    <script>
+    (function() {
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (!hamburger || !mobileMenu) return;
+        hamburger.addEventListener('click', function() {
+            const isOpen = this.classList.toggle('active');
+            mobileMenu.classList.toggle('open');
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+            this.setAttribute('aria-expanded', isOpen);
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+    })();
+    </script>
 </body>
 </html>

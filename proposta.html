@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Propostas | Versátil Services</title>
+    <meta name="description" content="Gerador de Propostas Técnicas e Comerciais — Versátil Services">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="Fotos/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="app.css">
+    <style>
+        .proposta-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 24px 60px;
+        }
+
+        .proposta-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .proposta-header h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
+
+        .proposta-header p {
+            color: var(--gray-300);
+            margin-top: 8px;
+        }
+
+        /* Steps indicator */
+        .steps-bar {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 32px;
+        }
+
+        .step-item {
+            flex: 1;
+            height: 4px;
+            background: var(--border);
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .step-item.active { background: var(--red); }
+        .step-item.done { background: #22c55e; }
+
+        .step-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .step-label span {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-500);
+        }
+
+        .step-label span.active { color: var(--red); }
+
+        /* Sections */
+        .prop-section {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .prop-section h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prop-section .form-hint {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-bottom: 16px;
+        }
+
+        /* Auto-fill indicator */
+        .auto-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        /* Itens comerciais */
+        .itens-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+        }
+
+        .itens-table th {
+            text-align: left;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-500);
+            padding: 8px 0;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .itens-table td {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .itens-table td:last-child { text-align: right; }
+
+        .itens-table .item-desc {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .itens-table input[type="number"] {
+            width: 140px;
+            padding: 8px 12px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 0.9rem;
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .itens-table input[type="number"]:focus {
+            outline: none;
+            border-color: var(--red);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-top: 3px solid var(--text-dark);
+            margin-top: 8px;
+        }
+
+        .total-label {
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .total-valor {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--red);
+        }
+
+        .btn-add-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 10px 20px;
+            color: var(--gray-300);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-add-item:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* Navigation buttons */
+        .prop-nav {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .prop-nav button {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-anterior {
+            background: var(--bg-body);
+            color: var(--text-dark);
+            border: 2px solid var(--border) !important;
+        }
+
+        .btn-proximo {
+            background: var(--red);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(191,32,38,0.3);
+        }
+
+        .btn-proximo:hover { transform: translateY(-2px); }
+
+        /* Preview */
+        .preview-doc {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .preview-doc .doc-header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 3px solid var(--red);
+        }
+
+        .preview-doc .doc-header h2 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--red);
+            letter-spacing: 2px;
+        }
+
+        .preview-doc .doc-header h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-top: 8px;
+            color: var(--text-dark);
+        }
+
+        .preview-doc .doc-section {
+            margin-bottom: 24px;
+        }
+
+        .preview-doc .doc-section h4 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--red);
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
+        }
+
+        .preview-doc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .preview-doc ul li::before {
+            content: '• ';
+            color: var(--red);
+            font-weight: 900;
+        }
+
+        .preview-doc .dados-box {
+            background: var(--bg-body);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .preview-doc table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        .preview-doc table th {
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 8px;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+        }
+
+        .preview-doc table td {
+            padding: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .preview-doc table td:last-child { text-align: right; font-weight: 700; }
+
+        .preview-doc .total-final {
+            text-align: right;
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--red);
+            padding: 12px 8px;
+            border-top: 3px solid var(--text-dark);
+        }
+
+        .preview-doc .assinatura {
+            margin-top: 48px;
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .preview-doc .assinatura strong {
+            display: block;
+            font-weight: 800;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .preview-actions button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-pdf { background: var(--text-dark); color: #fff; }
+        .btn-wa { background: #25D366; color: #fff; }
+        .btn-salvar-prop { background: var(--red); color: #fff; }
+
+        /* Textarea auto */
+        textarea.auto-filled {
+            border-color: #6366f1 !important;
+            background: #faf5ff;
+        }
+
+        @media (max-width: 600px) {
+            .proposta-container { padding: 80px 16px 40px; }
+            .prop-section { padding: 20px; }
+            .preview-doc { padding: 24px 16px; }
+            .itens-table input[type="number"] { width: 100px; }
+        }
+
+        @media print {
+            .navbar, .prop-nav, .preview-actions, .steps-bar, .step-label, .proposta-header { display: none !important; }
+            .preview-doc { border: none; padding: 0; box-shadow: none; }
+            body { background: #fff; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="logo">VERSÁTIL SERVICES</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tecnico.html" style="color: var(--red);">Área Técnica</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="proposta-container">
+        <div class="proposta-header">
+            <h1>📋 Gerador de Propostas</h1>
+            <p>Proposta Técnica + Comercial em minutos</p>
+        </div>
+
+        <!-- Steps -->
+        <div class="steps-bar">
+            <div class="step-item active" data-step="1"></div>
+            <div class="step-item" data-step="2"></div>
+            <div class="step-item" data-step="3"></div>
+            <div class="step-item" data-step="4"></div>
+        </div>
+        <div class="step-label">
+            <span class="active">Cliente</span>
+            <span>Técnica</span>
+            <span>Comercial</span>
+            <span>Preview</span>
+        </div>
+
+        <!-- STEP 1: Cliente e Tipo -->
+        <div id="step1" class="prop-step">
+            <div class="prop-section">
+                <h3>🏢 Dados do Cliente</h3>
+                <div class="form-group">
+                    <label for="propCliente">Cliente Cadastrado *</label>
+                    <select id="propCliente" required>
+                        <option value="">Selecione o cliente...</option>
+                    </select>
+                </div>
+                <div id="propClienteInfo" style="display:none;" class="form-hint">
+                    <div class="dados-box" style="background:var(--bg-body);border-radius:var(--radius);padding:12px;">
+                        <strong id="propCliNome"></strong><br>
+                        <span id="propCliCnpj"></span> · <span id="propCliContato"></span><br>
+                        <span id="propCliEmail"></span> · <span id="propCliTel"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prop-section">
+                <h3>🔧 Tipo de Serviço <span class="auto-badge">🤖 Auto-Preenche</span></h3>
+                <p class="form-hint">Selecione o tipo e o sistema carrega automaticamente o descritivo técnico correto.</p>
+                <div class="form-group">
+                    <label for="propTipo">Tipo de Serviço *</label>
+                    <select id="propTipo" required>
+                        <option value="">Selecione...</option>
+                        <optgroup label="⚙️ Usinagem e Mecânica">
+                            <option value="usinagem">Usinagem de Campo</option>
+                            <option value="rotativos">Equipamentos Rotativos</option>
+                            <option value="trocadores">Trocadores de Calor</option>
+                            <option value="retubagem">Retubagem de Campo</option>
+                            <option value="fabricacao">Fabricação de Peças e Dispositivos</option>
+                        </optgroup>
+                        <optgroup label="🔧 Manutenção e Montagem">
+                            <option value="manutencao">Manutenção Industrial</option>
+                            <option value="caldeiraria">Caldeiraria e Soldagem</option>
+                            <option value="torqueamento">Torqueamento Controlado</option>
+                            <option value="alinhamento">Alinhamento a Laser</option>
+                        </optgroup>
+                        <optgroup label="🧹 Limpeza e Tratamento">
+                            <option value="limpezaIndustrial">Limpeza Industrial Especializada</option>
+                            <option value="revestimentos">Revestimentos Especiais</option>
+                        </optgroup>
+                        <optgroup label="🔍 Inspeção e Ensaios">
+                            <option value="end">Ensaios Não Destrutivos (END)</option>
+                            <option value="inspecao">Inspeção de Equipamentos</option>
+                        </optgroup>
+                        <optgroup label="📋 Gestão e Projetos">
+                            <option value="parada">Parada de Manutenção (Turnaround)</option>
+                            <option value="gerenciamento">Gerenciamento e Fiscalização</option>
+                        </optgroup>
+                        <optgroup label="✏️ Livre">
+                            <option value="personalizado">✏️ Personalizado (escrever manualmente)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="propTitulo">Título da Proposta *</label>
+                    <input type="text" id="propTitulo" placeholder="Ex: Recuperação de Rosca — Soquete Swivel">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propNumero">Nº da Proposta</label>
+                        <input type="text" id="propNumero" placeholder="Ex: 110584">
+                    </div>
+                    <div class="form-group">
+                        <label for="propData">Data</label>
+                        <input type="date" id="propData">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: Proposta Técnica -->
+        <div id="step2" class="prop-step" style="display:none;">
+            <div class="prop-section">
+                <h3>🎯 Objetivo da Proposta <span class="auto-badge">🤖 Auto</span></h3>
+                <div class="form-group">
+                    <textarea id="propObjetivo" rows="4" class="auto-filled"></textarea>
+                </div>
+            </div>
+
+            <div class="prop-section">
+                <h3>✅ Escopo de Responsabilidade <span class="auto-badge">🤖 Auto</span></h3>
+                <div class="form-group">
+                    <textarea id="propEscopo" rows="6" class="auto-filled"></textarea>
+                    <p class="form-hint">Um item por linha. Pode adicionar ou remover.</p>
+                </div>
+            </div>
+
+            <div class="prop-section">
+                <h3>❌ Atividades Não Incluídas <span class="auto-badge">🤖 Auto</span></h3>
+                <div class="form-group">
+                    <textarea id="propExclusoes" rows="4" class="auto-filled"></textarea>
+                </div>
+            </div>
+
+            <div class="prop-section">
+                <h3>⚙️ Metodologia <span class="auto-badge">🤖 Auto</span></h3>
+                <div class="form-group">
+                    <textarea id="propMetodologia" rows="4" class="auto-filled"></textarea>
+                </div>
+            </div>
+
+            <div class="prop-section">
+                <h3>🔩 Equipamento Utilizado <span class="auto-badge">🤖 Auto</span></h3>
+                <div class="form-group">
+                    <textarea id="propEquipamento" rows="4" class="auto-filled"></textarea>
+                </div>
+            </div>
+
+            <div class="prop-section">
+                <h3>📐 Controle Dimensional <span class="auto-badge">🤖 Auto</span></h3>
+                <div class="form-group">
+                    <textarea id="propControle" rows="3" class="auto-filled"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Proposta Comercial -->
+        <div id="step3" class="prop-step" style="display:none;">
+            <div class="prop-section">
+                <h3>💰 Composição de Preço</h3>
+                <p class="form-hint">Itens pré-carregados conforme o tipo de serviço. Preencha os valores.</p>
+                <table class="itens-table">
+                    <thead>
+                        <tr>
+                            <th style="width:60%">Descrição</th>
+                            <th style="width:40%; text-align:right;">Valor (R$)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaItens"></tbody>
+                </table>
+                <button type="button" class="btn-add-item" id="btnAddItem">+ Adicionar Item</button>
+                <div class="total-row">
+                    <span class="total-label">Total da Proposta</span>
+                    <span class="total-valor" id="propTotal">R$ 0,00</span>
+                </div>
+            </div>
+
+            <div class="prop-section">
+                <h3>📅 Prazo e Condições</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="propPrazo">Prazo de Execução</label>
+                        <input type="text" id="propPrazo">
+                    </div>
+                    <div class="form-group">
+                        <label for="propValidade">Validade da Proposta</label>
+                        <input type="text" id="propValidade" value="30 dias corridos">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="propPagamento">Forma de Pagamento</label>
+                    <input type="text" id="propPagamento">
+                </div>
+                <div class="form-group">
+                    <label for="propGarantia">Garantia</label>
+                    <input type="text" id="propGarantia">
+                </div>
+                <div class="form-group">
+                    <label for="propObs">Observações</label>
+                    <textarea id="propObs" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: Preview Separado -->
+        <div id="step4" class="prop-step" style="display:none;">
+            <!-- Seletor de documento -->
+            <div style="display:flex; gap:8px; margin-bottom:24px;">
+                <button id="tabTecnica" class="tab active" onclick="trocarDocumento('tecnica')" 
+                    style="flex:1; padding:14px; font-weight:800; font-size:0.9rem; border-radius:var(--radius); cursor:pointer; border:2px solid var(--red); background:var(--red); color:#fff; transition:all 0.3s;">
+                    📄 PROPOSTA TÉCNICA
+                </button>
+                <button id="tabComercial" class="tab" onclick="trocarDocumento('comercial')"
+                    style="flex:1; padding:14px; font-weight:800; font-size:0.9rem; border-radius:var(--radius); cursor:pointer; border:2px solid var(--border); background:#fff; color:var(--text-dark); transition:all 0.3s;">
+                    💰 PROPOSTA COMERCIAL
+                </button>
+            </div>
+            <p style="text-align:center; font-size:0.8rem; color:var(--gray-500); margin-bottom:20px;">
+                ⚠️ Documentos independentes — envie separadamente para a área técnica e comercial do cliente
+            </p>
+
+            <!-- Doc Técnica -->
+            <div id="docTecnica">
+                <div id="previewTecnica" class="preview-doc"></div>
+                <div class="preview-actions">
+                    <button class="btn-pdf" onclick="imprimirDocumento('tecnica')">🖨️ Imprimir Técnica</button>
+                    <button class="btn-wa" onclick="enviarWhatsApp('tecnica')">📤 WhatsApp</button>
+                    <button class="btn-salvar-prop" onclick="salvarProposta()">💾 Salvar</button>
+                </div>
+            </div>
+
+            <!-- Doc Comercial -->
+            <div id="docComercial" style="display:none;">
+                <div id="previewComercial" class="preview-doc"></div>
+                <div class="preview-actions">
+                    <button class="btn-pdf" onclick="imprimirDocumento('comercial')">🖨️ Imprimir Comercial</button>
+                    <button class="btn-wa" onclick="enviarWhatsApp('comercial')">📤 WhatsApp</button>
+                    <button class="btn-salvar-prop" onclick="salvarProposta()">💾 Salvar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="prop-nav">
+            <button class="btn-anterior" id="btnAnterior" style="display:none;" onclick="navegarStep(-1)">← Anterior</button>
+            <button class="btn-proximo" id="btnProximo" onclick="navegarStep(1)">Próximo →</button>
+        </div>
+    </div>
+
+    <script src="db.js"></script>
+    <script src="templates.js"></script>
+    <script src="proposta.js"></script>
+</body>
+</html>

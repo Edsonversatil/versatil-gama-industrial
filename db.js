@@ -4,7 +4,7 @@
    ============================================= */
 
 const DB_NAME = 'VersatilServicesDB';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 
 function openDB() {
     return new Promise((resolve, reject) => {
@@ -39,6 +39,22 @@ function openDB() {
                 const store = db.createObjectStore('portfolio', { keyPath: 'id', autoIncrement: true });
                 store.createIndex('categoria', 'categoria', { unique: false });
                 store.createIndex('criadoEm', 'criadoEm', { unique: false });
+            }
+
+            // Store de clientes
+            if (!db.objectStoreNames.contains('clientes')) {
+                const store = db.createObjectStore('clientes', { keyPath: 'id', autoIncrement: true });
+                store.createIndex('cnpj', 'cnpj', { unique: true });
+                store.createIndex('criadoEm', 'criadoEm', { unique: false });
+            }
+
+            // Adicionar índice clienteId nas ordens (se não existir)
+            if (db.objectStoreNames.contains('ordensServico')) {
+                const tx = e.target.transaction;
+                const store = tx.objectStore('ordensServico');
+                if (!store.indexNames.contains('clienteId')) {
+                    store.createIndex('clienteId', 'clienteId', { unique: false });
+                }
             }
         };
 
@@ -252,5 +268,83 @@ async function excluirFotoPortfolio(id) {
         store.delete(id);
         tx.oncomplete = () => resolve(true);
         tx.onerror = () => reject(tx.error);
+    });
+}
+
+// =============================================
+// CLIENTES
+// =============================================
+async function salvarCliente(dados) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('clientes', 'readwrite');
+        const store = tx.objectStore('clientes');
+        if (dados.id) {
+            store.put(dados);
+            tx.oncomplete = () => resolve(dados.id);
+        } else {
+            dados.criadoEm = new Date().toISOString();
+            const req = store.add(dados);
+            req.onsuccess = () => resolve(req.result);
+        }
+        tx.onerror = () => reject(tx.error);
+    });
+}
+
+async function listarClientes() {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('clientes', 'readonly');
+        const store = tx.objectStore('clientes');
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function buscarClientePorCnpj(cnpj) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('clientes', 'readonly');
+        const store = tx.objectStore('clientes');
+        const index = store.index('cnpj');
+        const request = index.get(cnpj);
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function buscarCliente(id) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('clientes', 'readonly');
+        const store = tx.objectStore('clientes');
+        const request = store.get(id);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+async function excluirCliente(id) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('clientes', 'readwrite');
+        const store = tx.objectStore('clientes');
+        store.delete(id);
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+    });
+}
+
+// Buscar O.S. vinculadas a um cliente
+async function listarOrdensPorCliente(clienteId) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('ordensServico', 'readonly');
+        const store = tx.objectStore('ordensServico');
+        const index = store.index('clienteId');
+        const request = index.getAll(clienteId);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
     });
 }

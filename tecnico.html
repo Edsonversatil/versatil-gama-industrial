@@ -54,6 +54,8 @@
             <div class="tabs">
                 <button class="tab active" data-tab="ordens">Ordens de Serviço</button>
                 <button class="tab" data-tab="nova">+ Nova O.S.</button>
+                <button class="tab" data-tab="clientes">👥 Clientes</button>
+                <button class="tab" onclick="window.location='proposta.html'" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-color:transparent;">📋 Propostas</button>
                 <button class="tab" data-tab="portfolio">📸 Portfólio</button>
             </div>
 
@@ -78,8 +80,11 @@
                     <div class="form-section">
                         <h3 class="form-section-title">Dados da Ordem de Serviço</h3>
                         <div class="form-group">
-                            <label for="osCliente">Cliente / Empresa *</label>
-                            <input type="text" id="osCliente" placeholder="Ex: Petrobras — Refinaria Cubatão" required>
+                            <label for="osClienteId">Cliente *</label>
+                            <select id="osClienteId" required>
+                                <option value="">Selecione o cliente...</option>
+                            </select>
+                            <p class="form-hint" style="margin-top:4px;">Cadastre clientes na aba 👥 Clientes</p>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
@@ -202,6 +207,59 @@
             </div>
 
         </div>
+
+            <!-- TAB: Gestão de Clientes -->
+            <div id="tabClientes" class="tab-content" style="display:none;">
+                <div class="form-section">
+                    <h3 class="form-section-title">👥 Cadastrar Novo Cliente</h3>
+                    <p class="form-hint">Cadastre clientes para vincular às Ordens de Serviço. O cliente poderá acessar a "Minha Área" com CNPJ + PIN.</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cliEmpresa">Empresa *</label>
+                            <input type="text" id="cliEmpresa" placeholder="Ex: Petrobras S.A.">
+                        </div>
+                        <div class="form-group">
+                            <label for="cliCnpj">CNPJ *</label>
+                            <input type="text" id="cliCnpj" placeholder="12.345.678/0001-90" maxlength="18">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cliContato">Contato / Responsável</label>
+                            <input type="text" id="cliContato" placeholder="Nome do responsável">
+                        </div>
+                        <div class="form-group">
+                            <label for="cliTelefone">Telefone</label>
+                            <input type="tel" id="cliTelefone" placeholder="+55 (13) 99999-9999">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cliEmail">Email</label>
+                            <input type="email" id="cliEmail" placeholder="contato@empresa.com.br">
+                        </div>
+                        <div class="form-group">
+                            <label for="cliPin">PIN de Acesso (4 dígitos) *</label>
+                            <input type="text" id="cliPin" placeholder="Ex: 1234" maxlength="4" pattern="[0-9]{4}">
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnCadastrarCliente" class="btn-enviar-wa" style="background: var(--red); box-shadow: 0 4px 16px rgba(191,32,38,0.3); width: 100%;">
+                        👥 Cadastrar Cliente
+                    </button>
+                </div>
+
+                <div class="form-section" style="margin-top: 32px;">
+                    <h3 class="form-section-title">📋 Clientes Cadastrados</h3>
+                    <div id="listaClientes" class="ordens-list"></div>
+                    <div id="semClientes" class="sem-dados" style="display:none;">
+                        <p>Nenhum cliente cadastrado ainda.</p>
+                    </div>
+                </div>
+            </div>
 
             <!-- TAB: Portfólio de Serviços Realizados -->
             <div id="tabPortfolio" class="tab-content" style="display:none;">

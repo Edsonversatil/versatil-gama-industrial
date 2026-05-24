@@ -1,7 +1,7 @@
 // =============================================
 // VGI INDUSTRIAL — Service Worker (PWA)
 // =============================================
-const CACHE_NAME = 'vgi-cache-v1';
+const CACHE_NAME = 'vgi-cache-v5';
 
 // Core assets to cache for offline use
 const CORE_ASSETS = [
@@ -13,15 +13,26 @@ const CORE_ASSETS = [
   '/checkout.css',
   '/i18n.js',
   '/db.js',
+  '/templates.js',
   '/solicitar.html',
   '/solicitar.js',
   '/tecnico.html',
   '/tecnico.js',
   '/portfolio.html',
+  '/cliente.html',
+  '/cliente.js',
+  '/proposta.html',
+  '/proposta.js',
   '/pedido.js',
   '/checkout.js',
   '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/icons/icon-512.png',
+  '/img/hero_usinagem_campo.png',
+  '/img/hero_trocador_calor.png',
+  '/img/hero_limpeza_industrial.png',
+  '/img/hero_inspecao_end.png',
+  '/img/hero_offshore_plataforma.png',
+  '/img/hero_petroquimica.png'
 ];
 
 // Install — cache core assets
