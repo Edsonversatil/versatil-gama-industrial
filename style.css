@@ -688,6 +688,9 @@ a { color: inherit; text-decoration: none; }
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     transition: all var(--transition);
+    min-width: 0;       /* permite shrink abaixo do conteúdo */
+    overflow: hidden;   /* garante que nada extrapola o card */
+    width: 100%;
 }
 
 .contact-card:hover {
@@ -737,7 +740,12 @@ a { color: inherit; text-decoration: none; }
     font-weight: 700;
     color: var(--text-dark);
     transition: color var(--transition);
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+    display: block;
 }
+
 
 a.contact-value:hover { color: var(--red); }
 
