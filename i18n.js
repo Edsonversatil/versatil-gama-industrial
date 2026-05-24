@@ -1,5 +1,5 @@
 /* =============================================
-   VERSATIL GAMA INDUSTRIAL — i18n + Multi-Moeda
+   VERSÁTIL SERVICES — i18n + Multi-Moeda
    Sistema de internacionalização e conversão
    NÃO altera lógica interna — apenas exibição
    ============================================= */
@@ -1067,7 +1067,7 @@
     // =============================================
     // 4. ESTADO
     // =============================================
-    let currentLang = localStorage.getItem('vgi_lang') || 'pt';
+    let currentLang = localStorage.getItem('vs_lang') || 'pt';
     let isObserving = false;
 
     // =============================================
@@ -1353,7 +1353,7 @@
 
         // 1. Update state
         currentLang = lang;
-        localStorage.setItem('vgi_lang', lang);
+        localStorage.setItem('vs_lang', lang);
 
         // 2. FULL RTL/LTR RESET — critical for AR→LTR transition
         document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
@@ -1470,7 +1470,7 @@
             });
             btn.addEventListener('click', () => {
                 switchLanguage(code);
-                localStorage.setItem('vgi_lang', code);
+                localStorage.setItem('vs_lang', code);
                 refreshButtons(code);
             });
             wrap.appendChild(btn);
@@ -1954,7 +1954,7 @@
     }
 
     // Expose API
-    window.VGI_i18n = {
+    window.VS_i18n = {
         switchLanguage,
         formatPrice,
         convertPrice,
