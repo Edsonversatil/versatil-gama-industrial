@@ -1455,13 +1455,13 @@
     // 13. TAG ELEMENTS WITH data-i18n
     // =============================================
     function tagElements() {
-        // Navbar
-        const navLinks = document.querySelectorAll('.nav-links a');
-        if (navLinks[0]) navLinks[0].setAttribute('data-i18n', 'nav.produtos');
-        if (navLinks[1]) navLinks[1].setAttribute('data-i18n', 'nav.pagamento');
-        if (navLinks[2]) navLinks[2].setAttribute('data-i18n', 'nav.contato');
+        // REGRA: nunca sobrescrever data-i18n já definido no HTML
+        // Só atribuir se o elemento NÃO tiver data-i18n
 
-        // Nav cart text
+        // Navbar — o HTML já possui data-i18n corretos em todos os links.
+        // Esta função NÃO deve tocar no navbar.
+
+        // Nav cart link (carrinho de produtos — legado)
         const navCartLink = document.getElementById('nav-cart-link');
         if (navCartLink) {
             const textNode = Array.from(navCartLink.childNodes).find(n => n.nodeType === 3 && n.textContent.trim());
@@ -1473,24 +1473,7 @@
             }
         }
 
-        // Hero
-        const heroBadge = document.querySelector('.hero-badge');
-        if (heroBadge) heroBadge.setAttribute('data-i18n', 'hero.badge');
-        const heroSub = document.querySelector('.hero-sub');
-        if (heroSub) heroSub.setAttribute('data-i18n', 'hero.sub');
-        const heroCta = document.querySelector('.hero .btn-primary');
-        if (heroCta) {
-            const svg = heroCta.querySelector('svg');
-            const textSpan = document.createElement('span');
-            textSpan.setAttribute('data-i18n', 'hero.cta');
-            textSpan.textContent = 'Falar no WhatsApp agora';
-            heroCta.textContent = '';
-            if (svg) heroCta.appendChild(svg);
-            heroCta.appendChild(document.createTextNode(' '));
-            heroCta.appendChild(textSpan);
-        }
-
-        // Section headers
+        // Section headers — só aplica se não tiver data-i18n
         document.querySelectorAll('.section-header').forEach(header => {
             const tag = header.querySelector('.section-tag');
             const h2 = header.querySelector('h2');
@@ -1506,54 +1489,36 @@
                 'Fale conosco': ['contact.tag', 'contact.title', 'contact.desc']
             };
             if (map[tagText]) {
-                if (tag && map[tagText][0]) tag.setAttribute('data-i18n', map[tagText][0]);
-                if (h2 && map[tagText][1]) h2.setAttribute('data-i18n', map[tagText][1]);
-                if (desc && map[tagText][2]) desc.setAttribute('data-i18n', map[tagText][2]);
+                if (tag && map[tagText][0] && !tag.hasAttribute('data-i18n')) tag.setAttribute('data-i18n', map[tagText][0]);
+                if (h2 && map[tagText][1] && !h2.hasAttribute('data-i18n')) h2.setAttribute('data-i18n', map[tagText][1]);
+                if (desc && map[tagText][2] && !desc.hasAttribute('data-i18n')) desc.setAttribute('data-i18n', map[tagText][2]);
             }
         });
 
-        // Diff cards
+        // Diff cards — só aplica se não tiver data-i18n
         const diffCards = document.querySelectorAll('.diff-card');
         [['diff.dur','diff.dur.desc'],['diff.prec','diff.prec.desc'],['diff.ent','diff.ent.desc'],['diff.global','diff.global.desc']].forEach((keys, i) => {
             if (diffCards[i]) {
                 const h3 = diffCards[i].querySelector('h3');
                 const p = diffCards[i].querySelector('p');
-                if (h3) h3.setAttribute('data-i18n', keys[0]);
-                if (p) p.setAttribute('data-i18n', keys[1]);
+                if (h3 && !h3.hasAttribute('data-i18n')) h3.setAttribute('data-i18n', keys[0]);
+                if (p && !p.hasAttribute('data-i18n')) p.setAttribute('data-i18n', keys[1]);
             }
         });
 
-        // Contact labels
+        // Contact labels — só aplica se não tiver data-i18n
         const contactLabels = document.querySelectorAll('.contact-label');
         ['contact.wa','contact.email.label','contact.loc.label'].forEach((key, i) => {
-            if (contactLabels[i]) contactLabels[i].setAttribute('data-i18n', key);
+            if (contactLabels[i] && !contactLabels[i].hasAttribute('data-i18n')) {
+                contactLabels[i].setAttribute('data-i18n', key);
+            }
         });
 
         // Footer
         const footerPs = document.querySelectorAll('footer p');
-        if (footerPs[0]) footerPs[0].setAttribute('data-i18n', 'footer.rights');
-        if (footerPs[1]) footerPs[1].setAttribute('data-i18n', 'footer.loc');
+        if (footerPs[0] && !footerPs[0].hasAttribute('data-i18n')) footerPs[0].setAttribute('data-i18n', 'footer.rights');
 
-        // Catalogo-footer texts
-        document.querySelectorAll('.catalogo-footer .catalogo-position').forEach(el => {
-            if (el.textContent.includes('exportação') || el.textContent.includes('export')) {
-                el.setAttribute('data-i18n', 'premium.footer');
-            }
-        });
-        document.querySelectorAll('.catalogo-footer .btn-primary').forEach(btn => {
-            if (btn.textContent.includes('Premium') || btn.textContent.includes('premium')) {
-                const svg = btn.querySelector('svg');
-                const span = document.createElement('span');
-                span.setAttribute('data-i18n', 'premium.cta');
-                span.textContent = btn.textContent.replace(svg ? svg.textContent : '', '').trim();
-                btn.textContent = '';
-                if (svg) btn.appendChild(svg);
-                btn.appendChild(document.createTextNode(' '));
-                btn.appendChild(span);
-            }
-        });
-
-        // Group titles
+        // Group titles (catálogo legado)
         const groupTitles = document.querySelectorAll('.group-title');
         const gKeys = ['premium.g1','premium.g2','premium.g3','premium.g4','premium.g5','premium.g6'];
         let gIdx = 0;
@@ -1571,6 +1536,7 @@
             }
         });
     }
+
 
     // =============================================
     // 14. INIT
