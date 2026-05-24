@@ -340,6 +340,7 @@
             'setor.ferroviario.name': 'Ferroviário e Logística', 'setor.ferroviario.desc': 'Locomotivas, vagões e infraestrutura',
             // Contato
             'contact.comercial': 'Comercial',
+            'wa.label': 'Solicitar Avaliação Técnica',
 
             'srv.rotativos.title': 'Manutenção de Equipamentos Rotativos',
             'srv.rotativos.desc': 'Inspeção técnica, alinhamento a laser, retífica de campo e recuperação estrutural de secadores, fornos, tambores e resfriadores.',
@@ -535,6 +536,7 @@
             'setor.ferroviario.name': 'Railway & Logistics', 'setor.ferroviario.desc': 'Locomotives, wagons and infrastructure',
             // Contact
             'contact.comercial': 'Commercial',
+            'wa.label': 'Request Technical Assessment',
 
             // Services
             'srv.rotativos.title': 'Rotating Equipment Maintenance',
@@ -731,6 +733,7 @@
             'setor.ferroviario.name': 'Ferroviario y Logística', 'setor.ferroviario.desc': 'Locomotoras, vagones e infraestructura',
             // Contacto
             'contact.comercial': 'Comercial',
+            'wa.label': 'Solicitar Evaluación Técnica',
 
             // Servicios
             'srv.rotativos.title': 'Mantenimiento de Equipos Rotativos',
@@ -926,6 +929,7 @@
             'setor.ferroviario.name': 'السكك الحديدية واللوجستية', 'setor.ferroviario.desc': 'قاطرات وعربات وبنية تحتية',
             // جهة الاتصال
             'contact.comercial': 'التجارية',
+            'wa.label': 'طلب تقييم تقني',
 
             // بطاقات الخدمات
             'srv.rotativos.title': 'صيانة المعدات الدوارة',
