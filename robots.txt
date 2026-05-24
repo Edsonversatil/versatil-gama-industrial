@@ -1,0 +1,11 @@
+# VERSÁTIL SERVICES — robots.txt
+# Industrial Engineering Group — www.versatilservices.com.br
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /tecnico.html
+Disallow: /icons/
+
+# Sitemap
+Sitemap: https://www.versatilservices.com.br/sitemap.xml

@@ -1,34 +1,16 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.css",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.js",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "*.json",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "Fotos/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "icons/**",
-      "use": "@vercel/static"
-    }
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "*.css", "use": "@vercel/static" },
+    { "src": "*.js", "use": "@vercel/static" },
+    { "src": "*.json", "use": "@vercel/static" },
+    { "src": "*.xml", "use": "@vercel/static" },
+    { "src": "*.txt", "use": "@vercel/static" },
+    { "src": "Fotos/**", "use": "@vercel/static" },
+    { "src": "icons/**", "use": "@vercel/static" },
+    { "src": "img/**", "use": "@vercel/static" }
   ],
   "routes": [
     {
@@ -61,7 +43,44 @@
     {
       "src": "/manifest.json",
       "headers": {
-        "Cache-Control": "no-cache"
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/manifest+json"
+      }
+    },
+    {
+      "src": "/sitemap.xml",
+      "headers": {
+        "Content-Type": "application/xml",
+        "Cache-Control": "public, max-age=86400"
+      }
+    },
+    {
+      "src": "/robots.txt",
+      "headers": {
+        "Content-Type": "text/plain",
+        "Cache-Control": "public, max-age=86400"
+      }
+    },
+    {
+      "src": "/(.*\\.(?:png|jpg|jpeg|webp|svg|ico))",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/(.*\\.(?:css|js))",
+      "headers": {
+        "Cache-Control": "public, max-age=604800"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "X-XSS-Protection": "1; mode=block",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=(self)"
       }
     }
   ]
