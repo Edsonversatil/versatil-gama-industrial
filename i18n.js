@@ -1098,17 +1098,30 @@
     }
 
     function applyTranslations(lang) {
-        // Translate text content
+        const dict = TRANSLATIONS[lang] || TRANSLATIONS.pt;
+        const fallback = TRANSLATIONS.pt;
+
+        // Translate text content — use textContent for clean rendering
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
-            const text = t(key, lang);
-            if (text) el.innerHTML = text;
+            const text = dict[key] || fallback[key];
+            if (text) {
+                // Preserve any child SVG icons
+                const svg = el.querySelector('svg');
+                if (svg) {
+                    el.textContent = '';
+                    el.appendChild(svg);
+                    el.appendChild(document.createTextNode(' ' + text));
+                } else {
+                    el.textContent = text;
+                }
+            }
         });
 
         // Translate placeholders
         document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
             const key = el.getAttribute('data-i18n-placeholder');
-            const text = t(key, lang);
+            const text = dict[key] || fallback[key];
             if (text) el.setAttribute('placeholder', text);
         });
 
@@ -1116,13 +1129,14 @@
         const titleEl = document.querySelector('[data-i18n-title]');
         if (titleEl) {
             const key = titleEl.getAttribute('data-i18n-title');
-            const text = t(key, lang);
+            const text = dict[key] || fallback[key];
             if (text) document.title = text;
         }
 
         // Update html lang attribute
         document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : lang === 'ar' ? 'ar' : 'en';
     }
+
 
 
     // =============================================
@@ -1332,15 +1346,24 @@
     // =============================================
     function switchLanguage(lang) {
         if (!TRANSLATIONS[lang]) lang = 'pt';
+
+        const prevLang = currentLang;
+        const wasRTL = prevLang === 'ar';
+        const isRTL = lang === 'ar';
+
+        // 1. Update state
         currentLang = lang;
         localStorage.setItem('vgi_lang', lang);
 
-        // RTL support for Arabic
-        const isRTL = lang === 'ar';
+        // 2. FULL RTL/LTR RESET — critical for AR→LTR transition
         document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
         document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : lang === 'ar' ? 'ar' : 'en');
 
-        // Load Cairo font for Arabic if not already loaded
+        // Toggle body class for CSS RTL rules
+        document.body.classList.toggle('rtl-active', isRTL);
+        document.body.classList.toggle('ltr-active', !isRTL);
+
+        // 3. Font management
         if (isRTL && !document.getElementById('font-cairo')) {
             const link = document.createElement('link');
             link.id = 'font-cairo';
@@ -1349,6 +1372,8 @@
             document.head.appendChild(link);
         }
 
+        // 4. Force clean re-render of all translations
+        //    Using textContent for safety (no HTML injection)
         applyTranslations(lang);
         translateProducts(lang);
         updateDisplayPrices(lang);
@@ -1357,12 +1382,26 @@
         translateCartDrawer(lang);
         translateCCModal(lang);
 
+        // 5. Update language switcher UI buttons
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
         });
 
-        console.log(`[i18n] Language: ${lang} | RTL: ${isRTL} | Currency: ${CURRENCY_CONFIG[lang].symbol} (${CURRENCY_CONFIG[lang].code})`);
+        // 6. Update lang-switcher-flags button highlights
+        const flagWrap = document.getElementById('lang-switcher-flags');
+        if (flagWrap) {
+            flagWrap.querySelectorAll('button').forEach(b => {
+                const isActive = b.getAttribute('data-lang') === lang;
+                b.style.background = isActive ? 'rgba(191,32,38,0.09)' : 'transparent';
+                b.style.outline = isActive ? '2px solid #bf2026' : 'none';
+                const lbl = b.querySelector('span');
+                if (lbl) lbl.style.color = isActive ? '#bf2026' : '#888';
+            });
+        }
+
+        console.log(`[i18n] ${prevLang} → ${lang} | RTL: ${isRTL} | Reset: ${wasRTL && !isRTL ? 'FULL LTR RESET' : 'normal'}`);
     }
+
 
     // =============================================
     // 12. CRIAR UI DO SELETOR
