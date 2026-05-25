@@ -1,5 +1,5 @@
-/* =============================================
-   VERSATIL GAMA INDUSTRIAL — Vercel Serverless Function
+﻿/* =============================================
+   VERSATIL SERVICES — Vercel Serverless Function
    POST /api/asaas/payments — Criar pagamento com cartão
    ============================================= */
 
@@ -28,7 +28,7 @@ module.exports = async function handler(req, res) {
             billingType: 'CREDIT_CARD',
             value: parseFloat(value),
             dueDate: today,
-            description: description || 'Compra VERSATIL GAMA INDUSTRIAL',
+            description: description || 'Compra VERSATIL SERVICES',
             creditCard: {
                 holderName: creditCard.holderName,
                 number: creditCard.number.replace(/\s/g, ''),

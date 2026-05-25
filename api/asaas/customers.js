@@ -1,5 +1,5 @@
-/* =============================================
-   VERSATIL GAMA INDUSTRIAL — Vercel Serverless Function
+﻿/* =============================================
+   VERSATIL SERVICES — Vercel Serverless Function
    POST /api/asaas/customers — Criar cliente no Asaas
    ============================================= */
 
