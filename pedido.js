@@ -1,5 +1,5 @@
 /* =============================================
-   VERSATIL GAMA INDUSTRIAL — Motor de Pedidos v1.0
+   VERSATIL SERVICES — Motor de Pedidos v1.0
    Sistema de precificação, carrinho e checkout via WhatsApp
    ============================================= */
 
@@ -143,11 +143,11 @@
 
     // Persist cart to localStorage
     function saveCart() {
-        try { localStorage.setItem('vgi_cart', JSON.stringify(cart)); } catch(e) {}
+        try { localStorage.setItem('vs_cart', JSON.stringify(cart)); } catch(e) {}
     }
     function loadCart() {
         try {
-            const saved = localStorage.getItem('vgi_cart');
+            const saved = localStorage.getItem('vs_cart');
             if (saved) cart = JSON.parse(saved);
         } catch(e) { cart = []; }
     }
@@ -206,7 +206,7 @@
                     </div>
                     <button class="btn-add-cart" data-id="${productId}" data-name="${productName}" data-price="${price}" data-price-brl="${price}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                        ${(window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('btn.adicionar') : 'Adicionar'}
+                        ${(window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('btn.adicionar') : 'Adicionar'}
                     </button>
                 </div>
             `;
@@ -275,13 +275,13 @@
         console.log('[CART] addToCart CALLED', { name, price, qty });
         console.log('[CART] BEFORE ADD', JSON.parse(JSON.stringify(cart)));
         if (qty <= 0) {
-            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.qty.zero') : 'Informe uma quantidade maior que zero.';
+            const msg = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('toast.qty.zero') : 'Informe uma quantidade maior que zero.';
             showToast(msg);
             return;
         }
         const parsedPrice = parseFloat(price);
         if (isNaN(parsedPrice) || parsedPrice <= 0) {
-            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.price.invalid') : 'Informe um preço válido.';
+            const msg = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('toast.price.invalid') : 'Informe um preço válido.';
             showToast(msg);
             return;
         }
@@ -300,8 +300,8 @@
         saveCart();
         updateCartUI();
         let toastMsg = `${name} adicionado ao pedido!`;
-        if (window.VGI_i18n && window.VGI_i18n.t) {
-            const fn = window.VGI_i18n.t('toast.added');
+        if (window.VS_i18n && window.VS_i18n.t) {
+            const fn = window.VS_i18n.t('toast.added');
             toastMsg = typeof fn === 'function' ? fn(name) : `${name} adicionado ao pedido!`;
         }
         showToast(toastMsg);
@@ -400,8 +400,8 @@
         totalEl.textContent = formatBRL(brlTotal);
 
         // Re-translate cart drawer if i18n is active
-        if (window.VGI_i18n && window.VGI_i18n.translateCartDrawer) {
-            setTimeout(() => window.VGI_i18n.translateCartDrawer(), 30);
+        if (window.VS_i18n && window.VS_i18n.translateCartDrawer) {
+            setTimeout(() => window.VS_i18n.translateCartDrawer(), 30);
         }
     }
 
@@ -464,7 +464,7 @@
     function copyUSDTAddress() {
         const address = 'TE1diztxiihihn7cWpvkYSSBjSJp7bPUZe';
         navigator.clipboard.writeText(address).then(() => {
-            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.usdt.copied') : 'Endereço USDT copiado!';
+            const msg = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('toast.usdt.copied') : 'Endereço USDT copiado!';
             showToast(msg);
         }).catch(() => {
             // Fallback
@@ -474,7 +474,7 @@
             ta.select();
             document.execCommand('copy');
             document.body.removeChild(ta);
-            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.usdt.copied') : 'Endereço USDT copiado!';
+            const msg = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('toast.usdt.copied') : 'Endereço USDT copiado!';
             showToast(msg);
         });
     }
@@ -514,7 +514,7 @@
                 // GUARD: block addition with invalid price
                 if (!brlPrice || brlPrice <= 0) {
                     console.error('[CART] BLOCKED: produto sem preço válido', { name, brlPrice });
-                    const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.price.missing') : 'Erro: preço do produto não encontrado.';
+                    const msg = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('toast.price.missing') : 'Erro: preço do produto não encontrado.';
                     showToast(msg);
                     return;
                 }
@@ -523,14 +523,14 @@
 
                 // Visual feedback
                 addBtn.classList.add('added');
-                const addedText = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('btn.adicionado') : 'Adicionado!';
+                const addedText = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('btn.adicionado') : 'Adicionado!';
                 addBtn.innerHTML = `
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                     ${addedText}
                 `;
                 setTimeout(() => {
                     addBtn.classList.remove('added');
-                    const addText = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('btn.adicionar') : 'Adicionar';
+                    const addText = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('btn.adicionar') : 'Adicionar';
                     addBtn.innerHTML = `
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                         ${addText}
@@ -686,7 +686,7 @@
 
     function openCCModal() {
         if (cart.length === 0) {
-            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.cart.empty') : 'Adicione produtos ao pedido primeiro!';
+            const msg = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('toast.cart.empty') : 'Adicione produtos ao pedido primeiro!';
             showToast(msg);
             return;
         }
@@ -732,7 +732,7 @@
 
         // Validate
         if (!name || !cpf || !email || !cep || !addressNumber || !cardNumber || !expiryMonth || !expiryYear || !cvv) {
-            const msg = (window.VGI_i18n && window.VGI_i18n.t) ? window.VGI_i18n.t('toast.fields.required') : 'Preencha todos os campos obrigatórios.';
+            const msg = (window.VS_i18n && window.VS_i18n.t) ? window.VS_i18n.t('toast.fields.required') : 'Preencha todos os campos obrigatórios.';
             showToast(msg);
             return;
         }
@@ -767,7 +767,7 @@
                 body: JSON.stringify({
                     customerId: customerData.customer.id,
                     value: totalWithSurcharge,
-                    description: `Compra VERSATIL GAMA INDUSTRIAL: ${description}`,
+                    description: `Compra VERSATIL SERVICES: ${description}`,
                     creditCard: {
                         holderName: name,
                         number: cardNumber,

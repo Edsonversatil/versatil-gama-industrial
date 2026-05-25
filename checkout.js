@@ -1,5 +1,5 @@
 /* =============================================
-   VERSATIL GAMA INDUSTRIAL — Sistema de Checkout v2.0
+   VERSATIL SERVICES — Sistema de Checkout v2.0
    Cadastro completo do comprador + Entrega + Nota Fiscal
    ============================================= */
 
@@ -15,7 +15,7 @@
         const now = new Date();
         const date = now.toISOString().split('T')[0].replace(/-/g, '');
         const seq = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
-        return `VGI-${date}-${seq}`;
+        return `VS-${date}-${seq}`;
     }
 
     // =============================================
@@ -657,7 +657,7 @@
 
             try {
                 const buyer = getBuyerData();
-                const orderDesc = 'Pedido VERSATIL GAMA INDUSTRIAL';
+                const orderDesc = 'Pedido VERSATIL SERVICES';
 
                 const res = await fetch('/api/pix/create', {
                     method: 'POST',
@@ -1063,7 +1063,7 @@
         }
 
         let msg = `*PEDIDO ${data.orderNum}*\n`;
-        msg += `*VERSATIL GAMA INDUSTRIAL*\n\n`;
+        msg += `*VERSATIL SERVICES*\n\n`;
 
         msg += `*PRODUTOS:*\n`;
         cart.forEach(i => {

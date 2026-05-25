@@ -1,7 +1,7 @@
 {
-  "name": "versatil-gama-industrial",
+  "name": "versatil-services",
   "version": "1.0.0",
-  "description": "Versatil Gama Industrial - Catálogo com Sistema de Pedidos",
+  "description": "Versatil Services - Plataforma Industrial Internacional",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

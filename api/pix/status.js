@@ -1,5 +1,5 @@
 /* =============================================
-   VERSATIL GAMA INDUSTRIAL — Vercel Serverless Function
+   VERSATIL SERVICES — Vercel Serverless Function
    GET /api/pix/status?paymentId=xxx — Consultar status PIX
    ============================================= */
 

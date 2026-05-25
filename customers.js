@@ -1,13 +1,13 @@
 /* =============================================
-   VGI INDUSTRIAL — Customer Manager (CRM Automático)
+   VERSATIL SERVICES — Customer Manager (CRM Automático)
    Cadastro invisível baseado nos dados do checkout
    ============================================= */
 
 (function () {
     'use strict';
 
-    const STORAGE_KEY = 'vgi_customers';
-    const CURRENT_KEY = 'vgi_current_customer';
+    const STORAGE_KEY = 'vs_customers';
+    const CURRENT_KEY = 'vs_current_customer';
 
     // =============================================
     // 1. CRUD LocalStorage
@@ -224,7 +224,7 @@
     // =============================================
     // 7. ADMIN API (console access)
     // =============================================
-    window.VGI_CRM = {
+    window.VS_CRM = {
         getAll: getCustomers,
         find: findExisting,
         count: () => getCustomers().length,
@@ -234,7 +234,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `vgi_customers_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `vs_customers_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
             console.log('[CRM] Customers exported');

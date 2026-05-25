@@ -1,5 +1,5 @@
 /* =============================================
-   VERSATIL GAMA INDUSTRIAL — Vercel Serverless Function
+   VERSATIL SERVICES — Vercel Serverless Function
    POST /api/pix/create — Criar cobrança PIX via Asaas
    ============================================= */
 
@@ -83,7 +83,7 @@ module.exports = async function handler(req, res) {
             billingType: 'PIX',
             value: parseFloat(value),
             dueDate: today,
-            description: description || 'Pedido Versatil Gama Industrial'
+            description: description || 'Pedido Versatil Services'
         });
 
         if (paymentResult.status >= 400) {

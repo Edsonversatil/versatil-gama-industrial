@@ -1,5 +1,5 @@
 /* =============================================
-   VERSATIL GAMA INDUSTRIAL — Backend Server
+   VERSATIL SERVICES — Backend Server
    Proxy seguro para API Asaas (Cartão de Crédito)
    API Key NUNCA exposta no frontend
    ============================================= */
@@ -113,7 +113,7 @@ app.post('/api/asaas/payments', async (req, res) => {
             billingType: 'CREDIT_CARD',
             value: parseFloat(value),
             dueDate: today,
-            description: description || 'Compra VERSATIL GAMA INDUSTRIAL',
+            description: description || 'Compra VERSATIL SERVICES',
             creditCard: {
                 holderName: creditCard.holderName,
                 number: creditCard.number.replace(/\s/g, ''),
@@ -198,7 +198,7 @@ async function sendOrderConfirmationEmail(clienteEmail, clienteNome, produtos, v
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0a;color:#fff;padding:30px;border-radius:12px;">
             <div style="text-align:center;margin-bottom:24px;">
                 <h1 style="color:#25D366;margin:0;">✓ Pagamento Confirmado</h1>
-                <p style="color:#aaa;margin-top:8px;">VERSATIL GAMA INDUSTRIAL</p>
+                <p style="color:#aaa;margin-top:8px;">VERSATIL SERVICES</p>
             </div>
             <div style="background:#111;border-radius:10px;padding:20px;margin-bottom:20px;">
                 <p style="margin:0 0 8px;">Olá <strong>${clienteNome}</strong>,</p>
@@ -217,15 +217,15 @@ async function sendOrderConfirmationEmail(clienteEmail, clienteNome, produtos, v
                 <p style="margin:8px 0 0;color:#aaa;font-size:13px;">Forma de pagamento: <strong>PIX</strong></p>
             </div>
             <div style="text-align:center;padding:20px 0;border-top:1px solid #222;">
-                <p style="color:#666;font-size:12px;margin:0;">VERSATIL GAMA INDUSTRIAL — Sorocaba/SP</p>
+                <p style="color:#666;font-size:12px;margin:0;">VERSATIL SERVICES — Sorocaba/SP</p>
                 <p style="color:#666;font-size:12px;margin:4px 0 0;">WhatsApp: (13) 99150-9140</p>
             </div>
         </div>`;
 
         const info = await transporter.sendMail({
-            from: `"Versatil Gama Industrial" <${SMTP_CONFIG.auth.user}>`,
+            from: `"Versatil Services" <${SMTP_CONFIG.auth.user}>`,
             to: clienteEmail,
-            subject: 'Pagamento confirmado - Versatil Gama Industrial',
+            subject: 'Pagamento confirmado - Versatil Services',
             html: htmlBody
         });
 
@@ -287,7 +287,7 @@ app.post('/api/pix/create', async (req, res) => {
             billingType: 'PIX',
             value: parseFloat(value),
             dueDate: today,
-            description: description || 'Pedido Versatil Gama Industrial'
+            description: description || 'Pedido Versatil Services'
         });
 
         if (paymentResult.status >= 400) {
@@ -443,7 +443,7 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
     console.log('');
     console.log('  ╔══════════════════════════════════════════╗');
-    console.log('  ║   VERSATIL GAMA INDUSTRIAL — Server      ║');
+    console.log('  ║   VERSATIL SERVICES — Server              ║');
     console.log(`  ║   http://localhost:${PORT}                  ║`);
     console.log('  ║   Asaas API: ✅ Produção                  ║');
     console.log('  ║   PIX:       ✅ /api/pix/create            ║');
