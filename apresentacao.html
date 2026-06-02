@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERSÁTIL GLOBAL SERVICES — Infrastructure & Engineering Group</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --red: #BF2026;
+            --dark-red: #8e1418;
+            --dark: #0f1012;
+            --dark-gray: #1a1b1d;
+            --light-gray: #f3f4f6;
+            --text-dark: #111827;
+            --text-light: #4b5563;
+            --border: #e5e7eb;
+            --font: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #202124;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* CONTAINER FOR SCREEN PREVIEW */
+        .presentation-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            gap: 30px;
+        }
+
+        /* SLIDE STYLE (A4 Landscape aspect ratio) */
+        .slide {
+            width: 297mm;
+            height: 210mm;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16mm 20mm;
+            page-break-after: always;
+            break-after: page;
+        }
+
+        /* COVER SLIDE STYLE (Dark Theme - EPC Conglomerate style) */
+        .slide.cover {
+            background: linear-gradient(135deg, var(--dark) 0%, #17181c 50%, #20232a 100%);
+            color: #ffffff;
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 25mm;
+            border-left: 10px solid var(--red);
+        }
+
+        /* HEADER & FOOTER */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--red);
+            padding-bottom: 4mm;
+            height: 16mm;
+        }
+
+        .slide-header .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slide-header .logo-text {
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: 1px;
+            color: var(--dark);
+        }
+
+        .slide-header .logo-text span {
+            color: var(--red);
+        }
+
+        .slide-header .slide-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 3mm;
+            font-size: 11px;
+            color: var(--text-light);
+            height: 10mm;
+        }
+
+        .slide-footer .contact-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SLIDE CONTENT */
+        .slide-content {
+            height: 140mm;
+            padding: 6mm 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* COVER STYLE DETAILS */
+        .cover-tag {
+            background: var(--red);
+            color: #ffffff;
+            padding: 6px 20px;
+            font-size: 13px;
+            font-weight: 800;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+        }
+
+        .cover-title {
+            font-size: 54px;
+            font-weight: 950;
+            line-height: 1.05;
+            margin-bottom: 15px;
+            letter-spacing: -1.5px;
+        }
+
+        .cover-title span {
+            color: var(--red);
+        }
+
+        .cover-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            color: #e5e7eb;
+            margin-bottom: 35px;
+            max-width: 90%;
+            line-height: 1.4;
+            border-left: 3px solid var(--red);
+            padding-left: 20px;
+        }
+
+        .cover-meta {
+            display: flex;
+            gap: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            width: 100%;
+        }
+
+        .cover-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cover-meta-label {
+            font-size: 11px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+        }
+
+        .cover-meta-val {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* CONTENT ELEMENTS */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 30px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .intro-text {
+            font-size: 14.5px;
+            line-height: 1.55;
+            color: #374151;
+            margin-bottom: 12px;
+        }
+
+        .intro-highlight {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            border-left: 5px solid var(--red);
+            padding-left: 18px;
+            margin-bottom: 15px;
+            line-height: 1.35;
+            letter-spacing: -0.5px;
+        }
+
+        /* KEY METRICS GRID */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .metric-card {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            border-bottom-color: var(--red);
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            transform: translateY(-2px);
+        }
+
+        .metric-card .num {
+            font-size: 38px;
+            font-weight: 900;
+            color: var(--red);
+            margin-bottom: 4px;
+            letter-spacing: -1px;
+        }
+
+        .metric-card .label {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        /* SERVICES STYLING - EPC Tier-1 Style */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            height: 100%;
+        }
+
+        .service-card {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-top: 5px solid var(--dark-gray);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .service-card.highlight {
+            border-top-color: var(--red);
+            background: #ffffff;
+            box-shadow: 0 8px 25px rgba(191, 32, 38, 0.05);
+        }
+
+        .service-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .service-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .service-desc {
+            font-size: 12.5px;
+            color: #4b5563;
+            line-height: 1.45;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .service-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .service-bullets li {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--dark);
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .service-bullets li::before {
+            content: "■";
+            color: var(--red);
+            font-size: 9px;
+            position: absolute;
+            left: 0;
+            top: 1px;
+        }
+
+        /* LIST OF ADVANTAGES */
+        .advantages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .advantage-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .advantage-number {
+            background: var(--red);
+            color: white;
+            font-weight: 800;
+            font-size: 14px;
+            width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .advantage-title {
+            font-size: 15.5px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 3px;
+        }
+
+        .advantage-desc {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.4;
+        }
+
+        /* HSEQ & WORKFORCE SLIDE */
+        .badge-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .badge-item {
+            background: #fff8f8;
+            border-left: 5px solid var(--red);
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .badge-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-desc {
+            font-size: 12px;
+            color: #4b5563;
+            line-height: 1.35;
+        }
+
+        /* BIOGRAPHY SLIDE SPECIFICS */
+        .bio-container {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 25px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .bio-image-area {
+            background: radial-gradient(circle, var(--dark-gray) 0%, var(--dark) 100%);
+            border-radius: 12px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            color: white;
+            border-bottom: 8px solid var(--red);
+            text-align: center;
+        }
+
+        .bio-monogram {
+            font-size: 58px;
+            font-weight: 900;
+            color: var(--red);
+            background: rgba(255, 255, 255, 0.05);
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--red);
+            margin-bottom: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .bio-name {
+            font-size: 22px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 3px;
+            letter-spacing: -0.5px;
+        }
+
+        .bio-role {
+            font-size: 12px;
+            color: var(--red);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        .bio-credentials-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 12px;
+            text-align: left;
+        }
+
+        .bio-credential-item {
+            font-size: 11px;
+            color: #d1d5db;
+            line-height: 1.3;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .bio-credential-item::before {
+            content: "✓";
+            color: var(--red);
+            font-weight: 900;
+        }
+
+        .bio-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .bio-timeline-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .bio-timeline-badge {
+            background: var(--light-gray);
+            color: var(--dark);
+            font-weight: 800;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            border-left: 3px solid var(--red);
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+
+        /* CONTACT CARD */
+        .contact-box {
+            background: var(--dark);
+            color: white;
+            border-radius: 8px;
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 8px solid var(--red);
+        }
+
+        .contact-box h3 {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .contact-box h3 span {
+            color: var(--red);
+        }
+
+        .contact-box p {
+            color: #d1d5db;
+            font-size: 13.5px;
+            line-height: 1.45;
+            margin-bottom: 18px;
+        }
+
+        .contact-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14.5px;
+        }
+
+        .contact-icon {
+            font-size: 18px;
+            color: var(--red);
+        }
+
+        .map-card {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 25px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .map-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--dark);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .regions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .region-row {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed var(--border);
+            font-size: 12px;
+        }
+
+        .region-name {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .region-status {
+            color: var(--red);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        /* BUTTON FOR EXPORTING */
+        .print-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(191, 32, 38, 0.4);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .print-btn:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(191, 32, 38, 0.6);
+        }
+
+        /* LANGUAGE TOGGLE SYSTEM */
+        .lang-switch {
+            display: flex;
+            background: #374151;
+            padding: 3px;
+            border-radius: 50px;
+            border: 1px solid #4b5563;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: #d1d5db;
+            border: none;
+            padding: 5px 14px;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--red);
+            color: white;
+            box-shadow: 0 2px 8px rgba(191, 32, 38, 0.4);
+        }
+
+        /* PRINT CONFIGURATION */
+        @media print {
+            body {
+                background: #ffffff;
+                color: #000000;
+            }
+
+            .presentation-container {
+                padding: 0;
+                gap: 0;
+            }
+
+            .slide {
+                width: 297mm;
+                height: 210mm;
+                border-radius: 0;
+                box-shadow: none;
+                margin: 0;
+                padding: 16mm 20mm;
+                page-break-after: always;
+                break-after: page;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .slide.cover {
+                background: #121214 !important;
+                color: #ffffff !important;
+            }
+
+            .print-btn, .instructions-banner {
+                display: none !important;
+            }
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        .instructions-banner {
+            background: #1e1e24;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            width: calc(100% - 40px);
+            max-width: 297mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13.5px;
+            border-left: 4px solid var(--red);
+            gap: 20px;
+        }
+
+        .instructions-text {
+            flex: 1;
+            min-width: 0;
+            padding-right: 15px;
+        }
+
+        .instructions-text h4 {
+            color: var(--red);
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+
+        .action-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        
+        <!-- INSTRUCTIONS & LANGUAGE CONTROLS -->
+        <div class="instructions-banner">
+            <div class="instructions-text">
+                <h4 id="banner-title">📄 Apresentação Corporativa / Corporate Presentation</h4>
+                <p id="banner-desc">Escolha o idioma abaixo e clique em Exportar. No Chrome, selecione "Salvar como PDF", formato Paisagem e ative "Gráficos de fundo".</p>
+            </div>
+            <div class="action-area">
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="switchLanguage('pt', event)">PT</button>
+                    <button class="lang-btn" onclick="switchLanguage('en', event)">EN</button>
+                </div>
+                <button class="print-btn" onclick="window.print()">
+                    🖨️ <span id="btn-print-text">Salvar PDF</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide cover">
+            <div class="cover-tag" id="slide1-tag">Engenharia &amp; Projetos EPC</div>
+            <h1 class="cover-title">VERSÁTIL<br><span id="slide1-subtitle-red">GLOBAL SERVICES</span></h1>
+            <h2 class="cover-subtitle" id="slide1-desc">Engenharia, Infraestrutura Complexa, Montagens Eletromecânicas de Processo e Projetos EPC Multidisciplinares</h2>
+            
+            <div class="cover-meta">
+                <div class="cover-meta-item">
+                    <span class="cover-meta-label" id="slide1-meta-label1">Escopo de Atuação</span>
+                    <span class="cover-meta-val" id="slide1-meta-val1">Infraestrutura Civil, Terraplenagem, Dutos &amp; Montagens Eletromecânicas</span>
+                </div>
+                <div class="cover-meta-item">
+                    <span class="cover-meta-label" id="slide1-meta-label2">Setores de Atuação</span>
+                    <span class="cover-meta-val" id="slide1-meta-val2">Construção Civil, Saneamento, Óleo &amp; Gás, Energia, Mineração e Indústria</span>
+                </div>
+                <div class="cover-meta-item">
+                    <span class="cover-meta-label" id="slide1-meta-label3">Credencial Corporativa</span>
+                    <span class="cover-meta-val">Versão Master Conglomerado 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: CORPORATE PROFILE -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide2-title">Perfil Corporativo</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide2-highlight">
+                            Uma potência multidisciplinar em engenharia, infraestrutura complexa e montagens mecânicas industriais.
+                        </p>
+                        <p class="intro-text" id="slide2-p1">
+                            A Versátil Global Services atua sob o modelo de **empreiteira integrada e provedora de soluções completas de engenharia (EPC)**. Desde 2002, entregamos obras especiais de infraestrutura, terraplenagem de alto rendimento, montagens eletromecânicas complexas de plantas de processo e redes de dutos terrestres e submarinos, combinando engenharia própria e logística marítima e terrestre independente.
+                        </p>
+                        <p class="intro-text" style="font-weight: 500;" id="slide2-p2">
+                            Com forte presença operacional e pátios industriais estratégicos, oferecemos aos proprietários de ativos e consórcios internacionais o mais alto índice de confiabilidade executiva e segurança física.
+                        </p>
+                    </div>
+                    <div class="right">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="num">24+</div>
+                                <div class="label" id="metric-label1">Anos de Engenharia e Projetos</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="num">1060+</div>
+                                <div class="label" id="metric-label2">Grandes Obras Entregues</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="num">24/7</div>
+                                <div class="label" id="metric-label3">Disponibilidade Operacional</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="num">ZERO</div>
+                                <div class="label" id="metric-label4">Acidentes de Trabalho (LTI)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Infrastructure Conglomerate</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 2 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: INFRASTRUCTURE & COMPLEX WORKS -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide3-title">Engenharia &amp; Infraestrutura</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide3-highlight">
+                            Grandes obras de engenharia, terraplenagem de alta produtividade e infraestrutura.
+                        </p>
+                        <p class="intro-text" id="slide3-desc">
+                            Executamos projetos de engenharia e infraestrutura complexa que sustentam o progresso: movimentação massiva de solo, pontes e viadutos (Obras Especiais de Engenharia), infraestrutura para portos e estaleiros, rodovias, bases de concreto armado de alta especificação técnica e assentamento de redes de dutos de grande diâmetro.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide3-adv1-title">Bases e Estruturas de Concreto Armado</h5>
+                                    <p class="advantage-desc" id="slide3-adv1-desc">Fundações profundas, estruturas protendidas, diques de contenção e bases massivas de alta estabilidade para equipamentos industriais gigantes.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide3-adv2-title">Redes de Dutos &amp; Saneamento</h5>
+                                    <p class="advantage-desc" id="slide3-adv2-desc">Lançamento terrestre e subaquático de adutoras, coletores de esgoto, gasodutos, oleodutos e tubulações enterradas de alta pressão.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide3-badge1-title">Terraplenagem &amp; Pavimentação</div>
+                            <p class="badge-desc" id="slide3-badge1-desc">Operação de frotas de escavadeiras, motoniveladoras e rolos compactadores para grandes volumes de corte e aterro.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide3-badge2-title">Obras Especiais de Infraestrutura</div>
+                            <p class="badge-desc" id="slide3-badge2-desc">Engenharia civil dedicada à construção de elevados, viadutos, canais de drenagem urbana e pontes rodoviárias.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide3-badge3-title">Infraestrutura Portuária &amp; Diques</div>
+                            <p class="badge-desc" id="slide3-badge3-desc">Execução de cais de atracação, píeres de concreto armado e recuperação de estruturas marítimas expostas à corrosão severa.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Civil &amp; Infrastructure</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 3 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: ELECTRO-MECHANICAL ASSEMBLY & PLANT ERECTION -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide4-title">Montagem Eletromecânica de Processo</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="services-grid">
+                    
+                    <div class="service-card highlight">
+                        <div>
+                            <div class="service-icon">🏗️</div>
+                            <h4 class="service-title" id="slide4-card1-title">Içamento &amp; Rigging</h4>
+                            <p class="service-desc" id="slide4-card1-desc">Planejamento e coordenação de içamento de equipamentos. Elaboração de planos de Rigging tridimensionais para vasos e reatores.</p>
+                        </div>
+                        <ul class="service-bullets" id="slide4-card1-bullets">
+                            <li>Planos de Rigging e engenharia de içamento</li>
+                            <li>Posicionamento de vasos de pressão</li>
+                            <li>Montagem de módulos em áreas restritas</li>
+                            <li>Segurança crítica de movimentação de carga</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div>
+                            <div class="service-icon">🔥</div>
+                            <h4 class="service-title" id="slide4-card2-title">Instalação de Plantas e Complexos</h4>
+                            <p class="service-desc" id="slide4-card2-desc">Ereção completa de tubulações suspensas, pipe-racks metálicos, fornos industriais e interligação eletromecânica de pacotes EPC.</p>
+                        </div>
+                        <ul class="service-bullets" id="slide4-card2-bullets">
+                            <li>Instalação mecânica de turbinas e compressores</li>
+                            <li>Montagem de fornos industriais e caldeiras</li>
+                            <li>Lançamento e teste hidrostático de linhas</li>
+                            <li>Interligação final de skids químicos</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div>
+                            <div class="service-icon">⚡</div>
+                            <h4 class="service-title" id="slide4-card3-title">Elétrica, Instrumentação &amp; Automação</h4>
+                            <p class="service-desc" id="slide4-card3-desc">Eletromecânica de campo completa, incluindo lançamento de cabos de força e controle, montagem de painéis, subestações e calibração de instrumentos de precisão.</p>
+                        </div>
+                        <ul class="service-bullets" id="slide4-card3-bullets">
+                            <li>Montagem de caminhos de cabos e leitos</li>
+                            <li>Calibração e testes de malhas de instrumentação</li>
+                            <li>Eletromecânica de painéis de controle e CCMs</li>
+                            <li>Lançamento de redes de fibra óptica industrial</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Process Plant Erection</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 4 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: CERTIFIED METAL & SPOOLS FABRICATION -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide5-title">Fabricação Metalúrgica e Piping Spools</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide5-highlight">
+                            Pré-fabricação de spools de tubulação de alta pressão, módulos skids e mega-estruturas de aço carbono e ligas nobres.
+                        </p>
+                        <p class="intro-text" id="slide5-desc">
+                            Operamos com galpões industriais dedicados e capacidade própria para produzir e fabricar spools de tubulação de alta pressão (piping spools) sob rígido controle dimensional e metalúrgico. Soldagem homologada de aço carbono, aço inox, ligas duplex, super duplex e titânio com ensaios metalúrgicos 100% qualificados.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide5-adv1-title">Fabricação Homologada (ASME / AWS)</h5>
+                                    <p class="advantage-desc" id="slide5-adv1-desc">Processos e procedimentos de soldagem qualificados por EPS e RQPS. Inspetores de soldagem nível 1 e 2 acompanham cada junta.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide5-adv2-title">Estruturas Modulares &amp; Skids</h5>
+                                    <p class="advantage-desc" id="slide5-adv2-desc">Construção de Skids integrados, coletores (manifolds), estruturas de pipe-rack pré-montadas e suportes metálicos industriais.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide5-badge1-title">Prontidão Industrial de Pátio</div>
+                            <p class="badge-desc" id="slide5-badge1-desc">Pátio preparado para produção seriada de spools industriais e módulos estruturais de grande porte sob rígidos cronogramas.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide5-badge2-title">Soldagem de Ligas de Alta Performance</div>
+                            <p class="badge-desc" id="slide5-badge2-desc">Profissionais qualificados em processos TIG, MIG/MAG e Arco Submerso para tubulações de paredes espessas.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide5-badge3-title">Rastreabilidade Eletrônica Total</div>
+                            <p class="badge-desc" id="slide5-badge3-desc">Sistema de databook eletrônico com rastreabilidade 100% garantida de materiais, certificados de chapa e laudos de ensaios (radiografia, ultrassom, LP).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Certified Fabrication</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 5 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: SPECIALIZED FIELD MACHINING IN-SITU -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide6-title">Usinagem Especializada In-Situ</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide6-highlight">
+                            Tecnologia in-situ e usinagem portátil para reabilitação geométrica sem transporte de ativos.
+                        </p>
+                        <p class="intro-text" id="slide6-desc">
+                            Possuímos uma das maiores frotas de equipamentos de usinagem portátil (in-situ) do mercado internacional. Realizamos faceamentos de grandes flanges, retífica de pistas de secadores, torneamento de eixos, mandrilhamentos e fresagem in-situ. Isso nos consolida como uma das empreiteiras mais independentes e rápidas, reduzindo drasticamente os prazos das obras.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide6-adv1-title">Usinagem Onsite</h5>
+                                    <p class="advantage-desc" id="slide6-adv1-desc">Fresamento plano de bases de turbomáquinas, usinagem de bocais de reatores e retífica de assentos de rolamentos industriais.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide6-adv2-title">Alinhamento e Metrologia a Laser</h5>
+                                    <p class="advantage-desc" id="slide6-adv2-desc">Medições tridimensionais com rastreadores Laser Tracker de altíssima precisão para controle de tolerâncias micrométricas na usinagem.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide6-badge1-title">Maquinários Portáteis Próprios</div>
+                            <p class="badge-desc" id="slide6-badge1-desc">Mandrilhadoras, faceadoras de flange pneumáticas e hidráulicas exclusivas, projetadas para trabalhos de alta rigidez.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide6-badge2-title">Faceamento de Bocais de Reatores</div>
+                            <p class="badge-desc" id="slide6-badge2-desc">Recuperação de ranhuras de vedação (RTJ) de permutadores de calor e bocais de alta pressão ASME in-situ.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide6-badge3-title">Recuperação Geométrica Onsite</div>
+                            <p class="badge-desc" id="slide6-badge3-desc">Soldagem automatizada integrada e usinagem consecutiva para recomposição dimensional imediata no local da obra.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Precision In-Situ Machining</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 6 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: CRITICAL TURNAROUNDS MANAGEMENT -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide7-title">Gestão de Paradas Gerais (Turnarounds)</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide7-highlight">
+                            Gerenciamento de alta performance para paradas de manutenção geral e modernização de plantas complexas.
+                        </p>
+                        <p class="intro-text" id="slide7-desc">
+                            Paradas de plantas requerem precisão cirúrgica de planejamento e capacidade de mobilização. Gerenciamos de ponta a ponta o caminho crítico de grandes paradas industriais em refinarias, siderúrgicas, complexos químicos e instalações portuárias, controlando prazos contratuais de forma integrada com ferramentas de controle de última geração.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide7-adv1-title">Planejamento e Controle Rigorosos</h5>
+                                    <p class="advantage-desc" id="slide7-adv1-desc">Integração física e financeira via Primavera P6 e MS Project, garantindo controle detalhado de frentes de trabalho críticas e caminhos críticos diários.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide7-adv2-title">Comissionamento e Partida Segura</h5>
+                                    <p class="advantage-desc" id="slide7-adv2-desc">Procedimentos de testes integrados, testes de estanqueidade e entrega de documentação completa (dossiês de comissionamento) para partida rápida do ativo.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide7-badge1-title">Mobilização de Grandes Efetivos</div>
+                            <p class="badge-desc" id="slide7-badge1-desc">Capacidade corporativa de recrutar, treinar, mobilizar e gerenciar equipes multidisciplinares com mais de 1000 profissionais simultaneamente.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide7-badge2-title">Controle de Riscos Físicos</div>
+                            <p class="badge-desc" id="slide7-badge2-desc">Identificação diária de gargalos no cronograma e remanejamento dinâmico de frentes de trabalho em regime de 24 horas.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide7-badge3-title">Revitalização Completa de Linhas</div>
+                            <p class="badge-desc" id="slide7-badge3-desc">Corte, solda, substituição de válvulas e spools estruturais executados nos menores intervalos do cronograma operacional.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Critical Turnaround Management</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 7 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: LEADERSHIP & DIRECTION (Edson de Oliveira Silva) -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide8-title">Direção Executiva e Liderança de Grandes Obras</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="bio-container">
+                    <div class="bio-image-area">
+                        <div class="bio-monogram">EOS</div>
+                        <h3 class="bio-name" id="slide8-name">Eng. Edson de Oliveira Silva</h3>
+                        <p class="bio-role" id="slide8-role">CEO &amp; Diretor Geral</p>
+                        
+                        <div class="bio-credentials-list">
+                            <div class="bio-credential-item" id="slide8-cred1">Responsável Técnico</div>
+                            <div class="bio-credential-item" id="slide8-cred2">Engenheiro Mecânico</div>
+                            <div class="bio-credential-item" id="slide8-cred3">CREA-SP 5068954051</div>
+                            <div class="bio-credential-item" id="slide8-cred4">Engenharia de Segurança do Trabalho</div>
+                            <div class="bio-credential-item" id="slide8-cred5">Inspetor de Equipamentos</div>
+                            <div class="bio-credential-item" id="slide8-cred6">Pós Graduado em Gestão de Projetos PMI-PMBOK</div>
+                            <div class="bio-credential-item" id="slide8-cred7">Pós Graduado em Engenharia de Software</div>
+                        </div>
+                    </div>
+                    <div class="left" style="display: flex; flex-direction: column; justify-content: center; gap: 8px;">
+                        <p class="intro-highlight" id="slide8-highlight" style="font-size: 19px; margin-bottom: 8px;">
+                            Liderança técnica dedicada à engenharia de grande porte, segurança absoluta e gestão rigorosa de contratos EPC complexos.
+                        </p>
+                        <p class="intro-text" id="slide8-desc" style="font-size: 13.5px; line-height: 1.5; color: #374151; margin-bottom: 10px;">
+                            Com mais de 23 anos de sólida experiência prática em manutenção industrial, projetos eletromecânicos complexos e usinagem de campo, Edson de Oliveira Silva lidera a consolidação internacional do Grupo Versátil. Sua sólida bagagem técnica combina a engenharia mecânica com os conceitos estruturados da gestão PMI (Project Management Institute) e engenharia de software aplicada à rastreabilidade de obras. Direcionou grandes paradas e frentes de engenharia em regime EPC sob rigorosos critérios de conformidade e auditorias internacionais (Odebrecht, Petrobras, Bechtel, Saipem), pautado pelo compromisso inegociável de Acidente Zero, excelência regulamentadora e pontualidade física extrema.
+                        </p>
+                        <div class="bio-timeline">
+                            <div class="bio-timeline-item">
+                                <span class="bio-timeline-badge" id="slide8-time1">23 Anos de Experiência</span>
+                                <p class="intro-text" style="margin: 0; font-size: 12px; line-height: 1.45;" id="slide8-time1-text">Especialista em manutenção industrial e projetos integrados de usinagem e fabricação de alta pressão em campo.</p>
+                            </div>
+                            <div class="bio-timeline-item">
+                                <span class="bio-timeline-badge" id="slide8-time2">Visão Multidisciplinar</span>
+                                <p class="intro-text" style="margin: 0; font-size: 12px; line-height: 1.45;" id="slide8-time2-text">Alia engenharia mecânica, gestão de segurança do trabalho e inovação em engenharia digital para controle total de rastreabilidade de campo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Executive Board</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 8 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: QUALITY, HSEQ & COMPLIANCE -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide9-title">Qualidade, Segurança &amp; SMS Corporativo</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide9-highlight">
+                            Uma infraestrutura operacional de classe mundial regida pela excelência em SMS, conformidade rígida e conteúdo local.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">1</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide9-adv1-title">SMS Corporativo e Acidente Zero</h5>
+                                    <p class="advantage-desc" id="slide9-adv1-desc">Alinhamento rigoroso de diretrizes ambientais, auditorias preventivas diárias de segurança do trabalho e equipes multidisciplinares com treinamentos críticos e de sobrevivência offshore atualizados (HUET/BOSIET).</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">2</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide9-adv2-title">Controle Integrado de Qualidade (ASME / API)</h5>
+                                    <p class="advantage-desc" id="slide9-adv2-desc">Rastreabilidade eletrônica de ponta a ponta de materiais, inspeções metalúrgicas e de soldagem contínuas, testes hidrostáticos calibrados e emissão imediata de Dossiês e Data Books.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">3</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide9-adv3-title">Desenvolvimento de Conteúdo Local</h5>
+                                    <p class="advantage-desc" id="slide9-adv3-desc">Políticas corporativas sérias para transferência de tecnologia nas regiões de atuação, atração de fornecedores regionais, contratação de mão de obra local e programas de treinamento metalúrgico e de solda de alta performance.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="badge-list">
+                            <div class="badge-item">
+                                <div class="badge-title" id="slide9-badge1-title">Padrões Internacionais</div>
+                                <p class="badge-desc" id="slide9-badge1-desc">Processos gerenciais e operacionais regidos em conformidade com as diretrizes das normas ISO 9001, 14001, 45001 e códigos ASME Sec VIII Div 1.</p>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-title" id="slide9-badge2-title">Segurança Contratual</div>
+                                <p class="badge-desc" id="slide9-badge2-desc">Governança corporativa blindada, saúde financeira plenamente auditada e amplas apólices de seguro de responsabilidade civil para grandes obras.</p>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-title" id="slide9-badge3-title">Engenharia Digital</div>
+                                <p class="badge-desc" id="slide9-badge3-desc">Cálculos estruturais de alta precisão, análise de elementos finitos (FEA) e modelagem 3D de processos de içamento para zero falhas.</p>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-title" id="slide9-badge4-title">Prontidão Logística Global</div>
+                                <p class="badge-desc" id="slide9-badge4-desc">Canais estruturados de comércio exterior para exportação temporária e importação ágil de ferramentas hidráulicas e maquinários especiais.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Safety, Quality &amp; Compliance</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 9 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: GLOBAL REACH & CONTACTS -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide10-title">Parcerias e Mobilização Global</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <div class="contact-box">
+                            <div>
+                                <h3 id="slide10-contact-title">Parceria de <span>Infraestrutura</span></h3>
+                                <p id="slide10-contact-desc">Entre em contato direto com a nossa diretoria executiva para discutir grandes projetos, licitações corporativas ou consórcios de montagem eletromecânica.</p>
+                            </div>
+                            <div class="contact-row">
+                                <div class="contact-item">
+                                    <span class="contact-icon">✉️</span>
+                                    <span>dp.tecnico@versatilservices.com.br</span>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-icon">📱</span>
+                                    <span>+55 13 99711-2002</span>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-icon">🌐</span>
+                                    <span>www.versatilservices.com.br</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="map-card">
+                            <h4 class="map-title" id="slide10-map-title">🌍 Hubs Operacionais &amp; Pátios de Fabricação</h4>
+                            <div class="regions-list">
+                                <div class="region-row">
+                                    <span class="region-name" id="hub1-name">Pátio de Fabricação Central (Matriz)</span>
+                                    <span class="region-status" id="hub1-status">Operação Total e Logística Portuária</span>
+                                </div>
+                                <div class="region-row">
+                                    <span class="region-name" id="hub2-name">Hub Operacional Offshore</span>
+                                    <span class="region-status" id="hub2-status">Construção &amp; Projetos Offshore</span>
+                                </div>
+                                <div class="region-row">
+                                    <span class="region-name" id="hub3-name">Base Estratégica Oriente Médio</span>
+                                    <span class="region-status" id="hub3-status">Pátio de Engenharia &amp; DMCC Freezone</span>
+                                </div>
+                                <div class="region-row" style="border-bottom: none;">
+                                    <span class="region-name" id="hub4-name">Hub Estratégico Internacional</span>
+                                    <span class="region-status" id="hub4-status">Conexões Globais de Suprimentos</span>
+                                </div>
+                            </div>
+                            <p style="font-size: 11.5px; color: #4b5563; line-height: 1.45; margin-top: 15px; font-style: italic;" id="slide10-tagline">
+                                "Nossa visão é atuar como parceiro de infraestrutura de primeira linha de consórcios de grande porte, combinando engenharia e infraestrutura com a precisão inegociável de nossas especialidades industriais."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Global Mobilization Networks</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 10 of 10</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TRANSLATION ENGINE JAVASCRIPT -->
+    <script>
+        const translations = {
+            pt: {
+                bannerTitle: "📄 Apresentação Corporativa / Corporate Presentation",
+                bannerDesc: "Escolha o idioma abaixo e clique em Exportar. No Chrome, selecione \"Salvar como PDF\", formato Paisagem e ative \"Gráficos de fundo\".",
+                btnPrintText: "Salvar PDF",
+                
+                // SLIDE 1
+                slide1Tag: "Engenharia &amp; Projetos EPC",
+                slide1Desc: "Engenharia, Infraestrutura Complexa, Montagens Eletromecânicas de Processo e Projetos EPC Multidisciplinares",
+                slide1MetaLabel1: "Escopo de Atuação",
+                slide1MetaVal1: "Infraestrutura Civil, Terraplenagem, Dutos &amp; Montagens Eletromecânicas",
+                slide1MetaLabel2: "Setores de Atuação",
+                slide1MetaVal2: "Construção Civil, Saneamento, Óleo &amp; Gás, Energia, Mineração e Indústria",
+
+                // SLIDE 2
+                slide2Title: "Perfil Corporativo",
+                slide2Highlight: "Uma potência multidisciplinar em engenharia, infraestrutura complexa e montagens mecânicas industriais.",
+                slide2P1: "A Versátil Global Services atua sob o modelo de **empreiteira integrada e provedora de soluções completas de engenharia (EPC)**. Desde 2002, entregamos obras especiais de infraestrutura, terraplenagem de alto rendimento, montagens eletromecânicas complexas de plantas de processo e redes de dutos terrestres e submarinos, combinando engenharia própria e logística marítima e terrestre independente.",
+                slide2P2: "Com forte presença operacional e pátios industriais estratégicos, oferecemos aos proprietários de ativos e consórcios internacionais o mais alto índice de confiabilidade executiva e segurança física.",
+                metricLabel1: "Anos de Engenharia e Projetos",
+                metricLabel2: "Grandes Obras Entregues",
+                metricLabel3: "Disponibilidade Operacional",
+                metricLabel4: "Acidentes de Trabalho (LTI)",
+
+                // SLIDE 3
+                slide3Title: "Engenharia &amp; Infraestrutura",
+                slide3Highlight: "Grandes obras de engenharia, terraplenagem de alta produtividade e infraestrutura.",
+                slide3Desc: "Executamos projetos de engenharia e infraestrutura complexa que sustentam o progresso: movimentação massiva de solo, pontes e viadutos (Obras Especiais de Engenharia), infraestrutura para portos e estaleiros, rodovias, bases de concreto armado de alta especificação técnica e assentamento de redes de dutos de grande diâmetro.",
+                slide3Adv1Title: "Bases e Estruturas de Concreto Armado",
+                slide3Adv1Desc: "Fundações profundas, estruturas protendidas, diques de contenção e bases massivas de alta estabilidade para equipamentos industriais gigantes.",
+                slide3Adv2Title: "Redes de Dutos &amp; Saneamento",
+                slide3Adv2Desc: "Lançamento terrestre e subaquático de adutoras, coletores de esgoto, gasodutos, oleodutos e tubulações enterradas de alta pressão.",
+                slide3Badge1Title: "Terraplenagem &amp; Pavimentação",
+                slide3Badge1Desc: "Operação de frotas de escavadeiras, motoniveladoras e rolos compactadores para grandes volumes de corte e aterro.",
+                slide3Badge2Title: "Obras Especiais de Infraestrutura",
+                slide3Badge2Desc: "Engenharia civil dedicada à construção de elevados, viadutos, canais de drenagem urbana e pontes rodoviárias.",
+                slide3Badge3Title: "Infraestrutura Portuária &amp; Diques",
+                slide3Badge3Desc: "Execução de cais de atracação, píeres de concreto armado e recuperação de estruturas marítimas expostas à corrosão severa.",
+
+                // SLIDE 4
+                slide4Title: "Montagem Eletromecânica de Processo",
+                slide4Card1Title: "Içamento &amp; Rigging",
+                slide4Card1Desc: "Planejamento e coordenação de içamento de equipamentos. Elaboração de planos de Rigging tridimensionais para vasos e reatores.",
+                slide4Card1Bullets: `<li>Planos de Rigging e engenharia de içamento</li>
+                                     <li>Posicionamento de vasos de pressão</li>
+                                     <li>Montagem de módulos em áreas restritas</li>
+                                     <li>Segurança crítica de movimentação de carga</li>`,
+                slide4Card2Title: "Instalação de Plantas e Complexos",
+                slide4Card2Desc: "Ereção completa de tubulações suspensas, pipe-racks metálicos, fornos industriais e interligação eletromecânica de pacotes EPC complexos.",
+                slide4Card2Bullets: `<li>Instalação mecânica de turbinas e compressores</li>
+                                     <li>Montagem de fornos industriais e caldeiras</li>
+                                     <li>Lançamento e teste hidrostático de linhas</li>
+                                     <li>Interligação final de skids químicos</li>`,
+                slide4Card3Title: "Elétrica, Instrumentação &amp; Automação",
+                slide4Card3Desc: "Eletromecânica de campo completa, incluindo lançamento de cabos de força e controle, montagem de painéis, subestações e calibração de instrumentos de precisão.",
+                slide4Card3Bullets: `<li>Montagem de caminhos de cabos e leitos</li>
+                                     <li>Calibração e testes de malhas de instrumentação</li>
+                                     <li>Eletromecânica de painéis de controle e CCMs</li>
+                                     <li>Lançamento de redes de fibra óptica industrial</li>`,
+
+                // SLIDE 5
+                slide5Title: "Fabricação Metalúrgica e Piping Spools",
+                slide5Highlight: "Pré-fabricação de spools de tubulação de alta pressão, módulos skids e mega-estruturas de aço carbono e ligas nobres.",
+                slide5Desc: "Operamos com galpões industriais dedicados e capacidade própria para produzir e fabricar spools de tubulação de alta pressão (piping spools) sob rígido controle dimensional e metalúrgico. Soldagem homologada de aço carbono, aço inox, ligas duplex, super duplex e titânio com ensaios metalúrgicos 100% qualificados.",
+                slide5Adv1Title: "Fabricação Homologada (ASME / AWS)",
+                slide5Adv1Desc: "Processos e procedimentos de soldagem qualificados por EPS e RQPS. Inspetores de soldagem nível 1 e 2 acompanham cada junta.",
+                slide5Adv2Title: "Estruturas Modulares &amp; Skids",
+                slide5Adv2Desc: "Construção de Skids integrados, coletores (manifolds), estruturas de pipe-rack pré-montadas e suportes metálicos industriais.",
+                slide5Badge1Title: "Prontidão Industrial de Pátio",
+                slide5Badge1Desc: "Pátio preparado para produção seriada de spools industriais e módulos estruturais de grande porte sob rígidos cronogramas.",
+                slide5Badge2Title: "Soldagem de Ligas de Alta Performance",
+                slide5Badge2Desc: "Profissionais qualificados em processos TIG, MIG/MAG e Arco Submerso para tubulações de paredes espessas.",
+                slide5Badge3Title: "Rastreabilidade Eletrônica Total",
+                slide5Badge3Desc: "Sistema de databook eletrônico com rastreabilidade 100% garantida de materiais, certificados de chapa e laudos de ensaios (radiografia, ultrassom, LP).",
+
+                // SLIDE 6
+                slide6Title: "Usinagem Especializada In-Situ",
+                slide6Highlight: "Tecnologia in-situ e usinagem portátil para reabilitação geométrica sem transporte de ativos.",
+                slide6Desc: "Possuímos uma das maiores frotas de equipamentos de usinagem portátil (in-situ) do mercado internacional. Realizamos faceamentos de grandes flanges, retífica de pistas de secadores, torneamento de eixos, mandrilhamentos e fresagem in-situ. Isso nos consolida como uma das empreiteiras mais independentes e rápidas, reduzindo drasticamente os prazos das obras.",
+                slide6Adv1Title: "Usinagem Onsite",
+                slide6Adv1Desc: "Fresamento plano de bases de turbomáquinas, usinagem de bocais de reatores e retífica de assentos de rolamentos industriais.",
+                slide6Adv2Title: "Alinhamento e Metrologia a Laser",
+                slide6Adv2Desc: "Medições tridimensionais com rastreadores Laser Tracker de altíssima precisão para controle de tolerâncias micrométricas na usinagem.",
+                slide6Badge1Title: "Maquinários Portáteis Próprios",
+                slide6Badge1Desc: "Mandrilhadoras, faceadoras de flange pneumáticas e hidráulicas exclusivas, projetadas para trabalhos de alta rigidez.",
+                slide6Badge2Title: "Faceamento de Bocais de Reatores",
+                slide6Badge2Desc: "Recuperação de ranhuras de vedação (RTJ) de permutadores de calor e bocais de alta pressão ASME in-situ.",
+                slide6Badge3Title: "Recuperação Geométrica Onsite",
+                slide6Badge3Desc: "Soldagem automatizada integrada e usinagem consecutiva para recomposição dimensional imediata no local da obra.",
+
+                // SLIDE 7
+                slide7Title: "Gestão de Paradas Gerais (Turnarounds)",
+                slide7Highlight: "Gerenciamento de alta performance para paradas de manutenção geral e modernização de plantas complexas.",
+                slide7Desc: "Paradas de plantas requerem precisão cirúrgica de planejamento e capacidade de mobilização. Gerenciamos de ponta a ponta o caminho crítico de grandes paradas industriais em refinarias, siderúrgicas, complexos químicos e instalações portuárias, controlando prazos contratuais de forma integrada com ferramentas de controle de última geração.",
+                slide7Adv1Title: "Planejamento e Controle Rigorosos",
+                slide7Adv1Desc: "Integração física e financeira via Primavera P6 e MS Project, garantindo controle detalhado de frentes de trabalho críticas e caminhos críticos diários.",
+                slide7Adv2Title: "Comissionamento e Partida Segura",
+                slide7Adv2Desc: "Procedimentos de testes integrados, testes de estanqueidade e entrega de documentação completa (dossiês de comissionamento) para partida rápida do ativo.",
+                slide7Badge1Title: "Mobilização de Grandes Efetivos",
+                slide7Badge1Desc: "Capacidade corporativa de recrutar, treinar, mobilizar e gerenciar equipes multidisciplinares com mais de 1000 profissionais simultaneamente.",
+                slide7Badge2Title: "Controle de Riscos Físicos",
+                slide7Badge2Desc: "Identificação diária de gargalos no cronograma e remanejamento dinâmico de frentes de trabalho em regime de 24 horas.",
+                slide7Badge3Title: "Revitalização Completa de Linhas",
+                slide7Badge3Desc: "Corte, solda, substituição de válvulas e spools estruturais executados nos menores intervalos do cronograma operacional.",
+
+                // SLIDE 8 (BIO)
+                slide8Title: "Direção Executiva e Liderança de Grandes Obras",
+                slide8Name: "Eng. Edson de Oliveira Silva",
+                slide8Role: "CEO &amp; Diretor Geral",
+                slide8Cred1: "Responsável Técnico",
+                slide8Cred2: "Engenheiro Mecânico",
+                slide8Cred3: "CREA-SP 5068954051",
+                slide8Cred4: "Engenharia de Segurança do Trabalho",
+                slide8Cred5: "Inspetor de Equipamentos",
+                slide8Cred6: "Pós Graduado em Gestão de Projetos PMI-PMBOK",
+                slide8Cred7: "Pós Graduado em Engenharia de Software",
+                slide8Highlight: "Liderança técnica dedicada à engenharia de grande porte, segurança absoluta e gestão rigorosa de contratos EPC complexos.",
+                slide8Desc: "Com mais de 23 anos de sólida experiência prática em manutenção industrial, projetos eletromecânicos complexos e usinagem de campo, Edson de Oliveira Silva lidera a consolidação internacional do Grupo Versátil. Sua sólida bagagem técnica combina a engenharia mecânica com os conceitos estruturados da gestão PMI (Project Management Institute) e engenharia de software aplicada à rastreabilidade de obras. Direcionou grandes paradas e frentes de engenharia em regime EPC sob rigorosos critérios de conformidade e auditorias internacionais (Odebrecht, Petrobras, Bechtel, Saipem), pautado pelo compromisso inegociável de Acidente Zero, excelência regulamentadora e pontualidade física extrema.",
+                slide8Time1: "23 Anos de Experiência",
+                slide8Time1Text: "Especialista em manutenção industrial e projetos integrados de usinagem e fabricação de alta pressão em campo.",
+                slide8Time2: "Visão Multidisciplinar",
+                slide8Time2Text: "Alia engenharia mecânica, gestão de segurança do trabalho e inovação em engenharia digital para controle total de rastreabilidade de campo.",
+
+                // SLIDE 9
+                slide9Title: "Qualidade, Segurança &amp; SMS Corporativo",
+                slide9Highlight: "Uma infraestrutura operacional de classe mundial regida pela excelência em SMS, conformidade rígida e conteúdo local.",
+                slide9Adv1Title: "SMS Corporativo e Acidente Zero",
+                slide9Adv1Desc: "Alinhamento rigoroso de diretrizes ambientais, auditorias preventivas diárias de segurança do trabalho e equipes multidisciplinares com treinamentos críticos e de sobrevivência offshore atualizados (HUET/BOSIET).",
+                slide9Adv2Title: "Controle Integrado de Qualidade (ASME / API)",
+                slide9Adv2Desc: "Rastreabilidade eletrônica de ponta a ponta de materiais, inspeções metalúrgicas e de soldagem contínuas, testes hidrostáticos calibrados e emissão imediata de Dossiês e Data Books.",
+                slide9Adv3Title: "Desenvolvimento de Conteúdo Local",
+                slide9Adv3Desc: "Políticas corporativas sérias para transferência de tecnologia nas regiões de atuação, atração de fornecedores regionais, contratação de mão de obra local e programas de treinamento metalúrgico e de solda de alta performance.",
+                slide9Badge1Title: "Padrões Internacionais",
+                slide9Badge1Desc: "Processos gerenciais e operacionais regidos em conformidade com as diretrizes das normas ISO 9001, 14001, 45001 e códigos ASME Sec VIII Div 1.",
+                slide9Badge2Title: "Segurança Contratual",
+                slide9Badge2Desc: "Governança corporativa blindada, saúde financeira plenamente auditada e amplas apólices de seguro de responsabilidade civil para grandes obras.",
+                slide9Badge3Title: "Engenharia Digital",
+                slide9Badge3Desc: "Cálculos estruturais de alta precisão, análise de elementos finitos (FEA) e modelagem 3D de processos de içamento para zero falhas.",
+                slide9Badge4Title: "Prontidão Logística Global",
+                slide9Badge4Desc: "Canais estruturados de comércio exterior para exportação temporária e importação ágil de ferramentas hidráulicas e maquinários especiais.",
+
+                // SLIDE 10
+                slide10Title: "Parcerias e Mobilização Global",
+                slide10ContactTitle: "Parceria de <span>Infraestrutura</span>",
+                slide10ContactDesc: "Entre em contato direto com a nossa diretoria executiva para discutir grandes projetos, licitações corporativas ou consórcios de montagem eletromecânica.",
+                slide10MapTitle: "🌍 Hubs Operacionais &amp; Pátios de Fabricação",
+                hub1Name: "Pátio de Fabricação Central (Matriz)",
+                hub1Status: "Operação Total e Logística Portuária",
+                hub2Name: "Hub Operacional Offshore",
+                hub2Status: "Construção &amp; Projetos Offshore",
+                hub3Name: "Base Estratégica Oriente Médio",
+                hub3Status: "Pátio de Engenharia &amp; DMCC Freezone",
+                hub4Name: "Hub Estratégico Internacional",
+                hub4Status: "Conexões Globais de Suprimentos",
+                slide10Tagline: `"Nossa visão é atuar como parceiro de infraestrutura de primeira linha de consórcios de grande porte, combinando engenharia e infraestrutura com a precisão inegociável de nossas especialidades industriais."`
+            },
+            en: {
+                bannerTitle: "📄 Corporate Presentation / Apresentação Corporativa",
+                bannerDesc: "Choose the language below and click Export. In Chrome, select \"Save as PDF\", Landscape format and enable \"Background graphics\".",
+                btnPrintText: "Save PDF",
+                
+                // SLIDE 1
+                slide1Tag: "Engineering &amp; EPC Projects",
+                slide1Desc: "Infrastructure Engineering, Complex Works, Process Electro-Mechanical Assemblies and Multidisciplinary EPC Projects",
+                slide1MetaLabel1: "Technical Scope",
+                slide1MetaVal1: "Civil Infrastructure, Earthmoving, Pipelines &amp; Electro-Mechanical Assembly",
+                slide1MetaLabel2: "Business Sectors",
+                slide1MetaVal2: "Civil Construction, Water &amp; Sanitation, Oil &amp; Gas, Energy, Mining and Industry",
+
+                // SLIDE 2
+                slide2Title: "Corporate Profile",
+                slide2Highlight: "A multidisciplinary powerhouse in engineering, complex infrastructure, and process industrial erection.",
+                slide2P1: "Versátil Global Services operates as an **integrated contractor and complete Engineering, Procurement, and Construction (EPC) provider**. Since 2002, we have delivered complex civil infrastructure, high-yield earthworks, demanding process plant mechanical assemblies, and trans-regional onshore and subsea pipelines, combining in-house engineering and independent sea/land logistics.",
+                slide2P2: "Supported by robust operational yards and strategic industrial complexes, we offer asset owners and international joint ventures the highest standard of executive reliability and physical safety.",
+                metricLabel1: "Years of Multidisciplinary Engineering",
+                metricLabel2: "Mega Projects Delivered",
+                metricLabel3: "Operational Availability",
+                metricLabel4: "LTI Safety Record",
+
+                // SLIDE 3
+                slide3Title: "Engineering &amp; Infrastructure",
+                slide3Highlight: "Large-scale engineering works, high-yield earthmoving, and complex infrastructure.",
+                slide3Desc: "We execute complex engineering and infrastructure projects that support societal growth: mass earthmoving, bridge and elevated highway construction (Special Engineering Structures), harbor and marine yard infrastructure, expressways, high-spec structural reinforced concrete foundations, and large-diameter cross-country pipeline laying.",
+                slide3Adv1Title: "Reinforced &amp; Prestressed Concrete Works",
+                slide3Adv1Desc: "Deep foundations, tensioned concrete elements, containment dykes, and massive high-stability base slabs for giant industrial machinery assets.",
+                slide3Adv2Title: "Pipeline Systems &amp; Public Utilities",
+                slide3Adv2Desc: "Onshore and subsea laying of water mains, sewage collectors, gas pipelines, oil pipelines, and high-pressure buried systems.",
+                slide3Badge1Title: "Mass Earthworks &amp; Paving",
+                slide3Badge1Desc: "Deployment of large excavator, grader, and compactor fleets for massive excavation, cut-and-fill, and structural grading operations.",
+                slide3Badge2Title: "Special Bridge &amp; Highway Structures",
+                slide3Badge2Desc: "Civil engineering specialized in elevated highways, urban drainage structures, canalization, and concrete road bridges.",
+                slide3Badge3Title: "Harbor &amp; Marine Works",
+                slide3Badge3Desc: "Execution of concrete berths, piers, structural retaining walls, and rehabilitation of marine structures under severe corrosion.",
+
+                // SLIDE 4
+                slide4Title: "Process Electro-Mechanical Assembly",
+                slide4Card1Title: "Lifting &amp; Rigging",
+                slide4Card1Desc: "Engineering, coordination, and execution of crane lifts. 3D Rigging studies and planning for process vessels and chemical columns.",
+                slide4Card1Bullets: `<li>Detailed Rigging studies & lift engineering</li>
+                                     <li>Precise vessel site positioning</li>
+                                     <li>Modular structural lift in confined yards</li>
+                                     <li>Critical safety control for crane operations</li>`,
+                slide4Card2Title: "Process Plant Assembly",
+                slide4Card2Desc: "Full mechanical positioning of process pipelines, metallic pipe racks, industrial furnaces, boiler erection, and mechanical tie-ins of EPC skids.",
+                slide4Card2Bullets: `<li>Mechanical positioning of turbines/compressors</li>
+                                     <li>Structural assembly of boilers</li>
+                                     <li>Pipeline laying, tie-ins & hydrostatic tests</li>
+                                     <li>Final process module interconnectivity</li>`,
+                slide4Card3Title: "Electrical &amp; Instrumentation",
+                slide4Card3Desc: "Complete field electrical work, power and control cable laying, commissioning of switchgears, MCCs, industrial substations, and high-precision instrument calibration.",
+                slide4Card3Bullets: `<li>Cable tray and conduit pathway assembly</li>
+                                     <li>Instrumentation loop tuning and calibration</li>
+                                     <li>Erection of control panels and CCM switchboards</li>
+                                     <li>Laying of industrial fiber-optic networks</li>`,
+
+                // SLIDE 5
+                slide5Title: "Metallurgical &amp; Piping Spools",
+                slide5Highlight: "Pre-fabrication of high-pressure piping spools, process modular skids, and large-scale structural steel framing.",
+                slide5Desc: "We operate dedicated industrial fabrication yards equipped with advanced machinery to manufacture high-pressure piping spools under tight dimensional and metallurgical tolerances. Certified welding of carbon steel, stainless steel, duplex, super duplex, and titanium alloys with 100% NDT clearance.",
+                slide5Adv1Title: "Certified Fabrication (ASME / AWS)",
+                slide5Adv1Desc: "Welding procedures and performance qualified under WPS and PQR standards. AWS/CWI-certified welding inspectors oversee every joint.",
+                slide5Adv2Title: "Modular Skids &amp; Structures",
+                slide5Adv2Desc: "Erection of integrated chemical/hydraulic skids, manifold sets, pre-assembled pipe racks, and industrial steel supports.",
+                slide5Badge1Title: "Yards Readiness",
+                slide5Badge1Desc: "Strategic facilities designed for continuous batch fabrication of piping spools and structural modules under strict deadlines.",
+                slide5Badge2Title: "High-Alloy Specialized Welding",
+                slide5Badge2Desc: "Welders fully qualified in GTAW, GMAW, FCAW, and SAW processes for wall thickness and high-pressure joints.",
+                slide5Badge3Title: "Digital Traceability Databooks",
+                slide5Badge3Desc: "Electronic data capturing for complete 100% material traceability, raw heat numbers, weld mapping, and NDT reports (UT, RT, LP).",
+
+                // SLIDE 6
+                slide6Title: "Precision In-Situ Machining",
+                slide6Highlight: "In-situ technologies and specialized portable machining for on-site dimensional recovery without asset dismantling.",
+                slide6Desc: "We deploy one of the largest portable machine tool fleets globally. We perform large flange facing, rotary dryer path grinding, shaft turning, line boring, and planar milling in-situ. This in-house asset fleet guarantees faster turnaround times and eliminates transport constraints.",
+                slide6Adv1Title: "On-Site Machining",
+                slide6Adv1Desc: "Split-line casing planar milling for steam turbines, compressor bed re-milling, and bearing seat line boring.",
+                slide6Adv2Title: "Laser Metrology &amp; Alignment",
+                slide6Adv2Desc: "3D dimensional auditing using ultra-precise Laser Tracker devices, ensuring micro-level geometric alignments before and after machining.",
+                slide6Badge1Title: "Proprietary Portable Fleet",
+                slide6Badge1Desc: "Exclusive hydraulic and pneumatic boring, milling, and flange facing machines engineered for high-rigidity field tasks.",
+                slide6Badge2Title: "Heat Exchanger &amp; Vessel Refacing",
+                slide6Badge2Desc: "In-situ recovery of sealing surfaces, RTJ grooves, and gasket contacts on reactors, vessel heads, and high-pressure heat exchangers.",
+                slide6Badge3Title: "Localized Cladding &amp; Machining",
+                slide6Badge3Desc: "Seamless combination of automated overlay welding and consecutive machining for micro-precision geometric restoration.",
+
+                // SLIDE 7
+                slide7Title: "Turnaround Outage Management",
+                slide7Highlight: "High-performance execution and scheduling for major plant maintenance shutdowns and retrofits.",
+                slide7Desc: "Plant turnarounds demand absolute scheduling discipline and rapid resource mobilization. We coordinate the critical path of major shutdowns in oil refineries, steel mills, complex chemical plants, and harbor loading systems, securing milestone targets with advanced digital scheduling.",
+                slide7Adv1Title: "Rigorous Schedule Controls",
+                slide7Adv1Desc: "Physical and financial progress tracking using Primavera P6 and MS Project, securing daily path optimization for high-density work-fronts.",
+                slide7Adv2Title: "Pre-Commissioning &amp; Startup",
+                slide7Adv2Desc: "Comprehensive testing, pressure testing, line blowing, system dry-outs, and rapid delivery of quality commissioning dossiers for safe plant restart.",
+                slide7Badge1Title: "Large Workforce Mobilization",
+                slide7Badge1Desc: "Corporate capability to recruit, train, safety-certify, and manage multi-disciplinary workforces exceeding 1,000 workers simultaneously.",
+                slide7Badge2Title: "Outage Risk Mitigation",
+                slide7Badge2Desc: "Continuous 24-hour monitoring of operational milestones and dynamic reallocation of field crews to clear potential bottlenecks.",
+                slide7Badge3Title: "High-Speed Piping Swap-outs",
+                slide7Badge3Desc: "Rapid hot-work, valve replacement, and pre-fabricated spool insertions executed under the tightest operational window constraints.",
+
+                // SLIDE 8 (BIO)
+                slide8Title: "Executive Board &amp; Mega-Project Direction",
+                slide8Name: "Eng. Edson de Oliveira Silva",
+                slide8Role: "CEO &amp; Managing Director",
+                slide8Cred1: "Technical Director",
+                slide8Cred2: "Mechanical Engineer",
+                slide8Cred3: "CREA-SP 5068954051",
+                slide8Cred4: "Work Safety Engineering",
+                slide8Cred5: "Equipment Inspector",
+                slide8Cred6: "Post-Graduate in PMI-PMBOK Project Management",
+                slide8Cred7: "Post-Graduate in Software Engineering",
+                slide8Highlight: "Technical direction dedicated to large-scale engineering, absolute safety culture, and strict compliance in complex EPC projects.",
+                slide8Desc: "With over 23 years of solid hands-on experience in large-scale industrial maintenance, process electro-mechanical projects, and portable field machining, Edson de Oliveira Silva directs the international expansion of the Versátil Group. His robust technical background blends complex mechanical engineering with PMBOK-structured management (Project Management Institute) and software engineering applied to project databooks. He has directed major turnarounds and EPC construction fronts under rigorous international compliance audits (Odebrecht, Petrobras, Bechtel, Saipem), driven by a zero-accident commitment, high regulatory standards, and strict physical path execution.",
+                slide8Time1: "23 Years of Core Expertise",
+                slide8Time1Text: "Specialist in industrial shutdowns, integrated on-site machining, and high-pressure piping fabrication.",
+                slide8Time2: "Multidisciplinary Mindset",
+                slide8Time2Text: "Combines mechanical engineering, corporate work safety leadership, and digital technology for real-time field data tracking.",
+
+                // SLIDE 9
+                slide9Title: "Quality, HSEQ &amp; Corporate Governance",
+                slide9Highlight: "A world-class operational structure governed by zero-harm safety policies, strict compliance, and local integration.",
+                slide9Adv1Title: "Zero-Harm Culture &amp; HSEQ",
+                slide9Adv1Desc: "Strict adherence to environmental regulations, daily pre-task risk assessments, and field crews trained with certified offshore safety credentials (HUET/BOSIET).",
+                slide9Adv2Title: "ASME / API Certified Quality Control",
+                slide9Adv2Desc: "Complete material traceability, certified weld mapping, calibrated non-destructive testing (NDT), and instant delivery of high-accuracy commissioning databooks.",
+                slide9Adv3Title: "Local Content Strategy",
+                slide9Adv3Desc: "Sincere policies for local technology transfer, engaging domestic suppliers, employing regional professionals, and setting up high-alloy welding programs locally.",
+                slide9Badge1Title: "Global Benchmarks",
+                slide9Badge1Desc: "Management and operations running strictly under certified guidelines of ISO 9001, 14001, 45001, and ASME Sec VIII Div 1 codes.",
+                slide9Badge2Title: "Contractual Security",
+                slide9Badge2Desc: "Corporate governance framework, fully audited financial standings, and high-capacity general liability insurance policies for mega-scale projects.",
+                slide9Badge3Title: "Advanced Engineering",
+                slide9Badge3Desc: "High-accuracy Finite Element Analysis (FEA), mechanical calculations, and 3D crane lift simulations to ensure flawless execution.",
+                slide9Badge4Title: "Global Air/Sea Logistics",
+                slide9Badge4Desc: "Established customs and logistics networks to dispatch specialized containerized machine tools globally in record times.",
+
+                // SLIDE 10
+                slide10Title: "Global Partnerships &amp; Erection Mobilization",
+                slide10ContactTitle: "Infrastructure <span>Partnership</span>",
+                slide10ContactDesc: "Reach out directly to our executive board to discuss major EPC tenders, joint venture partnerships, or mechanical erections.",
+                slide10MapTitle: "🌍 Operations Hubs &amp; Fabrication Yards",
+                hub1Name: "Central Fabrication Yard &amp; HQ",
+                hub1Status: "Fully Operational &amp; Marine Logistics",
+                hub2Name: "Offshore Hub &amp; Operations",
+                hub2Status: "Refinery Construction &amp; Offshore Projects",
+                hub3Name: "Strategic Middle East Base",
+                hub3Status: "Engineering Yard &amp; DMCC Freezone",
+                hub4Name: "International Hub",
+                hub4Status: "Supply Chain &amp; Global Sourcing",
+                slide10Tagline: `"Our vision is to serve as a top-tier infrastructure partner for major global consortia, blending infrastructure engineering with the micro-precision of our industrial specialties."`
+            }
+        };
+
+        function switchLanguage(lang, event) {
+            // Update buttons state
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) {
+                event.target.classList.add('active');
+            } else {
+                const targetBtn = Array.from(document.querySelectorAll('.lang-btn')).find(btn => btn.textContent.toLowerCase() === lang);
+                if (targetBtn) targetBtn.classList.add('active');
+            }
+
+            // Apply translations
+            const dict = translations[lang];
+
+            // Banner & general
+            document.getElementById('banner-title').innerText = dict.bannerTitle;
+            document.getElementById('banner-desc').innerText = dict.bannerDesc;
+            document.getElementById('btn-print-text').innerText = dict.btnPrintText;
+
+            // Slide 1
+            document.getElementById('slide1-tag').innerHTML = dict.slide1Tag;
+            document.getElementById('slide1-desc').innerHTML = dict.slide1Desc;
+            document.getElementById('slide1-meta-label1').innerText = dict.slide1MetaLabel1;
+            document.getElementById('slide1-meta-val1').innerText = dict.slide1MetaVal1;
+            document.getElementById('slide1-meta-label2').innerText = dict.slide1MetaLabel2;
+            document.getElementById('slide1-meta-val2').innerText = dict.slide1MetaVal2;
+
+            // Slide 2
+            document.getElementById('slide2-title').innerText = dict.slide2Title;
+            document.getElementById('slide2-highlight').innerText = dict.slide2Highlight;
+            document.getElementById('slide2-p1').innerText = dict.slide2P1;
+            document.getElementById('slide2-p2').innerText = dict.slide2P2;
+            document.getElementById('metric-label1').innerText = dict.metricLabel1;
+            document.getElementById('metric-label2').innerText = dict.metricLabel2;
+            document.getElementById('metric-label3').innerText = dict.metricLabel3;
+            document.getElementById('metric-label4').innerText = dict.metricLabel4;
+
+            // Slide 3
+            document.getElementById('slide3-title').innerText = dict.slide3Title;
+            document.getElementById('slide3-highlight').innerText = dict.slide3Highlight;
+            document.getElementById('slide3-desc').innerText = dict.slide3Desc;
+            document.getElementById('slide3-adv1-title').innerText = dict.slide3Adv1Title;
+            document.getElementById('slide3-adv1-desc').innerText = dict.slide3Adv1Desc;
+            document.getElementById('slide3-adv2-title').innerText = dict.slide3Adv2Title;
+            document.getElementById('slide3-adv2-desc').innerText = dict.slide3Adv2Desc;
+            document.getElementById('slide3-badge1-title').innerText = dict.slide3Badge1Title;
+            document.getElementById('slide3-badge1-desc').innerText = dict.slide3Badge1Desc;
+            document.getElementById('slide3-badge2-title').innerText = dict.slide3Badge2Title;
+            document.getElementById('slide3-badge2-desc').innerText = dict.slide3Badge2Desc;
+            document.getElementById('slide3-badge3-title').innerText = dict.slide3Badge3Title;
+            document.getElementById('slide3-badge3-desc').innerText = dict.slide3Badge3Desc;
+
+            // Slide 4
+            document.getElementById('slide4-title').innerText = dict.slide4Title;
+            document.getElementById('slide4-card1-title').innerText = dict.slide4Card1Title;
+            document.getElementById('slide4-card1-desc').innerText = dict.slide4Card1Desc;
+            document.getElementById('slide4-card1-bullets').innerHTML = dict.slide4Card1Bullets;
+            document.getElementById('slide4-card2-title').innerText = dict.slide4Card2Title;
+            document.getElementById('slide4-card2-desc').innerText = dict.slide4Card2Desc;
+            document.getElementById('slide4-card2-bullets').innerHTML = dict.slide4Card2Bullets;
+            document.getElementById('slide4-card3-title').innerText = dict.slide4Card3Title;
+            document.getElementById('slide4-card3-desc').innerText = dict.slide4Card3Desc;
+            document.getElementById('slide4-card3-bullets').innerHTML = dict.slide4Card3Bullets;
+
+            // Slide 5
+            document.getElementById('slide5-title').innerText = dict.slide5Title;
+            document.getElementById('slide5-highlight').innerText = dict.slide5Highlight;
+            document.getElementById('slide5-desc').innerText = dict.slide5Desc;
+            document.getElementById('slide5-adv1-title').innerText = dict.slide5Adv1Title;
+            document.getElementById('slide5-adv1-desc').innerText = dict.slide5Adv1Desc;
+            document.getElementById('slide5-adv2-title').innerText = dict.slide5Adv2Title;
+            document.getElementById('slide5-adv2-desc').innerText = dict.slide5Adv2Desc;
+            document.getElementById('slide5-badge1-title').innerText = dict.slide5Badge1Title;
+            document.getElementById('slide5-badge1-desc').innerText = dict.slide5Badge1Desc;
+            document.getElementById('slide5-badge2-title').innerText = dict.slide5Badge2Title;
+            document.getElementById('slide5-badge2-desc').innerText = dict.slide5Badge2Desc;
+            document.getElementById('slide5-badge3-title').innerText = dict.slide5Badge3Title;
+            document.getElementById('slide5-badge3-desc').innerText = dict.slide5Badge3Desc;
+
+            // Slide 6
+            document.getElementById('slide6-title').innerText = dict.slide6Title;
+            document.getElementById('slide6-highlight').innerText = dict.slide6Highlight;
+            document.getElementById('slide6-desc').innerText = dict.slide6Desc;
+            document.getElementById('slide6-adv1-title').innerText = dict.slide6Adv1Title;
+            document.getElementById('slide6-adv1-desc').innerText = dict.slide6Adv1Desc;
+            document.getElementById('slide6-adv2-title').innerText = dict.slide6Adv2Title;
+            document.getElementById('slide6-adv2-desc').innerText = dict.slide6Adv2Desc;
+            document.getElementById('slide6-badge1-title').innerText = dict.slide6Badge1Title;
+            document.getElementById('slide6-badge1-desc').innerText = dict.slide6Badge1Desc;
+            document.getElementById('slide6-badge2-title').innerText = dict.slide6Badge2Title;
+            document.getElementById('slide6-badge2-desc').innerText = dict.slide6Badge2Desc;
+            document.getElementById('slide6-badge3-title').innerText = dict.slide6Badge3Title;
+            document.getElementById('slide6-badge3-desc').innerText = dict.slide6Badge3Desc;
+
+            // Slide 7
+            document.getElementById('slide7-title').innerText = dict.slide7Title;
+            document.getElementById('slide7-highlight').innerText = dict.slide7Highlight;
+            document.getElementById('slide7-desc').innerText = dict.slide7Desc;
+            document.getElementById('slide7-adv1-title').innerText = dict.slide7Adv1Title;
+            document.getElementById('slide7-adv1-desc').innerText = dict.slide7Adv1Desc;
+            document.getElementById('slide7-adv2-title').innerText = dict.slide7Adv2Title;
+            document.getElementById('slide7-adv2-desc').innerText = dict.slide7Adv2Desc;
+            document.getElementById('slide7-badge1-title').innerText = dict.slide7Badge1Title;
+            document.getElementById('slide7-badge1-desc').innerText = dict.slide7Badge1Desc;
+            document.getElementById('slide7-badge2-title').innerText = dict.slide7Badge2Title;
+            document.getElementById('slide7-badge2-desc').innerText = dict.slide7Badge2Desc;
+            document.getElementById('slide7-badge3-title').innerText = dict.slide7Badge3Title;
+            document.getElementById('slide7-badge3-desc').innerText = dict.slide7Badge3Desc;
+
+            // Slide 8 (BIO)
+            document.getElementById('slide8-title').innerText = dict.slide8Title;
+            document.getElementById('slide8-name').innerText = dict.slide8Name;
+            document.getElementById('slide8-role').innerHTML = dict.slide8Role;
+            document.getElementById('slide8-cred1').innerText = dict.slide8Cred1;
+            document.getElementById('slide8-cred2').innerText = dict.slide8Cred2;
+            document.getElementById('slide8-cred3').innerText = dict.slide8Cred3;
+            document.getElementById('slide8-cred4').innerText = dict.slide8Cred4;
+            document.getElementById('slide8-cred5').innerText = dict.slide8Cred5;
+            document.getElementById('slide8-cred6').innerText = dict.slide8Cred6;
+            document.getElementById('slide8-cred7').innerText = dict.slide8Cred7;
+            document.getElementById('slide8-highlight').innerText = dict.slide8Highlight;
+            document.getElementById('slide8-desc').innerText = dict.slide8Desc;
+            document.getElementById('slide8-time1').innerText = dict.slide8Time1;
+            document.getElementById('slide8-time1-text').innerText = dict.slide8Time1Text;
+            document.getElementById('slide8-time2').innerText = dict.slide8Time2;
+            document.getElementById('slide8-time2-text').innerText = dict.slide8Time2Text;
+
+            // Slide 9
+            document.getElementById('slide9-title').innerText = dict.slide9Title;
+            document.getElementById('slide9-highlight').innerText = dict.slide9Highlight;
+            document.getElementById('slide9-adv1-title').innerText = dict.slide9Adv1Title;
+            document.getElementById('slide9-adv1-desc').innerText = dict.slide9Adv1Desc;
+            document.getElementById('slide9-adv2-title').innerText = dict.slide9Adv2Title;
+            document.getElementById('slide9-adv2-desc').innerText = dict.slide9Adv2Desc;
+            document.getElementById('slide9-adv3-title').innerText = dict.slide9Adv3Title;
+            document.getElementById('slide9-adv3-desc').innerText = dict.slide9Adv3Desc;
+            document.getElementById('slide9-badge1-title').innerText = dict.slide9Badge1Title;
+            document.getElementById('slide9-badge1-desc').innerText = dict.slide9Badge1Desc;
+            document.getElementById('slide9-badge2-title').innerText = dict.slide9Badge2Title;
+            document.getElementById('slide9-badge2-desc').innerText = dict.slide9Badge2Desc;
+            document.getElementById('slide9-badge3-title').innerText = dict.slide9Badge3Title;
+            document.getElementById('slide9-badge3-desc').innerText = dict.slide9Badge3Desc;
+            document.getElementById('slide9-badge4-title').innerText = dict.slide9Badge4Title;
+            document.getElementById('slide9-badge4-desc').innerText = dict.slide9Badge4Desc;
+
+            // Slide 10
+            document.getElementById('slide10-title').innerText = dict.slide10Title;
+            document.getElementById('slide10-contact-title').innerHTML = dict.slide10ContactTitle;
+            document.getElementById('slide10-contact-desc').innerText = dict.slide10ContactDesc;
+            document.getElementById('slide10-map-title').innerText = dict.slide10MapTitle;
+            document.getElementById('hub1-name').innerText = dict.hub1Name;
+            document.getElementById('hub1-status').innerText = dict.hub1Status;
+            document.getElementById('hub2-name').innerText = dict.hub2Name;
+            document.getElementById('hub2-status').innerText = dict.hub2Status;
+            document.getElementById('hub3-name').innerText = dict.hub3Name;
+            document.getElementById('hub3-status').innerText = dict.hub3Status;
+            document.getElementById('hub4-name').innerText = dict.hub4Name;
+            document.getElementById('hub4-status').innerText = dict.hub4Status;
+            document.getElementById('slide10-tagline').innerText = dict.slide10Tagline;
+        }
+    </script>
+
+</body>
+</html>

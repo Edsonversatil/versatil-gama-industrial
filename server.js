@@ -6,6 +6,7 @@
 
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 const PORT = 8080;
 
@@ -169,16 +170,10 @@ app.post('/api/asaas/payments', async (req, res) => {
 // =============================================
 const nodemailer = require('nodemailer');
 
-// SMTP Configuration — Preencher com dados reais
-const SMTP_CONFIG = {
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: '',  // SEU EMAIL: ex: versatil@gmail.com
-        pass: ''   // SENHA DE APP (não a senha normal)
-    }
-};
+// SMTP Configuration — Carregado de smtp_config.json
+let SMTP_CONFIG = { host: '', port: 587, secure: false, auth: { user: '', pass: '' } };
+const smtpConfigPath = path.join(__dirname, '..', 'smtp_config.json');
+try { if (fs.existsSync(smtpConfigPath)) SMTP_CONFIG = JSON.parse(fs.readFileSync(smtpConfigPath, 'utf8')); } catch(e) { console.log('[SMTP] Erro ao carregar config:', e.message); }
 
 async function sendOrderConfirmationEmail(clienteEmail, clienteNome, produtos, valorPago, paymentId) {
     // Não enviar se SMTP não configurado
@@ -422,12 +417,553 @@ app.post('/api/email/confirmation', async (req, res) => {
 });
 
 // =============================================
-// ROTA: Webhook Asaas (preparado para uso futuro)
+// ROTAS DO ECOSSISTEMA CRM VERSATIL SERVICES
 // =============================================
-app.post('/api/asaas/webhook', (req, res) => {
-    const event = req.body;
-    console.log('[WEBHOOK ASAAS]', JSON.stringify(event));
-    res.status(200).json({ received: true });
+const parentDir = path.join(__dirname, '..');
+
+app.get('/crm', (req, res) => {
+    res.sendFile(path.join(__dirname, 'crm_dashboard.html'));
+});
+
+app.get('/api/crm/clientes', (req, res) => {
+    try {
+        const filePath = path.join(parentDir, 'clientes_database.json');
+        if (fs.existsSync(filePath)) {
+            const data = fs.readFileSync(filePath, 'utf8');
+            res.json(JSON.parse(data));
+        } else {
+            res.status(404).json({ error: 'Database de clientes não encontrada.' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/crm/contatos', (req, res) => {
+    try {
+        const filePath = path.join(parentDir, 'contatos_database.json');
+        if (fs.existsSync(filePath)) {
+            const data = fs.readFileSync(filePath, 'utf8');
+            res.json(JSON.parse(data));
+        } else {
+            res.status(404).json({ error: 'Database de contatos não encontrada.' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/crm/reativacao', (req, res) => {
+    try {
+        const filePath = path.join(parentDir, 'reativacao_clientes.json');
+        if (fs.existsSync(filePath)) {
+            const data = fs.readFileSync(filePath, 'utf8');
+            res.json(JSON.parse(data));
+        } else {
+            res.status(404).json({ error: 'Database de reativação não encontrada.' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/api/crm/leads', (req, res) => {
+    try {
+        const { nome_cliente, segmento_industrial, porte_empresa, potencial_comercial, prioridade_comercial, cidade, estado, contato_nome, contato_email, contato_telefone } = req.body;
+        
+        if (!nome_cliente || !segmento_industrial) {
+            return res.status(400).json({ error: 'Nome do cliente e segmento são obrigatórios.' });
+        }
+
+        const clientesPath = path.join(parentDir, 'clientes_database.json');
+        const contatosPath = path.join(parentDir, 'contatos_database.json');
+
+        let dbClientes = [];
+        if (fs.existsSync(clientesPath)) {
+            dbClientes = JSON.parse(fs.readFileSync(clientesPath, 'utf8'));
+        }
+
+        // Generate next ID
+        let maxId = 0;
+        dbClientes.forEach(c => {
+            const num = parseInt(c.id_cliente);
+            if (!isNaN(num) && num > maxId) maxId = num;
+        });
+        const nextId = String(maxId + 1).padStart(4, '0');
+
+        // Text templates for the lead
+        const wa = `Olá, ${contato_nome || 'Gestor'}! Tudo bem? Sou o Eng. Edson da Versátil Global Services. Concluímos recentemente uma campanha de alta performance em ${segmento_industrial} e lembrei da ${nome_cliente}. Como estão as demandas de manutenção por aí?`;
+        const emailMsg = `Prezado(a) ${contato_nome || 'Gestor'},\n\nEspero que esta mensagem o encontre bem.\n\nA Versátil Global Services é especialista em soluções industriais de troca térmica e usinagem in-situ para o segmento de ${segmento_industrial}.\n\nGostaríamos de apresentar nosso portfólio para a ${nome_cliente}. Podemos alinhar uma conversa técnica?\n\nAtenciosamente,\n\nEng. Edson de Oliveira Silva\nDiretor Técnico — Versátil Global Services`;
+        const linkedin = `Olá, ${contato_nome || 'Gestor'}! Muito prazer. Acompanho seus projetos na ${nome_cliente}. Somos da Versátil e atuamos em manutenção térmica de alta complexidade. Seria um prazer conectar-me.`;
+
+        const newClient = {
+            id_cliente: nextId,
+            nome_cliente: nome_cliente,
+            segmento_industrial: segmento_industrial,
+            porte_empresa: porte_empresa || 'Médio',
+            potencial_comercial: potencial_comercial || 'Médio Potencial',
+            prioridade_comercial: prioridade_comercial || 'C - Manter cadastro',
+            qtd_propostas: 0,
+            qtd_relatorios: 0,
+            qtd_contratos: 0,
+            data_ultima_atividade: new Date().toISOString().split('T')[0],
+            dias_inativo: 0,
+            requer_reativacao: false,
+            roteiro_comercial: {
+                servico_destaque: "caldeiraria e manutenção de alta performance",
+                mensagem_whatsapp: wa,
+                mensagem_email: emailMsg,
+                mensagem_linkedin: linkedin
+            }
+        };
+
+        dbClientes.unshift(newClient); // Add to the top
+        fs.writeFileSync(clientesPath, JSON.stringify(dbClientes, null, 2), 'utf8');
+
+        // Add contact to contatos_database.json if provided
+        if (contato_nome) {
+            let dbContatos = [];
+            if (fs.existsSync(contatosPath)) {
+                dbContatos = JSON.parse(fs.readFileSync(contatosPath, 'utf8'));
+            }
+            
+            const nextContId = `cont_${String(dbContatos.length + 1).padStart(4, '0')}`;
+            const newContact = {
+                id_contato: nextContId,
+                id_cliente: nextId,
+                nome: contato_nome,
+                cargo: 'Gestor de Contatos',
+                email: contato_email || '',
+                telefone: contato_telefone || '',
+                celular: contato_telefone || '',
+                cidade: cidade || '',
+                estado: estado || '',
+                arquivo_origem: 'Lead Manual',
+                data_aproximada: new Date().toISOString().split('T')[0]
+            };
+            dbContatos.unshift(newContact);
+            fs.writeFileSync(contatosPath, JSON.stringify(dbContatos, null, 2), 'utf8');
+        }
+
+        res.json({ success: true, client: newClient });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// =============================================
+// ROTAS DE CAMPANHA DE EMAIL — CRM
+// =============================================
+
+// Caminho do log de campanhas
+const campanhaLogPath = path.join(parentDir, 'campanha_log.json');
+
+// Helper: Gerar template HTML profissional para emails
+function gerarEmailHtml(bodyText) {
+    const bodyHtml = bodyText.replace(/\n/g, '<br>');
+    return `
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+    <body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,Helvetica,sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f4f4;">
+            <tr><td align="center" style="padding:20px 10px;">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                    <!-- Header -->
+                    <tr><td style="background:#BF2026;padding:28px 32px;text-align:center;">
+                        <h1 style="margin:0;font-size:22px;color:#ffffff;font-weight:700;letter-spacing:1px;">VERSATIL GLOBAL SERVICES</h1>
+                        <p style="margin:6px 0 0;font-size:12px;color:#f8d0d2;letter-spacing:0.5px;">Engenharia Industrial de Alta Performance</p>
+                    </td></tr>
+                    <!-- Body -->
+                    <tr><td style="padding:32px;color:#333333;font-size:15px;line-height:1.7;">
+                        ${bodyHtml}
+                    </td></tr>
+                    <!-- Footer -->
+                    <tr><td style="background:#f9f9f9;padding:24px 32px;border-top:1px solid #e0e0e0;">
+                        <p style="margin:0;font-size:13px;color:#555;"><strong>Eng. Edson de Oliveira Silva</strong></p>
+                        <p style="margin:4px 0 0;font-size:12px;color:#888;">Diretor Técnico — Versatil Global Services</p>
+                        <p style="margin:4px 0 0;font-size:12px;color:#888;">dp.tecnico@versatilservices.com.br</p>
+                    </td></tr>
+                    <!-- Bottom bar -->
+                    <tr><td style="background:#BF2026;padding:10px;text-align:center;">
+                        <p style="margin:0;font-size:10px;color:#f8d0d2;">© ${new Date().getFullYear()} Versatil Global Services — Todos os direitos reservados</p>
+                    </td></tr>
+                </table>
+            </td></tr>
+        </table>
+    </body>
+    </html>`;
+}
+
+// Helper: Ler/Salvar log de campanhas
+function lerCampanhaLog() {
+    try {
+        if (fs.existsSync(campanhaLogPath)) return JSON.parse(fs.readFileSync(campanhaLogPath, 'utf8'));
+    } catch(e) {}
+    return [];
+}
+function salvarCampanhaLog(log) {
+    fs.writeFileSync(campanhaLogPath, JSON.stringify(log, null, 2), 'utf8');
+}
+
+// GET /api/crm/smtp-config — Retorna configuração SMTP (sem senha)
+app.get('/api/crm/smtp-config', (req, res) => {
+    res.json({
+        host: SMTP_CONFIG.host || '',
+        port: SMTP_CONFIG.port || 587,
+        secure: SMTP_CONFIG.secure || false,
+        user: (SMTP_CONFIG.auth && SMTP_CONFIG.auth.user) || ''
+    });
+});
+
+// POST /api/crm/smtp-config — Salva configuração SMTP
+app.post('/api/crm/smtp-config', (req, res) => {
+    try {
+        const body = req.body;
+        // Aceita tanto { user, pass } quanto { auth: { user, pass } }
+        const host = body.host;
+        const port = body.port;
+        const secure = body.secure;
+        const user = body.user || (body.auth && body.auth.user) || '';
+        const pass = body.pass || (body.auth && body.auth.pass) || '';
+        
+        if (!host || !user || !pass) {
+            return res.status(400).json({ error: 'Host, user e pass são obrigatórios.' });
+        }
+        const newConfig = {
+            host,
+            port: parseInt(port) || 587,
+            secure: secure === true || secure === 'true' || parseInt(port) === 465,
+            auth: { user, pass }
+        };
+        fs.writeFileSync(smtpConfigPath, JSON.stringify(newConfig, null, 2), 'utf8');
+        // Recarregar configuração em memória
+        SMTP_CONFIG = newConfig;
+        console.log('[SMTP] Configuração salva com sucesso.');
+        res.json({ success: true, message: 'Configuração SMTP salva.' });
+    } catch (err) {
+        console.error('[SMTP] Erro ao salvar config:', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// POST /api/crm/smtp-test — Enviar email de teste
+app.post('/api/crm/smtp-test', async (req, res) => {
+    try {
+        if (!SMTP_CONFIG.auth || !SMTP_CONFIG.auth.user || !SMTP_CONFIG.auth.pass) {
+            return res.status(400).json({ error: 'SMTP não configurado. Salve a configuração primeiro.' });
+        }
+        const testTo = req.body.to || SMTP_CONFIG.auth.user;
+        const transporter = nodemailer.createTransport(SMTP_CONFIG);
+        const htmlBody = gerarEmailHtml('Este é um <strong>email de teste</strong> enviado pelo CRM Versatil Global Services.\n\nSe você recebeu esta mensagem, a configuração SMTP está funcionando corretamente!');
+        const info = await transporter.sendMail({
+            from: `Eng. Edson - Versatil Global Services <${SMTP_CONFIG.auth.user}>`,
+            to: testTo,
+            subject: '[TESTE] CRM Versatil — Verificação SMTP',
+            html: htmlBody
+        });
+        console.log(`[SMTP TEST] Email de teste enviado para ${testTo}: ${info.messageId}`);
+        res.json({ success: true, messageId: info.messageId, to: testTo });
+    } catch (err) {
+        console.error('[SMTP TEST] Erro:', err.message);
+        res.status(500).json({ error: `Falha no envio: ${err.message}` });
+    }
+});
+
+// POST /api/crm/enviar-email — Enviar email individual personalizado
+app.post('/api/crm/enviar-email', async (req, res) => {
+    try {
+        const { to, subject, body, clientId } = req.body;
+        if (!to || !subject || !body) {
+            return res.status(400).json({ error: 'Campos to, subject e body são obrigatórios.' });
+        }
+        if (!SMTP_CONFIG.auth || !SMTP_CONFIG.auth.user || !SMTP_CONFIG.auth.pass) {
+            return res.status(400).json({ error: 'SMTP não configurado.' });
+        }
+        const transporter = nodemailer.createTransport(SMTP_CONFIG);
+        const htmlBody = gerarEmailHtml(body);
+        const info = await transporter.sendMail({
+            from: `Eng. Edson - Versatil Global Services <${SMTP_CONFIG.auth.user}>`,
+            to,
+            subject,
+            html: htmlBody
+        });
+        // Registrar no log
+        const logEntry = {
+            id: `email_${Date.now()}`,
+            tipo: 'individual',
+            to, subject, clientId: clientId || null,
+            status: 'enviado',
+            messageId: info.messageId,
+            data: new Date().toISOString()
+        };
+        const log = lerCampanhaLog();
+        log.unshift(logEntry);
+        salvarCampanhaLog(log);
+        console.log(`[EMAIL CRM] Enviado para ${to}: ${info.messageId}`);
+        res.json({ success: true, messageId: info.messageId });
+    } catch (err) {
+        console.error('[EMAIL CRM] Erro:', err.message);
+        // Registrar falha no log
+        const logEntry = {
+            id: `email_${Date.now()}`,
+            tipo: 'individual',
+            to: req.body.to, subject: req.body.subject, clientId: req.body.clientId || null,
+            status: 'erro',
+            erro: err.message,
+            data: new Date().toISOString()
+        };
+        const log = lerCampanhaLog();
+        log.unshift(logEntry);
+        salvarCampanhaLog(log);
+        res.status(500).json({ error: `Falha no envio: ${err.message}` });
+    }
+});
+
+// POST /api/crm/campanha-email — Enviar campanha em lote (com delay de 30s)
+app.post('/api/crm/campanha-email', (req, res) => {
+    const { leads } = req.body;
+    if (!leads || !Array.isArray(leads) || leads.length === 0) {
+        return res.status(400).json({ error: 'Lista de leads é obrigatória.' });
+    }
+    if (!SMTP_CONFIG.auth || !SMTP_CONFIG.auth.user || !SMTP_CONFIG.auth.pass) {
+        return res.status(400).json({ error: 'SMTP não configurado.' });
+    }
+    const campanhaId = `campanha_${Date.now()}`;
+    const totalLeads = leads.length;
+    console.log(`[CAMPANHA] Iniciando ${campanhaId} com ${totalLeads} leads`);
+
+    // Retornar imediatamente com o ID da campanha
+    res.json({ success: true, campanhaId, total: totalLeads, message: `Campanha iniciada. ${totalLeads} emails serão enviados com intervalo de 30s.` });
+
+    // Processar envios em background com delay de 30 segundos
+    const transporter = nodemailer.createTransport(SMTP_CONFIG);
+    let enviados = 0;
+    let erros = 0;
+
+    async function enviarProximo(index) {
+        if (index >= leads.length) {
+            console.log(`[CAMPANHA] ${campanhaId} finalizada: ${enviados} enviados, ${erros} erros.`);
+            // Registrar resumo final
+            const log = lerCampanhaLog();
+            log.unshift({
+                id: campanhaId + '_resumo',
+                tipo: 'campanha_resumo',
+                campanhaId,
+                total: totalLeads,
+                enviados,
+                erros,
+                status: 'finalizada',
+                data: new Date().toISOString()
+            });
+            salvarCampanhaLog(log);
+            return;
+        }
+        const lead = leads[index];
+        try {
+            const htmlBody = gerarEmailHtml(lead.body);
+            const info = await transporter.sendMail({
+                from: `Eng. Edson - Versatil Global Services <${SMTP_CONFIG.auth.user}>`,
+                to: lead.to,
+                subject: lead.subject,
+                html: htmlBody
+            });
+            enviados++;
+            console.log(`[CAMPANHA] ${campanhaId} [${index+1}/${totalLeads}] ✅ ${lead.to}`);
+            // Registrar sucesso no log
+            const log = lerCampanhaLog();
+            log.unshift({
+                id: `${campanhaId}_${index}`,
+                tipo: 'campanha',
+                campanhaId,
+                to: lead.to,
+                subject: lead.subject,
+                clientId: lead.clientId || null,
+                nome: lead.nome || '',
+                status: 'enviado',
+                messageId: info.messageId,
+                posicao: `${index+1}/${totalLeads}`,
+                data: new Date().toISOString()
+            });
+            salvarCampanhaLog(log);
+        } catch (err) {
+            erros++;
+            console.error(`[CAMPANHA] ${campanhaId} [${index+1}/${totalLeads}] ❌ ${lead.to}: ${err.message}`);
+            const log = lerCampanhaLog();
+            log.unshift({
+                id: `${campanhaId}_${index}`,
+                tipo: 'campanha',
+                campanhaId,
+                to: lead.to,
+                subject: lead.subject,
+                clientId: lead.clientId || null,
+                nome: lead.nome || '',
+                status: 'erro',
+                erro: err.message,
+                posicao: `${index+1}/${totalLeads}`,
+                data: new Date().toISOString()
+            });
+            salvarCampanhaLog(log);
+        }
+        // Aguardar 30 segundos antes do próximo envio
+        if (index < leads.length - 1) {
+            setTimeout(() => enviarProximo(index + 1), 30000);
+        } else {
+            enviarProximo(index + 1); // Chamar para registrar resumo final
+        }
+    }
+    // Iniciar envio do primeiro email
+    enviarProximo(0);
+});
+
+// GET /api/crm/campanha-log — Retorna log de campanhas
+app.get('/api/crm/campanha-log', (req, res) => {
+    res.json(lerCampanhaLog());
+});
+
+// PUT /api/crm/clientes/:id — Atualizar dados de um cliente
+app.put('/api/crm/clientes/:id', (req, res) => {
+    try {
+        const clientesPath = path.join(parentDir, 'clientes_database.json');
+        let dbClientes = JSON.parse(fs.readFileSync(clientesPath, 'utf8'));
+        const idx = dbClientes.findIndex(c => c.id_cliente === req.params.id);
+        if (idx === -1) return res.status(404).json({ error: 'Cliente não encontrado.' });
+
+        // Atualiza apenas os campos enviados
+        const campos = req.body;
+        Object.keys(campos).forEach(key => {
+            if (key === 'roteiro_comercial' && typeof campos[key] === 'object') {
+                dbClientes[idx].roteiro_comercial = { ...dbClientes[idx].roteiro_comercial, ...campos[key] };
+            } else {
+                dbClientes[idx][key] = campos[key];
+            }
+        });
+
+        fs.writeFileSync(clientesPath, JSON.stringify(dbClientes, null, 2), 'utf8');
+        console.log(`[CRM] Cliente ${req.params.id} atualizado.`);
+        res.json({ success: true, client: dbClientes[idx] });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// DELETE /api/crm/clientes/:id — Remover cliente da base
+app.delete('/api/crm/clientes/:id', (req, res) => {
+    try {
+        const clientesPath = path.join(parentDir, 'clientes_database.json');
+        let dbClientes = JSON.parse(fs.readFileSync(clientesPath, 'utf8'));
+        const antes = dbClientes.length;
+        dbClientes = dbClientes.filter(c => c.id_cliente !== req.params.id);
+        if (dbClientes.length === antes) return res.status(404).json({ error: 'Cliente não encontrado.' });
+
+        fs.writeFileSync(clientesPath, JSON.stringify(dbClientes, null, 2), 'utf8');
+        console.log(`[CRM] Cliente ${req.params.id} removido.`);
+        res.json({ success: true, removido: req.params.id });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// GET /api/crm/cnpj/:cnpj — Busca dados da empresa via múltiplas APIs (fallback)
+app.get('/api/crm/cnpj/:cnpj', async (req, res) => {
+    try {
+        const cnpj = req.params.cnpj.replace(/\D/g, '');
+        if (cnpj.length !== 14) return res.status(400).json({ error: 'CNPJ deve ter 14 dígitos.' });
+        
+        const headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' };
+        let data = null;
+        
+        // Tentativa 1: BrasilAPI
+        try {
+            const r1 = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, { headers });
+            if (r1.ok) {
+                const text = await r1.text();
+                data = JSON.parse(text);
+                if (data.message) data = null;
+            }
+        } catch (e) { console.log('[CNPJ] BrasilAPI falhou:', e.message); }
+        
+        // Tentativa 2: ReceitaWS
+        if (!data) {
+            try {
+                const r2 = await fetch(`https://receitaws.com.br/v1/cnpj/${cnpj}`, { headers });
+                if (r2.ok) {
+                    const text = await r2.text();
+                    const rw = JSON.parse(text);
+                    if (rw.status !== 'ERROR') {
+                        data = {
+                            razao_social: rw.nome || '',
+                            nome_fantasia: rw.fantasia || '',
+                            cnpj: rw.cnpj ? rw.cnpj.replace(/\D/g, '') : cnpj,
+                            ddd_telefone_1: rw.telefone || '',
+                            email: rw.email || '',
+                            municipio: rw.municipio || '',
+                            uf: rw.uf || '',
+                            logradouro: rw.logradouro || '',
+                            numero: rw.numero || '',
+                            bairro: rw.bairro || '',
+                            cep: rw.cep ? rw.cep.replace(/\D/g, '') : '',
+                            porte: rw.porte || '',
+                            descricao_situacao_cadastral: rw.situacao || '',
+                            cnae_fiscal_descricao: rw.atividade_principal && rw.atividade_principal[0] ? rw.atividade_principal[0].text : '',
+                            data_inicio_atividade: rw.abertura || ''
+                        };
+                    }
+                }
+            } catch (e) { console.log('[CNPJ] ReceitaWS falhou:', e.message); }
+        }
+        
+        // Tentativa 3: publica.cnpj.ws
+        if (!data) {
+            try {
+                const r3 = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`, { headers });
+                if (r3.ok) {
+                    const text = await r3.text();
+                    const pw = JSON.parse(text);
+                    data = {
+                        razao_social: pw.razao_social || '',
+                        nome_fantasia: pw.estabelecimento?.nome_fantasia || '',
+                        cnpj: cnpj,
+                        ddd_telefone_1: pw.estabelecimento?.ddd1 ? `${pw.estabelecimento.ddd1}${pw.estabelecimento.telefone1}` : '',
+                        email: pw.estabelecimento?.email || '',
+                        municipio: pw.estabelecimento?.cidade?.nome || '',
+                        uf: pw.estabelecimento?.estado?.sigla || '',
+                        logradouro: pw.estabelecimento?.logradouro || '',
+                        numero: pw.estabelecimento?.numero || '',
+                        bairro: pw.estabelecimento?.bairro || '',
+                        cep: pw.estabelecimento?.cep || '',
+                        porte: pw.porte?.descricao || '',
+                        descricao_situacao_cadastral: pw.estabelecimento?.situacao_cadastral || '',
+                        cnae_fiscal_descricao: pw.estabelecimento?.atividade_principal?.descricao || '',
+                        data_inicio_atividade: pw.estabelecimento?.data_inicio_atividade || ''
+                    };
+                }
+            } catch (e) { console.log('[CNPJ] publica.cnpj.ws falhou:', e.message); }
+        }
+        
+        if (!data) return res.status(404).json({ error: 'CNPJ não encontrado em nenhuma fonte de dados.' });
+        
+        res.json({
+            success: true,
+            razao_social: data.razao_social || '',
+            nome_fantasia: data.nome_fantasia || '',
+            cnpj: data.cnpj || cnpj,
+            telefone: data.ddd_telefone_1 || '',
+            email: data.email || '',
+            municipio: data.municipio || '',
+            uf: data.uf || '',
+            logradouro: data.logradouro || '',
+            numero: data.numero || '',
+            bairro: data.bairro || '',
+            cep: data.cep || '',
+            porte: data.porte || '',
+            situacao: data.descricao_situacao_cadastral || '',
+            cnae_principal: data.cnae_fiscal_descricao || '',
+            data_abertura: data.data_inicio_atividade || ''
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Falha ao consultar CNPJ: ' + err.message });
+    }
 });
 
 // =============================================

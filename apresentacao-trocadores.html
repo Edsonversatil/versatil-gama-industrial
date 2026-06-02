@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERSÁTIL GLOBAL SERVICES — Heat Exchanger Specialist & EPC Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --red: #BF2026;
+            --dark-red: #8e1418;
+            --dark: #0f1012;
+            --dark-gray: #1a1b1d;
+            --light-gray: #f3f4f6;
+            --text-dark: #111827;
+            --text-light: #4b5563;
+            --border: #e5e7eb;
+            --font: 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #202124;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* CONTAINER FOR SCREEN PREVIEW */
+        .presentation-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            gap: 30px;
+        }
+
+        /* SLIDE STYLE (A4 Landscape aspect ratio) */
+        .slide {
+            width: 297mm;
+            height: 210mm;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16mm 20mm;
+            page-break-after: always;
+            break-after: page;
+        }
+
+        /* COVER SLIDE STYLE (Dark Theme - EPC Conglomerate style) */
+        .slide.cover {
+            background: linear-gradient(135deg, var(--dark) 0%, #17181c 50%, #20232a 100%);
+            color: #ffffff;
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 25mm;
+            border-left: 10px solid var(--red);
+        }
+
+        /* HEADER & FOOTER */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--red);
+            padding-bottom: 4mm;
+            height: 16mm;
+        }
+
+        .slide-header .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slide-header .logo-text {
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: 1px;
+            color: var(--dark);
+        }
+
+        .slide-header .logo-text span {
+            color: var(--red);
+        }
+
+        .slide-header .slide-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 3mm;
+            font-size: 11px;
+            color: var(--text-light);
+            height: 10mm;
+        }
+
+        .slide-footer .contact-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SLIDE CONTENT */
+        .slide-content {
+            height: 140mm;
+            padding: 6mm 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* COVER STYLE DETAILS */
+        .cover-tag {
+            background: var(--red);
+            color: #ffffff;
+            padding: 6px 20px;
+            font-size: 13px;
+            font-weight: 800;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+        }
+
+        .cover-title {
+            font-size: 54px;
+            font-weight: 950;
+            line-height: 1.05;
+            margin-bottom: 15px;
+            letter-spacing: -1.5px;
+        }
+
+        .cover-title span {
+            color: var(--red);
+        }
+
+        .cover-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            color: #e5e7eb;
+            margin-bottom: 35px;
+            max-width: 90%;
+            line-height: 1.4;
+            border-left: 3px solid var(--red);
+            padding-left: 20px;
+        }
+
+        .cover-meta {
+            display: flex;
+            gap: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            width: 100%;
+        }
+
+        .cover-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cover-meta-label {
+            font-size: 11px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+        }
+
+        .cover-meta-val {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* CONTENT ELEMENTS */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 30px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .intro-text {
+            font-size: 14px;
+            line-height: 1.55;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+
+        .intro-highlight {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            border-left: 5px solid var(--red);
+            padding-left: 18px;
+            margin-bottom: 15px;
+            line-height: 1.35;
+            letter-spacing: -0.5px;
+        }
+
+        /* KEY METRICS GRID */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .metric-card {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            border-bottom-color: var(--red);
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            transform: translateY(-2px);
+        }
+
+        .metric-card .num {
+            font-size: 38px;
+            font-weight: 900;
+            color: var(--red);
+            margin-bottom: 4px;
+            letter-spacing: -1px;
+        }
+
+        .metric-card .label {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        /* SERVICES STYLING - EPC Tier-1 Style */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            height: 100%;
+        }
+
+        .service-card {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-top: 5px solid var(--dark-gray);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .service-card.highlight {
+            border-top-color: var(--red);
+            background: #ffffff;
+            box-shadow: 0 8px 25px rgba(191, 32, 38, 0.05);
+        }
+
+        .service-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .service-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .service-desc {
+            font-size: 12.5px;
+            color: #4b5563;
+            line-height: 1.45;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .service-bullets {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .service-bullets li {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--dark);
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .service-bullets li::before {
+            content: "■";
+            color: var(--red);
+            font-size: 9px;
+            position: absolute;
+            left: 0;
+            top: 1px;
+        }
+
+        /* LIST OF ADVANTAGES */
+        .advantages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .advantage-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .advantage-number {
+            background: var(--red);
+            color: white;
+            font-weight: 800;
+            font-size: 14px;
+            width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .advantage-title {
+            font-size: 15.5px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 3px;
+        }
+
+        .advantage-desc {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.4;
+        }
+
+        /* HSEQ & WORKFORCE SLIDE */
+        .badge-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .badge-item {
+            background: #fff8f8;
+            border-left: 5px solid var(--red);
+            padding: 14px 18px;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .badge-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-desc {
+            font-size: 12px;
+            color: #4b5563;
+            line-height: 1.35;
+        }
+
+        /* BIOGRAPHY SLIDE SPECIFICS */
+        .bio-container {
+            display: grid;
+            grid-template-columns: 0.88fr 1.12fr;
+            gap: 25px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .bio-image-area {
+            background: radial-gradient(circle, var(--dark-gray) 0%, var(--dark) 100%);
+            border-radius: 12px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            color: white;
+            border-bottom: 8px solid var(--red);
+            text-align: center;
+        }
+
+        .bio-monogram {
+            font-size: 58px;
+            font-weight: 900;
+            color: var(--red);
+            background: rgba(255, 255, 255, 0.05);
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--red);
+            margin-bottom: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .bio-name {
+            font-size: 22px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 3px;
+            letter-spacing: -0.5px;
+        }
+
+        .bio-role {
+            font-size: 11px;
+            color: var(--red);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 12px;
+        }
+
+        .bio-credentials-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 12px;
+            text-align: left;
+        }
+
+        .bio-credential-item {
+            font-size: 11px;
+            color: #d1d5db;
+            line-height: 1.3;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .bio-credential-item::before {
+            content: "✓";
+            color: var(--red);
+            font-weight: 900;
+        }
+
+        .bio-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .bio-timeline-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .bio-timeline-badge {
+            background: var(--light-gray);
+            color: var(--dark);
+            font-weight: 800;
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            border-left: 3px solid var(--red);
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+
+        .bio-capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        .bio-cap-card {
+            background: var(--light-gray);
+            border-radius: 6px;
+            padding: 10px 12px;
+            border-left: 3px solid var(--red);
+            transition: all 0.3s ease;
+        }
+
+        .bio-cap-card:hover {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .bio-cap-title {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: var(--dark);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .bio-cap-desc {
+            font-size: 10.5px;
+            color: #4b5563;
+            line-height: 1.35;
+        }
+
+        /* CONTACT CARD */
+        .contact-box {
+            background: var(--dark);
+            color: white;
+            border-radius: 8px;
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 8px solid var(--red);
+        }
+
+        .contact-box h3 {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .contact-box h3 span {
+            color: var(--red);
+        }
+
+        .contact-box p {
+            color: #d1d5db;
+            font-size: 13.5px;
+            line-height: 1.45;
+            margin-bottom: 18px;
+        }
+
+        .contact-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14.5px;
+        }
+
+        .contact-icon {
+            font-size: 18px;
+            color: var(--red);
+        }
+
+        .map-card {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 25px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .map-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--dark);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .regions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .region-row {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed var(--border);
+            font-size: 12px;
+        }
+
+        .region-name {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .region-status {
+            color: var(--red);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        /* BUTTON FOR EXPORTING */
+        .print-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(191, 32, 38, 0.4);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .print-btn:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(191, 32, 38, 0.6);
+        }
+
+        /* LANGUAGE TOGGLE SYSTEM */
+        .lang-switch {
+            display: flex;
+            background: #374151;
+            padding: 3px;
+            border-radius: 50px;
+            border: 1px solid #4b5563;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: #d1d5db;
+            border: none;
+            padding: 5px 14px;
+            font-family: var(--font);
+            font-weight: 700;
+            font-size: 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--red);
+            color: white;
+            box-shadow: 0 2px 8px rgba(191, 32, 38, 0.4);
+        }
+
+        /* PRINT CONFIGURATION */
+        @media print {
+            body {
+                background: #ffffff;
+                color: #000000;
+            }
+
+            .presentation-container {
+                padding: 0;
+                gap: 0;
+            }
+
+            .slide {
+                width: 297mm;
+                height: 210mm;
+                border-radius: 0;
+                box-shadow: none;
+                margin: 0;
+                padding: 16mm 20mm;
+                page-break-after: always;
+                break-after: page;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .slide.cover {
+                background: #121214 !important;
+                color: #ffffff !important;
+            }
+
+            .print-btn, .instructions-banner {
+                display: none !important;
+            }
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        .instructions-banner {
+            background: #1e1e24;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            width: calc(100% - 40px);
+            max-width: 297mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13.5px;
+            border-left: 4px solid var(--red);
+            gap: 20px;
+        }
+
+        .instructions-text {
+            flex: 1;
+            min-width: 0;
+            padding-right: 15px;
+        }
+
+        .instructions-text h4 {
+            color: var(--red);
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+
+        .action-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* PREMIUM IMAGE CARD STYLING */
+        .slide-image-card {
+            width: 100%;
+            height: 125px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1.5px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            position: relative;
+            margin-bottom: 2px;
+        }
+        .slide-image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+        .slide-image-card:hover img {
+            transform: scale(1.05);
+        }
+        .slide-image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(18, 18, 20, 0.85));
+            padding: 8px 12px;
+            color: white;
+            font-size: 10.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        
+        <!-- INSTRUCTIONS & LANGUAGE CONTROLS -->
+        <div class="instructions-banner">
+            <div class="instructions-text">
+                <h4 id="banner-title">📄 Apresentação Temática: Trocadores de Calor / Heat Exchangers</h4>
+                <p id="banner-desc">Escolha o idioma abaixo e clique em Exportar. No Chrome, selecione "Salvar como PDF", formato Paisagem e ative "Gráficos de fundo".</p>
+            </div>
+            <div class="action-area">
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="switchLanguage('pt', event)">PT</button>
+                    <button class="lang-btn" onclick="switchLanguage('en', event)">EN</button>
+                </div>
+                <button class="print-btn" onclick="window.print()">
+                    🖨️ <span id="btn-print-text">Salvar PDF</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide cover">
+            <div class="cover-tag" id="slide1-tag">Engenharia Térmica &amp; Projetos EPC</div>
+            <h1 class="cover-title">VERSÁTIL<br><span id="slide1-subtitle-red">GLOBAL SERVICES</span></h1>
+            <p class="cover-subtitle" id="slide1-desc">
+                Fabricação, Manutenção, Recuperação e Revitalização de Trocadores de Calor de alta complexidade.
+            </p>
+            <div class="cover-meta">
+                <div class="cover-meta-item">
+                    <span class="cover-meta-label" id="slide1-meta-label1">Especialidades</span>
+                    <span class="cover-meta-val" id="slide1-meta-val1">Shell &amp; Tube, Air Coolers, Vasos de Pressão e Caldeiraria de Alta Complexidade</span>
+                </div>
+                <div class="cover-meta-item">
+                    <span class="cover-meta-label" id="slide1-meta-label2">Escopo Executivo</span>
+                    <span class="cover-meta-val" id="slide1-meta-val2">Fabricação ASME, Retubagem Onsite/Offshore, Retrofit, Revamp e Inspeção HSEQ</span>
+                </div>
+            </div>
+            
+            <!-- Slide Footer embedded in cover slightly transparent -->
+            <div style="width: 100%; display: flex; justify-content: space-between; font-size: 10px; color: #9ca3af; margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+                <span>Versátil Global Services • Thermal Industrial Solutions</span>
+                <span>Credencial Corporativa • Versão Especialista 2026</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: CORPORATE PROFILE -->
+        <div class="slide" id="slide-2">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide2-title">Perfil Corporativo &amp; Especialidade Térmica</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide2-highlight">
+                            Uma potência em engenharia térmica, fabricação ASME de grande porte e manutenção avançada de trocadores.
+                        </p>
+                        <p class="intro-text" id="slide2-p1">
+                            A Versátil Global Services é pioneira no fornecimento de soluções de engenharia para equipamentos de troca térmica e vasos de pressão. Com pátios fabris modernos e tecnologia de ponta, entregamos fabricação ASME VIII / TEMA, reentubamento emergencial (retubing), usinagem de campo in-situ e gestão integrada de paradas, assegurando máxima eficiência e confiabilidade operacional.
+                        </p>
+                        <p class="intro-text" style="font-weight: 500;" id="slide2-p2">
+                            Com engenharia térmica avançada e forte capacidade de mobilização em campo, somos o parceiro de confiança para as maiores indústrias petroquímicas, refinarias, mineração e geração de energia do mercado global.
+                        </p>
+                    </div>
+                    <div class="right">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="num">24+</div>
+                                <div class="label" id="metric-label1">Anos de Engenharia Térmica</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="num">1060+</div>
+                                <div class="label" id="metric-label2">Equipamentos Atendidos</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="num">24/7</div>
+                                <div class="label" id="metric-label3">Disponibilidade Operacional</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="num">0</div>
+                                <div class="label" id="metric-label4">Segurança Acidente Zero</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Thermal Engineering Group</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 2 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: HEAT EXCHANGER FABRICATION -->
+        <div class="slide" id="slide-3">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide3-title">Fabricação Industrial de Trocadores</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide3-highlight">
+                            Fabricação sob rígidos padrões ASME, TEMA e API para as operações mais exigentes.
+                        </p>
+                        <p class="intro-text" id="slide3-desc">
+                            Projetamos e fabricamos trocadores de calor do tipo casco e tubo (Shell &amp; Tube), resfriadores a ar (Air Coolers), condensadores, evaporadores e feixes tubulares especiais. Nossos processos utilizam ligas metálicas certificadas como aço carbono, aço inox, duplex, super duplex e titânio.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide3-adv1-title">Conformidade ASME &amp; TEMA</h5>
+                                    <p class="advantage-desc" id="slide3-adv1-desc">Cálculo térmico e mecânico detalhado de trocadores de calor. Projetos fabricados estritamente em conformidade com ASME Seção VIII Div. 1 e normas TEMA classes R, C e B.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide3-adv2-title">Soldagem e Metalurgia Homologada</h5>
+                                    <p class="advantage-desc" id="slide3-adv2-desc">Soldagem automatizada de alta espessura e juntas críticas (GTAW, GMAW, FCAW, SAW) qualificadas por procedimentos EPS/RQPS rigorosos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right" style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="slide-image-card">
+                            <img src="Fotos/trocadores_calor.png" alt="Trocador de Calor / Heat Exchanger">
+                            <div class="slide-image-overlay">
+                                <span id="slide3-img-label">Pátio de Caldeiraria de Alta Complexidade</span>
+                                <span>ASME VIII</span>
+                            </div>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide3-badge1-title">ASME VIII / TEMA</div>
+                            <p class="badge-desc" id="slide3-badge1-desc">Dimensionamento estrutural térmico completo, garantindo estabilidade e máximo coeficiente de transferência de calor.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide3-badge2-title">Ligas Especiais</div>
+                            <p class="badge-desc" id="slide3-badge2-desc">Domínio em soldagem e conformação de duplex, super duplex, titânio e ligas ricas em níquel.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide3-badge3-title">Controle Dimensional</div>
+                            <p class="badge-desc" id="slide3-badge3-desc">Inspeção e tolerâncias geométricas micrométricas antes, durante e após o processo de fabricação.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Certified ASME &amp; TEMA Fabrication</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 3 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: MAINTENANCE & REVITALIZATION -->
+        <div class="slide" id="slide-4">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide4-title">Manutenção &amp; Revitalização Avançada</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="services-grid">
+                    
+                    <div class="service-card highlight">
+                        <div>
+                            <div class="service-icon">🔧</div>
+                            <h4 class="service-title" id="slide4-card1-title">Reentubamento &amp; Retubing</h4>
+                            <p class="service-desc" id="slide4-card1-desc">Extração segura de tubos danificados, limpeza dos furos dos espelhos e montagem de novos tubos com expansão controlada por torque eletrônico ou expansão hidráulica de alta precisão.</p>
+                        </div>
+                        <ul class="service-bullets" id="slide4-card1-bullets">
+                            <li>Extração rápida de feixes danificados</li>
+                            <li>Recuperação geométrica de furos de espelhos</li>
+                            <li>Mandrilhamento com controle eletrônico</li>
+                            <li>Retubagens completas em tempo recorde</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div>
+                            <div class="service-icon">⚙️</div>
+                            <h4 class="service-title" id="slide4-card2-title">Retrofit &amp; Revamp Térmico</h4>
+                            <p class="service-desc" id="slide4-card2-desc">Engenharia reversa e otimização geométrica de feixes existentes para aumentar a vida útil e a eficiência energética do equipamento sem alterar a fundação civil.</p>
+                        </div>
+                        <ul class="service-bullets" id="slide4-card2-bullets">
+                            <li>Engenharia reversa de feixes complexos</li>
+                            <li>Upgrade de metalurgia para maior resistência</li>
+                            <li>Aumento da eficiência térmica de processo</li>
+                            <li>Redesenho sob padrões TEMA vigentes</li>
+                        </ul>
+                    </div>
+
+                    <div class="service-card">
+                        <div>
+                            <div class="service-icon">🚨</div>
+                            <h4 class="service-title" id="slide4-card3-title">Atendimento Emergencial 24h</h4>
+                            <p class="service-desc" id="slide4-card3-desc">Mobilização de frentes de trabalho especializadas para intervenções corretivas emergenciais e vazamentos críticos em plantas de processo contínuo.</p>
+                        </div>
+                        <ul class="service-bullets" id="slide4-card3-bullets">
+                            <li>Plantão técnico especializado 24/7</li>
+                            <li>Vedação mecânica e tamponamento seguro</li>
+                            <li>Testes rápidos de estanqueidade em campo</li>
+                            <li>Prontidão logística imediata</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • High-Performance Maintenance Services</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 4 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: IN-SITU MACHINING -->
+        <div class="slide" id="slide-5">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide5-title">Usinagem de Campo In-Situ</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide5-highlight">
+                            Tecnologia portátil de grande porte para recuperação de flanges e sedes de trocadores.
+                        </p>
+                        <p class="intro-text" id="slide5-desc">
+                            Dispomos de equipamentos de usinagem portátil para facear flanges de espelhos e bocais, fresagem de bases de assentamento de trocadores e recuperação de ranhuras RTJ diretamente no site do cliente, eliminando custos e prazos de transporte.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide5-adv1-title">Faceamento de Flanges de Grande Porte</h5>
+                                    <p class="advantage-desc" id="slide5-adv1-desc">Usinagem in-situ de superfícies de vedação de espelhos de trocadores, assegurando planicidade perfeita e rugosidade conforme norma ASME.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide5-adv2-title">Alinhamento e Metrologia a Laser</h5>
+                                    <p class="advantage-desc" id="slide5-adv2-desc">Auditoria tridimensional com Laser Tracker, garantindo precisão geométrica e micro-alinhamento antes e após as operações de usinagem.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right" style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="slide-image-card">
+                            <img src="Fotos/usinagem_campo.png" alt="Usinagem de Campo In-Situ / Field Machining">
+                            <div class="slide-image-overlay">
+                                <span id="slide5-img-label">Usinagem Portátil de Alta Precisão</span>
+                                <span>IN-SITU</span>
+                            </div>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide5-badge1-title">Usinagem de Espelhos</div>
+                            <p class="badge-desc" id="slide5-badge1-desc">Recuperação cirúrgica de superfícies de contato de juntas em cabeçotes e espelhos de trocadores de calor.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide5-badge2-title">Canais RTJ e O-Ring</div>
+                            <p class="badge-desc" id="slide5-badge2-desc">Usinagem de ranhuras de vedação metálica (Ring Joint) com tolerância de milésimos de milímetro.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide5-badge3-title">Pronto Atendimento</div>
+                            <p class="badge-desc" id="slide5-badge3-desc">Equipamentos modulares pneumáticos e hidráulicos prontos para montagem rápida em campo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Precision In-Situ Field Machining</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 5 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: WELDING & QA/QC -->
+        <div class="slide" id="slide-6">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide6-title">Soldagem de Elite &amp; Controle HSEQ</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide6-highlight">
+                            Garantia de estanqueidade absoluta por meio de controle de qualidade rigoroso e ensaios metalúrgicos.
+                        </p>
+                        <p class="intro-text" id="slide6-desc">
+                            Cada etapa de fabricação ou manutenção de trocadores é rigorosamente testada e monitorada. Nossa rastreabilidade digital e processos de ensaios asseguram conformidade total aos padrões ASME VIII Div. 1 e normas de clientes de alta exigência comercial.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide6-adv1-title">Ensaios Não Destrutivos (END)</h5>
+                                    <p class="advantage-desc" id="slide6-adv1-desc">Execução completa de ensaios por Ultrassom (US), Radiografia Industrial (RX), Partículas Magnéticas (PM) e Líquidos Penetrantes (LP) com inspetores certificados ASNT/Qualidade.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide6-adv2-title">Rastreabilidade Metalúrgica Completa</h5>
+                                    <p class="advantage-desc" id="slide6-adv2-desc">Identificação Positiva de Materiais (PMI), mapeamento completo de soldas (weld map), registro de número de corrida dos aços e Dossiês Digitais (Data Books).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge-item" style="background: #fff3f3;">
+                            <div class="badge-title" id="slide6-badge1-title">Estanqueidade Total</div>
+                            <p class="badge-desc" id="slide6-badge1-desc">Teste hidrostático assistido, teste pneumático de casco e teste de estanqueidade na junta tubo-espelho.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide6-badge2-title">Soldadores Qualificados</div>
+                            <p class="badge-desc" id="slide6-badge2-desc">Foco total na precisão metalúrgica de ligas finas e paredes espessas sob procedimentos AWS/ASME Seção IX.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide6-badge3-title">Data Book Completo</div>
+                            <p class="badge-desc" id="slide6-badge3-desc">Entrega imediata de documentação digital auditável de todos os materiais, soldas e ensaios realizados.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Rigorous QA/QC &amp; Full Traceability</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 6 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: TURNAROUNDS -->
+        <div class="slide" id="slide-7">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide7-title">Gestão de Paradas (Turnarounds)</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide7-highlight">
+                            Mobilização em escala e gestão sob caminho crítico para reduzir o downtime industrial.
+                        </p>
+                        <p class="intro-text" id="slide7-desc">
+                            Turnarounds de trocadores de calor exigem velocidade cirúrgica. Desenvolvemos o planejamento de desinterligação, extração de feixes com extratores hidráulicos aéreos (bundle pullers), hidrojateamento de ultra-alta pressão, manutenção, teste e recolocação com controle diário no Primavera P6.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide7-adv1-title">Planejamento Primavera P6</h5>
+                                    <p class="advantage-desc" id="slide7-adv1-desc">Sequenciamento detalhado de cada trocador no caminho crítico da parada geral da refinaria ou petroquímica, otimizando o fluxo de frentes simultâneas.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide7-adv2-title">Extração &amp; Bundle Pulling</h5>
+                                    <p class="advantage-desc" id="slide7-adv2-desc">Uso de frotas de guindastes e extratores hidráulicos suspensos de feixes (bundle pullers) para remoção rápida e segura sem danos ao casco.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide7-badge1-title">Logística Integrada</div>
+                            <p class="badge-desc" id="slide7-badge1-desc">Extração, transporte ao pipe shop móvel de campo, manutenção, hidrojateamento e reinserção sincronizados.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide7-badge2-title">Hidrojateamento UAP</div>
+                            <p class="badge-desc" id="slide7-badge2-desc">Limpeza interna e externa de tubos com hidrojatos automatizados de ultra-alta pressão (até 40.000 PSI) para remoção de incrustações duras.</p>
+                        </div>
+                        <div class="badge-item">
+                            <div class="badge-title" id="slide7-badge3-title">Partida Segura da Planta</div>
+                            <p class="badge-desc" id="slide7-badge3-desc">Comissionamento ágil das linhas e feixes para liberação imediata de operação segura e sem vazamentos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Fast-Track Outage Turnaround Management</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 7 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: EXECUTIVE BOARD -->
+        <div class="slide" id="slide-8">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide8-title">Direção Executiva &amp; Especialista Técnico</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="bio-container">
+                    <div class="bio-image-area">
+                        <div class="bio-monogram">EOS</div>
+                        <h3 class="bio-name" id="slide8-name">Eng. Edson de Oliveira Silva</h3>
+                        <p class="bio-role" id="slide8-role">CEO &amp; Diretor Geral — Heat Exchanger Specialist</p>
+                        
+                        <div class="bio-credentials-list">
+                            <div class="bio-credential-item" id="slide8-cred1">Responsável Técnico</div>
+                            <div class="bio-credential-item" id="slide8-cred2">Engenheiro Mecânico (CREA-SP)</div>
+                            <div class="bio-credential-item" id="slide8-cred3">Engenharia de Segurança do Trabalho</div>
+                            <div class="bio-credential-item" id="slide8-cred4">Inspetor de Equipamentos Qualificado</div>
+                            <div class="bio-credential-item" id="slide8-cred5">Especialista em Vasos de Pressão e Trocadores ASME</div>
+                            <div class="bio-credential-item" id="slide8-cred6">Pós Graduado em Gestão de Projetos PMI-PMBOK</div>
+                            <div class="bio-credential-item" id="slide8-cred7">Pós Graduado em Engenharia de Software</div>
+                        </div>
+                    </div>
+                    <div class="left" style="display: flex; flex-direction: column; justify-content: center; gap: 8px;">
+                        <p class="intro-highlight" id="slide8-highlight" style="font-size: 19px; margin-bottom: 8px;">
+                            Liderança executiva voltada para a engenharia de precisão em equipamentos de troca térmica e caldeiraria de alta complexidade.
+                        </p>
+                        <p class="intro-text" id="slide8-desc" style="font-size: 13px; line-height: 1.45; color: #374151; margin-bottom: 10px;">
+                            Com mais de 23 anos de sólida experiência prática em manutenção de trocadores de calor, projetos térmicos e mandrilhamento de campo, Edson de Oliveira Silva lidera as operações de fabricação e turnarounds complexos. Sua sólida bagagem técnica combina engenharia mecânica especializada em vasos sob pressão com metodologias de gerenciamento PMI. Dirigiu com sucesso grandes campanhas de reentubamento emergencial e montagem industrial em refinarias, petroquímicas e plantas offshore, pautado pelo rigor em HSEQ, Acidente Zero e eficiência de prazos contratuais críticos.
+                        </p>
+                        <div class="bio-capabilities-grid">
+                            <div class="bio-cap-card">
+                                <div class="bio-cap-title" id="slide8-cap1-title">Gestão de Caminho Crítico</div>
+                                <div class="bio-cap-desc" id="slide8-cap1-desc">Planejamento de paradas complexas sob padrões PMI, otimizando caminhos críticos (Primavera P6) para redução do tempo de inatividade.</div>
+                            </div>
+                            <div class="bio-cap-card">
+                                <div class="bio-cap-title" id="slide8-cap2-title">Acidente Zero</div>
+                                <div class="bio-cap-desc" id="slide8-cap2-desc">Foco absoluto em SMS para coordenação de frentes simultâneas com mais de 1.000 colaboradores em alto risco.</div>
+                            </div>
+                            <div class="bio-cap-card">
+                                <div class="bio-cap-title" id="slide8-cap3-title">Qualidade Digital</div>
+                                <div class="bio-cap-desc" id="slide8-cap3-desc">Rastreabilidade metalúrgica de ponta a ponta e Dossiês Digitais estruturados em tempo real, integrando engenharia e TI.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Executive Board &amp; Specialist Direction</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 8 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: HSEQ & SAFETY -->
+        <div class="slide" id="slide-9">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide9-title">Conformidade HSEQ &amp; Normas Globais</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column">
+                    <div class="left">
+                        <p class="intro-highlight" id="slide9-highlight">
+                            Rígida estrutura corporativa operando sob diretrizes ambientais, de saúde e segurança integrada.
+                        </p>
+                        <div class="advantages-list">
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide9-adv1-title">Padrões Internacionais Integrados</h5>
+                                    <p class="advantage-desc" id="slide9-adv1-desc">Sistema de gestão da qualidade e segurança em conformidade às normas ISO 9001, ISO 14001 e ISO 45001 aplicados a fabricações industriais de alta complexidade.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide9-adv2-title">SMS em Operações Onshore &amp; Offshore</h5>
+                                    <p class="advantage-desc" id="slide9-adv2-desc">Procedimentos operacionais de segurança certificados para intervenções a bordo de plataformas de petróleo, navios FPSO e terminais portuários.</p>
+                                </div>
+                            </div>
+                            <div class="advantage-item">
+                                <div class="advantage-number">✓</div>
+                                <div>
+                                    <h5 class="advantage-title" id="slide9-adv3-title">Cultura Acidente Zero</h5>
+                                    <p class="advantage-desc" id="slide9-adv3-desc">Monitoramento ativo, reuniões de segurança diárias (DDS) e programas contínuos de capacitação metalúrgica de soldagem e manuseio de feixes.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="badge-list" style="grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                            <div class="badge-item">
+                                <div class="badge-title" id="slide9-badge1-title">ASME / TEMA</div>
+                                <p class="badge-desc" id="slide9-badge1-desc">Garantia de fabricação e reparo em estrita conformidade técnica aos códigos internacionais ASME VIII Div. 1 e TEMA.</p>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-title" id="slide9-badge2-title">API Standards</div>
+                                <p class="badge-desc" id="slide9-badge2-desc">Conformidade às normas API 660 e API 661 para trocadores de calor refrigerados a ar e casco-tubo na indústria petrolífera.</p>
+                            </div>
+                            <div class="badge-item" style="background: #fff3f3;">
+                                <div class="badge-title" id="slide9-badge3-title">Seguro Geral</div>
+                                <p class="badge-desc" id="slide9-badge3-desc">Apólices robustas de seguro de responsabilidade civil operacional específicas para grandes obras de paradas gerais de manutenção.</p>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-title" id="slide9-badge4-title">Prontidão Certificada</div>
+                                <p class="badge-desc" id="slide9-badge4-desc">Inspeção NR-13 de caldeiras, vasos de pressão e trocadores de calor com emissão imediata de relatórios por Engenheiro Qualificado.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Safety, Quality &amp; International Compliance</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 9 of 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: GLOBAL REACH & PARTNERSHIPS -->
+        <div class="slide" id="slide-10">
+            <div class="slide-header">
+                <div class="logo-area">
+                    <div class="logo-text">VERSATIL <span>SERVICES</span></div>
+                </div>
+                <div class="slide-title" id="slide10-title">Mobilização &amp; Parcerias Globais</div>
+            </div>
+
+            <div class="slide-content">
+                <div class="two-column" style="grid-template-columns: 0.95fr 1.05fr; gap: 25px;">
+                    <div class="left">
+                        <div class="contact-box">
+                            <div>
+                                <h3 id="slide10-contact-title">Parcerias de <span>Alta Engenharia</span></h3>
+                                <p id="slide10-contact-desc">
+                                    Entre em contato direto com a nossa diretoria executiva para prospecção de projetos térmicos EPC, acordos comerciais integrados de manutenção e bids internacionais de trocadores de calor.
+                                </p>
+                            </div>
+                            <div class="contact-row">
+                                <div class="contact-item">
+                                    <span class="contact-icon">📧</span>
+                                    <span>dp.tecnico@versatilservices.com.br</span>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-icon">📱</span>
+                                    <span>+55 13 99711-2002</span>
+                                </div>
+                                <div class="contact-item">
+                                    <span class="contact-icon">🌐</span>
+                                    <span>www.versatilservices.com.br</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="map-card">
+                            <h4 class="map-title" id="slide10-map-title">🌍 Hubs Industriais &amp; Pátios de Fabricação</h4>
+                            <div class="regions-list">
+                                <div class="region-row">
+                                    <span class="region-name" id="hub1-name">Pátio de Fabricação Central (Matriz)</span>
+                                    <span class="region-status" id="hub1-status">Fabricação e Engenharia Térmica ASME</span>
+                                </div>
+                                <div class="region-row">
+                                    <span class="region-name" id="hub2-name">Hub de Serviços Offshore</span>
+                                    <span class="region-status" id="hub2-status">Retubagem e Manutenção Onsite FPSO</span>
+                                </div>
+                                <div class="region-row">
+                                    <span class="region-name" id="hub3-name">Base Estratégica Oriente Médio</span>
+                                    <span class="region-status" id="hub3-status">Parcerias Internacionais &amp; EPC</span>
+                                </div>
+                                <div class="region-row" style="border-bottom: none;">
+                                    <span class="region-name" id="hub4-name">Hub Estratégico Internacional</span>
+                                    <span class="region-status" id="hub4-status">Suprimentos de Ligas Especiais e Tubos</span>
+                                </div>
+                            </div>
+                            <p style="font-size: 11.5px; color: #4b5563; line-height: 1.45; margin-top: 15px; font-style: italic;" id="slide10-tagline">
+                                "Nossa visão é consolidar a liderança internacional na recuperação e fabricação de trocadores de calor, aliando engenharia de processo térmico ao rigor cirúrgico das nossas especialidades de campo."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-footer">
+                <span>Versátil Global Services • Global Mobilization Networks</span>
+                <div class="contact-info">
+                    <span>www.versatilservices.com.br</span>
+                    <span>Page 10 of 10</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TRANSLATIONS SYSTEM & SWITCHER -->
+    <script>
+        const translations = {
+            pt: {
+                bannerTitle: "📄 Apresentação Temática: Trocadores de Calor / Heat Exchangers",
+                bannerDesc: "Escolha o idioma abaixo e clique em Exportar. No Chrome, selecione \"Salvar como PDF\", formato Paisagem e ative \"Gráficos de fundo\".",
+                btnPrintText: "Salvar PDF",
+
+                // SLIDE 1
+                slide1Tag: "Engenharia Térmica &amp; Projetos EPC",
+                slide1Desc: "Fabricação, Manutenção, Recuperação e Revitalização de Trocadores de Calor de alta complexidade.",
+                slide1MetaLabel1: "Especialidades",
+                slide1MetaVal1: "Shell &amp; Tube, Air Coolers, Vasos de Pressão e Caldeiraria de Alta Complexidade",
+                slide1MetaLabel2: "Escopo Executivo",
+                slide1MetaVal2: "Fabricação ASME, Retubagem Onsite/Offshore, Retrofit, Revamp e Inspeção HSEQ",
+
+                // SLIDE 2
+                slide2Title: "Perfil Corporativo &amp; Especialidade Térmica",
+                slide2Highlight: "Uma potência em engenharia térmica, fabricação ASME de grande porte e manutenção avançada de trocadores.",
+                slide2P1: "A Versátil Global Services é pioneira no fornecimento de soluções de engenharia para equipamentos de troca térmica e vasos de pressão. Com pátios fabris modernos e tecnologia de ponta, entregamos fabricação ASME VIII / TEMA, reentubamento emergencial (retubing), usinagem de campo in-situ e gestão integrada de paradas, assegurando máxima eficiência e confiabilidade operacional.",
+                slide2P2: "Com engenharia térmica avançada e forte capacidade de mobilização em campo, somos o parceiro de confiança para as maiores indústrias petroquímicas, refinarias, mineração e geração de energia do mercado global.",
+                metricLabel1: "Anos de Engenharia Térmica",
+                metricLabel2: "Equipamentos Atendidos",
+                metricLabel3: "Disponibilidade 24/7",
+                metricLabel4: "Segurança Acidente Zero",
+
+                // SLIDE 3
+                slide3Title: "Fabricação Industrial de Trocadores",
+                slide3ImgLabel: "Pátio de Caldeiraria de Alta Complexidade",
+                slide3Highlight: "Fabricação sob rígidos padrões ASME, TEMA e API para as operações mais exigentes.",
+                slide3Desc: "Projetamos e fabricamos trocadores de calor do tipo casco e tubo (Shell &amp; Tube), resfriadores a ar (Air Coolers), condensadores, evaporadores e feixes tubulares especiais. Nossos processos utilizam ligas metálicas certificadas como aço carbono, aço inox, duplex, super duplex e titânio.",
+                slide3Adv1Title: "Conformidade ASME &amp; TEMA",
+                slide3Adv1Desc: "Cálculo térmico e mecânico detalhado de trocadores de calor. Projetos fabricados estritamente em conformidade com ASME Seção VIII Div. 1 e normas TEMA classes R, C e B.",
+                slide3Adv2Title: "Soldagem e Metalurgia Homologada",
+                slide3Adv2Desc: "Soldagem automatizada de alta espessura e juntas críticas (GTAW, GMAW, FCAW, SAW) qualificadas por procedimentos EPS/RQPS rigorosos.",
+                slide3Badge1Title: "ASME VIII / TEMA",
+                slide3Badge1Desc: "Dimensionamento estrutural térmico completo, garantindo estabilidade e máximo coeficiente de transferência de calor.",
+                slide3Badge2Title: "Ligas Especiais",
+                slide3Badge2Desc: "Domínio em soldagem e conformação de duplex, super duplex, titânio e ligas ricas em níquel.",
+                slide3Badge3Title: "Controle Dimensional",
+                slide3Badge3Desc: "Inspeção e tolerâncias geométricas micrométricas antes, durante e após o processo de fabricação.",
+
+                // SLIDE 4
+                slide4Title: "Manutenção &amp; Revitalização Avançada",
+                slide4Card1Title: "Reentubamento &amp; Retubing",
+                slide4Card1Desc: "Extração segura de tubos danificados, limpeza dos furos dos espelhos e montagem de novos tubos com expansão controlada por torque eletrônico ou expansão hidráulica de alta precisão.",
+                slide4Card1Bullets: `<li>Extração rápida de feixes danificados</li>
+                                     <li>Recuperação geométrica de furos de espelhos</li>
+                                     <li>Mandrilhamento com controle eletrônico</li>
+                                     <li>Retubagens completas em tempo recorde</li>`,
+                slide4Card2Title: "Retrofit &amp; Revamp Térmico",
+                slide4Card2Desc: "Engenharia reversa e otimização geométrica de feixes existentes para aumentar a vida útil e a eficiência energética do equipamento sem alterar a fundação civil.",
+                slide4Card2Bullets: `<li>Engenharia reversa de feixes complexos</li>
+                                     <li>Upgrade de metalurgia para maior resistência</li>
+                                     <li>Aumento da eficiência térmica de processo</li>
+                                     <li>Redesenho sob padrões TEMA vigentes</li>`,
+                slide4Card3Title: "Atendimento Emergencial 24h",
+                slide4Card3Desc: "Mobilização de frentes de trabalho especializadas para intervenções corretivas emergenciais e vazamentos críticos em plantas de processo contínuo.",
+                slide4Card3Bullets: `<li>Plantão técnico especializado 24/7</li>
+                                     <li>Vedação mecânica e tamponamento seguro</li>
+                                     <li>Testes rápidos de estanqueidade em campo</li>
+                                     <li>Prontidão logística imediata</li>`,
+
+                // SLIDE 5
+                slide5Title: "Usinagem de Campo In-Situ",
+                slide5ImgLabel: "Usinagem Portátil de Alta Precisão",
+                slide5Highlight: "Tecnologia portátil de grande porte para recuperação de flanges e sedes de trocadores.",
+                slide5Desc: "Dispomos de equipamentos de usinagem portátil para facear flanges de espelhos e bocais, fresagem de bases de assentamento de trocadores e recuperação de ranhuras RTJ diretamente no site do cliente, eliminando custos e prazos de transporte.",
+                slide5Adv1Title: "Faceamento de Flanges de Grande Porte",
+                slide5Adv1Desc: "Usinagem in-situ de superfícies de vedação de espelhos de trocadores, assegurando planicidade perfeita e rugosidade conforme norma ASME.",
+                slide5Adv2Title: "Alinhamento e Metrologia a Laser",
+                slide5Adv2Desc: "Auditoria tridimensional com Laser Tracker, garantindo precisão geométrica e micro-alinhamento antes e após as operações de usinagem.",
+                slide5Badge1Title: "Usinagem de Espelhos",
+                slide5Badge1Desc: "Recuperação cirúrgica de superfícies de contato de juntas em cabeçotes e espelhos de trocadores de calor.",
+                slide5Badge2Title: "Canais RTJ e O-Ring",
+                slide5Badge2Desc: "Usinagem de ranhuras de vedação metálica (Ring Joint) com tolerância de milésimos de milímetro.",
+                slide5Badge3Title: "Pronto Atendimento",
+                slide5Badge3Desc: "Equipamentos modulares pneumáticos e hidráulicos prontos para montagem rápida em campo.",
+
+                // SLIDE 6
+                slide6Title: "Soldagem de Elite &amp; Controle HSEQ",
+                slide6Highlight: "Garantia de estanqueidade absoluta por meio de controle de qualidade rigoroso e ensaios metalúrgicos.",
+                slide6Desc: "Cada etapa de fabricação ou manutenção de trocadores é rigorosamente testada e monitorada. Nossa rastreabilidade digital e processos de ensaios asseguram conformidade total aos padrões ASME VIII Div. 1 e normas de clientes de alta exigência comercial.",
+                slide6Adv1Title: "Ensaios Não Destrutivos (END)",
+                slide6Adv1Desc: "Execução completa de ensaios por Ultrassom (US), Radiografia Industrial (RX), Partículas Magnéticas (PM) e Líquidos Penetrantes (LP) com inspetores certificados ASNT/Qualidade.",
+                slide6Adv2Title: "Rastreabilidade Metalúrgica Completa",
+                slide6Adv2Desc: "Identificação Positiva de Materiais (PMI), mapeamento completo de soldas (weld map), registro de número de corrida dos aços e Dossiês Digitais (Data Books).",
+                slide6Badge1Title: "Estanqueidade Total",
+                slide6Badge1Desc: "Teste hidrostático assistido, teste pneumático de casco e teste de estanqueidade na junta tubo-espelho.",
+                slide6Badge2Title: "Soldadores Qualificados",
+                slide6Badge2Desc: "Foco total na precisão metalúrgica de ligas finas e paredes espessas sob procedimentos AWS/ASME Seção IX.",
+                slide6Badge3Title: "Data Book Completo",
+                slide6Badge3Desc: "Entrega imediata de documentação digital auditável de todos os materiais, soldas e ensaios realizados.",
+
+                // SLIDE 7
+                slide7Title: "Gestão de Paradas (Turnarounds)",
+                slide7Highlight: "Mobilização em escala e gestão sob caminho crítico para reduzir o downtime industrial.",
+                slide7Desc: "Turnarounds de trocadores de calor exigem velocidade cirúrgica. Desenvolvemos o planejamento de desinterligação, extração de feixes com extratores hidráulicos aéreos (bundle pullers), hidrojateamento de ultra-alta pressão, manutenção, teste e recolocação com controle diário no Primavera P6.",
+                slide7Adv1Title: "Planejamento Primavera P6",
+                slide7Adv1Desc: "Sequenciamento detalhado de cada trocador no caminho crítico da parada geral da refinaria ou petroquímica, otimizando o fluxo de frentes simultâneas.",
+                slide7Adv2Title: "Extração &amp; Bundle Pulling",
+                slide7Adv2Desc: "Uso de frotas de guindastes e extratores hidráulicos suspensos de feixes (bundle pullers) para remoção rápida e segura sem danos ao casco.",
+                slide7Badge1Title: "Logística Integrada",
+                slide7Badge1Desc: "Extração, transporte ao pipe shop móvel de campo, manutenção, hidrojateamento e reinserção sincronizados.",
+                slide7Badge2Title: "Hidrojateamento UAP",
+                slide7Badge2Desc: "Limpeza interna e externa de tubos com hidrojatos automatizados de ultra-alta pressão (até 40.000 PSI) para remoção de incrustações duras.",
+                slide7Badge3Title: "Partida Segura da Planta",
+                slide7Badge3Desc: "Comissionamento ágil das linhas e feixes para liberação imediata de operação segura e sem vazamentos.",
+
+                // SLIDE 8
+                slide8Title: "Direção Executiva &amp; Especialista Técnico",
+                slide8Name: "Eng. Edson de Oliveira Silva",
+                slide8Role: "CEO &amp; Diretor Geral — Heat Exchanger Specialist",
+                slide8Cred1: "Responsável Técnico",
+                slide8Cred2: "Engenheiro Mecânico (CREA-SP)",
+                slide8Cred3: "Engenharia de Segurança do Trabalho",
+                slide8Cred4: "Inspetor de Equipamentos Qualificado",
+                slide8Cred5: "Especialista em Vasos de Pressão e Trocadores ASME",
+                slide8Cred6: "Pós Graduado em Gestão de Projetos PMI-PMBOK",
+                slide8Cred7: "Pós Graduado em Engenharia de Software",
+                slide8Highlight: "Liderança executiva voltada para a engenharia de precisão em equipamentos de troca térmica e caldeiraria de alta complexidade.",
+                slide8Desc: "Com mais de 23 anos de sólida experiência prática em manutenção de trocadores de calor, projetos térmicos e mandrilhamento de campo, Edson de Oliveira Silva lidera as operações de fabricação e turnarounds complexos. Sua sólida bagagem técnica combina engenharia mecânica especializada em vasos sob pressão com metodologias de gerenciamento PMI. Dirigiu com sucesso grandes campanhas de reentubamento emergencial e montagem industrial em refinarias, petroquímicas e plantas offshore, pautado pelo rigor em HSEQ, Acidente Zero e eficiência de prazos contratuais críticos.",
+                slide8Cap1Title: "Gestão de Caminho Crítico",
+                slide8Cap1Desc: "Planejamento de paradas complexas sob padrões PMI, otimizando caminhos críticos (Primavera P6) para redução do tempo de inatividade.",
+                slide8Cap2Title: "Acidente Zero",
+                slide8Cap2Desc: "Foco absoluto em SMS para coordenação de frentes simultâneas com mais de 1.000 colaboradores em alto risco.",
+                slide8Cap3Title: "Qualidade Digital",
+                slide8Cap3Desc: "Rastreabilidade metalúrgica de ponta a ponta e Dossiês Digitais estruturados em tempo real, integrando engenharia e TI.",
+
+                // SLIDE 9
+                slide9Title: "Conformidade HSEQ &amp; Normas Globais",
+                slide9Highlight: "Rígida estrutura corporativa operando sob diretrizes ambientais, de saúde e segurança integrada.",
+                slide9Adv1Title: "Padrões Internacionais Integrados",
+                slide9Adv1Desc: "Sistema de gestão da qualidade e segurança em conformidade às normas ISO 9001, ISO 14001 e ISO 45001 aplicados a fabricações industriais de alta complexidade.",
+                slide9Adv2Title: "SMS em Operações Onshore &amp; Offshore",
+                slide9Adv2Desc: "Procedimentos operacionais de segurança certificados para intervenções a bordo de plataformas de petróleo, navios FPSO e terminais portuários.",
+                slide9Adv3Title: "Cultura Acidente Zero",
+                slide9Adv3Desc: "Monitoramento ativo, reuniões de segurança diárias (DDS) e programas contínuos de capacitação metalúrgica de soldagem e manuseio de feixes.",
+                slide9Badge1Title: "ASME / TEMA",
+                slide9Badge1Desc: "Garantia de fabricação e reparo em estrita conformidade técnica aos códigos internacionais ASME VIII Div. 1 e TEMA.",
+                slide9Badge2Title: "API Standards",
+                slide9Badge2Desc: "Conformidade às normas API 660 e API 661 para trocadores de calor refrigerados a ar e casco-tubo na indústria petrolífera.",
+                slide9Badge3Title: "Seguro Geral",
+                slide9Badge3Desc: "Apólices robustas de seguro de responsabilidade civil operacional específicas para grandes obras de paradas gerais de manutenção.",
+                slide9Badge4Title: "Prontidão Certificada",
+                slide9Badge4Desc: "Inspeção NR-13 de caldeiras, vasos de pressão e trocadores de calor com emissão imediata de relatórios por Engenheiro Qualificado.",
+
+                // SLIDE 10
+                slide10Title: "Mobilização &amp; Parcerias Globais",
+                slide10ContactTitle: "Parcerias de <span>Alta Engenharia</span>",
+                slide10ContactDesc: "Entre em contato direto com a nossa diretoria executiva para prospecção de projetos térmicos EPC, acordos comerciais integrados de manutenção e bids internacionais de trocadores de calor.",
+                slide10MapTitle: "🌍 Hubs Industriais &amp; Pátios de Fabricação",
+                hub1Name: "Pátio de Fabricação Central (Matriz)",
+                hub1Status: "Fabricação e Engenharia Térmica ASME",
+                hub2Name: "Hub de Serviços Offshore",
+                hub2Status: "Retubagem e Manutenção Onsite FPSO",
+                hub3Name: "Base Estratégica Oriente Médio",
+                hub3Status: "Parcerias Internacionais &amp; EPC",
+                hub4Name: "Hub Estratégico Internacional",
+                hub4Status: "Suprimentos de Ligas Especiais e Tubos",
+                slide10Tagline: `"Nossa visão é consolidar a liderança internacional na recuperação e fabricação de trocadores de calor, aliando engenharia de processo térmico ao rigor cirúrgico das nossas especialidades de campo."`
+            },
+            en: {
+                bannerTitle: "📄 Tematic Presentation: Heat Exchangers",
+                bannerDesc: "Choose the language below and click Export. In Chrome, select \"Save as PDF\", Landscape format and enable \"Background graphics\".",
+                btnPrintText: "Save PDF",
+
+                // SLIDE 1
+                slide1Tag: "Thermal Engineering &amp; EPC Projects",
+                slide1Desc: "High-complexity Fabrication, Maintenance, Recovery, and Revamp of industrial Heat Exchangers.",
+                slide1MetaLabel1: "Specialties",
+                slide1MetaVal1: "Shell &amp; Tube, Air Coolers, Pressure Vessels, and High-Performance Fabrication",
+                slide1MetaLabel2: "Executive Scope",
+                slide1MetaVal2: "ASME Fabrication, Onsite/Offshore Retubing, Retrofit, Revamp, and HSEQ Audits",
+
+                // SLIDE 2
+                slide2Title: "Corporate Profile &amp; Thermal Specialty",
+                slide2Highlight: "A powerhouse in thermal engineering, large-scale ASME fabrication, and advanced heat exchanger maintenance.",
+                slide2P1: "Versátil Global Services is a pioneer in delivering engineered solutions for heat transfer equipment and pressure vessels. With modern manufacturing yards and state-of-the-art technology, we deliver ASME VIII / TEMA fabrication, emergency retubing, in-situ field machining, and integrated shutdown management, securing maximum plant uptime and operational reliability.",
+                slide2P2: "Combining advanced thermal engineering with high-capacity field mobilization crews, we serve as the trusted partner for major petro-chemical complexes, oil refineries, mining facilities, and power utilities globally.",
+                metricLabel1: "Years in Thermal Engineering",
+                metricLabel2: "Equipments Serviced",
+                metricLabel3: "24/7 Operations Readiness",
+                metricLabel4: "LTI Safety Record",
+
+                // SLIDE 3
+                slide3Title: "Industrial Fabrication of Heat Exchangers",
+                slide3ImgLabel: "High-Complexity Boilermaking Yard",
+                slide3Highlight: "Fabrication engineered under rigorous ASME, TEMA, and API standards for demanding duties.",
+                slide3Desc: "We design and manufacture Shell &amp; Tube heat exchangers, Air Coolers, condensers, evaporators, industrial coolers, and high-spec custom tube bundles. Our fabrications master high-alloy metallurgies including Carbon Steel, Stainless Steel, Duplex, Super Duplex, and Titanium.",
+                slide3Adv1Title: "ASME &amp; TEMA Compliance",
+                slide3Adv1Desc: "Detailed mechanical and thermal sizing of heat exchangers. Projects fully executed under strict ASME Section VIII Div. 1 standards and TEMA Class R, C, and B specifications.",
+                slide3Adv2Title: "Qualified Metallurgy &amp; Welding",
+                slide3Adv2Desc: "Automated heavy-wall and critical-joint welding processes (GTAW, GMAW, FCAW, SAW) backed by structured WPS and PQR qualifications.",
+                slide3Badge1Title: "ASME VIII / TEMA",
+                slide3Badge1Desc: "Full mechanical-thermal sizing, ensuring structural stability and optimized heat transfer coefficients.",
+                slide3Badge2Title: "Special Alloys",
+                slide3Badge2Desc: "Full mastery in welding and forming of Duplex, Super Duplex, Titanium, and Nickel-rich alloys.",
+                slide3Badge3Title: "Dimensional Control",
+                slide3Badge3Desc: "Micrometric dimensional auditing and geometric tolerance checks before, during, and after fabrication.",
+
+                // SLIDE 4
+                slide4Title: "Advanced Maintenance &amp; Revitalizations",
+                slide4Card1Title: "Retubing &amp; Refurbishment",
+                slide4Card1Desc: "Safe extraction of damaged tubes, tubesheet hole geometry restoration, and installation of new tubes under electronic torque-controlled rolling or high-spec hydraulic expansion.",
+                slide4Card1Bullets: `<li>Fast extraction of damaged tube bundles</li>
+                                     <li>Precision tubesheet hole dressing</li>
+                                     <li>Torque-controlled electronic rolling</li>
+                                     <li>Complete fast-track turnaround retubings</li>`,
+                slide4Card2Title: "Thermal Retrofit &amp; Revamping",
+                slide4Card2Desc: "Reverse engineering and geometric optimization of existing tube bundles to extend asset life and increase energy efficiency without modifying civil foundations.",
+                slide4Card2Bullets: `<li>Reverse engineering of complex bundles</li>
+                                     <li>Metallurgical upgrades for corrosion resistance</li>
+                                     <li>Process thermal efficiency optimization</li>
+                                     <li>Redesign under latest TEMA standards</li>`,
+                slide4Card3Title: "24/7 Emergency Repairs",
+                slide4Card3Desc: "Rapid mobilization of specialized hot-work and field crews for immediate corrective interventions and critical leak sealing in continuous process plants.",
+                slide4Card3Bullets: `<li>24/7 technical emergency standby</li>
+                                     <li>Mechanical sealing and safe tube plugging</li>
+                                     <li>Fast on-site bundle hydrostatic testing</li>
+                                     <li>Immediate logistical dispatch readiness</li>`,
+
+                // SLIDE 5
+                slide5Title: "Precision In-Situ Field Machining",
+                slide5ImgLabel: "High-Precision Portable Machining",
+                slide5Highlight: "Large-scale portable machining technologies for tubesheet flange and seat restorations.",
+                slide5Desc: "We deploy advanced portable machine tools to face tubesheet gaskets, machine shell cover flanges, mill heat exchanger seating bases, and re-cut RTJ grooves directly on-site, eliminating logistical delays and shipping costs.",
+                slide5Adv1Title: "Large Flange Facing",
+                slide5Adv1Desc: "In-situ machining of tubesheet and channel sealing surfaces, ensuring perfect flatness and roughness under ASME gasket specifications.",
+                slide5Adv2Title: "Laser Metrology &amp; Alignment",
+                slide5Adv2Desc: "3D dimensional auditing using ultra-precise Laser Tracker devices, ensuring micro-level geometric alignments before and after machining.",
+                slide5Badge1Title: "Tubesheet Refacing",
+                slide5Badge1Desc: "Surgical restoration of sealing contact profiles on exchanger tubesheets, channels, and headers.",
+                slide5Badge2Title: "RTJ &amp; O-Ring Grooves",
+                slide5Badge2Desc: "Micrometric in-situ milling of metallic ring joint grooves under strict dimensional tolerances.",
+                slide5Badge3Title: "Hydraulic &amp; Pneumatic",
+                slide5Badge3Desc: "Modular high-rigidity field machines designed for fast on-site erection and minimal footprint.",
+
+                // SLIDE 6
+                slide6Title: "Elite Welding &amp; HSEQ QA/QC",
+                slide6Highlight: "Absolute joint leak tightness secured by rigorous quality controls and metallurgical NDT testing.",
+                slide6Desc: "Every stage of heat exchanger fabrication or maintenance is monitored under tight QA/QC guidelines. Digital material traceability and non-destructive examinations guarantee full compliance with ASME and high-tier international refinery specifications.",
+                slide6Adv1Title: "Non-Destructive Testing (NDT)",
+                slide6Adv1Desc: "In-house execution of Ultrasonic (UT), Radiography (RT), Magnetic Particle (MT), and Liquid Penetrant (PT) examinations by certified inspectors.",
+                slide6Adv2Title: "Full Metallurgical Traceability",
+                slide6Adv2Desc: "Positive Material Identification (PMI), complete weld mapping, raw material heat numbers registry, and comprehensive digital Databooks.",
+                slide6Badge1Title: "Total Leak-Tightness",
+                slide6Badge1Desc: "Hydrostatic shell tests, tube-side pressure tests, and bubble leak tests on tube-to-tubesheet joint welds.",
+                slide6Badge2Title: "Qualified Welders",
+                slide6Badge2Desc: "Expert welders qualified in GTAW, GMAW, FCAW, and SAW processes under ASME Section IX.",
+                slide6Badge3Title: "Digital Databook",
+                slide6Badge3Desc: "Immediate delivery of fully digitized and indexed quality dossiers covering all materials, welds, and NDT reports.",
+
+                // SLIDE 7
+                slide7Title: "Outage Turnaround Management",
+                slide7Highlight: "Scale workforce mobilization and critical path tracking to minimize plant downtime.",
+                slide7Desc: "Heat exchanger turnarounds require surgical speed. We coordinate the entire flow: blind-to-blind isolation, bundle extraction using heavy aerial hydraulic pullers, ultra-high pressure hydroblasting, repairs, testing, and reinstallation under daily Primavera P6 controls.",
+                slide7Adv1Title: "Primavera P6 Outage Controls",
+                slide7Adv1Desc: "Detailed scheduling and monitoring of each exchanger on the turnaround's critical path, maximizing simultaneous crew efficiency.",
+                slide7Adv2Title: "Bundle Extraction &amp; Pulling",
+                slide7Adv2Desc: "Utilization of heavy-duty crane fleets and specialized suspended hydraulic bundle pullers for rapid extraction without shell damage.",
+                slide7Badge1Title: "Integrated Logistics",
+                slide7Badge1Desc: "Synchronized pull-out, on-site pipe shop transfer, hydroblasting, repairs, and bundle re-insertion.",
+                slide7Badge2Title: "UHP Hydroblasting",
+                slide7Badge2Desc: "Internal and external tube cleaning with automated ultra-high pressure water jet systems (up to 40,000 PSI) for tough scale removal.",
+                slide7Badge3Title: "Safe Plant Start-up",
+                slide7Badge3Desc: "Fast-track line commissioning and pressure tests to deliver safe, leak-free operational start-up.",
+
+                // SLIDE 8
+                slide8Title: "Executive Board &amp; Specialist Direction",
+                slide8Name: "Eng. Edson de Oliveira Silva",
+                slide8Role: "CEO &amp; Managing Director — Heat Exchanger Specialist",
+                slide8Cred1: "Technical Director",
+                slide8Cred2: "Mechanical Engineer (CREA-SP)",
+                slide8Cred3: "Work Safety Engineering",
+                slide8Cred4: "Qualified Equipment Inspector",
+                slide8Cred5: "ASME Pressure Vessels &amp; Exchangers Specialist",
+                slide8Cred6: "Post-Graduate in PMI-PMBOK Project Management",
+                slide8Cred7: "Post-Graduate in Software Engineering",
+                slide8Highlight: "Executive leadership dedicated to precision engineering in thermal equipment and complex boilermaking.",
+                slide8Desc: "With over 23 years of solid hands-on experience in heat exchanger maintenance, thermal sizing, and portable field machining, Edson de Oliveira Silva directs high-complexity fabrication and outage turnarounds. His strong technical background blends mechanical engineering specializing in pressure vessels with PMBOK-structured management. He has successfully directed major fast-track retubing campaigns and industrial erections in refineries, petrochemical complexes, and offshore operations, driven by a zero-accident HSEQ commitment and critical timeline performance.",
+                slide8Cap1Title: "Critical Path Management",
+                slide8Cap1Desc: "Complex outage planning under PMI standards, optimizing critical paths (Primavera P6) to reduce plant downtime.",
+                slide8Cap2Title: "Zero Accident Culture",
+                slide8Cap2Desc: "Absolute HSE focus coordinating simultaneous work fronts with over 1,000 workers in high-risk zones.",
+                slide8Cap3Title: "Digital Quality Assurance",
+                slide8Cap3Desc: "End-to-end metallurgical traceability and real-time structured Digital Data Books, merging engineering & IT.",
+
+                // SLIDE 9
+                slide9Title: "HSEQ Compliance &amp; Global Codes",
+                slide9Highlight: "A robust corporate structure operating under integrated health, safety, and environmental guidelines.",
+                slide9Adv1Title: "Integrated Global Standards",
+                slide9Adv1Desc: "Quality and safety management fully aligned and certified under ISO 9001, ISO 14001, and ISO 45001 international standards for high-performance fabrication.",
+                slide9Adv2Title: "Onshore &amp; Offshore HSEQ",
+                slide9Adv2Desc: "Certified safety procedures fully prepared for interventions aboard oil platforms, FPSOs, offshore yards, and marine terminals.",
+                slide9Adv3Title: "Zero-Harm Culture",
+                slide9Adv3Desc: "Active safety controls, daily Tool Box Talks (DDS), and continuous metallurgical training for high-pressure welding and bundle pulling.",
+                slide9Badge1Title: "ASME / TEMA",
+                slide9Badge1Desc: "Fabrication and repairs executed in strict technical compliance with ASME VIII Div. 1 codes and TEMA classifications.",
+                slide9Badge2Title: "API Standards",
+                slide9Badge2Desc: "Compliance with API 660 and API 661 standards for shell-and-tube and air-cooled heat exchangers in refinery services.",
+                slide9Badge3Title: "General Insurance",
+                slide9Badge3Desc: "Robust third-party liability insurance policies tailored to cover major industrial turnarounds and mega erection outages.",
+                slide9Badge4Title: "Certified Outage Ready",
+                slide9Badge4Desc: "Official NR-13 pressure vessel and exchanger inspections with immediate technical report issuance by a Qualified Engineer.",
+
+                // SLIDE 10
+                slide10Title: "Mobilization &amp; Global Partnerships",
+                slide10ContactTitle: "High Engineering <span>Partnerships</span>",
+                slide10ContactDesc: "Reach out directly to our executive board to discuss thermal EPC projects, integrated maintenance agreements, or international heat exchanger bidding.",
+                slide10MapTitle: "🌍 Industrial Hubs &amp; Fabrication Yards",
+                hub1Name: "Central Fabrication Yard (HQ)",
+                hub1Status: "ASME Thermal Fabrication &amp; Engineering",
+                hub2Name: "Offshore Services Hub",
+                hub2Status: "FPSO Onsite Retubing &amp; Maintenance",
+                hub3Name: "Strategic Middle East Base",
+                hub3Status: "International Partnerships &amp; EPC Bids",
+                hub4Name: "International Supply Hub",
+                hub4Status: "Special Alloys &amp; Tubing Procurement",
+                slide10Tagline: `"Our vision is to consolidate international leadership in the fabrication and recovery of heat exchangers, blending thermal process engineering with the surgical precision of our field specialties."`
+            }
+        };
+
+        function switchLanguage(lang, event) {
+            // Update buttons state
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) {
+                event.target.classList.add('active');
+            } else {
+                const targetBtn = Array.from(document.querySelectorAll('.lang-btn')).find(btn => btn.textContent.toLowerCase() === lang);
+                if (targetBtn) targetBtn.classList.add('active');
+            }
+
+            // Apply translations
+            const dict = translations[lang];
+
+            // Banner & general
+            document.getElementById('banner-title').innerText = dict.bannerTitle;
+            document.getElementById('banner-desc').innerText = dict.bannerDesc;
+            document.getElementById('btn-print-text').innerText = dict.btnPrintText;
+
+            // Slide 1
+            document.getElementById('slide1-tag').innerHTML = dict.slide1Tag;
+            document.getElementById('slide1-desc').innerHTML = dict.slide1Desc;
+            document.getElementById('slide1-meta-label1').innerText = dict.slide1MetaLabel1;
+            document.getElementById('slide1-meta-val1').innerText = dict.slide1MetaVal1;
+            document.getElementById('slide1-meta-label2').innerText = dict.slide1MetaLabel2;
+            document.getElementById('slide1-meta-val2').innerText = dict.slide1MetaVal2;
+
+            // Slide 2
+            document.getElementById('slide2-title').innerText = dict.slide2Title;
+            document.getElementById('slide2-highlight').innerText = dict.slide2Highlight;
+            document.getElementById('slide2-p1').innerText = dict.slide2P1;
+            document.getElementById('slide2-p2').innerText = dict.slide2P2;
+            document.getElementById('metric-label1').innerText = dict.metricLabel1;
+            document.getElementById('metric-label2').innerText = dict.metricLabel2;
+            document.getElementById('metric-label3').innerText = dict.metricLabel3;
+            document.getElementById('metric-label4').innerText = dict.metricLabel4;
+
+            // Slide 3
+            document.getElementById('slide3-title').innerText = dict.slide3Title;
+            document.getElementById('slide3-img-label').innerText = dict.slide3ImgLabel;
+            document.getElementById('slide3-highlight').innerText = dict.slide3Highlight;
+            document.getElementById('slide3-desc').innerText = dict.slide3Desc;
+            document.getElementById('slide3-adv1-title').innerText = dict.slide3Adv1Title;
+            document.getElementById('slide3-adv1-desc').innerText = dict.slide3Adv1Desc;
+            document.getElementById('slide3-adv2-title').innerText = dict.slide3Adv2Title;
+            document.getElementById('slide3-adv2-desc').innerText = dict.slide3Adv2Desc;
+            document.getElementById('slide3-badge1-title').innerText = dict.slide3Badge1Title;
+            document.getElementById('slide3-badge1-desc').innerText = dict.slide3Badge1Desc;
+            document.getElementById('slide3-badge2-title').innerText = dict.slide3Badge2Title;
+            document.getElementById('slide3-badge2-desc').innerText = dict.slide3Badge2Desc;
+            document.getElementById('slide3-badge3-title').innerText = dict.slide3Badge3Title;
+            document.getElementById('slide3-badge3-desc').innerText = dict.slide3Badge3Desc;
+
+            // Slide 4
+            document.getElementById('slide4-title').innerText = dict.slide4Title;
+            document.getElementById('slide4-card1-title').innerText = dict.slide4Card1Title;
+            document.getElementById('slide4-card1-desc').innerText = dict.slide4Card1Desc;
+            document.getElementById('slide4-card1-bullets').innerHTML = dict.slide4Card1Bullets;
+            document.getElementById('slide4-card2-title').innerText = dict.slide4Card2Title;
+            document.getElementById('slide4-card2-desc').innerText = dict.slide4Card2Desc;
+            document.getElementById('slide4-card2-bullets').innerHTML = dict.slide4Card2Bullets;
+            document.getElementById('slide4-card3-title').innerText = dict.slide4Card3Title;
+            document.getElementById('slide4-card3-desc').innerText = dict.slide4Card3Desc;
+            document.getElementById('slide4-card3-bullets').innerHTML = dict.slide4Card3Bullets;
+
+            // Slide 5
+            document.getElementById('slide5-title').innerText = dict.slide5Title;
+            document.getElementById('slide5-img-label').innerText = dict.slide5ImgLabel;
+            document.getElementById('slide5-highlight').innerText = dict.slide5Highlight;
+            document.getElementById('slide5-desc').innerText = dict.slide5Desc;
+            document.getElementById('slide5-adv1-title').innerText = dict.slide5Adv1Title;
+            document.getElementById('slide5-adv1-desc').innerText = dict.slide5Adv1Desc;
+            document.getElementById('slide5-adv2-title').innerText = dict.slide5Adv2Title;
+            document.getElementById('slide5-adv2-desc').innerText = dict.slide5Adv2Desc;
+            document.getElementById('slide5-badge1-title').innerText = dict.slide5Badge1Title;
+            document.getElementById('slide5-badge1-desc').innerText = dict.slide5Badge1Desc;
+            document.getElementById('slide5-badge2-title').innerText = dict.slide5Badge2Title;
+            document.getElementById('slide5-badge2-desc').innerText = dict.slide5Badge2Desc;
+            document.getElementById('slide5-badge3-title').innerText = dict.slide5Badge3Title;
+            document.getElementById('slide5-badge3-desc').innerText = dict.slide5Badge3Desc;
+
+            // Slide 6
+            document.getElementById('slide6-title').innerText = dict.slide6Title;
+            document.getElementById('slide6-highlight').innerText = dict.slide6Highlight;
+            document.getElementById('slide6-desc').innerText = dict.slide6Desc;
+            document.getElementById('slide6-adv1-title').innerText = dict.slide6Adv1Title;
+            document.getElementById('slide6-adv1-desc').innerText = dict.slide6Adv1Desc;
+            document.getElementById('slide6-adv2-title').innerText = dict.slide6Adv2Title;
+            document.getElementById('slide6-adv2-desc').innerText = dict.slide6Adv2Desc;
+            document.getElementById('slide6-badge1-title').innerText = dict.slide6Badge1Title;
+            document.getElementById('slide6-badge1-desc').innerText = dict.slide6Badge1Desc;
+            document.getElementById('slide6-badge2-title').innerText = dict.slide6Badge2Title;
+            document.getElementById('slide6-badge2-desc').innerText = dict.slide6Badge2Desc;
+            document.getElementById('slide6-badge3-title').innerText = dict.slide6Badge3Title;
+            document.getElementById('slide6-badge3-desc').innerText = dict.slide6Badge3Desc;
+
+            // Slide 7
+            document.getElementById('slide7-title').innerText = dict.slide7Title;
+            document.getElementById('slide7-highlight').innerText = dict.slide7Highlight;
+            document.getElementById('slide7-desc').innerText = dict.slide7Desc;
+            document.getElementById('slide7-adv1-title').innerText = dict.slide7Adv1Title;
+            document.getElementById('slide7-adv1-desc').innerText = dict.slide7Adv1Desc;
+            document.getElementById('slide7-adv2-title').innerText = dict.slide7Adv2Title;
+            document.getElementById('slide7-adv2-desc').innerText = dict.slide7Adv2Desc;
+            document.getElementById('slide7-badge1-title').innerText = dict.slide7Badge1Title;
+            document.getElementById('slide7-badge1-desc').innerText = dict.slide7Badge1Desc;
+            document.getElementById('slide7-badge2-title').innerText = dict.slide7Badge2Title;
+            document.getElementById('slide7-badge2-desc').innerText = dict.slide7Badge2Desc;
+            document.getElementById('slide7-badge3-title').innerText = dict.slide7Badge3Title;
+            document.getElementById('slide7-badge3-desc').innerText = dict.slide7Badge3Desc;
+
+            // Slide 8 (BIO)
+            document.getElementById('slide8-title').innerText = dict.slide8Title;
+            document.getElementById('slide8-name').innerText = dict.slide8Name;
+            document.getElementById('slide8-role').innerHTML = dict.slide8Role;
+            document.getElementById('slide8-cred1').innerText = dict.slide8Cred1;
+            document.getElementById('slide8-cred2').innerText = dict.slide8Cred2;
+            document.getElementById('slide8-cred3').innerText = dict.slide8Cred3;
+            document.getElementById('slide8-cred4').innerText = dict.slide8Cred4;
+            document.getElementById('slide8-cred5').innerText = dict.slide8Cred5;
+            document.getElementById('slide8-cred6').innerText = dict.slide8Cred6;
+            document.getElementById('slide8-cred7').innerText = dict.slide8Cred7;
+            document.getElementById('slide8-highlight').innerText = dict.slide8Highlight;
+            document.getElementById('slide8-desc').innerText = dict.slide8Desc;
+            document.getElementById('slide8-cap1-title').innerText = dict.slide8Cap1Title;
+            document.getElementById('slide8-cap1-desc').innerText = dict.slide8Cap1Desc;
+            document.getElementById('slide8-cap2-title').innerText = dict.slide8Cap2Title;
+            document.getElementById('slide8-cap2-desc').innerText = dict.slide8Cap2Desc;
+            document.getElementById('slide8-cap3-title').innerText = dict.slide8Cap3Title;
+            document.getElementById('slide8-cap3-desc').innerText = dict.slide8Cap3Desc;
+
+            // Slide 9
+            document.getElementById('slide9-title').innerText = dict.slide9Title;
+            document.getElementById('slide9-highlight').innerText = dict.slide9Highlight;
+            document.getElementById('slide9-adv1-title').innerText = dict.slide9Adv1Title;
+            document.getElementById('slide9-adv1-desc').innerText = dict.slide9Adv1Desc;
+            document.getElementById('slide9-adv2-title').innerText = dict.slide9Adv2Title;
+            document.getElementById('slide9-adv2-desc').innerText = dict.slide9Adv2Desc;
+            document.getElementById('slide9-adv3-title').innerText = dict.slide9Adv3Title;
+            document.getElementById('slide9-adv3-desc').innerText = dict.slide9Adv3Desc;
+            document.getElementById('slide9-badge1-title').innerText = dict.slide9Badge1Title;
+            document.getElementById('slide9-badge1-desc').innerText = dict.slide9Badge1Desc;
+            document.getElementById('slide9-badge2-title').innerText = dict.slide9Badge2Title;
+            document.getElementById('slide9-badge2-desc').innerText = dict.slide9Badge2Desc;
+            document.getElementById('slide9-badge3-title').innerText = dict.slide9Badge3Title;
+            document.getElementById('slide9-badge3-desc').innerText = dict.slide9Badge3Desc;
+            document.getElementById('slide9-badge4-title').innerText = dict.slide9Badge4Title;
+            document.getElementById('slide9-badge4-desc').innerText = dict.slide9Badge4Desc;
+
+            // Slide 10
+            document.getElementById('slide10-title').innerText = dict.slide10Title;
+            document.getElementById('slide10-contact-title').innerHTML = dict.slide10ContactTitle;
+            document.getElementById('slide10-contact-desc').innerText = dict.slide10ContactDesc;
+            document.getElementById('slide10-map-title').innerText = dict.slide10MapTitle;
+            document.getElementById('hub1-name').innerText = dict.hub1Name;
+            document.getElementById('hub1-status').innerText = dict.hub1Status;
+            document.getElementById('hub2-name').innerText = dict.hub2Name;
+            document.getElementById('hub2-status').innerText = dict.hub2Status;
+            document.getElementById('hub3-name').innerText = dict.hub3Name;
+            document.getElementById('hub3-status').innerText = dict.hub3Status;
+            document.getElementById('hub4-name').innerText = dict.hub4Name;
+            document.getElementById('hub4-status').innerText = dict.hub4Status;
+            document.getElementById('slide10-tagline').innerText = dict.slide10Tagline;
+        }
+    </script>
+
+</body>
+</html>

@@ -2,7 +2,7 @@
 // VERSÁTIL SERVICES — Service Worker (PWA)
 // Industrial Engineering Group
 // =============================================
-const CACHE_NAME = 'vs-v7';
+const CACHE_NAME = 'vs-v8';
 
 // Core assets — cached on install for instant loading
 const CORE_ASSETS = [
