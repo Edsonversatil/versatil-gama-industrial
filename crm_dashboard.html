@@ -1890,6 +1890,60 @@
                 </div>
             </div>
 
+            <!-- PAINEL AUTO-ENVIO MENSAL -->
+            <div class="panel" style="margin-top:20px; border:1px solid rgba(37,211,102,0.2);">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <h2>📅 Envio Mensal Automático</h2>
+                        <p>1 e-mail por cliente, toda primeira segunda-feira do mês.</p>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="auto-envio-status-badge" style="font-size:0.75rem; padding:4px 12px; border-radius:20px; font-weight:700;">—</span>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:16px; padding:0 20px 20px;">
+                    <!-- Toggle -->
+                    <div style="background:var(--surface-elevated); border-radius:12px; padding:16px; text-align:center;">
+                        <p style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; font-weight:700; margin-bottom:8px;">Status</p>
+                        <label style="position:relative; display:inline-block; width:52px; height:28px; cursor:pointer;">
+                            <input type="checkbox" id="auto-envio-toggle" onchange="toggleAutoEnvio()" style="opacity:0; width:0; height:0;">
+                            <span style="position:absolute; inset:0; background:rgba(255,255,255,0.1); border-radius:28px; transition:0.3s;" id="auto-envio-slider"></span>
+                        </label>
+                        <p id="auto-envio-label" style="font-size:0.8rem; margin-top:6px; font-weight:600;">—</p>
+                    </div>
+                    <!-- Hora -->
+                    <div style="background:var(--surface-elevated); border-radius:12px; padding:16px; text-align:center;">
+                        <p style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; font-weight:700; margin-bottom:8px;">Horário</p>
+                        <select id="auto-envio-hora" onchange="salvarAutoEnvioConfig()" style="background:var(--surface); color:var(--text-primary); border:1px solid var(--border); border-radius:8px; padding:6px 12px; font-size:0.9rem; font-weight:700; text-align:center;">
+                            <option value="7">07:00</option>
+                            <option value="8">08:00</option>
+                            <option value="9" selected>09:00</option>
+                            <option value="10">10:00</option>
+                            <option value="11">11:00</option>
+                            <option value="14">14:00</option>
+                        </select>
+                    </div>
+                    <!-- Pendentes -->
+                    <div style="background:var(--surface-elevated); border-radius:12px; padding:16px; text-align:center;">
+                        <p style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; font-weight:700; margin-bottom:8px;">Pendentes este mês</p>
+                        <p id="auto-envio-pendentes" style="font-size:1.8rem; font-weight:800; color:var(--gold); margin:0;">—</p>
+                    </div>
+                    <!-- Próximo envio -->
+                    <div style="background:var(--surface-elevated); border-radius:12px; padding:16px; text-align:center;">
+                        <p style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; font-weight:700; margin-bottom:8px;">Próximo envio</p>
+                        <p id="auto-envio-proximo" style="font-size:0.95rem; font-weight:700; color:var(--green); margin:0;">—</p>
+                    </div>
+                </div>
+                <div style="padding:0 20px 20px; display:flex; gap:10px;">
+                    <button class="btn" onclick="dispararAutoEnvioManual()" style="background:rgba(37,211,102,0.1); border:1px solid rgba(37,211,102,0.3); color:var(--green); padding:10px 20px; font-weight:700;">
+                        🚀 Disparar Agora (pendentes do mês)
+                    </button>
+                    <button class="btn btn-secondary" onclick="carregarAutoEnvioConfig()" style="padding:10px 16px;">
+                        🔄 Atualizar
+                    </button>
+                </div>
+            </div>
+
             <!-- LOG DE ENVIOS -->
             <div class="panel" style="margin-top:20px;">
                 <div class="panel-header">
@@ -2962,6 +3016,7 @@
 
             await loadCampanhaLog();
             renderCampanhaTable();
+            carregarAutoEnvioConfig();
         }
 
         function renderCampanhaTable() {
@@ -3262,6 +3317,100 @@
 
             document.getElementById('btn-disparar').disabled = false;
             document.getElementById('btn-disparar').innerHTML = `<svg style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Disparar Campanha E-mail`;
+        }
+
+        // ==========================================================================
+        // AUTO-ENVIO MENSAL — FUNÇÕES DO PAINEL
+        // ==========================================================================
+        async function carregarAutoEnvioConfig() {
+            try {
+                const res = await fetch('/api/crm/auto-envio/config');
+                const data = await res.json();
+
+                // Toggle
+                const toggle = document.getElementById('auto-envio-toggle');
+                const slider = document.getElementById('auto-envio-slider');
+                const label = document.getElementById('auto-envio-label');
+                const badge = document.getElementById('auto-envio-status-badge');
+                toggle.checked = data.ativo;
+                if (data.ativo) {
+                    slider.style.background = 'var(--green)';
+                    slider.innerHTML = '<span style="position:absolute;right:4px;top:4px;width:20px;height:20px;background:white;border-radius:50%;transition:0.3s;"></span>';
+                    label.textContent = '✅ Ativo';
+                    label.style.color = 'var(--green)';
+                    badge.textContent = '🟢 ATIVO';
+                    badge.style.background = 'var(--green-soft)';
+                    badge.style.color = 'var(--green)';
+                } else {
+                    slider.style.background = 'rgba(255,255,255,0.1)';
+                    slider.innerHTML = '<span style="position:absolute;left:4px;top:4px;width:20px;height:20px;background:rgba(255,255,255,0.4);border-radius:50%;transition:0.3s;"></span>';
+                    label.textContent = '⏸️ Pausado';
+                    label.style.color = 'var(--text-muted)';
+                    badge.textContent = '⏸️ PAUSADO';
+                    badge.style.background = 'rgba(255,255,255,0.05)';
+                    badge.style.color = 'var(--text-muted)';
+                }
+
+                // Hora
+                document.getElementById('auto-envio-hora').value = data.hora_envio || 9;
+
+                // Pendentes
+                document.getElementById('auto-envio-pendentes').textContent = data.pendentes_mes || 0;
+
+                // Próximo envio (primeira segunda-feira)
+                const agora = new Date();
+                let prox = new Date(agora.getFullYear(), agora.getMonth(), 1);
+                while (prox.getDay() !== 1) prox.setDate(prox.getDate() + 1);
+                if (prox < agora) {
+                    prox = new Date(agora.getFullYear(), agora.getMonth() + 1, 1);
+                    while (prox.getDay() !== 1) prox.setDate(prox.getDate() + 1);
+                }
+                const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+                document.getElementById('auto-envio-proximo').textContent = `${prox.getDate()} ${meses[prox.getMonth()]} ${prox.getFullYear()} às ${data.hora_envio || 9}h`;
+            } catch(e) {
+                console.error('Erro ao carregar config auto-envio:', e);
+            }
+        }
+
+        async function toggleAutoEnvio() {
+            const ativo = document.getElementById('auto-envio-toggle').checked;
+            try {
+                await fetch('/api/crm/auto-envio/config', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ ativo })
+                });
+                showToast(ativo ? '✅ Auto-envio mensal ATIVADO!' : '⏸️ Auto-envio mensal pausado.', ativo);
+                carregarAutoEnvioConfig();
+            } catch(e) {
+                showToast('Erro ao atualizar config.', false);
+            }
+        }
+
+        async function salvarAutoEnvioConfig() {
+            const hora = parseInt(document.getElementById('auto-envio-hora').value);
+            try {
+                await fetch('/api/crm/auto-envio/config', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ hora_envio: hora })
+                });
+                carregarAutoEnvioConfig();
+            } catch(e) {}
+        }
+
+        async function dispararAutoEnvioManual() {
+            if (!confirm('Disparar envio mensal agora para todos os clientes pendentes deste mês?')) return;
+            try {
+                const res = await fetch('/api/crm/auto-envio/disparar', { method: 'POST', headers: {'Content-Type': 'application/json'} });
+                const data = await res.json();
+                showToast(data.mensagem, data.success);
+                if (data.success && data.pendentes > 0) {
+                    setTimeout(() => { loadCampanhaLog(); carregarAutoEnvioConfig(); }, 5000);
+                }
+            } catch(e) {
+                showToast('Erro ao disparar envio.', false);
+            }
         }
 
         async function loadCampanhaLog() {

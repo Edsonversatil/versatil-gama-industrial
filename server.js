@@ -996,6 +996,208 @@ app.get('/api/crm/cnpj/:cnpj', async (req, res) => {
 });
 
 // =============================================
+// ENVIO MENSAL AUTOMÁTICO — 1 e-mail/mês por cliente
+// =============================================
+const autoEnvioConfigPath = path.join(parentDir, 'auto_envio_config.json');
+
+function lerAutoEnvioConfig() {
+    try {
+        if (fs.existsSync(autoEnvioConfigPath)) return JSON.parse(fs.readFileSync(autoEnvioConfigPath, 'utf8'));
+    } catch(e) {}
+    return { ativo: false, dia_envio: 1, hora_envio: 9, ultimo_check: null, mensagem_padrao: '' };
+}
+
+function salvarAutoEnvioConfig(config) {
+    fs.writeFileSync(autoEnvioConfigPath, JSON.stringify(config, null, 2), 'utf8');
+}
+
+// Verifica quais clientes NÃO receberam e-mail no mês atual
+function clientesSemEnvioNoMes() {
+    const log = lerCampanhaLog();
+    const agora = new Date();
+    const mesAtual = agora.getMonth();
+    const anoAtual = agora.getFullYear();
+
+    // IDs de clientes que já receberam este mês
+    const jaEnviados = new Set();
+    log.forEach(l => {
+        if (l.status === 'enviado' && l.data && l.clientId) {
+            const d = new Date(l.data);
+            if (d.getMonth() === mesAtual && d.getFullYear() === anoAtual) {
+                jaEnviados.add(l.clientId);
+            }
+        }
+    });
+
+    // Clientes com e-mail que não receberam neste mês
+    const clientesPath = path.join(parentDir, 'clientes_database.json');
+    let dbClientes = [];
+    try { dbClientes = JSON.parse(fs.readFileSync(clientesPath, 'utf8')); } catch(e) {}
+
+    const pendentes = dbClientes.filter(c => {
+        const temEmail = c.contato_email && c.contato_email.length > 3;
+        return temEmail && !jaEnviados.has(c.id_cliente);
+    });
+
+    return pendentes;
+}
+
+// Executa envio mensal automático
+async function executarEnvioMensal() {
+    const config = lerAutoEnvioConfig();
+    if (!config.ativo) {
+        console.log('[AUTO-ENVIO] Sistema desativado.');
+        return { status: 'desativado', enviados: 0 };
+    }
+
+    const pendentes = clientesSemEnvioNoMes();
+    if (pendentes.length === 0) {
+        console.log('[AUTO-ENVIO] Todos os clientes já receberam e-mail neste mês.');
+        config.ultimo_check = new Date().toISOString();
+        salvarAutoEnvioConfig(config);
+        return { status: 'ok', enviados: 0, mensagem: 'Todos já receberam neste mês.' };
+    }
+
+    console.log(`[AUTO-ENVIO] Iniciando envio mensal: ${pendentes.length} clientes pendentes.`);
+
+    const campanhaId = 'auto_mensal_' + Date.now();
+    let enviados = 0;
+    let erros = 0;
+
+    for (let i = 0; i < pendentes.length; i++) {
+        const c = pendentes[i];
+        const roteiro = c.roteiro_comercial || {};
+        const subject = `Usinagem de Campo (In-Situ) — Versatil Global Services para ${c.nome_cliente}`;
+        const body = roteiro.mensagem_email || config.mensagem_padrao || 
+            `Prezado,\n\nSomos referência em USINAGEM DE CAMPO (in-situ) para o segmento ${c.segmento_industrial || 'Industrial'}.\n\nRealizamos faceamento de flanges, retífica de sedes, retífica de alianças e roletes, mandrilhamento e torneamento direto na planta.\n\nTambém atuamos com Troca Térmica ASME, Caldeiraria e END.\n\nAtt, Eng. Edson - (13) 99150-9140`;
+
+        // Coletar todos os e-mails (principal + adicionais)
+        const emails = [];
+        if (c.contato_email && c.contato_email.length > 3) emails.push(c.contato_email);
+        if (c.emails_adicionais && Array.isArray(c.emails_adicionais)) {
+            c.emails_adicionais.forEach(ea => { if (ea.email && ea.email.length > 3) emails.push(ea.email); });
+        }
+
+        for (const email of emails) {
+            try {
+                const htmlBody = gerarEmailHtml(body);
+                const info = await transporter.sendMail({
+                    from: `Eng. Edson - Versatil Global Services <${SMTP_CONFIG.auth.user}>`,
+                    to: email,
+                    subject: subject,
+                    html: htmlBody
+                });
+                enviados++;
+                console.log(`[AUTO-ENVIO] ${campanhaId} [${i+1}/${pendentes.length}] ✅ ${email}`);
+
+                const log = lerCampanhaLog();
+                log.unshift({
+                    id: `${campanhaId}_${i}_${email}`,
+                    tipo: 'auto_mensal',
+                    campanhaId,
+                    to: email,
+                    subject,
+                    clientId: c.id_cliente,
+                    nome: c.nome_cliente,
+                    status: 'enviado',
+                    messageId: info.messageId,
+                    data: new Date().toISOString()
+                });
+                salvarCampanhaLog(log);
+            } catch (err) {
+                erros++;
+                console.error(`[AUTO-ENVIO] ${campanhaId} ❌ ${email}: ${err.message}`);
+                const log = lerCampanhaLog();
+                log.unshift({
+                    id: `${campanhaId}_${i}_${email}`,
+                    tipo: 'auto_mensal',
+                    campanhaId,
+                    to: email,
+                    clientId: c.id_cliente,
+                    nome: c.nome_cliente,
+                    status: 'erro',
+                    erro: err.message,
+                    data: new Date().toISOString()
+                });
+                salvarCampanhaLog(log);
+            }
+            // Intervalo de 30s entre envios
+            if (i < pendentes.length - 1 || emails.indexOf(email) < emails.length - 1) {
+                await new Promise(r => setTimeout(r, 30000));
+            }
+        }
+    }
+
+    config.ultimo_check = new Date().toISOString();
+    salvarAutoEnvioConfig(config);
+
+    console.log(`[AUTO-ENVIO] Finalizado: ${enviados} enviados, ${erros} erros.`);
+    return { status: 'ok', enviados, erros, pendentes: pendentes.length };
+}
+
+// Verificação diária — roda a cada 1 hora, executa na primeira segunda-feira do mês
+setInterval(() => {
+    const config = lerAutoEnvioConfig();
+    if (!config.ativo) return;
+
+    const agora = new Date();
+    const dia = agora.getDate();
+    const diaSemana = agora.getDay(); // 0=Dom, 1=Seg
+    const hora = agora.getHours();
+
+    // Primeira segunda-feira: dia <= 7 e dia da semana = segunda (1)
+    const primeiraSegunda = dia <= 7 && diaSemana === 1;
+    const horaOk = hora >= (config.hora_envio || 9);
+
+    // Verifica se já rodou hoje
+    if (config.ultimo_check) {
+        const ultimo = new Date(config.ultimo_check);
+        if (ultimo.getDate() === dia && ultimo.getMonth() === agora.getMonth()) return;
+    }
+
+    if (primeiraSegunda && horaOk) {
+        console.log('[AUTO-ENVIO] 📅 Primeira segunda-feira do mês detectada! Iniciando...');
+        executarEnvioMensal();
+    }
+}, 60 * 60 * 1000); // Verifica a cada 1 hora
+
+// API: GET config do auto-envio
+app.get('/api/crm/auto-envio/config', (req, res) => {
+    const config = lerAutoEnvioConfig();
+    const pendentes = clientesSemEnvioNoMes();
+    res.json({ ...config, pendentes_mes: pendentes.length });
+});
+
+// API: PUT atualizar config do auto-envio
+app.put('/api/crm/auto-envio/config', (req, res) => {
+    const config = lerAutoEnvioConfig();
+    if (req.body.ativo !== undefined) config.ativo = req.body.ativo;
+    if (req.body.dia_envio !== undefined) config.dia_envio = parseInt(req.body.dia_envio);
+    if (req.body.hora_envio !== undefined) config.hora_envio = parseInt(req.body.hora_envio);
+    if (req.body.mensagem_padrao !== undefined) config.mensagem_padrao = req.body.mensagem_padrao;
+    salvarAutoEnvioConfig(config);
+    console.log(`[AUTO-ENVIO] Config atualizada: ${config.ativo ? '✅ ATIVO' : '⏸️ PAUSADO'} | Dia: ${config.dia_envio} | Hora: ${config.hora_envio}h`);
+    res.json({ success: true, config });
+});
+
+// API: POST disparar envio mensal manualmente
+app.post('/api/crm/auto-envio/disparar', async (req, res) => {
+    const config = lerAutoEnvioConfig();
+    if (!config.ativo) return res.json({ success: false, mensagem: 'Auto-envio está desativado. Ative primeiro.' });
+    const pendentes = clientesSemEnvioNoMes();
+    if (pendentes.length === 0) return res.json({ success: true, mensagem: 'Todos os clientes já receberam e-mail neste mês.', enviados: 0 });
+    res.json({ success: true, mensagem: `Iniciando envio para ${pendentes.length} clientes pendentes...`, pendentes: pendentes.length });
+    // Executa em background
+    executarEnvioMensal();
+});
+
+// API: GET status dos pendentes do mês
+app.get('/api/crm/auto-envio/pendentes', (req, res) => {
+    const pendentes = clientesSemEnvioNoMes();
+    res.json({ total: pendentes.length, clientes: pendentes.map(c => ({ id: c.id_cliente, nome: c.nome_cliente, email: c.contato_email })) });
+});
+
+// =============================================
 // FALLBACK: Servir index.html
 // =============================================
 app.get('*', (req, res) => {
@@ -1014,6 +1216,19 @@ app.listen(PORT, () => {
     console.log('  ║   PIX:       ✅ /api/pix/create            ║');
     console.log('  ║   Status:    ✅ /api/pix/status/:id        ║');
     console.log('  ║   Email:     ' + (SMTP_CONFIG.auth.user ? '✅' : '⏳') + ' nodemailer                  ║');
+    console.log('  ║   Auto-Send: ' + (lerAutoEnvioConfig().ativo ? '✅' : '⏸️') + ' mensal                     ║');
     console.log('  ╚══════════════════════════════════════════╝');
     console.log('');
+
+    // Verificar na inicialização se há envios pendentes
+    const config = lerAutoEnvioConfig();
+    if (config.ativo) {
+        const pendentes = clientesSemEnvioNoMes();
+        // Calcular próxima primeira segunda-feira
+        const agora = new Date();
+        let prox = new Date(agora.getFullYear(), agora.getMonth(), 1);
+        while (prox.getDay() !== 1) prox.setDate(prox.getDate() + 1);
+        if (prox < agora) { prox = new Date(agora.getFullYear(), agora.getMonth() + 1, 1); while (prox.getDay() !== 1) prox.setDate(prox.getDate() + 1); }
+        console.log(`  📬 Auto-envio: ${pendentes.length} pendentes | Próximo: ${prox.toLocaleDateString('pt-BR')} às ${config.hora_envio || 9}h`);
+    }
 });
