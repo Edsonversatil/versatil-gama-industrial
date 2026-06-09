@@ -2913,6 +2913,8 @@
                 const hasEmail = email.length > 3;
                 const hasTel = tel.length > 5;
                 const wasEnviado = campanhaLog.some(l => l.clientId === c.id_cliente && l.status === 'enviado');
+                const extras = c.emails_adicionais && Array.isArray(c.emails_adicionais) ? c.emails_adicionais : [];
+                const totalEmails = (hasEmail ? 1 : 0) + extras.length;
 
                 let statusBadge = '';
                 if (wasEnviado) {
@@ -2931,24 +2933,23 @@
 
                 const tr = document.createElement('tr');
                 const emailId = `email-${c.id_cliente}`;
-                const emailDisplay = hasEmail 
-                    ? `<div class="email-edit-wrap">
-                         <span id="${emailId}-text" style="color:var(--green); font-size:0.82rem; word-break:break-all;">${email}</span>
-                         <button class="btn-edit-email" onclick="editEmailInline('${c.id_cliente}')" title="Editar e-mail">✏️</button>
-                       </div>
-                       <div id="${emailId}-input" style="display:none;" class="email-edit-wrap">
-                         <input type="email" value="${email}" placeholder="novo@email.com" onkeydown="if(event.key==='Enter')saveEmailInline('${c.id_cliente}')">
-                         <button class="btn-action" onclick="saveEmailInline('${c.id_cliente}')" title="Salvar" style="background:var(--green-soft);color:var(--green);border-color:rgba(37,211,102,0.3);padding:3px 6px;">✓</button>
-                         <button class="btn-action" onclick="cancelEmailInline('${c.id_cliente}')" title="Cancelar" style="padding:3px 6px;">✕</button>
-                       </div>`
-                    : `<div id="${emailId}-text" class="email-edit-wrap">
-                         <span style="color:var(--text-muted); font-size:0.82rem;">—</span>
-                         <button class="btn-edit-email" onclick="editEmailInline('${c.id_cliente}')" title="Adicionar e-mail">➕</button>
-                       </div>
-                       <div id="${emailId}-input" style="display:none;" class="email-edit-wrap">
-                         <input type="email" value="" placeholder="email@empresa.com" onkeydown="if(event.key==='Enter')saveEmailInline('${c.id_cliente}')">
-                         <button class="btn-action" onclick="saveEmailInline('${c.id_cliente}')" title="Salvar" style="background:var(--green-soft);color:var(--green);border-color:rgba(37,211,102,0.3);padding:3px 6px;">✓</button>
-                         <button class="btn-action" onclick="cancelEmailInline('${c.id_cliente}')" title="Cancelar" style="padding:3px 6px;">✕</button>
+                const deptPrincipal = c.email_departamento || 'Comercial';
+
+                // Build multi-email display
+                let emailLines = '';
+                if (hasEmail) {
+                    emailLines += `<div style="margin-bottom:3px;"><span style="color:var(--green); font-size:0.82rem; word-break:break-all;">${email}</span> <span style="font-size:0.65rem; background:rgba(191,32,38,0.1); color:var(--red); padding:1px 5px; border-radius:4px;">${deptPrincipal}</span></div>`;
+                }
+                extras.forEach(ea => {
+                    if (ea.email) emailLines += `<div style="margin-bottom:3px;"><span style="color:var(--green); font-size:0.82rem; word-break:break-all;">${ea.email}</span> <span style="font-size:0.65rem; background:rgba(37,211,102,0.1); color:var(--green); padding:1px 5px; border-radius:4px;">${ea.departamento || 'Outro'}</span></div>`;
+                });
+
+                const emailDisplay = `<div class="email-edit-wrap" style="flex-direction:column; align-items:flex-start;">
+                         <div id="${emailId}-text">${emailLines || '<span style="color:var(--text-muted); font-size:0.82rem;">—</span>'}</div>
+                         <div style="display:flex; gap:4px; margin-top:4px;">
+                           <button class="btn-edit-email" onclick="openEditModal('${c.id_cliente}')" title="Editar e-mails" style="font-size:0.7rem;">✏️ Editar</button>
+                           ${totalEmails > 0 ? `<span style="font-size:0.65rem; color:var(--text-muted);">${totalEmails} e-mail${totalEmails > 1 ? 's' : ''}</span>` : ''}
+                         </div>
                        </div>`;
 
                 tr.innerHTML = `
@@ -3151,19 +3152,34 @@
                 showToast('Selecione ao menos um lead para disparar.', false);
                 return;
             }
-            if (!confirm(`Disparar ${selected.length} e-mails? O envio será feito com intervalo de 30s entre cada.`)) return;
 
-            const leads = selected.map(id => {
+            // Montar lista com TODOS os e-mails por cliente (principal + adicionais)
+            const leads = [];
+            selected.forEach(id => {
                 const c = clientes.find(cl => cl.id_cliente === id);
                 const roteiro = c.roteiro_comercial || {};
-                return {
-                    to: c.contato_email,
-                    subject: `Usinagem de Campo (In-Situ) — Versatil Global Services para ${c.nome_cliente}`,
-                    body: roteiro.mensagem_email || `Apresentação de serviços de Usinagem de Campo para a ${c.nome_cliente}.`,
-                    clientId: c.id_cliente,
-                    nome: c.nome_cliente
-                };
+                const subject = `Usinagem de Campo (In-Situ) — Versatil Global Services para ${c.nome_cliente}`;
+                const body = roteiro.mensagem_email || `Apresentação de serviços de Usinagem de Campo para a ${c.nome_cliente}.`;
+
+                // E-mail principal
+                if (c.contato_email && c.contato_email.length > 3) {
+                    leads.push({ to: c.contato_email, subject, body, clientId: c.id_cliente, nome: c.nome_cliente });
+                }
+                // E-mails adicionais
+                if (c.emails_adicionais && Array.isArray(c.emails_adicionais)) {
+                    c.emails_adicionais.forEach(ea => {
+                        if (ea.email && ea.email.length > 3) {
+                            leads.push({ to: ea.email, subject, body, clientId: c.id_cliente, nome: `${c.nome_cliente} (${ea.departamento || 'Adicional'})` });
+                        }
+                    });
+                }
             });
+
+            if (leads.length === 0) {
+                showToast('Nenhum e-mail encontrado nos leads selecionados.', false);
+                return;
+            }
+            if (!confirm(`Disparar ${leads.length} e-mails (${selected.length} clientes)? O envio será feito com intervalo de 30s entre cada.`)) return;
 
             document.getElementById('btn-disparar').disabled = true;
             document.getElementById('btn-disparar').innerHTML = `⏳ Disparando ${leads.length} e-mails...`;
