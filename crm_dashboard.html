@@ -1221,21 +1221,21 @@
 </head>
 <body>
     <!-- LOGIN OVERLAY -->
-    <div id="login-overlay" style="position:fixed; inset:0; background:var(--bg-color); z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px; transition:0.5s; opacity:1;">
-        <div style="max-width:400px; width:100%; background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:40px; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+    <div id="login-overlay" style="position:fixed; inset:0; background:var(--bg-body); z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px; transition:0.5s; opacity:1;">
+        <div style="max-width:400px; width:100%; background:var(--bg-sidebar); border:1px solid var(--border); border-radius:16px; padding:40px; box-shadow:0 10px 40px rgba(0,0,0,0.8);">
             <div style="text-align:center; margin-bottom:30px;">
                 <div style="width:50px; height:50px; background:var(--red); color:white; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:900; font-family:var(--font-outfit); margin:0 auto 15px; box-shadow:0 0 15px var(--red-glow);">V</div>
                 <h2 style="font-family:var(--font-outfit); font-weight:800; font-size:1.5rem; color:var(--white);">CRM VERSÁTIL</h2>
                 <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">Global Services - Acesso Restrito</p>
             </div>
-            <form id="form-login" onsubmit="realizarLogin(event)">
+            <form id="form-login" onsubmit="realizarLogin(event)" autocomplete="off">
                 <div class="form-group" style="margin-bottom:20px;">
                     <label>Usuário</label>
-                    <input type="text" id="login-user" class="input-light" placeholder="Seu usuário" required>
+                    <input type="text" id="login-user" class="input-light" placeholder="Seu usuário" required autocomplete="new-password">
                 </div>
                 <div class="form-group" style="margin-bottom:30px;">
                     <label>Senha</label>
-                    <input type="password" id="login-pass" class="input-light" placeholder="Sua senha" required>
+                    <input type="password" id="login-pass" class="input-light" placeholder="Sua senha" required autocomplete="new-password">
                 </div>
                 <button type="submit" class="btn" style="width:100%; padding:14px; font-size:1rem; font-weight:800; justify-content:center;" id="btn-login">ACESSAR O SISTEMA</button>
             </form>
