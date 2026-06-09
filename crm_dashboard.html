@@ -1220,6 +1220,28 @@
     </style>
 </head>
 <body>
+    <!-- LOGIN OVERLAY -->
+    <div id="login-overlay" style="position:fixed; inset:0; background:var(--bg-color); z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px; transition:0.5s; opacity:1;">
+        <div style="max-width:400px; width:100%; background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:40px; box-shadow:0 10px 40px rgba(0,0,0,0.5);">
+            <div style="text-align:center; margin-bottom:30px;">
+                <div style="width:50px; height:50px; background:var(--red); color:white; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:900; font-family:var(--font-outfit); margin:0 auto 15px; box-shadow:0 0 15px var(--red-glow);">V</div>
+                <h2 style="font-family:var(--font-outfit); font-weight:800; font-size:1.5rem; color:var(--white);">CRM VERSÁTIL</h2>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">Global Services - Acesso Restrito</p>
+            </div>
+            <form id="form-login" onsubmit="realizarLogin(event)">
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label>Usuário</label>
+                    <input type="text" id="login-user" class="input-light" placeholder="Seu usuário" required>
+                </div>
+                <div class="form-group" style="margin-bottom:30px;">
+                    <label>Senha</label>
+                    <input type="password" id="login-pass" class="input-light" placeholder="Sua senha" required>
+                </div>
+                <button type="submit" class="btn" style="width:100%; padding:14px; font-size:1rem; font-weight:800; justify-content:center;" id="btn-login">ACESSAR O SISTEMA</button>
+            </form>
+            <p id="login-error" style="color:var(--red); font-size:0.85rem; text-align:center; margin-top:15px; display:none; font-weight:700;">Credenciais inválidas.</p>
+        </div>
+    </div>
 
     <!-- SIDEBAR NAV -->
     <aside>
@@ -1279,6 +1301,9 @@
         <div class="sidebar-footer">
             <p>Fonte Oficial de Dados</p>
             <strong>ACERVO FÍSICO INTEGRADO</strong>
+            <button onclick="realizarLogout()" style="margin-top:10px; width:100%; padding:8px; background:transparent; color:var(--text-muted); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:0.8rem; cursor:pointer; font-weight:bold; transition:0.3s;" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(191,32,38,0.5)';" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)';">
+                Sair do Sistema
+            </button>
         </div>
     </aside>
 
@@ -2222,13 +2247,110 @@
         let contatos = [];
         let reativacao = [];
         let filteredClientes = [];
+        let currentUser = null; // Guardará { id, nome, role }
         
         // Configurações de Paginação
         let currentPage = 1;
         const itemsPerPage = 15;
 
-        // Ao carregar a página
+        // ==========================================================================
+        // AUTHENTICATION ENGINE
+        // ==========================================================================
+        async function verificarSessao() {
+            try {
+                const res = await fetch('/api/crm/me');
+                if (res.status === 401) {
+                    mostrarLogin();
+                    return false;
+                }
+                const data = await res.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    ocultarLogin();
+                    aplicarPermissoes();
+                    return true;
+                } else {
+                    mostrarLogin();
+                    return false;
+                }
+            } catch (e) {
+                mostrarLogin();
+                return false;
+            }
+        }
+
+        async function realizarLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-login');
+            const errEl = document.getElementById('login-error');
+            const user = document.getElementById('login-user').value;
+            const pass = document.getElementById('login-pass').value;
+
+            btn.textContent = 'Autenticando...';
+            btn.disabled = true;
+            errEl.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/crm/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pass })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    currentUser = { role: data.role, nome: data.nome };
+                    ocultarLogin();
+                    aplicarPermissoes();
+                    // Iniciar carregamento de dados agora que logou
+                    await initDashboard();
+                } else {
+                    errEl.style.display = 'block';
+                    errEl.textContent = data.error || 'Credenciais inválidas.';
+                }
+            } catch (error) {
+                errEl.style.display = 'block';
+                errEl.textContent = 'Erro de rede. Tente novamente.';
+            } finally {
+                btn.textContent = 'ACESSAR O SISTEMA';
+                btn.disabled = false;
+            }
+        }
+
+        async function realizarLogout() {
+            if (!confirm('Deseja realmente sair do sistema?')) return;
+            await fetch('/api/crm/logout', { method: 'POST' });
+            window.location.reload();
+        }
+
+        function mostrarLogin() {
+            document.getElementById('login-overlay').style.display = 'flex';
+            setTimeout(() => document.getElementById('login-overlay').style.opacity = '1', 10);
+        }
+
+        function ocultarLogin() {
+            document.getElementById('login-overlay').style.opacity = '0';
+            setTimeout(() => document.getElementById('login-overlay').style.display = 'none', 500);
+        }
+
+        function aplicarPermissoes() {
+            if (!currentUser) return;
+            // Se não for admin, oculta certas funções. Neste momento, o usuário escolheu 
+            // deixar todos os acessos abertos, então o Admin terá tudo visível.
+            // Aqui ficaria a lógica de "if (currentUser.role !== 'admin') { esconderBotoes(); }"
+        }
+
+        // ==========================================================================
+        // INIT
+        // ==========================================================================
         window.addEventListener('DOMContentLoaded', async () => {
+            const loggedIn = await verificarSessao();
+            if (loggedIn) {
+                await initDashboard();
+            }
+        });
+
+        async function initDashboard() {
             await loadCrmData();
             setupNavigation();
             renderDashboardSummary();

@@ -7,8 +7,11 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 8080;
+const JWT_SECRET = 'versatil-crm-secret-2026';
 
 // =============================================
 // CONFIGURAÇÃO ASAAS
@@ -20,6 +23,7 @@ const ASAAS_BASE_URL = 'https://api.asaas.com/v3';
 // MIDDLEWARE
 // =============================================
 app.use(express.json());
+app.use(cookieParser());
 app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.set('Pragma', 'no-cache');
@@ -424,6 +428,72 @@ const parentDir = path.join(__dirname, '..');
 app.get('/crm', (req, res) => {
     res.sendFile(path.join(__dirname, 'crm_dashboard.html'));
 });
+
+// =============================================
+// AUTHENTICATION CRM
+// =============================================
+function lerUsuarios() {
+    const filePath = path.join(__dirname, 'usuarios_database.json');
+    if (fs.existsSync(filePath)) {
+        return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    }
+    return [];
+}
+
+app.post('/api/crm/login', (req, res) => {
+    const { username, password } = req.body;
+    const usuarios = lerUsuarios();
+    
+    const user = usuarios.find(u => u.id === username && u.senha === password);
+    if (!user) {
+        return res.status(401).json({ success: false, error: 'Credenciais inválidas.' });
+    }
+
+    const token = jwt.sign({ id: user.id, role: user.role, nome: user.nome }, JWT_SECRET, { expiresIn: '24h' });
+    
+    res.cookie('crm_token', token, {
+        httpOnly: true,
+        secure: false, // set to true se tiver HTTPS
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: 'lax'
+    });
+
+    res.json({ success: true, role: user.role, nome: user.nome });
+});
+
+app.post('/api/crm/logout', (req, res) => {
+    res.clearCookie('crm_token');
+    res.json({ success: true });
+});
+
+app.get('/api/crm/me', (req, res) => {
+    const token = req.cookies.crm_token;
+    if (!token) return res.status(401).json({ success: false, error: 'Não autenticado' });
+
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(401).json({ success: false, error: 'Token inválido' });
+        res.json({ success: true, user: decoded });
+    });
+});
+
+const authMiddleware = (req, res, next) => {
+    // Proteger todas as rotas /api/crm/* exceto login
+    const isApiCrm = req.path.startsWith('/api/crm/');
+    if (isApiCrm && req.path !== '/api/crm/login' && req.path !== '/api/crm/logout') {
+        const token = req.cookies.crm_token;
+        if (!token) return res.status(401).json({ error: 'Acesso negado: Autenticação requerida' });
+
+        jwt.verify(token, JWT_SECRET, (err, decoded) => {
+            if (err) return res.status(401).json({ error: 'Acesso negado: Sessão inválida' });
+            req.user = decoded;
+            next();
+        });
+    } else {
+        next();
+    }
+};
+
+app.use(authMiddleware);
 
 app.get('/api/crm/clientes', (req, res) => {
     try {
