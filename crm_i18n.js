@@ -14,7 +14,20 @@ const CRM_I18N = {
         "menu.campanha": "Campanha de Prospecção",
         "menu.equipe": "Gestão de Equipe",
         "menu.logado_como": "Logado como:",
-        "menu.sair": "Sair do Sistema"
+        "menu.sair": "Sair do Sistema",
+        // Cabeçalho e Métricas
+        "header.title": "Painel Executivo Geral",
+        "header.subtitle": "Métricas estratégicas e controle global do Ecossistema CRM.",
+        "header.btn_atualizar": "Atualizar Base",
+        "header.btn_novo": "Novo Prospect",
+        "stat.total": "Total Clientes",
+        "stat.total_sub": "da base física indexada",
+        "stat.novos": "Novos Clientes",
+        "stat.novos_sub": "Adicionados via CRM",
+        "stat.prio_a": "Clientes Prioridade A",
+        "stat.prio_a_sub": "Petróleo, Celulose & Mineração",
+        "stat.contatar": "A Contatar (30 dias)",
+        "stat.contatar_sub": "Paradas planejadas mapeadas"
     },
     en: {
         "menu.dashboard": "General Dashboard",
@@ -26,7 +39,19 @@ const CRM_I18N = {
         "menu.campanha": "Outreach Campaign",
         "menu.equipe": "Team Management",
         "menu.logado_como": "Logged in as:",
-        "menu.sair": "Log Out"
+        "menu.sair": "Log Out",
+        "header.title": "General Executive Dashboard",
+        "header.subtitle": "Strategic metrics and global control of the CRM Ecosystem.",
+        "header.btn_atualizar": "Refresh DB",
+        "header.btn_novo": "New Prospect",
+        "stat.total": "Total Customers",
+        "stat.total_sub": "of physical base indexed",
+        "stat.novos": "New Customers",
+        "stat.novos_sub": "Added via CRM",
+        "stat.prio_a": "Priority A Customers",
+        "stat.prio_a_sub": "Oil, Pulp & Mining",
+        "stat.contatar": "To Contact (30 days)",
+        "stat.contatar_sub": "Planned shutdowns mapped"
     },
     es: {
         "menu.dashboard": "Panel General",
@@ -38,7 +63,19 @@ const CRM_I18N = {
         "menu.campanha": "Campaña de Prospección",
         "menu.equipe": "Gestión de Equipo",
         "menu.logado_como": "Conectado como:",
-        "menu.sair": "Cerrar sesión"
+        "menu.sair": "Cerrar sesión",
+        "header.title": "Panel Ejecutivo General",
+        "header.subtitle": "Métricas estratégicas y control global del Ecosistema CRM.",
+        "header.btn_atualizar": "Actualizar Base",
+        "header.btn_novo": "Nuevo Prospecto",
+        "stat.total": "Total Clientes",
+        "stat.total_sub": "de la base física indexada",
+        "stat.novos": "Nuevos Clientes",
+        "stat.novos_sub": "Añadidos vía CRM",
+        "stat.prio_a": "Clientes Prioridad A",
+        "stat.prio_a_sub": "Petróleo, Celulosa y Minería",
+        "stat.contatar": "A Contactar (30 días)",
+        "stat.contatar_sub": "Paradas planificadas mapeadas"
     },
     ar: {
         "menu.dashboard": "لوحة القيادة العامة",
@@ -50,7 +87,19 @@ const CRM_I18N = {
         "menu.campanha": "حملة التوعية",
         "menu.equipe": "إدارة الفريق",
         "menu.logado_como": "تسجيل الدخول باسم:",
-        "menu.sair": "تسجيل الخروج"
+        "menu.sair": "تسجيل الخروج",
+        "header.title": "لوحة القيادة التنفيذية",
+        "header.subtitle": "المقاييس الاستراتيجية والتحكم العالمي في نظام CRM.",
+        "header.btn_atualizar": "تحديث القاعدة",
+        "header.btn_novo": "عميل جديد",
+        "stat.total": "إجمالي العملاء",
+        "stat.total_sub": "من القاعدة المادية المفهرسة",
+        "stat.novos": "العملاء الجدد",
+        "stat.novos_sub": "أضيف عبر CRM",
+        "stat.prio_a": "عملاء الأولوية أ",
+        "stat.prio_a_sub": "النفط، اللب، والتعدين",
+        "stat.contatar": "للاتصال (30 يومًا)",
+        "stat.contatar_sub": "تم تعيين فترات التوقف المخطط لها"
     }
 };
 
@@ -65,12 +114,10 @@ function setCrmLanguage(lang) {
     // Atualizar visual das bandeiras
     document.querySelectorAll('.lang-flag').forEach(flag => {
         if (flag.getAttribute('data-lang') === lang) {
-            flag.style.opacity = '1';
-            flag.style.transform = 'scale(1.1)';
+            flag.style.color = 'var(--white)';
             flag.style.border = '2px solid var(--gold)';
         } else {
-            flag.style.opacity = '0.5';
-            flag.style.transform = 'scale(1)';
+            flag.style.color = 'var(--text-muted)';
             flag.style.border = '2px solid transparent';
         }
     });
