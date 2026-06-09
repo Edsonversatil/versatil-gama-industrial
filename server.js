@@ -493,7 +493,7 @@ app.post('/api/crm/leads', (req, res) => {
 
         // Text templates for the lead
         const wa = `Olá, ${contato_nome || 'Gestor'}! Tudo bem? Sou o Eng. Edson da Versátil Global Services. Concluímos recentemente uma campanha de alta performance em ${segmento_industrial} e lembrei da ${nome_cliente}. Como estão as demandas de manutenção por aí?`;
-        const emailMsg = `Prezado(a) ${contato_nome || 'Gestor'},\n\nEspero que esta mensagem o encontre bem.\n\nA Versátil Global Services é especialista em soluções industriais de troca térmica e usinagem in-situ para o segmento de ${segmento_industrial}.\n\nGostaríamos de apresentar nosso portfólio para a ${nome_cliente}. Podemos alinhar uma conversa técnica?\n\nAtenciosamente,\n\nEng. Edson de Oliveira Silva\nDiretor Técnico — Versátil Global Services`;
+        const emailMsg = `Prezado(a) ${contato_nome || 'Gestor'},\n\nEspero que esta mensagem o encontre bem.\n\nA Versátil Global Services é especialista em soluções industriais de troca térmica e usinagem in-situ para o segmento de ${segmento_industrial}.\n\nGostaríamos de apresentar nosso portfólio para a ${nome_cliente}. Podemos alinhar uma conversa técnica?\n\nAtenciosamente,\n\nEng. Edson de Oliveira Silva\nGerente Técnico Comercial — Versátil Global Services`;
         const linkedin = `Olá, ${contato_nome || 'Gestor'}! Muito prazer. Acompanho seus projetos na ${nome_cliente}. Somos da Versátil e atuamos em manutenção térmica de alta complexidade. Seria um prazer conectar-me.`;
 
         const newClient = {
@@ -589,8 +589,8 @@ function gerarEmailHtml(bodyText) {
                             </tr>
                             <tr>
                                 <td width="50%" style="padding:4px;">
-                                    <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/email_torneamento.png" alt="Torneamento In-Situ" width="280" style="width:100%;height:auto;display:block;border-radius:6px;">
-                                    <p style="margin:4px 0 0;font-size:11px;color:#BF2026;font-weight:700;text-align:center;">Torneamento In-Situ</p>
+                                    <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/email_torneamento.png" alt="Usinagem em Eixo In-Situ" width="280" style="width:100%;height:auto;display:block;border-radius:6px;">
+                                    <p style="margin:4px 0 0;font-size:11px;color:#BF2026;font-weight:700;text-align:center;">Usinagem em Eixo In-Situ</p>
                                 </td>
                                 <td width="50%" style="padding:4px;">
                                     <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/email_corte_tubos.png" alt="Corte e Biselamento" width="280" style="width:100%;height:auto;display:block;border-radius:6px;">
@@ -610,7 +610,7 @@ function gerarEmailHtml(bodyText) {
                     <!-- Footer -->
                     <tr><td style="background:#f9f9f9;padding:24px 32px;border-top:1px solid #e0e0e0;">
                         <p style="margin:0;font-size:13px;color:#555;"><strong>Eng. Edson de Oliveira Silva</strong></p>
-                        <p style="margin:4px 0 0;font-size:12px;color:#888;">Diretor Técnico — Versatil Global Services</p>
+                        <p style="margin:4px 0 0;font-size:12px;color:#888;">Gerente Técnico Comercial — Versatil Global Services</p>
                         <p style="margin:4px 0 0;font-size:12px;color:#888;">📱 (13) 99150-9140 | dp.tecnico@versatilservices.com.br</p>
                     </td></tr>
                     <!-- Bottom bar -->

@@ -4,7 +4,7 @@ const data = JSON.stringify({
   leads: [{
     to: 'dp.tecnico@versatilservices.com.br',
     subject: '[TESTE v2] Usinagem de Campo - Nova Foto Faceadeira com Cavaco',
-    body: 'Prezado Gestor,\n\nSomos referência em USINAGEM DE CAMPO (in-situ) para o segmento Industrial.\n\nRealizamos faceamento de flanges, retífica de sedes, mandrilhamento e torneamento direto na planta.\n\nTambém atuamos com Troca Térmica ASME, Caldeiraria e END.\n\nAtt, Eng. Edson - (13) 99150-9140',
+    body: 'Prezado,\n\nSomos referência em USINAGEM DE CAMPO (in-situ) para o segmento Industrial.\n\nRealizamos faceamento de flanges, retífica de sedes, retífica de alianças e roletes, mandrilhamento e torneamento direto na planta.\n\nTambém atuamos com Troca Térmica ASME, Caldeiraria e END.\n\nAtt, Eng. Edson - (13) 99150-9140',
     clientId: 'TESTE',
     nome: 'Teste Nova Foto'
   }]
