@@ -574,9 +574,30 @@ function gerarEmailHtml(bodyText) {
                         <h1 style="margin:0;font-size:22px;color:#ffffff;font-weight:700;letter-spacing:1px;">VERSATIL GLOBAL SERVICES</h1>
                         <p style="margin:6px 0 0;font-size:12px;color:#f8d0d2;letter-spacing:0.5px;">Usinagem de Campo & Serviços Industriais</p>
                     </td></tr>
-                    <!-- Hero Image -->
-                    <tr><td style="padding:0;">
-                        <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/usinagem_campo_promo.png" alt="Usinagem de Campo - Versatil Services" width="600" style="width:100%;height:auto;display:block;">
+                    <!-- Hero Images 2x2 Grid -->
+                    <tr><td style="padding:8px;">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="50%" style="padding:4px;">
+                                    <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/email_faceamento.png" alt="Faceamento de Flange" width="280" style="width:100%;height:auto;display:block;border-radius:6px;">
+                                    <p style="margin:4px 0 0;font-size:11px;color:#BF2026;font-weight:700;text-align:center;">Faceamento de Flange</p>
+                                </td>
+                                <td width="50%" style="padding:4px;">
+                                    <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/email_mandrilhamento.png" alt="Mandrilhamento em Campo" width="280" style="width:100%;height:auto;display:block;border-radius:6px;">
+                                    <p style="margin:4px 0 0;font-size:11px;color:#BF2026;font-weight:700;text-align:center;">Mandrilhamento em Campo</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="50%" style="padding:4px;">
+                                    <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/email_torneamento.png" alt="Torneamento In-Situ" width="280" style="width:100%;height:auto;display:block;border-radius:6px;">
+                                    <p style="margin:4px 0 0;font-size:11px;color:#BF2026;font-weight:700;text-align:center;">Torneamento In-Situ</p>
+                                </td>
+                                <td width="50%" style="padding:4px;">
+                                    <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/email_corte_tubos.png" alt="Corte e Biselamento" width="280" style="width:100%;height:auto;display:block;border-radius:6px;">
+                                    <p style="margin:4px 0 0;font-size:11px;color:#BF2026;font-weight:700;text-align:center;">Corte e Biselamento</p>
+                                </td>
+                            </tr>
+                        </table>
                     </td></tr>
                     <!-- Body -->
                     <tr><td style="padding:32px;color:#333333;font-size:15px;line-height:1.7;">
