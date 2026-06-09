@@ -580,6 +580,8 @@ app.post('/api/crm/leads', (req, res) => {
             qtd_relatorios: 0,
             qtd_contratos: 0,
             data_ultima_atividade: new Date().toISOString().split('T')[0],
+            data_cadastro: new Date().toISOString().split('T')[0],
+            arquivo_origem: "Lead Manual",
             dias_inativo: 0,
             requer_reativacao: false,
             roteiro_comercial: {
