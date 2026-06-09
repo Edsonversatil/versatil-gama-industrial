@@ -3250,27 +3250,45 @@
 
         async function enviarEmailIndividual(clientId) {
             const client = clientes.find(c => c.id_cliente === clientId);
-            if (!client || !client.contato_email) return;
-            if (!confirm(`Enviar e-mail para ${client.contato_email}?`)) return;
+            if (!client) return;
 
+            const leads = [];
             const roteiro = client.roteiro_comercial || {};
+            const subject = `Usinagem de Campo (In-Situ) — Versatil Global Services para ${client.nome_cliente}`;
+            const body = roteiro.mensagem_email || `Prezado(a), gostaríamos de apresentar nossos serviços de Usinagem de Campo para a ${client.nome_cliente}.`;
+
+            if (client.contato_email && client.contato_email.length > 3) {
+                leads.push({ to: client.contato_email, subject, body, clientId: client.id_cliente, nome: client.nome_cliente });
+            }
+            if (client.emails_adicionais && Array.isArray(client.emails_adicionais)) {
+                client.emails_adicionais.forEach(ea => {
+                    if (ea.email && ea.email.length > 3) {
+                        leads.push({ to: ea.email, subject, body, clientId: client.id_cliente, nome: `${client.nome_cliente} (${ea.departamento || 'Adicional'})` });
+                    }
+                });
+            }
+
+            if (leads.length === 0) {
+                showToast('Nenhum e-mail válido encontrado para este cliente.', false);
+                return;
+            }
+
+            if (!confirm(`Enviar e-mail para ${leads.length} contato(s) da ${client.nome_cliente}?`)) return;
+
             try {
-                const res = await fetch('/api/crm/enviar-email', {
+                const res = await fetch('/api/crm/campanha-email', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        to: client.contato_email,
-                        subject: `Usinagem de Campo (In-Situ) — Versatil Global Services para ${client.nome_cliente}`,
-                        body: roteiro.mensagem_email || `Prezado(a), gostaríamos de apresentar nossos serviços de Usinagem de Campo para a ${client.nome_cliente}.`,
-                        clientId: client.id_cliente,
-                        nome: client.nome_cliente
-                    })
+                    body: JSON.stringify({ leads })
                 });
                 const data = await res.json();
                 if (data.success) {
-                    showToast(`✅ E-mail enviado para ${client.contato_email}!`, true);
-                    await loadCampanhaLog();
-                    renderCampanhaTable();
+                    showToast(`✅ Envio iniciado para ${leads.length} e-mail(s)!`, true);
+                    // Atualizar tabela após um tempinho para dar tempo do backend processar
+                    setTimeout(async () => {
+                        await loadCampanhaLog();
+                        renderCampanhaTable();
+                    }, 4000);
                 } else {
                     showToast(`❌ Falha: ${data.error}`, false);
                 }
