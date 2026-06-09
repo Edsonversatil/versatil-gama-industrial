@@ -2608,7 +2608,7 @@
             if (!client) return;
 
             // Preenche os dados nos campos do Drawer
-            document.getElementById('drawer-avatar').textContent = client.id_cliente.substring(2);
+            document.getElementById('drawer-avatar').textContent = client.id_cliente;
             document.getElementById('drawer-client-name').textContent = client.nome_cliente;
             document.getElementById('drawer-segment-badge').textContent = client.segmento_industrial;
             
@@ -2671,14 +2671,15 @@
             const container = document.getElementById('drawer-contacts-container');
             container.innerHTML = '';
 
-            // Tenta associar contatos cujo e-mail tenha relação com a empresa ou associa contatos mockados
-            // para demonstração rica se não encontrar específicos
-            const matches = contatos.filter(c => {
-                const dom = c.email.split('@')[1].split('.')[0].toLowerCase();
-                return client.nome_cliente.toLowerCase().includes(dom);
-            });
+            // Filtra os contatos pelo ID do cliente
+            const matches = contatos.filter(c => c.id_cliente === client.id_cliente);
 
-            const contatosToShow = matches.length > 0 ? matches : contatos.slice(0, 2); // Fallback para manter rica
+            const contatosToShow = matches;
+
+            if (contatosToShow.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; font-style:italic; margin:10px 0;">Nenhum contato mapeado.</p>';
+                return;
+            }
 
             contatosToShow.forEach(c => {
                 const card = document.createElement('div');
