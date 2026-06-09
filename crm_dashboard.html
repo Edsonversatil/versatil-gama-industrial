@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Dicionário i18n do CRM -->
+    <script src="crm_i18n.js"></script>
+
     <style>
         /* ==========================================================================
            1. DESIGN SYSTEM & VARIÁVEIS (PREMIUM DARK/RED STYLE)
@@ -1260,49 +1263,49 @@
         
         <ul class="nav-menu">
             <li class="nav-item active" data-view="dashboard">
-                <button>
+                <button data-i18n="menu.dashboard">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                     Painel Geral
                 </button>
             </li>
             <li class="nav-item" data-view="clientes">
-                <button>
+                <button data-i18n="menu.clientes">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     Fichas Comerciais
                 </button>
             </li>
             <li class="nav-item" data-view="top100">
-                <button>
+                <button data-i18n="menu.top100">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     Top 100 Clientes
                 </button>
             </li>
             <li class="nav-item" data-view="reativacao">
-                <button>
+                <button data-i18n="menu.reativacao">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
                     Reativação Comercial
                 </button>
             </li>
             <li class="nav-item" data-view="vbot">
-                <button>
+                <button data-i18n="menu.vbot">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     IA V-Bot Chat
                 </button>
             </li>
             <li class="nav-item" data-view="novo-lead">
-                <button>
+                <button data-i18n="menu.novo_lead">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                     Capturar Novo Lead
                 </button>
             </li>
             <li class="nav-item" data-view="campanha">
-                <button>
+                <button data-i18n="menu.campanha">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                     Campanha de Prospecção
                 </button>
             </li>
             <li class="nav-item" data-view="equipe" id="nav-equipe" style="display:none;">
-                <button>
+                <button data-i18n="menu.equipe">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     Gestão de Equipe
                 </button>
@@ -1310,9 +1313,15 @@
         </ul>
         
         <div class="sidebar-footer">
-            <p>Logado como:</p>
+            <div style="display:flex; justify-content:center; gap:8px; margin-bottom:15px; font-size:1.5rem; line-height:1;">
+                <span class="lang-flag" data-lang="pt" onclick="setCrmLanguage('pt')" style="cursor:pointer; opacity:0.5; transition:0.3s; padding:2px 4px; border:2px solid transparent; border-radius:4px;" title="Português">🇧🇷</span>
+                <span class="lang-flag" data-lang="en" onclick="setCrmLanguage('en')" style="cursor:pointer; opacity:0.5; transition:0.3s; padding:2px 4px; border:2px solid transparent; border-radius:4px;" title="English">🇺🇸</span>
+                <span class="lang-flag" data-lang="es" onclick="setCrmLanguage('es')" style="cursor:pointer; opacity:0.5; transition:0.3s; padding:2px 4px; border:2px solid transparent; border-radius:4px;" title="Español">🇪🇸</span>
+                <span class="lang-flag" data-lang="ar" onclick="setCrmLanguage('ar')" style="cursor:pointer; opacity:0.5; transition:0.3s; padding:2px 4px; border:2px solid transparent; border-radius:4px;" title="العربية">🇦🇪</span>
+            </div>
+            <p data-i18n="menu.logado_como">Logado como:</p>
             <strong id="sidebar-user-name" style="font-family:var(--font-outfit); font-size:1rem; color:var(--white);">Autenticando...</strong>
-            <button onclick="realizarLogout()" style="margin-top:10px; width:100%; padding:8px; background:transparent; color:var(--text-muted); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:0.8rem; cursor:pointer; font-weight:bold; transition:0.3s;" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(191,32,38,0.5)';" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)';">
+            <button data-i18n="menu.sair" onclick="realizarLogout()" style="margin-top:10px; width:100%; padding:8px; background:transparent; color:var(--text-muted); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:0.8rem; cursor:pointer; font-weight:bold; transition:0.3s;" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(191,32,38,0.5)';" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)';">
                 Sair do Sistema
             </button>
         </div>

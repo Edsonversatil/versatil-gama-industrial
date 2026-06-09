@@ -4,5 +4,11 @@
     "nome": "Administrador",
     "senha": "admin",
     "role": "admin"
+  },
+  {
+    "id": "julia.ferraz",
+    "nome": "Julia Skodoski Ferraz Silva",
+    "senha": "280211",
+    "role": "user"
   }
 ]
