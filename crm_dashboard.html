@@ -2323,6 +2323,22 @@
                 const resContatos = await fetch('/api/crm/contatos');
                 contatos = await resContatos.json();
 
+                // MERGE: Anexar dados dos contatos aos clientes antigos que não possuem esses dados na raiz
+                clientes.forEach(cliente => {
+                    if (!cliente.contato_nome && !cliente.contato_email) {
+                        // Pegar o primeiro contato associado a este cliente
+                        const contact = contatos.find(c => c.id_cliente === cliente.id_cliente);
+                        if (contact) {
+                            cliente.contato_nome = contact.nome || '';
+                            cliente.contato_cargo = contact.cargo || '';
+                            cliente.contato_email = contact.email || '';
+                            cliente.contato_telefone = contact.celular || contact.telefone || '';
+                        }
+                    }
+                });
+
+                filteredClientes = [...clientes];
+
                 // Fetch de Alvos para Reativação
                 const resReativacao = await fetch('/api/crm/reativacao');
                 reativacao = await resReativacao.json();
