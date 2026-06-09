@@ -1752,7 +1752,7 @@
 
                     <div class="form-group">
                         <label for="lead-contato-telefone">Celular / WhatsApp</label>
-                        <input type="text" id="lead-contato-telefone" placeholder="Ex: +55 13 99711-2002">
+                        <input type="text" id="lead-contato-telefone" placeholder="(13) 99150-9140" maxlength="16">
                     </div>
 
                     <div class="form-submit-container">
@@ -2136,11 +2136,11 @@
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px;">
             <div class="form-group">
                 <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">📱 Telefone / WhatsApp</label>
-                <input type="text" id="edit-contato-telefone" class="search-input" style="padding-left:12px;" placeholder="(11) 99999-9999">
+                <input type="text" id="edit-contato-telefone" class="search-input" style="padding-left:12px;" placeholder="(13) 99150-9140 ou +971 50 123 4567" maxlength="25">
             </div>
             <div class="form-group">
                 <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">📞 Telefone Fixo (opcional)</label>
-                <input type="text" id="edit-contato-fixo" class="search-input" style="padding-left:12px;" placeholder="(11) 3000-0000">
+                <input type="text" id="edit-contato-fixo" class="search-input" style="padding-left:12px;" placeholder="(DD) XXXX-XXXX" maxlength="15">
             </div>
         </div>
 
@@ -2586,6 +2586,63 @@
             }, 3000);
         }
 
+        // Máscara de telefone: (DD) XXXXX-XXXX (BR) ou livre se começar com +
+        function aplicarMascaraTel(input) {
+            input.addEventListener('input', function() {
+                const raw = this.value;
+                // Se começa com +, é internacional — formato livre
+                if (raw.startsWith('+')) {
+                    // Permite apenas + dígitos e espaços
+                    this.value = raw.replace(/[^+\d\s-]/g, '');
+                    return;
+                }
+                let v = raw.replace(/\D/g, '');
+                // Remove 55 do início se digitou
+                if (v.startsWith('55') && v.length > 11) v = v.substring(2);
+                if (v.length > 11) v = v.substring(0, 11);
+                if (v.length > 6) {
+                    this.value = `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
+                } else if (v.length > 2) {
+                    this.value = `(${v.substring(0,2)}) ${v.substring(2)}`;
+                } else if (v.length > 0) {
+                    this.value = `(${v}`;
+                }
+            });
+        }
+
+        // Normalizar telefone para formato limpo
+        function normalizarTel(tel) {
+            if (!tel) return '';
+            // Internacional: mantém como está
+            if (tel.trim().startsWith('+')) return tel.trim();
+            let v = tel.replace(/\D/g, '');
+            if (v.startsWith('55') && v.length > 11) v = v.substring(2);
+            if (v.length === 11) return `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
+            if (v.length === 10) return `(${v.substring(0,2)}) ${v.substring(2,6)}-${v.substring(6)}`;
+            return tel;
+        }
+
+        // Gerar número para WhatsApp (suporta BR e internacional)
+        function gerarNumeroWa(tel) {
+            if (!tel) return '';
+            const clean = tel.replace(/[^+\d]/g, '');
+            // Internacional: já tem o código do país com +
+            if (clean.startsWith('+')) return clean.substring(1);
+            // Brasileiro: adiciona 55 se não tem
+            const digits = clean.replace(/\D/g, '');
+            return digits.startsWith('55') ? digits : '55' + digits;
+        }
+
+        // Aplicar máscara nos campos ao carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            const editTel = document.getElementById('edit-contato-telefone');
+            const editFixo = document.getElementById('edit-contato-fixo');
+            const newTel = document.getElementById('lead-contato-telefone');
+            if (editTel) aplicarMascaraTel(editTel);
+            if (editFixo) aplicarMascaraTel(editFixo);
+            if (newTel) aplicarMascaraTel(newTel);
+        });
+
         // ==========================================================================
         // V-BOT NATURAL LANGUAGE SEARCH PARSER & SIMULATED CHAT ENGINE
         // ==========================================================================
@@ -2925,11 +2982,10 @@
                     statusBadge = '<span style="background:rgba(255,255,255,0.05);color:var(--text-muted);padding:3px 8px;border-radius:20px;font-size:0.72rem;font-weight:700;">Sem e-mail</span>';
                 }
 
-                // WhatsApp link
-                const telClean = tel.replace(/\D/g, '');
-                const telFull = telClean.startsWith('55') ? telClean : '55' + telClean;
+                // WhatsApp link (suporta BR e internacional)
+                const telWa = gerarNumeroWa(tel);
                 const waMsg = c.roteiro_comercial ? encodeURIComponent(c.roteiro_comercial.mensagem_whatsapp || '') : '';
-                const waLink = hasTel ? `https://wa.me/${telFull}?text=${waMsg}` : '';
+                const waLink = hasTel ? `https://wa.me/${telWa}?text=${waMsg}` : '';
 
                 const tr = document.createElement('tr');
                 const emailId = `email-${c.id_cliente}`;
@@ -3445,8 +3501,8 @@
                 contato_nome: document.getElementById('edit-contato-nome').value,
                 contato_cargo: document.getElementById('edit-contato-cargo').value,
                 contato_email: document.getElementById('edit-contato-email').value,
-                contato_telefone: document.getElementById('edit-contato-telefone').value,
-                contato_fixo: document.getElementById('edit-contato-fixo') ? document.getElementById('edit-contato-fixo').value : '',
+                contato_telefone: normalizarTel(document.getElementById('edit-contato-telefone').value),
+                contato_fixo: document.getElementById('edit-contato-fixo') ? normalizarTel(document.getElementById('edit-contato-fixo').value) : '',
                 email_departamento: document.getElementById('edit-email-dept') ? document.getElementById('edit-email-dept').value : 'Comercial',
                 emails_adicionais: getExtraEmails()
             };
