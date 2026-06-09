@@ -1301,11 +1301,17 @@
                     Campanha de Prospecção
                 </button>
             </li>
+            <li class="nav-item" data-view="equipe" id="nav-equipe" style="display:none;">
+                <button>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Gestão de Equipe
+                </button>
+            </li>
         </ul>
         
         <div class="sidebar-footer">
-            <p>Fonte Oficial de Dados</p>
-            <strong>ACERVO FÍSICO INTEGRADO</strong>
+            <p>Logado como:</p>
+            <strong id="sidebar-user-name" style="font-family:var(--font-outfit); font-size:1rem; color:var(--white);">Autenticando...</strong>
             <button onclick="realizarLogout()" style="margin-top:10px; width:100%; padding:8px; background:transparent; color:var(--text-muted); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:0.8rem; cursor:pointer; font-weight:bold; transition:0.3s;" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(191,32,38,0.5)';" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)';">
                 Sair do Sistema
             </button>
@@ -1710,13 +1716,11 @@
                     </div>
 
                     <div class="form-group form-full">
-                        <label for="lead-responsavel">Responsável pelo Cadastro (Seu Nome/Equipe) *</label>
-                        <input type="text" id="lead-responsavel" list="responsaveis-lista" placeholder="Ex: Edson, Equipe Comercial..." required autocomplete="off">
-                        <datalist id="responsaveis-lista">
-                            <option value="Edson"></option>
-                            <option value="Equipe Comercial"></option>
-                            <option value="Diretoria"></option>
-                        </datalist>
+                        <label>Responsável pelo Cadastro</label>
+                        <div style="padding:14px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); border-radius:8px; color:var(--text-muted); font-weight:bold; display:flex; align-items:center; gap:10px;">
+                            <svg style="width:18px; height:18px; color:var(--green);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <span id="display-responsavel-nome">Autenticado pelo Sistema</span>
+                        </div>
                     </div>
 
                     <div class="form-group form-full">
@@ -2005,6 +2009,53 @@
                         </thead>
                         <tbody id="log-tbody">
                             <tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Nenhum envio registrado.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW PANEL 8: GESTÃO DE EQUIPE -->
+        <div id="view-equipe" class="view-panel">
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <h2>Gestão de Equipe & Perfis</h2>
+                        <p>Adicione ou remova membros da equipe de Marketing e Vendas. Apenas o Administrador tem acesso a esta tela.</p>
+                    </div>
+                </div>
+
+                <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:24px; margin-bottom:24px;">
+                    <h3 style="margin-bottom:16px; font-family:var(--font-outfit); font-size:1.1rem; color:var(--white);">Cadastrar Novo Usuário</h3>
+                    <form id="form-novo-usuario" style="display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:16px; align-items:end;" onsubmit="submitNovoUsuario(event)">
+                        <div class="form-group" style="margin:0;">
+                            <label>Login (ID único) *</label>
+                            <input type="text" id="novo-user-id" placeholder="Ex: joao.silva" required>
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label>Nome Completo (Responsável) *</label>
+                            <input type="text" id="novo-user-nome" placeholder="Ex: João Silva" required>
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label>Senha Provisória *</label>
+                            <input type="password" id="novo-user-senha" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="height:46px; white-space:nowrap;">➕ Cadastrar</button>
+                    </form>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="table-usuarios">
+                        <thead>
+                            <tr>
+                                <th>Login</th>
+                                <th>Nome (Responsável)</th>
+                                <th>Nível de Acesso</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuarios-tbody">
+                            <tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Carregando usuários...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -2323,41 +2374,51 @@
         // AUTHENTICATION ENGINE
         // ==========================================================================
         async function verificarSessao() {
-            // BYPASS DE EMERGÊNCIA: Retorna true direto para não travar o desenvolvimento
-            ocultarLogin();
-            return true;
-        }
-
-        async function realizarLogin(e) {
-            e.preventDefault();
-            ocultarLogin();
-            await initDashboard();
+            try {
+                const res = await fetch('/api/crm/me');
+                if (!res.ok) {
+                    window.location.href = '/login.html';
+                    return false;
+                }
+                const data = await res.json();
+                currentUser = data.user;
+                if (!currentUser) {
+                    window.location.href = '/login.html';
+                    return false;
+                }
+                return true;
+            } catch (err) {
+                window.location.href = '/login.html';
+                return false;
+            }
         }
 
         async function realizarLogout() {
-            window.location.reload();
-        }
-
-        function mostrarLogin() {
-            document.getElementById('login-overlay').style.display = 'flex';
-            setTimeout(() => document.getElementById('login-overlay').style.opacity = '1', 10);
-        }
-
-        function ocultarLogin() {
-            document.getElementById('login-overlay').style.opacity = '0';
-            setTimeout(() => document.getElementById('login-overlay').style.display = 'none', 500);
-        }
-
-        function aplicarPermissoes() {
-            // Bypass
+            await fetch('/api/crm/logout', { method: 'POST' });
+            window.location.href = '/login.html';
         }
 
         // ==========================================================================
         // INIT
         // ==========================================================================
         window.addEventListener('DOMContentLoaded', async () => {
-            document.getElementById('login-overlay').style.display = 'none';
-            await initDashboard();
+            const isAuth = await verificarSessao();
+            if (isAuth) {
+                const overlay = document.getElementById('login-overlay');
+                if (overlay) overlay.style.display = 'none';
+
+                document.getElementById('sidebar-user-name').textContent = currentUser.nome;
+                
+                const dispResp = document.getElementById('display-responsavel-nome');
+                if (dispResp) dispResp.textContent = currentUser.nome;
+                
+                if (currentUser.role === 'admin') {
+                    document.getElementById('nav-equipe').style.display = 'flex';
+                    carregarUsuarios();
+                }
+
+                await initDashboard();
+            }
         });
 
         async function initDashboard() {
@@ -3048,8 +3109,7 @@
                 estado: document.getElementById('lead-estado').value,
                 contato_nome: document.getElementById('lead-contato-nome').value,
                 contato_email: document.getElementById('lead-contato-email').value,
-                contato_telefone: document.getElementById('lead-contato-telefone').value,
-                responsavel: document.getElementById('lead-responsavel').value
+                contato_telefone: document.getElementById('lead-contato-telefone').value
             };
 
             try {
@@ -3735,7 +3795,7 @@
         }
 
         // ==========================================================================
-        // MODAL DE CRESCIMENTO (NOVOS CLIENTES)
+        // MODAL DE CRESCIMENTO (NOVOS CLIENTES E RANKING)
         // ==========================================================================
         function openNovosClientesModal() {
             const tbody = document.getElementById('nc-tbody');
@@ -3759,6 +3819,9 @@
             let countMes = 0;
             let countAno = 0;
             
+            // Leaderboard map
+            const leaderboard = {};
+            
             novos.forEach(c => {
                 const rawDate = c.data_cadastro || c.data_ultima_atividade;
                 // Parse date keeping timezone into account properly
@@ -3775,11 +3838,15 @@
                 if (diffDays <= 30) countMes++;
                 if (date.getFullYear() === today.getFullYear()) countAno++;
                 
+                // Track ranking
+                const resp = c.responsavel || 'Desconhecido';
+                leaderboard[resp] = (leaderboard[resp] || 0) + 1;
+                
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">${date.toLocaleDateString('pt-BR')}</td>
                     <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); font-weight:700; color:var(--white);">${c.nome_cliente}</td>
-                    <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">${c.responsavel || 'Não Informado'}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">${c.responsavel || 'Desconhecido'}</td>
                     <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">${c.contato_nome || '—'} <br><small style="color:var(--gold);">${c.contato_email || 'Sem e-mail'}</small></td>
                 `;
                 tbody.appendChild(tr);
@@ -3794,6 +3861,32 @@
             document.getElementById('nc-mes').textContent = countMes;
             document.getElementById('nc-ano').textContent = countAno;
             
+            // Build Ranking HTML
+            const sortedRank = Object.entries(leaderboard).sort((a,b) => b[1] - a[1]);
+            let rankHtml = '';
+            if (sortedRank.length > 0) {
+                rankHtml = '<h3 style="font-family:var(--font-outfit); font-size:1.1rem; margin:16px 0 12px 0; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--white);">🏆 Ranking da Equipe</h3><div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px;">';
+                sortedRank.forEach((r, idx) => {
+                    const medal = idx === 0 ? '🥇' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : ''));
+                    rankHtml += `<div style="background:rgba(191,32,38,0.1); border:1px solid rgba(191,32,38,0.2); border-radius:8px; padding:10px 16px; display:flex; flex-direction:column; align-items:center;"><span style="font-size:1.2rem; margin-bottom:4px;">${medal} ${r[0]}</span><span style="font-size:1.3rem; font-weight:800; font-family:var(--font-outfit); color:var(--white);">${r[1]}</span><span style="font-size:0.7rem; text-transform:uppercase; color:var(--text-muted);">Leads</span></div>`;
+                });
+                rankHtml += '</div>';
+            }
+            
+            // We append ranking before the table
+            const modalBody = document.getElementById('novos-clientes-modal');
+            const existingRank = document.getElementById('nc-ranking');
+            if (existingRank) existingRank.remove();
+            
+            if (rankHtml) {
+                const rankContainer = document.createElement('div');
+                rankContainer.id = 'nc-ranking';
+                rankContainer.innerHTML = rankHtml;
+                // Insert after the grid stats
+                const gridStats = modalBody.querySelector('div[style*="grid-template-columns:repeat(4"]');
+                gridStats.parentNode.insertBefore(rankContainer, gridStats.nextSibling);
+            }
+            
             document.getElementById('novos-clientes-modal').style.display = 'block';
             document.getElementById('novos-clientes-overlay').style.display = 'block';
         }
@@ -3801,6 +3894,86 @@
         function closeNovosClientesModal() {
             document.getElementById('novos-clientes-modal').style.display = 'none';
             document.getElementById('novos-clientes-overlay').style.display = 'none';
+        }
+
+        // ==========================================================================
+        // GESTÃO DE USUÁRIOS
+        // ==========================================================================
+        async function carregarUsuarios() {
+            try {
+                const res = await fetch('/api/crm/usuarios');
+                if (!res.ok) return;
+                const users = await res.json();
+                const tbody = document.getElementById('usuarios-tbody');
+                tbody.innerHTML = '';
+                
+                users.forEach(u => {
+                    const roleBadge = u.role === 'admin' ? '<span class="badge" style="background:rgba(255,215,0,0.1); color:var(--gold);">Administrador</span>' : '<span class="badge" style="background:rgba(0,123,255,0.1); color:#66b3ff;">Comercial</span>';
+                    const delBtn = u.id === 'admin' ? '' : `<button class="btn btn-secondary" onclick="excluirUsuario('${u.id}')" style="padding:4px 8px; font-size:0.8rem;">🗑️ Excluir</button>`;
+                    
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">${u.id}</td>
+                        <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--white); font-weight:600;">${u.nome}</td>
+                        <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.05);">${roleBadge}</td>
+                        <td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.05);">${delBtn}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function submitNovoUsuario(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Enviando...';
+            
+            const payload = {
+                id: document.getElementById('novo-user-id').value,
+                nome: document.getElementById('novo-user-nome').value,
+                senha: document.getElementById('novo-user-senha').value,
+                role: 'user' // Todos cadastrados aqui são normais
+            };
+            
+            try {
+                const res = await fetch('/api/crm/usuarios', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Usuário cadastrado com sucesso!', true);
+                    document.getElementById('form-novo-usuario').reset();
+                    await carregarUsuarios();
+                } else {
+                    showToast(data.error || 'Erro ao cadastrar', false);
+                }
+            } catch (err) {
+                showToast('Falha na comunicação com servidor', false);
+            }
+            
+            btn.disabled = false;
+            btn.textContent = '➕ Cadastrar';
+        }
+
+        async function excluirUsuario(id) {
+            if (!confirm(`Tem certeza que deseja remover o acesso do usuário "${id}"?`)) return;
+            try {
+                const res = await fetch(`/api/crm/usuarios/${id}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('Usuário removido!', true);
+                    await carregarUsuarios();
+                } else {
+                    showToast(data.error || 'Erro ao remover', false);
+                }
+            } catch (err) {
+                showToast('Falha de conexão', false);
+            }
         }
 
 

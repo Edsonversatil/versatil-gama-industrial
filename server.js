@@ -30,7 +30,112 @@ app.use((req, res, next) => {
     res.set('Expires', '0');
     next();
 });
+app.use((req, res, next) => {
+    // Auth Middleware to protect sensitive files and CRM routes
+    const isApiRoute = req.path.startsWith('/api/');
+    const isPublicApi = req.path === '/api/crm/login' || req.path.startsWith('/api/asaas') || req.path.startsWith('/api/pix');
+    
+    // Protect JSON databases and server logic
+    if ((req.path.endsWith('.json') && req.path !== '/manifest.json') || req.path === '/server.js') {
+        return res.status(403).json({ error: 'Acesso Negado' });
+    }
+
+    // Protect CRM endpoints and dashboard
+    if (req.path === '/crm_dashboard.html' || req.path === '/crm' || (isApiRoute && !isPublicApi)) {
+        const token = req.cookies.auth_token;
+        if (!token) {
+            if (isApiRoute) return res.status(401).json({ error: 'Não autenticado' });
+            return res.redirect('/login.html');
+        }
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET);
+            req.user = decoded; // Inject user profile into request
+            if (req.path === '/crm') {
+                return res.sendFile(path.join(__dirname, 'crm_dashboard.html'));
+            }
+        } catch (err) {
+            if (isApiRoute) return res.status(401).json({ error: 'Sessão expirada' });
+            return res.redirect('/login.html');
+        }
+    }
+    
+    // Redirect root to CRM (which will check auth and redirect to login if needed)
+    if (req.path === '/') {
+        return res.redirect('/crm');
+    }
+    
+    next();
+});
+
 app.use(express.static(path.join(__dirname)));
+
+// =============================================
+// AUTHENTICATION & USER MANAGEMENT
+// =============================================
+app.post('/api/crm/login', (req, res) => {
+    const { username, password } = req.body;
+    const usuariosPath = path.join(__dirname, 'usuarios_database.json');
+    let users = [];
+    if (fs.existsSync(usuariosPath)) {
+        users = JSON.parse(fs.readFileSync(usuariosPath, 'utf8'));
+    }
+    const user = users.find(u => u.id === username && u.senha === password);
+    if (!user) {
+        return res.status(401).json({ success: false, error: 'Usuário ou senha incorretos' });
+    }
+    const token = jwt.sign({ id: user.id, nome: user.nome, role: user.role }, JWT_SECRET, { expiresIn: '12h' });
+    res.cookie('auth_token', token, { httpOnly: true, secure: false, maxAge: 12 * 60 * 60 * 1000 });
+    res.json({ success: true, user: { nome: user.nome, role: user.role } });
+});
+
+app.post('/api/crm/logout', (req, res) => {
+    res.clearCookie('auth_token');
+    res.json({ success: true });
+});
+
+app.get('/api/crm/me', (req, res) => {
+    res.json({ user: req.user || null });
+});
+
+app.get('/api/crm/usuarios', (req, res) => {
+    if (!req.user || req.user.role !== 'admin') return res.status(403).json({ error: 'Acesso negado' });
+    const usuariosPath = path.join(__dirname, 'usuarios_database.json');
+    if (fs.existsSync(usuariosPath)) {
+        const users = JSON.parse(fs.readFileSync(usuariosPath, 'utf8')).map(u => ({ id: u.id, nome: u.nome, role: u.role }));
+        res.json(users);
+    } else {
+        res.json([]);
+    }
+});
+
+app.post('/api/crm/usuarios', (req, res) => {
+    if (!req.user || req.user.role !== 'admin') return res.status(403).json({ error: 'Acesso negado' });
+    const { id, nome, senha, role } = req.body;
+    if (!id || !nome || !senha) return res.status(400).json({ error: 'Preencha todos os campos' });
+    const usuariosPath = path.join(__dirname, 'usuarios_database.json');
+    let users = [];
+    if (fs.existsSync(usuariosPath)) {
+        users = JSON.parse(fs.readFileSync(usuariosPath, 'utf8'));
+    }
+    if (users.find(u => u.id === id)) return res.status(400).json({ error: 'Usuário (Login) já existe' });
+    users.push({ id, nome, senha, role: role || 'user' });
+    fs.writeFileSync(usuariosPath, JSON.stringify(users, null, 2), 'utf8');
+    res.json({ success: true });
+});
+
+app.delete('/api/crm/usuarios/:id', (req, res) => {
+    if (!req.user || req.user.role !== 'admin') return res.status(403).json({ error: 'Acesso negado' });
+    const id = req.params.id;
+    if (id === 'admin') return res.status(400).json({ error: 'O administrador padrão não pode ser excluído' });
+    const usuariosPath = path.join(__dirname, 'usuarios_database.json');
+    let users = [];
+    if (fs.existsSync(usuariosPath)) {
+        users = JSON.parse(fs.readFileSync(usuariosPath, 'utf8'));
+    }
+    users = users.filter(u => u.id !== id);
+    fs.writeFileSync(usuariosPath, JSON.stringify(users, null, 2), 'utf8');
+    res.json({ success: true });
+});
 
 // =============================================
 // HELPER: Chamada à API Asaas
@@ -542,7 +647,9 @@ app.get('/api/crm/reativacao', (req, res) => {
 
 app.post('/api/crm/leads', (req, res) => {
     try {
-        const { nome_cliente, segmento_industrial, porte_empresa, potencial_comercial, prioridade_comercial, cidade, estado, contato_nome, contato_email, contato_telefone, responsavel } = req.body;
+        const { nome_cliente, segmento_industrial, porte_empresa, potencial_comercial, prioridade_comercial, cidade, estado, contato_nome, contato_email, contato_telefone } = req.body;
+        // Puxa o responsável direto do token de sessão validado (não aceita o que veio do frontend para evitar fraude)
+        const responsavel = req.user && req.user.nome ? req.user.nome : 'Desconhecido';
         
         if (!nome_cliente || !segmento_industrial) {
             return res.status(400).json({ error: 'Nome do cliente e segmento são obrigatórios.' });
