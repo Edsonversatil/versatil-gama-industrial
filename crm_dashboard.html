@@ -1348,14 +1348,14 @@
                 </div>
             </div>
             <div class="stat-card active-card">
-                <div class="stat-icon">
-                    <svg style="width:24px; height:24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <div class="stat-icon" style="background:var(--blue-soft); color:var(--blue);">
+                    <svg style="width:24px; height:24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
                 </div>
                 <div class="stat-info">
-                    <h3>Arquivos Analisados</h3>
-                    <div class="stat-value">14.944</div>
+                    <h3>Novos Clientes</h3>
+                    <div class="stat-value" id="stat-novos-clientes">0</div>
                     <div class="stat-subtext">
-                        Trocadores, Contratos e RDOs
+                        Adicionados via CRM
                     </div>
                 </div>
             </div>
@@ -2356,11 +2356,13 @@
         function renderDashboardSummary() {
             // Conta totais
             const total = clientes.length;
+            const novos = clientes.filter(c => parseInt(c.id_cliente, 10) > 593).length;
             const prioridadeA = clientes.filter(c => c.prioridade_comercial.includes('A')).length;
             const prioridadeB = clientes.filter(c => c.prioridade_comercial.includes('B')).length;
             
             // Popula os cards do topo
             document.getElementById('stat-total-clientes').textContent = total;
+            document.getElementById('stat-novos-clientes').textContent = novos;
             document.getElementById('stat-clientes-a').textContent = prioridadeA;
             document.getElementById('stat-clientes-b').textContent = prioridadeB;
 
