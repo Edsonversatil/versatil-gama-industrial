@@ -498,6 +498,50 @@
             border: 1px solid var(--border);
         }
 
+        #table-campanha td.email-cell {
+            max-width: none;
+            word-break: break-all;
+            white-space: normal;
+            min-width: 200px;
+        }
+
+        .email-edit-wrap {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .email-edit-wrap input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            width: 100%;
+            min-width: 180px;
+        }
+
+        .email-edit-wrap input:focus {
+            border-color: var(--green);
+            outline: none;
+        }
+
+        .btn-edit-email {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 2px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .btn-edit-email:hover {
+            opacity: 1;
+            color: var(--green);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -1956,6 +2000,11 @@
                     <h5>WhatsApp</h5>
                     <span class="badge" style="background-color: var(--green-soft); color: var(--green);">Rápido</span>
                 </div>
+                <div id="wa-client-number" style="display:none; margin-bottom:8px; padding:8px 12px; background:rgba(37,211,102,0.08); border:1px solid rgba(37,211,102,0.2); border-radius:8px;">
+                    <span style="font-size:0.78rem; color:var(--text-muted);">WhatsApp do cliente:</span>
+                    <a id="wa-client-link" href="#" target="_blank" style="color:var(--green); font-weight:700; font-size:0.9rem; margin-left:6px; text-decoration:none;"></a>
+                    <button onclick="window.open(document.getElementById('wa-client-link').href, '_blank')" style="margin-left:8px; background:var(--green); color:#fff; border:none; padding:4px 12px; border-radius:6px; font-size:0.75rem; font-weight:700; cursor:pointer;">📱 Abrir WhatsApp</button>
+                </div>
                 <div class="outreach-content" id="template-wa">Mapeando roteiro de WhatsApp do segmento...</div>
                 <button class="btn-copy-template" onclick="copyTemplate('template-wa', 'WhatsApp')">Copiar Mensagem WhatsApp</button>
             </div>
@@ -2057,14 +2106,41 @@
                 <input type="text" id="edit-contato-cargo" class="search-input" style="padding-left:12px;" placeholder="Gerente de Manutenção">
             </div>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px;">
+
+        <!-- E-mail Principal -->
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:14px; margin-bottom:10px;">
             <div class="form-group">
-                <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">E-mail Corporativo</label>
+                <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">📧 E-mail Principal</label>
                 <input type="email" id="edit-contato-email" class="search-input" style="padding-left:12px;" placeholder="contato@empresa.com.br">
             </div>
             <div class="form-group">
-                <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Telefone / WhatsApp</label>
+                <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Departamento</label>
+                <select id="edit-email-dept" class="select-filter" style="width:100%;">
+                    <option value="Comercial">Comercial</option>
+                    <option value="Técnico">Técnico</option>
+                    <option value="Compras">Compras</option>
+                    <option value="Manutenção">Manutenção</option>
+                    <option value="Diretoria">Diretoria</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- E-mails Adicionais (dinâmico) -->
+        <div id="emails-adicionais-container"></div>
+        <button type="button" onclick="addEmailField()" style="background:none; border:1px dashed var(--border); color:var(--green); padding:8px 16px; border-radius:8px; cursor:pointer; font-size:0.8rem; font-weight:600; width:100%; margin-bottom:16px; transition:all 0.2s;" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">
+            ➕ Adicionar outro e-mail (técnico, compras, etc.)
+        </button>
+
+        <!-- Telefone / WhatsApp -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px;">
+            <div class="form-group">
+                <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">📱 Telefone / WhatsApp</label>
                 <input type="text" id="edit-contato-telefone" class="search-input" style="padding-left:12px;" placeholder="(11) 99999-9999">
+            </div>
+            <div class="form-group">
+                <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">📞 Telefone Fixo (opcional)</label>
+                <input type="text" id="edit-contato-fixo" class="search-input" style="padding-left:12px;" placeholder="(11) 3000-0000">
             </div>
         </div>
 
@@ -2416,9 +2492,26 @@
             document.getElementById('drawer-stat-contratos').textContent = client.qtd_contratos;
 
             // Outreach templates
-            document.getElementById('template-wa').textContent = client.roteiro_comercial.mensagem_whatsapp;
-            document.getElementById('template-email').textContent = client.roteiro_comercial.mensagem_email;
-            document.getElementById('template-li').textContent = client.roteiro_comercial.mensagem_linkedin;
+            // Substituir telefone fixo pelo WhatsApp nas mensagens
+            const fixarWa = (msg) => msg ? msg.replace(/\(13\) 3221-8000/g, '(13) 99150-9140').replace(/3221-8000/g, '99150-9140') : msg;
+            document.getElementById('template-wa').textContent = fixarWa(client.roteiro_comercial.mensagem_whatsapp);
+            document.getElementById('template-email').textContent = fixarWa(client.roteiro_comercial.mensagem_email);
+            document.getElementById('template-li').textContent = fixarWa(client.roteiro_comercial.mensagem_linkedin);
+
+            // Mostrar WhatsApp do cliente
+            const waNumberEl = document.getElementById('wa-client-number');
+            const waLinkEl = document.getElementById('wa-client-link');
+            const clientTel = client.contato_telefone || client.contato_whatsapp || '';
+            if (clientTel && clientTel.length > 5) {
+                const telClean = clientTel.replace(/\D/g, '');
+                const telFull = telClean.startsWith('55') ? telClean : '55' + telClean;
+                const waMsg = client.roteiro_comercial ? encodeURIComponent(fixarWa(client.roteiro_comercial.mensagem_whatsapp || '')) : '';
+                waLinkEl.textContent = clientTel;
+                waLinkEl.href = `https://wa.me/${telFull}?text=${waMsg}`;
+                waNumberEl.style.display = 'block';
+            } else {
+                waNumberEl.style.display = 'none';
+            }
 
             // Busca e renderiza contatos associados
             renderDrawerContacts(client);
@@ -2837,12 +2930,33 @@
                 const waLink = hasTel ? `https://wa.me/${telFull}?text=${waMsg}` : '';
 
                 const tr = document.createElement('tr');
+                const emailId = `email-${c.id_cliente}`;
+                const emailDisplay = hasEmail 
+                    ? `<div class="email-edit-wrap">
+                         <span id="${emailId}-text" style="color:var(--green); font-size:0.82rem; word-break:break-all;">${email}</span>
+                         <button class="btn-edit-email" onclick="editEmailInline('${c.id_cliente}')" title="Editar e-mail">✏️</button>
+                       </div>
+                       <div id="${emailId}-input" style="display:none;" class="email-edit-wrap">
+                         <input type="email" value="${email}" placeholder="novo@email.com" onkeydown="if(event.key==='Enter')saveEmailInline('${c.id_cliente}')">
+                         <button class="btn-action" onclick="saveEmailInline('${c.id_cliente}')" title="Salvar" style="background:var(--green-soft);color:var(--green);border-color:rgba(37,211,102,0.3);padding:3px 6px;">✓</button>
+                         <button class="btn-action" onclick="cancelEmailInline('${c.id_cliente}')" title="Cancelar" style="padding:3px 6px;">✕</button>
+                       </div>`
+                    : `<div id="${emailId}-text" class="email-edit-wrap">
+                         <span style="color:var(--text-muted); font-size:0.82rem;">—</span>
+                         <button class="btn-edit-email" onclick="editEmailInline('${c.id_cliente}')" title="Adicionar e-mail">➕</button>
+                       </div>
+                       <div id="${emailId}-input" style="display:none;" class="email-edit-wrap">
+                         <input type="email" value="" placeholder="email@empresa.com" onkeydown="if(event.key==='Enter')saveEmailInline('${c.id_cliente}')">
+                         <button class="btn-action" onclick="saveEmailInline('${c.id_cliente}')" title="Salvar" style="background:var(--green-soft);color:var(--green);border-color:rgba(37,211,102,0.3);padding:3px 6px;">✓</button>
+                         <button class="btn-action" onclick="cancelEmailInline('${c.id_cliente}')" title="Cancelar" style="padding:3px 6px;">✕</button>
+                       </div>`;
+
                 tr.innerHTML = `
                     <td><input type="checkbox" class="camp-check" data-id="${c.id_cliente}" ${!hasEmail ? 'disabled' : ''}></td>
                     <td><span class="client-id">${c.id_cliente}</span></td>
                     <td><span class="client-name" style="cursor:pointer; text-decoration:underline; text-decoration-color:rgba(255,255,255,0.2);" onclick="openEditModal('${c.id_cliente}')">${c.nome_cliente}</span><br><span style="font-size:0.72rem;color:var(--text-muted);">${c.segmento_industrial}</span></td>
                     <td style="font-size:0.85rem;">${nome || '—'}</td>
-                    <td style="font-size:0.8rem; color:${hasEmail ? 'var(--green)' : 'var(--text-muted)'};">${email || '—'}</td>
+                    <td class="email-cell">${emailDisplay}</td>
                     <td style="font-size:0.8rem;">${tel || '—'}</td>
                     <td>${statusBadge}</td>
                     <td>
@@ -2855,6 +2969,58 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        // ── Editar/Adicionar e-mail inline ──
+        function editEmailInline(clientId) {
+            const textEl = document.getElementById(`email-${clientId}-text`);
+            const inputEl = document.getElementById(`email-${clientId}-input`);
+            if (textEl) textEl.style.display = 'none';
+            if (inputEl) {
+                inputEl.style.display = 'flex';
+                inputEl.querySelector('input').focus();
+            }
+        }
+
+        function cancelEmailInline(clientId) {
+            const textEl = document.getElementById(`email-${clientId}-text`);
+            const inputEl = document.getElementById(`email-${clientId}-input`);
+            if (textEl) textEl.style.display = 'flex';
+            if (inputEl) inputEl.style.display = 'none';
+        }
+
+        async function saveEmailInline(clientId) {
+            const inputEl = document.getElementById(`email-${clientId}-input`);
+            const newEmail = inputEl.querySelector('input').value.trim();
+            
+            if (!newEmail || !newEmail.includes('@')) {
+                showToast('❌ E-mail inválido. Use formato: nome@empresa.com', false);
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/crm/clientes/${clientId}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contato_email: newEmail })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    // Atualiza no array local
+                    const c = clientes.find(cl => cl.id_cliente === clientId);
+                    if (c) c.contato_email = newEmail;
+                    showToast(`✅ E-mail de ${c ? c.nome_cliente : clientId} atualizado!`, true);
+                    renderCampanhaTable();
+                } else {
+                    showToast(`❌ Erro: ${data.error}`, false);
+                }
+            } catch(e) {
+                // Salva localmente mesmo se API falhar
+                const c = clientes.find(cl => cl.id_cliente === clientId);
+                if (c) c.contato_email = newEmail;
+                showToast(`✅ E-mail salvo localmente para ${c ? c.nome_cliente : clientId}`, true);
+                renderCampanhaTable();
+            }
         }
 
         function filterCampanhaLeads() {
@@ -3059,6 +3225,46 @@
         // ==========================================================================
         // MODAL DE EDIÇÃO DE CLIENTES + BUSCA CNPJ
         // ==========================================================================
+        let emailFieldCount = 0;
+
+        function addEmailField(email = '', dept = 'Técnico') {
+            emailFieldCount++;
+            const container = document.getElementById('emails-adicionais-container');
+            const row = document.createElement('div');
+            row.id = `email-extra-row-${emailFieldCount}`;
+            row.style.cssText = 'display:grid; grid-template-columns:2fr 1fr auto; gap:14px; margin-bottom:10px; align-items:end;';
+            row.innerHTML = `
+                <div class="form-group">
+                    <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">📧 E-mail Adicional</label>
+                    <input type="email" class="search-input extra-email-input" style="padding-left:12px;" placeholder="outro@empresa.com.br" value="${email}">
+                </div>
+                <div class="form-group">
+                    <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Departamento</label>
+                    <select class="select-filter extra-email-dept" style="width:100%;">
+                        <option value="Comercial" ${dept==='Comercial'?'selected':''}>Comercial</option>
+                        <option value="Técnico" ${dept==='Técnico'?'selected':''}>Técnico</option>
+                        <option value="Compras" ${dept==='Compras'?'selected':''}>Compras</option>
+                        <option value="Manutenção" ${dept==='Manutenção'?'selected':''}>Manutenção</option>
+                        <option value="Diretoria" ${dept==='Diretoria'?'selected':''}>Diretoria</option>
+                        <option value="Outro" ${dept==='Outro'?'selected':''}>Outro</option>
+                    </select>
+                </div>
+                <button type="button" onclick="document.getElementById('email-extra-row-${emailFieldCount}').remove()" style="background:rgba(255,50,50,0.1); border:1px solid rgba(255,50,50,0.2); color:var(--red); padding:8px 12px; border-radius:8px; cursor:pointer; font-size:0.85rem; margin-bottom:4px;">🗑️</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function getExtraEmails() {
+            const emails = [];
+            document.querySelectorAll('.extra-email-input').forEach((input, i) => {
+                const dept = document.querySelectorAll('.extra-email-dept')[i];
+                if (input.value.trim()) {
+                    emails.push({ email: input.value.trim(), departamento: dept ? dept.value : 'Outro' });
+                }
+            });
+            return emails;
+        }
+
         function openEditModal(clientId) {
             const c = clientes.find(cl => cl.id_cliente === clientId);
             if (!c) return;
@@ -3076,6 +3282,24 @@
             document.getElementById('edit-contato-telefone').value = c.contato_telefone || '';
             document.getElementById('edit-modal-subtitle').textContent = `[${c.id_cliente}] ${c.nome_cliente}`;
             document.getElementById('cnpj-status').innerHTML = '';
+
+            // Departamento do e-mail principal
+            const deptSel = document.getElementById('edit-email-dept');
+            if (c.email_departamento) deptSel.value = c.email_departamento;
+            else deptSel.value = 'Comercial';
+
+            // Telefone fixo
+            const fixoEl = document.getElementById('edit-contato-fixo');
+            if (fixoEl) fixoEl.value = c.contato_fixo || '';
+
+            // Limpar e carregar e-mails adicionais
+            document.getElementById('emails-adicionais-container').innerHTML = '';
+            emailFieldCount = 0;
+            if (c.emails_adicionais && Array.isArray(c.emails_adicionais)) {
+                c.emails_adicionais.forEach(ea => {
+                    addEmailField(ea.email || '', ea.departamento || 'Técnico');
+                });
+            }
 
             document.getElementById('edit-modal').style.display = 'block';
             document.getElementById('edit-overlay').style.display = 'block';
@@ -3205,7 +3429,10 @@
                 contato_nome: document.getElementById('edit-contato-nome').value,
                 contato_cargo: document.getElementById('edit-contato-cargo').value,
                 contato_email: document.getElementById('edit-contato-email').value,
-                contato_telefone: document.getElementById('edit-contato-telefone').value
+                contato_telefone: document.getElementById('edit-contato-telefone').value,
+                contato_fixo: document.getElementById('edit-contato-fixo') ? document.getElementById('edit-contato-fixo').value : '',
+                email_departamento: document.getElementById('edit-email-dept') ? document.getElementById('edit-email-dept').value : 'Comercial',
+                emails_adicionais: getExtraEmails()
             };
 
             try {

@@ -560,7 +560,7 @@ const campanhaLogPath = path.join(parentDir, 'campanha_log.json');
 
 // Helper: Gerar template HTML profissional para emails
 function gerarEmailHtml(bodyText) {
-    const bodyHtml = bodyText.replace(/\n/g, '<br>');
+    const bodyHtml = bodyText.replace(/\n/g, '<br>').replace(/\(13\) 3221-8000/g, '(13) 99150-9140').replace(/3221-8000/g, '99150-9140');
     return `
     <!DOCTYPE html>
     <html lang="pt-BR">
@@ -572,17 +572,25 @@ function gerarEmailHtml(bodyText) {
                     <!-- Header -->
                     <tr><td style="background:#BF2026;padding:28px 32px;text-align:center;">
                         <h1 style="margin:0;font-size:22px;color:#ffffff;font-weight:700;letter-spacing:1px;">VERSATIL GLOBAL SERVICES</h1>
-                        <p style="margin:6px 0 0;font-size:12px;color:#f8d0d2;letter-spacing:0.5px;">Engenharia Industrial de Alta Performance</p>
+                        <p style="margin:6px 0 0;font-size:12px;color:#f8d0d2;letter-spacing:0.5px;">Usinagem de Campo & Serviços Industriais</p>
+                    </td></tr>
+                    <!-- Hero Image -->
+                    <tr><td style="padding:0;">
+                        <img src="https://versatilservices.com.br/Fotos/usinagem_campo_promo.png" alt="Usinagem de Campo - Versatil Services" width="600" style="width:100%;height:auto;display:block;">
                     </td></tr>
                     <!-- Body -->
                     <tr><td style="padding:32px;color:#333333;font-size:15px;line-height:1.7;">
                         ${bodyHtml}
                     </td></tr>
+                    <!-- CTA Button -->
+                    <tr><td style="padding:0 32px 28px;" align="center">
+                        <a href="https://wa.me/5513991509140" target="_blank" style="display:inline-block;background:#25D366;color:#ffffff;padding:14px 32px;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:0.5px;">📱 Falar via WhatsApp</a>
+                    </td></tr>
                     <!-- Footer -->
                     <tr><td style="background:#f9f9f9;padding:24px 32px;border-top:1px solid #e0e0e0;">
                         <p style="margin:0;font-size:13px;color:#555;"><strong>Eng. Edson de Oliveira Silva</strong></p>
                         <p style="margin:4px 0 0;font-size:12px;color:#888;">Diretor Técnico — Versatil Global Services</p>
-                        <p style="margin:4px 0 0;font-size:12px;color:#888;">dp.tecnico@versatilservices.com.br</p>
+                        <p style="margin:4px 0 0;font-size:12px;color:#888;">📱 (13) 99150-9140 | dp.tecnico@versatilservices.com.br</p>
                     </td></tr>
                     <!-- Bottom bar -->
                     <tr><td style="background:#BF2026;padding:10px;text-align:center;">
