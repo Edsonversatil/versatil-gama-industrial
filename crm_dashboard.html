@@ -3036,9 +3036,19 @@
                 const extras = c.emails_adicionais && Array.isArray(c.emails_adicionais) ? c.emails_adicionais : [];
                 const totalEmails = (hasEmail ? 1 : 0) + extras.length;
 
+                const checkSent = (emailAddress) => {
+                    return campanhaLog.some(l => l.clientId === c.id_cliente && l.status === 'enviado' && l.to === emailAddress);
+                };
+
                 let statusBadge = '';
-                if (wasEnviado) {
+                const sentMain = hasEmail && checkSent(email);
+                const sentExtras = extras.filter(ea => ea.email && checkSent(ea.email)).length;
+                const totalSent = (sentMain ? 1 : 0) + sentExtras;
+
+                if (totalSent > 0 && totalSent === totalEmails) {
                     statusBadge = '<span style="background:var(--green-soft);color:var(--green);padding:3px 8px;border-radius:20px;font-size:0.72rem;font-weight:700;">✓ Enviado</span>';
+                } else if (totalSent > 0) {
+                    statusBadge = '<span style="background:var(--gold-soft);color:var(--gold);padding:3px 8px;border-radius:20px;font-size:0.72rem;font-weight:700;">✓ Parcial</span>';
                 } else if (hasEmail) {
                     statusBadge = '<span style="background:var(--gold-soft);color:var(--gold);padding:3px 8px;border-radius:20px;font-size:0.72rem;font-weight:700;">Pendente</span>';
                 } else {
@@ -3057,10 +3067,14 @@
                 // Build multi-email display
                 let emailLines = '';
                 if (hasEmail) {
-                    emailLines += `<div style="margin-bottom:3px;"><span style="color:var(--green); font-size:0.82rem; word-break:break-all;">${email}</span> <span style="font-size:0.65rem; background:rgba(191,32,38,0.1); color:var(--red); padding:1px 5px; border-radius:4px;">${deptPrincipal}</span></div>`;
+                    const checkIcon = sentMain ? '<span style="background:var(--green-soft);color:var(--green);padding:1px 4px;border-radius:4px;font-size:0.65rem;margin-left:4px;font-weight:bold;" title="Enviado">✓</span>' : '';
+                    emailLines += `<div style="margin-bottom:3px;"><span style="color:var(--green); font-size:0.82rem; word-break:break-all;">${email}</span> <span style="font-size:0.65rem; background:rgba(191,32,38,0.1); color:var(--red); padding:1px 5px; border-radius:4px;">${deptPrincipal}</span>${checkIcon}</div>`;
                 }
                 extras.forEach(ea => {
-                    if (ea.email) emailLines += `<div style="margin-bottom:3px;"><span style="color:var(--green); font-size:0.82rem; word-break:break-all;">${ea.email}</span> <span style="font-size:0.65rem; background:rgba(37,211,102,0.1); color:var(--green); padding:1px 5px; border-radius:4px;">${ea.departamento || 'Outro'}</span></div>`;
+                    if (ea.email) {
+                        const checkIcon = checkSent(ea.email) ? '<span style="background:var(--green-soft);color:var(--green);padding:1px 4px;border-radius:4px;font-size:0.65rem;margin-left:4px;font-weight:bold;" title="Enviado">✓</span>' : '';
+                        emailLines += `<div style="margin-bottom:3px;"><span style="color:var(--green); font-size:0.82rem; word-break:break-all;">${ea.email}</span> <span style="font-size:0.65rem; background:rgba(37,211,102,0.1); color:var(--green); padding:1px 5px; border-radius:4px;">${ea.departamento || 'Outro'}</span>${checkIcon}</div>`;
+                    }
                 });
 
                 const emailDisplay = `<div class="email-edit-wrap" style="flex-direction:column; align-items:flex-start;">
