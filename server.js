@@ -576,7 +576,7 @@ function gerarEmailHtml(bodyText) {
                     </td></tr>
                     <!-- Hero Image -->
                     <tr><td style="padding:0;">
-                        <img src="https://versatilservices.com.br/Fotos/usinagem_campo_promo.png" alt="Usinagem de Campo - Versatil Services" width="600" style="width:100%;height:auto;display:block;">
+                        <img src="https://raw.githubusercontent.com/Edsonversatil/versatil-gama-industrial/stable/global-premium-v1/Fotos/usinagem_campo_promo.png" alt="Usinagem de Campo - Versatil Services" width="600" style="width:100%;height:auto;display:block;">
                     </td></tr>
                     <!-- Body -->
                     <tr><td style="padding:32px;color:#333333;font-size:15px;line-height:1.7;">
