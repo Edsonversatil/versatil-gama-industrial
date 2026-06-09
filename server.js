@@ -566,7 +566,7 @@ app.post('/api/crm/leads', (req, res) => {
 
         // Text templates for the lead
         const wa = `Olá, ${contato_nome || 'Gestor'}! Tudo bem? Sou o Eng. Edson da Versátil Global Services. Concluímos recentemente uma campanha de alta performance em ${segmento_industrial} e lembrei da ${nome_cliente}. Como estão as demandas de manutenção por aí?`;
-        const emailMsg = `Prezado(a) ${contato_nome || 'Gestor'},\n\nEspero que esta mensagem o encontre bem.\n\nA Versátil Global Services é especialista em soluções industriais de troca térmica e usinagem in-situ para o segmento de ${segmento_industrial}.\n\nGostaríamos de apresentar nosso portfólio para a ${nome_cliente}. Podemos alinhar uma conversa técnica?\n\nAtenciosamente,\n\nEng. Edson de Oliveira Silva\nGerente Técnico Comercial — Versátil Global Services`;
+        const emailMsg = `Prezado(a) ${contato_nome || 'Gestor'},\n\nEspero que esta mensagem o encontre bem.\n\nA Versátil Global Services é especialista em soluções industriais de Usinagem de Campo e Retubagem em Trocadores de Calor para o segmento de ${segmento_industrial}.\n\nGostaríamos de apresentar nosso portfólio para a ${nome_cliente}. Podemos alinhar uma conversa técnica?\n\nAtenciosamente,\n\nEng. Edson de Oliveira Silva\nGerente Técnico Comercial — Versátil Global Services`;
         const linkedin = `Olá, ${contato_nome || 'Gestor'}! Muito prazer. Acompanho seus projetos na ${nome_cliente}. Somos da Versátil e atuamos em manutenção térmica de alta complexidade. Seria um prazer conectar-me.`;
 
         const newClient = {
