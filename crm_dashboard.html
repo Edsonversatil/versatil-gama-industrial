@@ -1710,6 +1710,16 @@
                     </div>
 
                     <div class="form-group form-full">
+                        <label for="lead-responsavel">Responsável pelo Cadastro (Seu Nome/Equipe) *</label>
+                        <input type="text" id="lead-responsavel" list="responsaveis-lista" placeholder="Ex: Edson, Equipe Comercial..." required autocomplete="off">
+                        <datalist id="responsaveis-lista">
+                            <option value="Edson"></option>
+                            <option value="Equipe Comercial"></option>
+                            <option value="Diretoria"></option>
+                        </datalist>
+                    </div>
+
+                    <div class="form-group form-full">
                         <label for="lead-nome-empresa">Razão Social / Nome da Empresa *</label>
                         <input type="text" id="lead-nome-empresa" placeholder="Ex: Refinaria Presidente Bernardes (RPB) Petrobras" required>
                     </div>
@@ -2156,6 +2166,7 @@
                     <tr>
                         <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border); color:var(--text-muted);">Data</th>
                         <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border); color:var(--text-muted);">Empresa</th>
+                        <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border); color:var(--text-muted);">Responsável</th>
                         <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border); color:var(--text-muted);">Contato</th>
                     </tr>
                 </thead>
@@ -3037,7 +3048,8 @@
                 estado: document.getElementById('lead-estado').value,
                 contato_nome: document.getElementById('lead-contato-nome').value,
                 contato_email: document.getElementById('lead-contato-email').value,
-                contato_telefone: document.getElementById('lead-contato-telefone').value
+                contato_telefone: document.getElementById('lead-contato-telefone').value,
+                responsavel: document.getElementById('lead-responsavel').value
             };
 
             try {
@@ -3767,13 +3779,14 @@
                 tr.innerHTML = `
                     <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">${date.toLocaleDateString('pt-BR')}</td>
                     <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); font-weight:700; color:var(--white);">${c.nome_cliente}</td>
+                    <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">${c.responsavel || 'Não Informado'}</td>
                     <td style="padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">${c.contato_nome || '—'} <br><small style="color:var(--gold);">${c.contato_email || 'Sem e-mail'}</small></td>
                 `;
                 tbody.appendChild(tr);
             });
             
             if (novos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding:30px; color:var(--text-muted);">Nenhum lead cadastrado via CRM ainda. Eles aparecerão aqui quando você usar o botão "Capturar Novo Lead".</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">Nenhum lead cadastrado via CRM ainda. Eles aparecerão aqui quando você usar o botão "Capturar Novo Lead".</td></tr>`;
             }
             
             document.getElementById('nc-hoje').textContent = countHoje;

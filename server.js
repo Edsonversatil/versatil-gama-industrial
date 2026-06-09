@@ -542,7 +542,7 @@ app.get('/api/crm/reativacao', (req, res) => {
 
 app.post('/api/crm/leads', (req, res) => {
     try {
-        const { nome_cliente, segmento_industrial, porte_empresa, potencial_comercial, prioridade_comercial, cidade, estado, contato_nome, contato_email, contato_telefone } = req.body;
+        const { nome_cliente, segmento_industrial, porte_empresa, potencial_comercial, prioridade_comercial, cidade, estado, contato_nome, contato_email, contato_telefone, responsavel } = req.body;
         
         if (!nome_cliente || !segmento_industrial) {
             return res.status(400).json({ error: 'Nome do cliente e segmento são obrigatórios.' });
@@ -581,6 +581,7 @@ app.post('/api/crm/leads', (req, res) => {
             qtd_contratos: 0,
             data_ultima_atividade: new Date().toISOString().split('T')[0],
             data_cadastro: new Date().toISOString().split('T')[0],
+            responsavel: responsavel || 'Não Informado',
             arquivo_origem: "Lead Manual",
             dias_inativo: 0,
             requer_reativacao: false,
