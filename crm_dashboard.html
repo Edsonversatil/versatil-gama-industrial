@@ -2633,6 +2633,14 @@
             return digits.startsWith('55') ? digits : '55' + digits;
         }
 
+        // Validar telefone: rejeita valores com letras (ex: "E-mail:", "contato@x.com")
+        function validarTel(tel) {
+            if (!tel) return '';
+            // Se contém letras, não é telefone — limpa
+            if (/[a-zA-Z@]/.test(tel)) return '';
+            return normalizarTel(tel);
+        }
+
         // Aplicar máscara nos campos ao carregar
         document.addEventListener('DOMContentLoaded', () => {
             const editTel = document.getElementById('edit-contato-telefone');
@@ -3351,7 +3359,7 @@
             document.getElementById('edit-contato-nome').value = c.contato_nome || '';
             document.getElementById('edit-contato-cargo').value = c.contato_cargo || '';
             document.getElementById('edit-contato-email').value = c.contato_email || '';
-            document.getElementById('edit-contato-telefone').value = c.contato_telefone || '';
+            document.getElementById('edit-contato-telefone').value = validarTel(c.contato_telefone || '');
             document.getElementById('edit-modal-subtitle').textContent = `[${c.id_cliente}] ${c.nome_cliente}`;
             document.getElementById('cnpj-status').innerHTML = '';
 
@@ -3501,7 +3509,7 @@
                 contato_nome: document.getElementById('edit-contato-nome').value,
                 contato_cargo: document.getElementById('edit-contato-cargo').value,
                 contato_email: document.getElementById('edit-contato-email').value,
-                contato_telefone: normalizarTel(document.getElementById('edit-contato-telefone').value),
+                contato_telefone: validarTel(document.getElementById('edit-contato-telefone').value),
                 contato_fixo: document.getElementById('edit-contato-fixo') ? normalizarTel(document.getElementById('edit-contato-fixo').value) : '',
                 email_departamento: document.getElementById('edit-email-dept') ? document.getElementById('edit-email-dept').value : 'Comercial',
                 emails_adicionais: getExtraEmails()
