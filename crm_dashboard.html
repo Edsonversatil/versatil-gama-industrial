@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Dicionário i18n do CRM -->
-    <script src="crm_i18n.js"></script>
+    <!-- Dicionário i18n do CRM (Oculto para implementação futura) -->
+    <!-- <script src="crm_i18n.js"></script> -->
 
     <style>
         /* ==========================================================================
@@ -1313,24 +1313,6 @@
         </ul>
         
         <div class="sidebar-footer">
-            <div style="display:flex; justify-content:center; align-items:center; gap:12px; margin-bottom:15px; font-size:0.8rem; font-weight:bold; font-family:var(--font-inter);">
-                <div class="lang-flag" data-lang="pt" onclick="setCrmLanguage('pt')" style="cursor:pointer; transition:0.3s; padding:6px; border:2px solid transparent; border-radius:6px; color:var(--text-muted); display:flex; flex-direction:column; align-items:center; gap:4px; line-height:1;">
-                    <span style="font-size:1.4rem;">🇧🇷</span>
-                    <span>PT</span>
-                </div>
-                <div class="lang-flag" data-lang="en" onclick="setCrmLanguage('en')" style="cursor:pointer; transition:0.3s; padding:6px; border:2px solid transparent; border-radius:6px; color:var(--text-muted); display:flex; flex-direction:column; align-items:center; gap:4px; line-height:1;">
-                    <span style="font-size:1.4rem;">🇺🇸</span>
-                    <span>EN</span>
-                </div>
-                <div class="lang-flag" data-lang="es" onclick="setCrmLanguage('es')" style="cursor:pointer; transition:0.3s; padding:6px; border:2px solid transparent; border-radius:6px; color:var(--text-muted); display:flex; flex-direction:column; align-items:center; gap:4px; line-height:1;">
-                    <span style="font-size:1.4rem;">🇪🇸</span>
-                    <span>ES</span>
-                </div>
-                <div class="lang-flag" data-lang="ar" onclick="setCrmLanguage('ar')" style="cursor:pointer; transition:0.3s; padding:6px; border:2px solid transparent; border-radius:6px; color:var(--text-muted); display:flex; flex-direction:column; align-items:center; gap:4px; line-height:1;">
-                    <span style="font-size:1.4rem;">🇦🇪</span>
-                    <span>AR</span>
-                </div>
-            </div>
             <p data-i18n="menu.logado_como">Logado como:</p>
             <strong id="sidebar-user-name" style="font-family:var(--font-outfit); font-size:1rem; color:var(--white);">Autenticando...</strong>
             <button data-i18n="menu.sair" onclick="realizarLogout()" style="margin-top:10px; width:100%; padding:8px; background:transparent; color:var(--text-muted); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:0.8rem; cursor:pointer; font-weight:bold; transition:0.3s;" onmouseover="this.style.color='var(--red)';this.style.borderColor='rgba(191,32,38,0.5)';" onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)';">
