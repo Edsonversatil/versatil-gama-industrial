@@ -1274,6 +1274,12 @@
                     Fichas Comerciais
                 </button>
             </li>
+            <li class="nav-item" data-view="auditoria">
+                <button>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15h6"/></svg>
+                    Auditoria 1:1
+                </button>
+            </li>
             <li class="nav-item" data-view="top100">
                 <button data-i18n="menu.top100">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1509,6 +1515,63 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- VIEW PANEL: AUDITORIA -->
+        <div id="view-auditoria" class="view-panel" style="display:none;">
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <h2>Auditoria 1:1 (Pastas Físicas vs CRM)</h2>
+                        <p>Verifique divergências estruturais entre os diretórios locais e o banco de dados.</p>
+                    </div>
+                    <button class="btn" style="background:var(--blue);" onclick="rodarAuditoria()">Rodar Auditoria</button>
+                </div>
+                
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px;">
+                    <div class="stat-card" style="border-top:3px solid var(--blue);">
+                        <div class="stat-info">
+                            <h3>Total de Pastas Físicas Encontradas</h3>
+                            <div class="stat-value" id="audit-total-pastas">-</div>
+                            <div class="stat-subtext">Em 'Propostas Recentes' e 'Antigas'</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="border-top:3px solid var(--green);">
+                        <div class="stat-info">
+                            <h3>Total de Cadastros no CRM</h3>
+                            <div class="stat-value" id="audit-total-crm">-</div>
+                            <div class="stat-subtext">Base 'clientes_database.json'</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:30px; display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                    <!-- Pastas faltando no CRM -->
+                    <div style="background:rgba(255,0,0,0.05); border:1px solid rgba(255,0,0,0.1); border-radius:var(--radius-lg); padding:20px;">
+                        <h3 style="color:var(--red); font-size:1.1rem; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
+                            <svg style="width:20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Faltando no CRM
+                        </h3>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Pastas físicas identificadas que NÃO possuem cadastro no CRM correspondente ao código.</p>
+                        <div id="audit-faltando-crm" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+                            <div style="font-size:0.9rem; color:var(--text-muted); text-align:center; padding:20px;">Execute a auditoria para carregar...</div>
+                        </div>
+                    </div>
+
+                    <!-- Cadastros faltando na Pasta -->
+                    <div style="background:rgba(255,165,0,0.05); border:1px solid rgba(255,165,0,0.1); border-radius:var(--radius-lg); padding:20px;">
+                        <h3 style="color:var(--gold); font-size:1.1rem; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
+                            <svg style="width:20px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Faltando na Pasta Física
+                        </h3>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Cadastros do CRM que NÃO possuem pasta correspondente (podem ter sido movidos ou renomeados).</p>
+                        <div id="audit-faltando-pasta" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+                            <div style="font-size:0.9rem; color:var(--text-muted); text-align:center; padding:20px;">Execute a auditoria para carregar...</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
         <!-- VIEW PANEL 2: CLIENTES CATALOGADOS -->
@@ -3157,6 +3220,61 @@
             } finally {
                 btnSubmit.disabled = false;
                 btnSubmit.textContent = 'Salvar Prospect e Gerar Roteiros';
+            }
+        }
+
+        // ==========================================================================
+        // AUDITORIA ESTRUTURAL
+        // ==========================================================================
+        async function rodarAuditoria() {
+            try {
+                showToast('Executando varredura local...', true);
+                const btn = document.querySelector('#view-auditoria .btn');
+                btn.disabled = true;
+                btn.textContent = 'Aguarde...';
+
+                const res = await fetch('/api/crm/auditoria');
+                if (!res.ok) throw new Error('Erro na API de auditoria');
+                const report = await res.json();
+
+                document.getElementById('audit-total-pastas').textContent = report.totalPastas;
+                document.getElementById('audit-total-crm').textContent = report.totalCRM;
+
+                const boxFaltandoCrm = document.getElementById('audit-faltando-crm');
+                if (report.faltandoNoCRM.length === 0) {
+                    boxFaltandoCrm.innerHTML = '<div style="color:var(--green); text-align:center; padding:20px;">✓ Tudo certo! Todas as pastas estão no CRM.</div>';
+                } else {
+                    boxFaltandoCrm.innerHTML = report.faltandoNoCRM.map(f => `
+                        <div style="background:var(--card-bg); padding:10px 15px; border-radius:6px; margin-bottom:10px; border-left:3px solid var(--red); display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <strong style="color:var(--text-color); font-family:var(--font-outfit);">${f.id}</strong> - ${f.nome}
+                                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:3px;">${f.type}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                const boxFaltandoPasta = document.getElementById('audit-faltando-pasta');
+                if (report.faltandoNaPastaFisica.length === 0) {
+                    boxFaltandoPasta.innerHTML = '<div style="color:var(--green); text-align:center; padding:20px;">✓ Tudo certo! Todos os clientes do CRM possuem pasta física.</div>';
+                } else {
+                    boxFaltandoPasta.innerHTML = report.faltandoNaPastaFisica.map(f => `
+                        <div style="background:var(--card-bg); padding:10px 15px; border-radius:6px; margin-bottom:10px; border-left:3px solid var(--gold); display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <strong style="color:var(--text-color); font-family:var(--font-outfit);">${f.id}</strong> - ${f.nome}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                showToast('Auditoria concluída com sucesso!', true);
+            } catch (err) {
+                console.error(err);
+                showToast('Erro ao rodar auditoria.', false);
+            } finally {
+                const btn = document.querySelector('#view-auditoria .btn');
+                btn.disabled = false;
+                btn.textContent = 'Rodar Auditoria novamente';
             }
         }
 

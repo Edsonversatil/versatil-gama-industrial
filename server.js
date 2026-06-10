@@ -608,11 +608,102 @@ app.get('/api/crm/clientes', (req, res) => {
         const filePath = path.join(parentDir, 'clientes_database.json');
         if (fs.existsSync(filePath)) {
             const data = fs.readFileSync(filePath, 'utf8');
-            res.json(JSON.parse(data));
+            let clientes = JSON.parse(data);
+            // ORDENAÇÃO ESTRITA DA BASE DE DADOS (PRIORIDADE MÁXIMA)
+            clientes.sort((a, b) => {
+                const idA = parseInt(a.id_cliente) || 0;
+                const idB = parseInt(b.id_cliente) || 0;
+                return idA - idB;
+            });
+            res.json(clientes);
         } else {
             res.status(404).json({ error: 'Database de clientes não encontrada.' });
         }
     } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/crm/auditoria', (req, res) => {
+    try {
+        const filePath = path.join(parentDir, 'clientes_database.json');
+        let dbClientes = [];
+        if (fs.existsSync(filePath)) {
+            dbClientes = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        }
+
+        const pastasRecentesDir = path.join(parentDir, 'CRM Versatil Propostas Clientes', 'Propostas Recentes');
+        const pastasAntigasDir = path.join(parentDir, 'CRM Versatil Propostas Clientes', 'Propostas Antigas');
+
+        const scanFolders = (dir) => {
+            const found = [];
+            if (fs.existsSync(dir)) {
+                const items = fs.readdirSync(dir);
+                items.forEach(item => {
+                    const fullPath = path.join(dir, item);
+                    if (fs.statSync(fullPath).isDirectory()) {
+                        const match = item.match(/^(\d+)\s*[-\s]\s*(.*)$/);
+                        if (match) {
+                            found.push({
+                                folderName: item,
+                                id: match[1].padStart(4, '0'),
+                                nome: match[2].trim(),
+                                type: path.basename(dir)
+                            });
+                        }
+                    }
+                });
+            }
+            return found;
+        };
+
+        const folders = [...scanFolders(pastasRecentesDir), ...scanFolders(pastasAntigasDir)];
+
+        const crmMap = new Map();
+        dbClientes.forEach(c => {
+            crmMap.set(String(c.id_cliente).padStart(4, '0'), c.nome_cliente);
+        });
+
+        const folderMap = new Map();
+        folders.forEach(f => folderMap.set(f.id, f));
+
+        const report = {
+            totalPastas: folders.length,
+            totalCRM: dbClientes.length,
+            faltandoNoCRM: [],
+            faltandoNaPastaFisica: [],
+            divergenciasNome: []
+        };
+
+        // Verifica pastas que nao estao no CRM
+        folders.forEach(f => {
+            if (!crmMap.has(f.id)) {
+                report.faltandoNoCRM.push(f);
+            } else {
+                // Checar divergencia
+                const crmNome = crmMap.get(f.id);
+                // Podemos adicionar uma checagem de similaridade leve se quisermos, 
+                // mas vamos focar em exibir a divergencia.
+            }
+        });
+
+        // Verifica CRM que nao esta nas pastas
+        dbClientes.forEach(c => {
+            const idCrm = String(c.id_cliente).padStart(4, '0');
+            if (!folderMap.has(idCrm)) {
+                report.faltandoNaPastaFisica.push({
+                    id: idCrm,
+                    nome: c.nome_cliente
+                });
+            }
+        });
+
+        // Ordenar as faltas
+        report.faltandoNoCRM.sort((a,b) => parseInt(a.id) - parseInt(b.id));
+        report.faltandoNaPastaFisica.sort((a,b) => parseInt(a.id) - parseInt(b.id));
+
+        res.json(report);
+    } catch(err) {
         res.status(500).json({ error: err.message });
     }
 });
