@@ -1574,9 +1574,9 @@ async function executarEnvioMensal() {
     for (let i = 0; i < pendentes.length; i++) {
         const c = pendentes[i];
         const roteiro = c.roteiro_comercial || {};
-        const subject = `Usinagem de Campo (In-Situ) — Versatil Services para ${c.nome_cliente}`;
+        const subject = `Serviços de Usinagem em Campo`;
         const body = roteiro.mensagem_email || config.mensagem_padrao || 
-            `Prezado(a),\n\nA Versatil Services é referência em USINAGEM DE CAMPO (in-situ) para ${c.segmento_industrial || 'o segmento Industrial'}. Em outras oportunidades já atendemos a ${c.nome_cliente}.\n\nRealizamos faceamento de flanges, retífica de sedes, mandrilhamento e torneamento em campo.\n\nTambém atuamos com Troca Térmica ASME, Caldeiraria e END.\n\nAtt,\nEng. Edson de Oliveira Silva - Versatil Services\n(13) 99150-9140`;
+            `Prezado(a), A Versatil Services é referência em USINAGEM DE CAMPO (in-situ) para ${c.segmento_industrial || 'o segmento Industrial'}. Já atendemos a ${c.nome_cliente.toUpperCase()}. Realizamos faceamento de flanges, retífica de sedes, mandrilhamento e torneamento em campo. Também atuamos com Retubagem de Trocadores de Calor - Troca Térmica ASME, Caldeiraria e END. Att, Eng. Edson de Oliveira Silva - Versatil Services`;
 
         // Coletar todos os e-mails (principal + adicionais)
         const emails = [];

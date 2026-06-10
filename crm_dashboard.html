@@ -3861,8 +3861,8 @@
 
             const leads = [];
             const roteiro = client.roteiro_comercial || {};
-            const subject = `Usinagem de Campo (In-Situ) — Versatil Services para ${client.nome_cliente}`;
-            const body = roteiro.mensagem_email || `Prezado(a), gostaríamos de apresentar nossos serviços de Usinagem de Campo para a ${client.nome_cliente}.`;
+            const subject = `Serviços de Usinagem em Campo`;
+            const body = roteiro.mensagem_email || `Prezado(a), A Versatil Services é referência em USINAGEM DE CAMPO (in-situ) para ${client.segmento_industrial || 'o segmento Industrial'}. Já atendemos a ${client.nome_cliente.toUpperCase()}. Realizamos faceamento de flanges, retífica de sedes, mandrilhamento e torneamento em campo. Também atuamos com Retubagem de Trocadores de Calor - Troca Térmica ASME, Caldeiraria e END. Att, Eng. Edson de Oliveira Silva - Versatil Services`;
 
             if (client.contato_email && client.contato_email.length > 3) {
                 leads.push({ to: client.contato_email, subject, body, clientId: client.id_cliente, nome: client.nome_cliente });
@@ -3916,8 +3916,8 @@
             selected.forEach(id => {
                 const c = clientes.find(cl => cl.id_cliente === id);
                 const roteiro = c.roteiro_comercial || {};
-                const subject = `Usinagem de Campo (In-Situ) — Versatil Services para ${c.nome_cliente}`;
-                const body = roteiro.mensagem_email || `Apresentação de serviços de Usinagem de Campo para a ${c.nome_cliente}.`;
+                const subject = `Serviços de Usinagem em Campo`;
+                const body = roteiro.mensagem_email || `Prezado(a), A Versatil Services é referência em USINAGEM DE CAMPO (in-situ) para ${c.segmento_industrial || 'o segmento Industrial'}. Já atendemos a ${c.nome_cliente.toUpperCase()}. Realizamos faceamento de flanges, retífica de sedes, mandrilhamento e torneamento em campo. Também atuamos com Retubagem de Trocadores de Calor - Troca Térmica ASME, Caldeiraria e END. Att, Eng. Edson de Oliveira Silva - Versatil Services`;
 
                 // E-mail principal
                 if (c.contato_email && c.contato_email.length > 3) {
