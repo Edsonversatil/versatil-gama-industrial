@@ -2145,6 +2145,10 @@
             <div class="client-avatar" id="drawer-avatar">0</div>
             <h3 id="drawer-client-name">Westrock Brasil Celulose</h3>
             <div class="drawer-segment" id="drawer-segment-badge">Papel & Celulose</div>
+            <button class="btn" id="drawer-btn-edit" style="margin-top:15px; width:100%; background:var(--blue);" onclick="openEditModal(this.dataset.id)">
+                <svg style="width:16px; margin-right:5px; vertical-align:middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Editar Ficha (E-mail, Telefone, etc)
+            </button>
         </div>
         
         <!-- Ficha técnica -->
@@ -2809,6 +2813,9 @@
             
             document.getElementById('drawer-detail-id').textContent = client.id_cliente;
             document.getElementById('drawer-detail-porte').textContent = client.porte_empresa || 'Grande';
+            
+            // Atrela o ID do cliente ao botão de Editar
+            document.getElementById('drawer-btn-edit').dataset.id = client.id_cliente;
             
             const priBadge = client.prioridade_comercial.includes('A') ? 'A' : (client.prioridade_comercial.includes('B') ? 'B' : 'C');
             const detailPri = document.getElementById('drawer-detail-prioridade');
