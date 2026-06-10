@@ -2876,10 +2876,22 @@
             // Filtra os contatos pelo ID do cliente
             const matches = contatos.filter(c => c.id_cliente === client.id_cliente);
 
-            const contatosToShow = matches;
+            const contatosToShow = [...matches];
+
+            // Injeta o contato principal da ficha se existir (editado pelo modal)
+            if (client.contato_nome || client.contato_email || client.contato_telefone) {
+                contatosToShow.unshift({
+                    nome: client.contato_nome || 'Contato Principal (Sem Nome)',
+                    cargo: client.contato_cargo || 'Responsável',
+                    cidade: client.cidade || '-',
+                    estado: client.estado || '-',
+                    email: client.contato_email || 'Sem e-mail',
+                    telefone: client.contato_telefone || client.contato_whatsapp || 'Sem telefone'
+                });
+            }
 
             if (contatosToShow.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; font-style:italic; margin:10px 0;">Nenhum contato mapeado.</p>';
+                container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem; font-style:italic; margin:10px 0;">Nenhum contato mapeado. Clique em Editar Ficha para adicionar.</p>';
                 return;
             }
 
