@@ -2164,6 +2164,14 @@
                     <span id="drawer-detail-cnpj" style="font-family:var(--font-outfit);">Não cadastrado</span>
                 </div>
                 <div class="detail-item">
+                    <label>Localização</label>
+                    <span id="drawer-detail-local">Não informada</span>
+                </div>
+                <div class="detail-item">
+                    <label>Web site</label>
+                    <span id="drawer-detail-website">Não informado</span>
+                </div>
+                <div class="detail-item">
                     <label>Porte Corporativo</label>
                     <span id="drawer-detail-porte">Grande</span>
                 </div>
@@ -2351,8 +2359,8 @@
             </div>
         </div>
 
-        <!-- Localização -->
-        <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:14px; margin-bottom:18px;">
+        <!-- Localização e Website -->
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:14px; margin-bottom:14px;">
             <div class="form-group">
                 <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Cidade</label>
                 <input type="text" id="edit-cidade" class="search-input" style="padding-left:12px;">
@@ -2364,6 +2372,12 @@
             <div class="form-group">
                 <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Porte</label>
                 <input type="text" id="edit-porte" class="search-input" style="padding-left:12px;" placeholder="Grande / Médio">
+            </div>
+        </div>
+        <div style="margin-bottom:18px;">
+            <div class="form-group">
+                <label style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Web site</label>
+                <input type="url" id="edit-website" class="search-input" style="padding-left:12px;" placeholder="https://www.empresa.com.br">
             </div>
         </div>
 
@@ -2817,6 +2831,13 @@
             
             document.getElementById('drawer-detail-id').textContent = client.id_cliente;
             document.getElementById('drawer-detail-cnpj').textContent = client.cnpj || 'Não cadastrado';
+            
+            const localText = (client.cidade || client.estado) ? `${client.cidade || ''} - ${client.estado || ''}` : 'Não informada';
+            document.getElementById('drawer-detail-local').textContent = localText;
+            
+            const webLink = client.website ? `<a href="${client.website.startsWith('http') ? client.website : 'https://'+client.website}" target="_blank" style="color:var(--blue); text-decoration:none;">${client.website}</a>` : 'Não informado';
+            document.getElementById('drawer-detail-website').innerHTML = webLink;
+            
             document.getElementById('drawer-detail-porte').textContent = client.porte_empresa || 'Grande';
             
             // Atrela o ID do cliente ao botão de Editar
@@ -3925,6 +3946,7 @@
             document.getElementById('edit-uf').value = c.estado || '';
             document.getElementById('edit-porte').value = c.porte_empresa || '';
             document.getElementById('edit-cnpj').value = c.cnpj || '';
+            document.getElementById('edit-website').value = c.website || '';
             document.getElementById('edit-contato-nome').value = c.contato_nome || '';
             document.getElementById('edit-contato-cargo').value = c.contato_cargo || '';
             document.getElementById('edit-contato-email').value = c.contato_email || '';
@@ -4258,6 +4280,7 @@
                 estado: document.getElementById('edit-uf').value,
                 porte_empresa: document.getElementById('edit-porte').value,
                 cnpj: document.getElementById('edit-cnpj').value,
+                website: document.getElementById('edit-website').value,
                 contato_nome: document.getElementById('edit-contato-nome').value,
                 contato_cargo: document.getElementById('edit-contato-cargo').value,
                 contato_email: document.getElementById('edit-contato-email').value,
