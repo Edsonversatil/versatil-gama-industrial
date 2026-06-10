@@ -1247,13 +1247,86 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
             if (siteMatch) possibleSite = siteMatch[0];
         } catch(e) {}
 
+        // ============================================================
+        // CONSULTA RECEITA FEDERAL — Verifica se empresa existe/mudou
+        // ============================================================
+        let receitaData = null;
+        const cnpjToLookup = possibleCnpj || (client.cnpj ? client.cnpj : null);
+        
+        if (cnpjToLookup) {
+            const cnpjClean = cnpjToLookup.replace(/\D/g, '');
+            if (cnpjClean.length === 14) {
+                const headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' };
+                
+                // Tentativa 1: BrasilAPI
+                try {
+                    const r1 = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpjClean}`, { headers });
+                    if (r1.ok) {
+                        const d = await r1.json();
+                        if (!d.message) {
+                            receitaData = {
+                                razao_social: d.razao_social || '',
+                                nome_fantasia: d.nome_fantasia || '',
+                                situacao: d.descricao_situacao_cadastral || d.situacao_cadastral || '',
+                                data_situacao: d.data_situacao_cadastral || '',
+                                atividade: d.cnae_fiscal_descricao || '',
+                                porte: d.porte || d.descricao_porte || '',
+                                logradouro: [d.logradouro, d.numero, d.complemento, d.bairro].filter(Boolean).join(', '),
+                                cidade: d.municipio || '',
+                                uf: d.uf || '',
+                                cep: d.cep || '',
+                                telefone: d.ddd_telefone_1 || '',
+                                email_rf: d.email || ''
+                            };
+                        }
+                    }
+                } catch(e) {}
+                
+                // Tentativa 2: ReceitaWS (fallback)
+                if (!receitaData) {
+                    try {
+                        const r2 = await fetch(`https://receitaws.com.br/v1/cnpj/${cnpjClean}`, { headers });
+                        if (r2.ok) {
+                            const d = await r2.json();
+                            if (d.status !== 'ERROR') {
+                                receitaData = {
+                                    razao_social: d.nome || '',
+                                    nome_fantasia: d.fantasia || '',
+                                    situacao: d.situacao || '',
+                                    data_situacao: d.data_situacao || '',
+                                    atividade: d.atividade_principal?.[0]?.text || '',
+                                    porte: d.porte || '',
+                                    logradouro: [d.logradouro, d.numero, d.complemento, d.bairro].filter(Boolean).join(', '),
+                                    cidade: d.municipio || '',
+                                    uf: d.uf || '',
+                                    cep: d.cep || '',
+                                    telefone: d.telefone || '',
+                                    email_rf: d.email || ''
+                                };
+                            }
+                        }
+                    } catch(e) {}
+                }
+            }
+        }
+
+        // Detecta se nome mudou
+        let nomeAlterado = false;
+        if (receitaData && receitaData.razao_social) {
+            const nomeDb = client.nome_cliente.toUpperCase().trim();
+            const nomeRf = receitaData.razao_social.toUpperCase().trim();
+            nomeAlterado = !nomeRf.includes(nomeDb) && !nomeDb.includes(nomeRf);
+        }
+
         res.json({
             success: true,
             folderFound: !!folderPath,
-            emails: [...new Set(extractedEmails)].slice(0, 10), // Max 10 para nao poluir
+            emails: [...new Set(extractedEmails)].slice(0, 10),
             phones: [...new Set(extractedPhones)].slice(0, 10),
-            possibleCnpj,
-            possibleSite
+            possibleCnpj: cnpjToLookup,
+            possibleSite,
+            receita: receitaData,
+            nomeAlterado
         });
 
     } catch (err) {

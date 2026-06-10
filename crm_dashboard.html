@@ -4596,37 +4596,85 @@
                     
                     resRow.style.display = 'table-row';
                     
-                    let html = `<h4 style="color:var(--blue); margin:0 0 10px 0;">Descobertas do V-Bot:</h4>`;
+                    let html = `<h4 style="color:var(--blue); margin:0 0 12px 0;">📊 Relatório de Inteligência — V-Bot Hunter</h4>`;
                     
-                    if (data.folderFound) html += `<div style="margin-bottom:8px;">📁 <strong>Pasta local encontrada:</strong> Lendo históricos antigos...</div>`;
-                    else html += `<div style="margin-bottom:8px; color:var(--red);">⚠️ Pasta local não encontrada.</div>`;
-                    
-                    if (data.possibleCnpj) html += `<div style="margin-bottom:8px;">🏢 <strong>CNPJ Encontrado:</strong> ${data.possibleCnpj}</div>`;
-                    if (data.possibleSite) html += `<div style="margin-bottom:8px;">🌐 <strong>Website Encontrado:</strong> <a href="${data.possibleSite}" target="_blank" style="color:var(--blue)">${data.possibleSite}</a></div>`;
-                    
+                    // === SEÇÃO 1: PASTA LOCAL ===
+                    html += `<div style="margin-bottom:12px; padding:10px; background:rgba(255,255,255,0.03); border-radius:8px;">`;
+                    html += `<strong style="color:var(--gold); font-size:0.8rem; text-transform:uppercase;">📁 Varredura Local</strong><br>`;
+                    if (data.folderFound) {
+                        html += `<span style="color:var(--green)">✅ Pasta encontrada no acervo</span>`;
+                    } else {
+                        html += `<span style="color:var(--red)">⚠️ Pasta não encontrada no diretório de propostas</span>`;
+                    }
                     if (data.emails && data.emails.length > 0) {
-                        html += `<div style="margin-bottom:8px;">📧 <strong>E-mails extraídos:</strong><br><span style="color:var(--text-muted); font-size:0.8rem;">${data.emails.join(', ')}</span></div>`;
+                        html += `<br>📧 <strong>E-mails extraídos:</strong> <span style="color:var(--text-muted); font-size:0.8rem;">${data.emails.join(', ')}</span>`;
                     }
                     if (data.phones && data.phones.length > 0) {
-                        html += `<div style="margin-bottom:8px;">📱 <strong>Telefones extraídos:</strong><br><span style="color:var(--text-muted); font-size:0.8rem;">${data.phones.join(', ')}</span></div>`;
+                        html += `<br>📱 <strong>Telefones extraídos:</strong> <span style="color:var(--text-muted); font-size:0.8rem;">${data.phones.join(', ')}</span>`;
                     }
+                    html += `</div>`;
+
+                    // === SEÇÃO 2: CNPJ E SITE ===
+                    html += `<div style="margin-bottom:12px; padding:10px; background:rgba(255,255,255,0.03); border-radius:8px;">`;
+                    html += `<strong style="color:var(--gold); font-size:0.8rem; text-transform:uppercase;">🌐 Pesquisa Web</strong><br>`;
+                    if (data.possibleCnpj) html += `🏢 <strong>CNPJ:</strong> ${data.possibleCnpj}<br>`;
+                    else html += `<span style="color:var(--text-muted)">CNPJ não localizado na web</span><br>`;
+                    if (data.possibleSite) html += `🔗 <strong>Website:</strong> <a href="${data.possibleSite}" target="_blank" style="color:var(--blue)">${data.possibleSite}</a>`;
+                    else html += `<span style="color:var(--text-muted)">Website não localizado</span>`;
+                    html += `</div>`;
+
+                    // === SEÇÃO 3: RECEITA FEDERAL ===
+                    if (data.receita) {
+                        const rf = data.receita;
+                        const sitColor = rf.situacao.toUpperCase().includes('ATIVA') ? 'var(--green)' : 'var(--red)';
+                        const sitIcon = rf.situacao.toUpperCase().includes('ATIVA') ? '✅' : '❌';
+                        
+                        html += `<div style="margin-bottom:12px; padding:12px; background:rgba(255,255,255,0.05); border-radius:8px; border-left:3px solid ${sitColor};">`;
+                        html += `<strong style="color:var(--gold); font-size:0.8rem; text-transform:uppercase;">🏛️ Consulta Receita Federal</strong><br><br>`;
+                        
+                        // Situação Cadastral
+                        html += `<div style="margin-bottom:8px;"><strong>Situação:</strong> <span style="color:${sitColor}; font-weight:700;">${sitIcon} ${rf.situacao}</span>`;
+                        if (rf.data_situacao) html += ` <span style="color:var(--text-muted); font-size:0.75rem;">(desde ${rf.data_situacao})</span>`;
+                        html += `</div>`;
+                        
+                        // Razão Social
+                        if (rf.razao_social) {
+                            html += `<div style="margin-bottom:8px;"><strong>Razão Social (RF):</strong> ${rf.razao_social}`;
+                            if (data.nomeAlterado) {
+                                html += ` <span style="background:rgba(191,32,38,0.2); color:var(--red); padding:2px 8px; border-radius:4px; font-size:0.75rem; font-weight:700;">⚠️ NOME DIFERENTE DO CRM</span>`;
+                            }
+                            html += `</div>`;
+                        }
+                        if (rf.nome_fantasia) html += `<div style="margin-bottom:8px;"><strong>Nome Fantasia:</strong> ${rf.nome_fantasia}</div>`;
+                        if (rf.atividade) html += `<div style="margin-bottom:8px;"><strong>Atividade:</strong> <span style="font-size:0.85rem;">${rf.atividade}</span></div>`;
+                        if (rf.porte) html += `<div style="margin-bottom:8px;"><strong>Porte:</strong> ${rf.porte}</div>`;
+                        if (rf.logradouro) html += `<div style="margin-bottom:8px;"><strong>Endereço:</strong> ${rf.logradouro}</div>`;
+                        if (rf.cidade || rf.uf) html += `<div style="margin-bottom:8px;"><strong>Cidade/UF:</strong> ${rf.cidade} - ${rf.uf} ${rf.cep ? '| CEP: ' + rf.cep : ''}</div>`;
+                        if (rf.telefone) html += `<div style="margin-bottom:8px;">📞 <strong>Telefone (RF):</strong> ${rf.telefone}</div>`;
+                        if (rf.email_rf) html += `<div style="margin-bottom:8px;">📧 <strong>E-mail (RF):</strong> ${rf.email_rf}</div>`;
+                        
+                        html += `</div>`;
+                    } else if (data.possibleCnpj) {
+                        html += `<div style="margin-bottom:12px; padding:10px; background:rgba(255,255,255,0.03); border-radius:8px;">`;
+                        html += `<strong style="color:var(--gold); font-size:0.8rem; text-transform:uppercase;">🏛️ Receita Federal</strong><br>`;
+                        html += `<span style="color:var(--text-muted)">Não foi possível consultar a Receita Federal neste momento. Tente novamente.</span>`;
+                        html += `</div>`;
+                    }
+
+                    // Botão de ação
+                    html += `<div style="margin-top:12px; display:flex; gap:10px;">
+                        <button class="btn" style="background:var(--green); border-radius:5px; padding:6px 15px;" onclick="openEditModal('${id}')">✏️ Abrir Ficha para Salvar Dados</button>
+                    </div>`;
                     
-                    if (!data.possibleCnpj && !data.possibleSite && data.emails.length === 0) {
-                        html += `<div style="color:var(--text-muted)">Nenhum dado novo expressivo foi encontrado na varredura.</div>`;
-                    } else {
-                        html += `
-                        <div style="margin-top:10px;">
-                            <button class="btn" style="background:var(--green); border-radius:5px; padding:6px 15px;" onclick="openEditModal('${id}')">✏️ Abrir Ficha para Salvar Dados</button>
-                        </div>`;
-                    }
                     resContent.innerHTML = html;
                 } else {
                     throw new Error(data.error);
                 }
             } catch (err) {
-                statusBox.innerHTML = '<span style="color:var(--red)">Erro na varredura</span>';
+                statusBox.innerHTML = `<span style="color:var(--red)">Erro: ${err.message || 'desconhecido'}</span>`;
                 btn.innerHTML = 'Tentar Novamente';
                 btn.disabled = false;
+                console.error('[V-Bot Hunter Error]', err);
             }
         }
     </script>
