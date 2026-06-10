@@ -65,7 +65,7 @@ const htmlEmail = `
             Eng. Edson de Oliveira Silva
         </p>
         <p style="color: #a0a0b0; margin: 3px 0; font-size: 12px;">
-            Diretor Técnico — Versátil Global Services
+            Gerente Técnico Comercial — Versátil Global Services
         </p>
         <p style="color: #a0a0b0; margin: 3px 0; font-size: 12px;">
             📞 (13) 3221-8000 &nbsp;|&nbsp; 📧 dp.tecnico@versatilservices.com.br

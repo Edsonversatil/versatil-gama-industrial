@@ -277,7 +277,7 @@ function gerarPreview() {
             <p>CNPJ: ${DADOS_VERSATIL.cnpj}</p>
         </div>
         <div>
-            <p>Responsável Técnico:</p>
+            <p>Gerente Técnico Comercial:</p>
             <p><strong>${DADOS_VERSATIL.responsavelCompleto}</strong></p>
             ${DADOS_VERSATIL.formacaoCompleta.map(f => '<p>' + f + '</p>').join('')}
             <p>${DADOS_VERSATIL.crea}</p>
@@ -423,7 +423,7 @@ function gerarPreview() {
         </div>
 
         <div class="doc-section" style="border:none; padding:0; margin-bottom:16px;">
-            <p style="font-weight:700;">Responsável Técnico e Comercial</p>
+            <p style="font-weight:700;">Gerente Técnico Comercial</p>
             <p>${DADOS_VERSATIL.responsavel}</p>
             ${DADOS_VERSATIL.formacao.map(f => '<p>' + f + '</p>').join('')}
             <p>${DADOS_VERSATIL.crea}</p>
