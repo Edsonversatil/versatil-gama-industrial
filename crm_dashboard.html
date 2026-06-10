@@ -4533,6 +4533,8 @@
         // ==========================================================================
         // V-BOT HUNTER ENGINE
         // ==========================================================================
+        let vbotResults = {}; // Armazena resultados por id_cliente
+
         async function loadVbotClients() {
             const tbody = document.getElementById('vbot-tbody');
             tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Analisando base de clientes pendentes...</td></tr>';
@@ -4661,9 +4663,12 @@
                         html += `</div>`;
                     }
 
+                    // Guardar resultado na memória
+                    vbotResults[id] = data;
+
                     // Botão de ação
                     html += `<div style="margin-top:12px; display:flex; gap:10px;">
-                        <button class="btn" style="background:var(--green); border-radius:5px; padding:6px 15px;" onclick="openEditModal('${id}')">✏️ Abrir Ficha para Salvar Dados</button>
+                        <button class="btn" style="background:var(--green); border-radius:5px; padding:6px 15px;" onclick="openEditModalWithVbot('${id}')">✏️ Abrir Ficha com Dados do Hunter</button>
                     </div>`;
                     
                     resContent.innerHTML = html;
@@ -4675,6 +4680,68 @@
                 btn.innerHTML = 'Tentar Novamente';
                 btn.disabled = false;
                 console.error('[V-Bot Hunter Error]', err);
+            }
+        }
+
+        // Abre o modal de edição já pre-preenchido com dados do V-Bot Hunter
+        function openEditModalWithVbot(id) {
+            openEditModal(id);
+            
+            const data = vbotResults[id];
+            if (!data) return;
+            
+            // Pre-preenche CNPJ
+            if (data.possibleCnpj) {
+                const cnpjField = document.getElementById('edit-cnpj');
+                if (cnpjField && (!cnpjField.value || cnpjField.value === '00.000.000/0000-00')) {
+                    cnpjField.value = data.possibleCnpj;
+                }
+            }
+            
+            // Pre-preenche Website
+            if (data.possibleSite) {
+                const siteField = document.getElementById('edit-website');
+                if (siteField && (!siteField.value || siteField.value === 'https://www.empresa.com.br')) {
+                    siteField.value = data.possibleSite;
+                }
+            }
+            
+            // Dados da Receita Federal
+            if (data.receita) {
+                const rf = data.receita;
+                
+                // Cidade
+                if (rf.cidade) {
+                    const cidadeField = document.getElementById('edit-cidade');
+                    if (cidadeField && !cidadeField.value) cidadeField.value = rf.cidade;
+                }
+                // UF
+                if (rf.uf) {
+                    const ufField = document.getElementById('edit-uf');
+                    if (ufField && !ufField.value) ufField.value = rf.uf;
+                }
+                // Porte
+                if (rf.porte) {
+                    const porteField = document.getElementById('edit-porte');
+                    if (porteField && (!porteField.value || porteField.value === 'Medio')) {
+                        // Mapeia porte da RF para o campo do CRM
+                        const p = rf.porte.toUpperCase();
+                        if (p.includes('GRANDE')) porteField.value = 'Grande';
+                        else if (p.includes('MEDIO') || p.includes('MÉDIO')) porteField.value = 'Medio';
+                        else if (p.includes('PEQUENO')) porteField.value = 'Pequeno';
+                        else if (p.includes('MICRO')) porteField.value = 'Micro';
+                    }
+                }
+                // Telefone RF
+                if (rf.telefone) {
+                    const telField = document.getElementById('edit-contato-telefone');
+                    if (telField && !telField.value) telField.value = rf.telefone;
+                }
+                // Email RF  
+                if (rf.email_rf) {
+                    const emailField = document.getElementById('edit-contato-email');
+                    if (emailField && !emailField.value) emailField.value = rf.email_rf;
+                }
             }
         }
     </script>
