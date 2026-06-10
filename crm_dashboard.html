@@ -3528,6 +3528,11 @@
                     item.classList.add('active');
                 }
             });
+
+            // Auto-carrega fila do V-Bot Hunter ao entrar na aba
+            if (viewId === 'vbot') {
+                loadVbotClients();
+            }
         }
 
         // ==========================================================================
@@ -4581,7 +4586,7 @@
             statusBox.innerHTML = '<span style="color:var(--gold)">Analisando Pastas e Internet...</span>';
             
             try {
-                const r = await fetch(`/api/crm/vbot/enrich/${id}`, { method: 'POST' });
+                const r = await fetch(`/api/crm/vbot/enrich/${id}`, { method: 'POST', credentials: 'include' });
                 const data = await r.json();
                 
                 if(data.success) {
