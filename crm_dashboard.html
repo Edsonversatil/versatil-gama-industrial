@@ -1724,11 +1724,16 @@
                             <svg style="width:18px; height:18px; color:var(--green);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                             <span id="display-responsavel-nome">Autenticado pelo Sistema</span>
                         </div>
-                    </div>
-
-                    <div class="form-group form-full">
-                        <label for="lead-nome-empresa">Razão Social / Nome da Empresa *</label>
-                        <input type="text" id="lead-nome-empresa" placeholder="Ex: Refinaria Presidente Bernardes (RPB) Petrobras" required>
+                        <div style="display:flex; gap:16px;">
+                            <div style="flex:1;">
+                                <label style="display:block; margin-bottom:5px; font-size:0.8rem; font-weight:600; color:var(--text-muted);">Nome da Empresa *</label>
+                                <input type="text" id="lead-nome-empresa" placeholder="Ex: Refinaria Presidente Bernardes (RPB) Petrobras" required>
+                            </div>
+                            <div style="width:140px;">
+                                <label style="display:block; margin-bottom:5px; font-size:0.8rem; font-weight:600; color:var(--text-muted);">Nº Proposta / ID</label>
+                                <input type="text" id="lead-id-manual" placeholder="Ex: 0585" title="Deixe em branco para numeração automática">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -3103,6 +3108,7 @@
             btnSubmit.textContent = 'Enviando...';
 
             const payload = {
+                id_proposta_manual: document.getElementById('lead-id-manual').value,
                 nome_cliente: document.getElementById('lead-nome-empresa').value,
                 segmento_industrial: document.getElementById('lead-segmento').value,
                 porte_empresa: document.getElementById('lead-porte').value,

@@ -647,7 +647,7 @@ app.get('/api/crm/reativacao', (req, res) => {
 
 app.post('/api/crm/leads', (req, res) => {
     try {
-        const { nome_cliente, segmento_industrial, porte_empresa, potencial_comercial, prioridade_comercial, cidade, estado, contato_nome, contato_email, contato_telefone } = req.body;
+        const { id_proposta_manual, nome_cliente, segmento_industrial, porte_empresa, potencial_comercial, prioridade_comercial, cidade, estado, contato_nome, contato_email, contato_telefone } = req.body;
         // Puxa o responsável direto do token de sessão validado (não aceita o que veio do frontend para evitar fraude)
         const responsavel = req.user && req.user.nome ? req.user.nome : 'Desconhecido';
         
@@ -664,12 +664,21 @@ app.post('/api/crm/leads', (req, res) => {
         }
 
         // Generate next ID
-        let maxId = 0;
-        dbClientes.forEach(c => {
-            const num = parseInt(c.id_cliente);
-            if (!isNaN(num) && num > maxId) maxId = num;
-        });
-        const nextId = String(maxId + 1).padStart(4, '0');
+        let nextId = '';
+        if (id_proposta_manual && id_proposta_manual.trim() !== '') {
+            nextId = id_proposta_manual.trim();
+            // Pad it to 4 digits if it's purely numerical
+            if (/^\d+$/.test(nextId) && nextId.length < 4) {
+                nextId = nextId.padStart(4, '0');
+            }
+        } else {
+            let maxId = 0;
+            dbClientes.forEach(c => {
+                const num = parseInt(c.id_cliente);
+                if (!isNaN(num) && num > maxId) maxId = num;
+            });
+            nextId = String(maxId + 1).padStart(4, '0');
+        }
 
         // Text templates for the lead
         const wa = `Olá, ${contato_nome || 'Gestor'}! Tudo bem? Sou o Eng. Edson da Versátil Global Services. Concluímos recentemente uma campanha de alta performance em ${segmento_industrial} e lembrei da ${nome_cliente}. Como estão as demandas de manutenção por aí?`;
