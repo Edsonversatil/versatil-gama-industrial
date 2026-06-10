@@ -1232,20 +1232,52 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
         let possibleCnpj = null;
         let possibleSite = null;
         try {
-            const query = encodeURIComponent(`cnpj site ${client.nome_cliente}`);
+            const query = encodeURIComponent(`"${client.nome_cliente}" CNPJ matriz site`);
             const r = await fetch(`https://html.duckduckgo.com/html/?q=${query}`, {
                 headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
             });
             const html = await r.text();
             
-            // Tenta achar um CNPJ no HTML
-            const cnpjMatch = html.match(/\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/);
-            if (cnpjMatch) possibleCnpj = cnpjMatch[0];
+            // Encontra TODOS os CNPJs no resultado
+            const allCnpjs = html.match(/\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/g) || [];
+            
+            // Prioriza o CNPJ da MATRIZ (/0001)
+            const matriz = allCnpjs.find(c => c.includes('/0001-'));
+            if (matriz) {
+                possibleCnpj = matriz;
+            } else if (allCnpjs.length > 0) {
+                // Achou só filial — calcula CNPJ da MATRIZ automaticamente
+                const filial = allCnpjs[0].replace(/\D/g, '');
+                const base = filial.substring(0, 8); // Primeiros 8 dígitos (raiz)
+                const matrizDigits = base + '0001';
+                
+                // Calcula dígitos verificadores do CNPJ matriz
+                const calcCheckDigits = (cnpj12) => {
+                    const w1 = [5,4,3,2,9,8,7,6,5,4,3,2];
+                    let sum = 0;
+                    for (let i = 0; i < 12; i++) sum += parseInt(cnpj12[i]) * w1[i];
+                    let r = sum % 11;
+                    const d1 = r < 2 ? 0 : 11 - r;
+                    
+                    const cnpj13 = cnpj12 + d1;
+                    const w2 = [6,5,4,3,2,9,8,7,6,5,4,3,2];
+                    sum = 0;
+                    for (let i = 0; i < 13; i++) sum += parseInt(cnpj13[i]) * w2[i];
+                    r = sum % 11;
+                    const d2 = r < 2 ? 0 : 11 - r;
+                    
+                    return `${d1}${d2}`;
+                };
+                
+                const checkDigits = calcCheckDigits(matrizDigits);
+                const matrizFull = matrizDigits + checkDigits;
+                possibleCnpj = matrizFull.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+            }
             
             // Tenta achar um site
             const siteMatch = html.match(/https?:\/\/(?:www\.)?[a-zA-Z0-9-]+\.com\.br/);
             if (siteMatch) possibleSite = siteMatch[0];
-        } catch(e) {}
+        } catch(e) { console.log('[V-Bot] Web search error:', e.message); }
 
         // ============================================================
         // CONSULTA RECEITA FEDERAL — Verifica se empresa existe/mudou

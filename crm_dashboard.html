@@ -4693,9 +4693,7 @@
             // Pre-preenche CNPJ
             if (data.possibleCnpj) {
                 const cnpjField = document.getElementById('edit-cnpj');
-                if (cnpjField && (!cnpjField.value || cnpjField.value === '00.000.000/0000-00')) {
-                    cnpjField.value = data.possibleCnpj;
-                }
+                if (cnpjField) cnpjField.value = data.possibleCnpj;
             }
             
             // Pre-preenche Website
@@ -4710,37 +4708,70 @@
             if (data.receita) {
                 const rf = data.receita;
                 
-                // Cidade
+                // Cidade (sempre sobrescreve se RF tem dado)
                 if (rf.cidade) {
-                    const cidadeField = document.getElementById('edit-cidade');
-                    if (cidadeField && !cidadeField.value) cidadeField.value = rf.cidade;
+                    document.getElementById('edit-cidade').value = rf.cidade;
                 }
                 // UF
                 if (rf.uf) {
-                    const ufField = document.getElementById('edit-uf');
-                    if (ufField && !ufField.value) ufField.value = rf.uf;
+                    document.getElementById('edit-uf').value = rf.uf;
                 }
                 // Porte
                 if (rf.porte) {
                     const porteField = document.getElementById('edit-porte');
-                    if (porteField && (!porteField.value || porteField.value === 'Medio')) {
-                        // Mapeia porte da RF para o campo do CRM
-                        const p = rf.porte.toUpperCase();
-                        if (p.includes('GRANDE')) porteField.value = 'Grande';
-                        else if (p.includes('MEDIO') || p.includes('MÉDIO')) porteField.value = 'Medio';
-                        else if (p.includes('PEQUENO')) porteField.value = 'Pequeno';
-                        else if (p.includes('MICRO')) porteField.value = 'Micro';
-                    }
+                    const p = rf.porte.toUpperCase();
+                    if (p.includes('GRANDE') || p.includes('DEMAIS')) porteField.value = 'Grande';
+                    else if (p.includes('MEDIO') || p.includes('MÉDIO')) porteField.value = 'Medio';
+                    else if (p.includes('PEQUENO')) porteField.value = 'Pequeno';
+                    else if (p.includes('MICRO')) porteField.value = 'Micro';
                 }
-                // Telefone RF
+                
+                // Telefone RF — SOBRESCREVE (o antigo provavelmente é da Versátil)
                 if (rf.telefone) {
-                    const telField = document.getElementById('edit-contato-telefone');
-                    if (telField && !telField.value) telField.value = rf.telefone;
+                    document.getElementById('edit-contato-telefone').value = rf.telefone;
                 }
-                // Email RF  
+                // Telefone fixo RF
+                if (rf.telefone) {
+                    const fixoField = document.getElementById('edit-contato-fixo');
+                    if (fixoField) fixoField.value = rf.telefone;
+                }
+                // Email RF — SOBRESCREVE
                 if (rf.email_rf) {
-                    const emailField = document.getElementById('edit-contato-email');
-                    if (emailField && !emailField.value) emailField.value = rf.email_rf;
+                    document.getElementById('edit-contato-email').value = rf.email_rf;
+                }
+                
+                // ============================================================
+                // MAPEAMENTO CNAE → SEGMENTO INDUSTRIAL DO CRM
+                // ============================================================
+                if (rf.atividade) {
+                    const atv = rf.atividade.toUpperCase();
+                    const segField = document.getElementById('edit-segmento');
+                    let seg = null;
+                    
+                    if (atv.includes('PETRÓLEO') || atv.includes('PETROLEO') || atv.includes('GÁS NATURAL') || atv.includes('REFIN')) seg = 'Refinarias de Petróleo';
+                    else if (atv.includes('PETROQUÍM') || atv.includes('PETROQUIM')) seg = 'Petroquímica';
+                    else if (atv.includes('SIDERURG') || atv.includes('METALURG') || atv.includes('FUNDIÇÃO') || atv.includes('AÇO') || atv.includes('FERRO')) seg = 'Siderurgia';
+                    else if (atv.includes('PAPEL') || atv.includes('CELULOSE')) seg = 'Papel & Celulose';
+                    else if (atv.includes('NAVAL') || atv.includes('EMBARCAÇ') || atv.includes('ESTALEIRO') || atv.includes('OFFSHORE') || atv.includes('PLATAFORMA')) seg = 'Naval & Offshore';
+                    else if (atv.includes('ENERGIA') || atv.includes('ELÉTRIC') || atv.includes('ELETRIC') || atv.includes('GERAÇÃO') || atv.includes('TRANSMISSÃO')) seg = 'Geração Elétrica';
+                    else if (atv.includes('MINERAÇÃO') || atv.includes('MINERIO') || atv.includes('MINÉRIO') || atv.includes('EXTRAÇÃO MINERAL')) seg = 'Mineração';
+                    else if (atv.includes('CIMENTO') || atv.includes('ARGAMASSA') || atv.includes('CONCRETO')) seg = 'Cimento';
+                    else if (atv.includes('QUÍMIC') || atv.includes('QUIMIC')) seg = 'Química';
+                    else if (atv.includes('ALIMENT') || atv.includes('BEBIDA') || atv.includes('FRIGORIF') || atv.includes('AÇÚCAR') || atv.includes('LATIC')) seg = 'Alimentício';
+                    else if (atv.includes('FERROVIÁR') || atv.includes('FERROVIA') || atv.includes('LOCOMOTIV') || atv.includes('TRILHO')) seg = 'Ferroviário';
+                    else if (atv.includes('SANEAMENTO') || atv.includes('ÁGUA') || atv.includes('ESGOTO') || atv.includes('TRATAMENTO DE ÁGUA')) seg = 'Saneamento';
+                    else if (atv.includes('BORRACHA') || atv.includes('PLÁSTIC') || atv.includes('PLASTIC')) seg = 'Borracha & Plástico';
+                    else if (atv.includes('CONSTRUÇÃO') || atv.includes('CONSTRUCAO') || atv.includes('ENGENHARIA') || atv.includes('INFRAESTRUTURA')) seg = 'Construção Pesada';
+                    else if (atv.includes('FARMACÊUTIC') || atv.includes('FARMACEUTIC') || atv.includes('MEDICAMENT')) seg = 'Farmacêutico';
+                    else if (atv.includes('AUTOMÓV') || atv.includes('AUTOMOV') || atv.includes('VEÍCUL') || atv.includes('AUTOPEÇA')) seg = 'Automotivo';
+                    else if (atv.includes('ÁLCOOL') || atv.includes('ETANOL') || atv.includes('USINA') || atv.includes('CANA-DE-AÇÚCAR') || atv.includes('SUCRO')) seg = 'Sucroalcooleiro';
+                    else if (atv.includes('FERTILIZANT') || atv.includes('ADUBO') || atv.includes('AGROPECUÁR') || atv.includes('DEFENSIV')) seg = 'Agronegócio / Sucroenergético';
+                    
+                    if (seg && segField) {
+                        // Verifica se a opção existe no select
+                        const optExists = Array.from(segField.options).some(o => o.value === seg);
+                        if (optExists) segField.value = seg;
+                    }
                 }
             }
         }
