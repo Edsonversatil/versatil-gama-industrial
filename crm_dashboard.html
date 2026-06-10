@@ -2835,7 +2835,13 @@
             const localText = (client.cidade || client.estado) ? `${client.cidade || ''} - ${client.estado || ''}` : 'Não informada';
             document.getElementById('drawer-detail-local').textContent = localText;
             
-            const webLink = client.website ? `<a href="${client.website.startsWith('http') ? client.website : 'https://'+client.website}" target="_blank" style="color:var(--blue); text-decoration:none;">${client.website}</a>` : 'Não informado';
+            let webLink = 'Não informado';
+            if (client.website) {
+                // Corrige digitação com vírgula (ex: .com,br) para ponto e remove espaços
+                const cleanUrl = client.website.trim().replace(/,/g, '.');
+                const hrefUrl = cleanUrl.startsWith('http') ? cleanUrl : 'https://' + cleanUrl;
+                webLink = `<a href="${hrefUrl}" target="_blank" style="color:var(--blue); text-decoration:none;">${client.website}</a>`;
+            }
             document.getElementById('drawer-detail-website').innerHTML = webLink;
             
             document.getElementById('drawer-detail-porte').textContent = client.porte_empresa || 'Grande';
