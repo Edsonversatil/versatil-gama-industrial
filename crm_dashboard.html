@@ -1717,56 +1717,32 @@
             </div>
         </div>
 
-        <!-- VIEW PANEL 5: V-BOT IA CHAT INTERACTION -->
+        <!-- VIEW PANEL 5: V-BOT HUNTER ENRICHMENT -->
         <div id="view-vbot" class="view-panel">
             <div class="panel">
-                <div class="panel-header">
+                <div class="panel-header" style="justify-content: space-between; align-items: center; display: flex;">
                     <div class="panel-title">
-                        <h2>V-Bot Inteligência Comercial — Linguagem Natural</h2>
-                        <p>Realize pesquisas em tempo real na base de dados de clientes, propostas e contatos utilizando linguagem humana simples.</p>
+                        <h2>V-Bot Hunter — Robô de Enriquecimento</h2>
+                        <p>Realize varreduras nas pastas locais e internet para preencher dados faltantes automaticamente.</p>
                     </div>
+                    <button class="btn btn-primary" onclick="loadVbotClients()">↻ Recarregar Fila Pendente</button>
                 </div>
-
-                <div class="chat-container">
-                    <div class="chat-header">
-                        <div class="vbot-avatar">V</div>
-                        <div class="chat-header-info">
-                            <h4>V-Bot IA Commercial Engine</h4>
-                            <span>Online — Conectado a clientes_database.json</span>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-messages" id="chat-messages-box">
-                        <div class="chat-bubble bot">
-                            Olá, Eng. Edson! Sou o <strong>V-Bot</strong>, seu assistente de inteligência comercial. 
-                            Fui programado para analisar a base estruturada dos nossos 525 clientes e 14.944 arquivos. 
-                            <br><br>
-                            Você pode me fazer perguntas em português simples, como:
-                            <ul>
-                                <li><em>"Quais são os clientes de Papel & Celulose?"</em></li>
-                                <li><em>"Quem são os clientes de prioridade A inativos?"</em></li>
-                                <li><em>"Encontre a Petrobras"</em></li>
-                                <li><em>"Mostrar contatos de Cubatão"</em></li>
-                                <li><em>"Quantas propostas temos indexadas?"</em></li>
-                            </ul>
-                            Como posso te ajudar hoje nas paradas comerciais?
-                        </div>
-                    </div>
-                    
-                    <div class="chat-quick-queries">
-                        <button class="btn-quick-query" onclick="sendQuickQuery('Clientes de Petróleo & Gás')">Petróleo & Gás</button>
-                        <button class="btn-quick-query" onclick="sendQuickQuery('Clientes Prioridade A Inativos')">Prioridade A Inativos</button>
-                        <button class="btn-quick-query" onclick="sendQuickQuery('Quem é a Westrock?')">Westrock</button>
-                        <button class="btn-quick-query" onclick="sendQuickQuery('Resumo Geral da Carteira')">Resumo Geral</button>
-                        <button class="btn-quick-query" onclick="sendQuickQuery('Mostrar lista de contatos')">Todos os Contatos</button>
-                    </div>
-
-                    <div class="chat-input-area">
-                        <input type="text" id="chat-input-field" class="chat-input" placeholder="Digite sua consulta comercial aqui..." onkeypress="handleChatKeyPress(event)">
-                        <button class="btn-chat-send" onclick="sendChatMessage()">
-                            <svg style="width:18px; height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                        </button>
-                    </div>
+                
+                <div class="table-responsive">
+                    <table id="table-vbot">
+                        <thead>
+                            <tr>
+                                <th>Cód</th>
+                                <th>Razão Social / Nome da Pasta</th>
+                                <th>Segmento</th>
+                                <th>Status V-Bot</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vbot-tbody">
+                            <tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Clique em 'Recarregar Fila' para iniciar.</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -2205,8 +2181,11 @@
                 <svg style="width:16px; margin-right:5px; vertical-align:middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 Editar Ficha (E-mail, Telefone, etc)
             </button>
-            <button class="btn" id="drawer-btn-verificar" style="margin-top:8px; width:100%; background:transparent; border:1px solid var(--green); color:var(--green); font-weight:600;" onclick="toggleVerificado(this.dataset.id)">
+            <button class="btn" id="drawer-btn-verificar" style="margin-top:8px; width:100%; background:transparent; border:1px solid var(--green); color:var(--green); font-weight:600;" onclick="setClientStatus(this.dataset.id, 'verificado')">
                 Marcar Ficha como Verificada
+            </button>
+            <button class="btn" id="drawer-btn-homologacao" style="margin-top:8px; width:100%; background:transparent; border:1px solid #9b59b6; color:#9b59b6; font-weight:600;" onclick="setClientStatus(this.dataset.id, 'homologacao')">
+                Marcar: Em Homologação
             </button>
         </div>
         
@@ -2736,7 +2715,13 @@
                     ? `<span class="inactivity-info inactivity-active">Ativo</span>` 
                     : `<span class="inactivity-info inactivity-critical">${c.dias_inativo} dias inativo</span>`;
 
-                const nomeFormatado = c.verificado ? `✅ ${c.nome_cliente}` : c.nome_cliente;
+                let statusIcon = '';
+                if (c.status_verificacao === 'verificado' || (c.verificado && c.status_verificacao !== 'homologacao')) {
+                    statusIcon = '✅ ';
+                } else if (c.status_verificacao === 'homologacao') {
+                    statusIcon = '🟣 ';
+                }
+                const nomeFormatado = statusIcon + c.nome_cliente;
 
                 tr.innerHTML = `
                     <td><span class="client-id">${c.id_cliente}</span></td>
@@ -2922,17 +2907,42 @@
             document.getElementById('drawer-btn-edit').dataset.id = client.id_cliente;
             
             const btnVerificar = document.getElementById('drawer-btn-verificar');
+            const btnHomologacao = document.getElementById('drawer-btn-homologacao');
             btnVerificar.dataset.id = client.id_cliente;
-            if (client.verificado) {
+            btnHomologacao.dataset.id = client.id_cliente;
+
+            const currentStatus = client.status_verificacao || (client.verificado ? 'verificado' : 'none');
+
+            if (currentStatus === 'verificado') {
                 btnVerificar.innerHTML = '✅ Ficha Verificada';
                 btnVerificar.style.background = 'var(--green-soft)';
                 btnVerificar.style.color = 'var(--green)';
                 btnVerificar.style.borderColor = 'transparent';
+                
+                btnHomologacao.innerHTML = 'Marcar: Em Homologação';
+                btnHomologacao.style.background = 'transparent';
+                btnHomologacao.style.color = '#9b59b6';
+                btnHomologacao.style.borderColor = '#9b59b6';
+            } else if (currentStatus === 'homologacao') {
+                btnHomologacao.innerHTML = '🟣 Em Homologação';
+                btnHomologacao.style.background = 'rgba(155, 89, 182, 0.15)';
+                btnHomologacao.style.color = '#9b59b6';
+                btnHomologacao.style.borderColor = 'transparent';
+                
+                btnVerificar.innerHTML = 'Marcar Ficha como Verificada';
+                btnVerificar.style.background = 'transparent';
+                btnVerificar.style.color = 'var(--green)';
+                btnVerificar.style.borderColor = 'var(--green)';
             } else {
                 btnVerificar.innerHTML = 'Marcar Ficha como Verificada';
                 btnVerificar.style.background = 'transparent';
                 btnVerificar.style.color = 'var(--green)';
                 btnVerificar.style.borderColor = 'var(--green)';
+
+                btnHomologacao.innerHTML = 'Marcar: Em Homologação';
+                btnHomologacao.style.background = 'transparent';
+                btnHomologacao.style.color = '#9b59b6';
+                btnHomologacao.style.borderColor = '#9b59b6';
             }
             
             const priBadge = client.prioridade_comercial.includes('A') ? 'A' : (client.prioridade_comercial.includes('B') ? 'B' : 'C');
@@ -2987,26 +2997,35 @@
             document.getElementById('drawer-overlay').classList.remove('active');
         }
 
-        async function toggleVerificado(clientId) {
+        async function setClientStatus(clientId, targetStatus) {
             const client = clientes.find(c => c.id_cliente === clientId);
             if (!client) return;
-            const novoStatus = !client.verificado;
+            
+            const currentStatus = client.status_verificacao || (client.verificado ? 'verificado' : 'none');
+            const novoStatus = currentStatus === targetStatus ? 'none' : targetStatus;
             
             try {
                 const res = await fetch(`/api/crm/clientes/${clientId}`, {
                     method: 'PUT',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ verificado: novoStatus })
+                    body: JSON.stringify({ 
+                        status_verificacao: novoStatus,
+                        verificado: novoStatus === 'verificado'
+                    })
                 });
                 if (res.ok) {
-                    client.verificado = novoStatus;
-                    renderClientesTable(); // Atualiza a tabela principal
-                    openClientDetails(clientId); // Atualiza visualmente o drawer
-                    showToast(novoStatus ? `✅ Ficha de ${client.nome_cliente} verificada!` : `Atenção: Verificação removida.`, true);
+                    client.status_verificacao = novoStatus;
+                    client.verificado = novoStatus === 'verificado';
+                    renderClientesTable();
+                    openClientDetails(clientId);
+                    
+                    if (novoStatus === 'verificado') showToast(`✅ Ficha de ${client.nome_cliente} verificada!`, true);
+                    else if (novoStatus === 'homologacao') showToast(`🟣 Status alterado para Em Homologação.`, true);
+                    else showToast(`Atenção: Status removido.`, true);
                 }
             } catch (err) {
                 console.error(err);
-                showToast('Erro ao atualizar status de verificação.', false);
+                showToast('Erro ao atualizar status.', false);
             }
         }
 
@@ -3486,7 +3505,7 @@
                 'clientes': ['Fichas Técnicas & Comerciais', 'Consulte os 525 clientes reestruturados a partir do acervo do Drive.'],
                 'top100': ['Top 100 Contas Prioritárias', 'Contas chave de maior volumetria com abordagens prontas para conversão.'],
                 'reativacao': ['Fila de Reativação Comercial', 'Clientes estratégicos A e B inativos há mais de 12 meses para contato.'],
-                'vbot': ['IA V-Bot Commercial Engine', 'Converse com o V-Bot em linguagem natural para pesquisas avançadas na carteira.'],
+                'vbot': ['IA V-Bot Hunter (Enriquecimento)', 'Varredura automática nas pastas locais e internet para enriquecimento de dados comerciais.'],
                 'novo-lead': ['Capturar Novo Prospect', 'Cadastre novos leads no CRM e gere roteiros e-mail/WhatsApp/LinkedIn instantâneos.'],
                 'campanha': ['Campanha de Prospecção', 'Dispare e-mails e abra WhatsApp com mensagens personalizadas de Usinagem de Campo.']
             };
@@ -4501,6 +4520,102 @@
                 }
             } catch(e) {
                 showToast('❌ Erro ao excluir', false);
+            }
+        }
+
+        // ==========================================================================
+        // V-BOT HUNTER ENGINE
+        // ==========================================================================
+        async function loadVbotClients() {
+            const tbody = document.getElementById('vbot-tbody');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Analisando base de clientes pendentes...</td></tr>';
+            
+            // Pega clientes que nao estao verificados e nem homologados
+            const pending = clientes.filter(c => c.status_verificacao !== 'verificado' && c.status_verificacao !== 'homologacao');
+            
+            if (pending.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--green);">🎉 Parabéns! Todos os clientes foram verificados ou estão em homologação.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            pending.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span class="client-id">${c.id_cliente}</span></td>
+                    <td><span class="client-name">${c.nome_cliente}</span></td>
+                    <td><span class="badge-segment">${c.segmento_industrial}</span></td>
+                    <td id="vbot-status-${c.id_cliente}"><span style="color:var(--text-muted)">Aguardando Varredura</span></td>
+                    <td>
+                        <button id="vbot-btn-${c.id_cliente}" class="btn" style="background:transparent; border:1px solid var(--blue); color:var(--blue); padding: 5px 10px;" onclick="runVbotEnrich('${c.id_cliente}')">
+                            <svg style="width:14px; margin-right:4px; vertical-align:middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            Enriquecer Pasta
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+                
+                // Tr for results (hidden)
+                const trRes = document.createElement('tr');
+                trRes.id = `vbot-res-${c.id_cliente}`;
+                trRes.style.display = 'none';
+                trRes.innerHTML = `<td colspan="5" style="padding:0;"><div id="vbot-res-content-${c.id_cliente}" style="padding:15px; background:rgba(0,0,0,0.2); border-left: 3px solid var(--blue);"></div></td>`;
+                tbody.appendChild(trRes);
+            });
+        }
+
+        async function runVbotEnrich(id) {
+            const btn = document.getElementById(`vbot-btn-${id}`);
+            const statusBox = document.getElementById(`vbot-status-${id}`);
+            const resRow = document.getElementById(`vbot-res-${id}`);
+            const resContent = document.getElementById(`vbot-res-content-${id}`);
+            
+            btn.innerHTML = '⏳ Varrendo...';
+            btn.disabled = true;
+            statusBox.innerHTML = '<span style="color:var(--gold)">Analisando Pastas e Internet...</span>';
+            
+            try {
+                const r = await fetch(`/api/crm/vbot/enrich/${id}`, { method: 'POST' });
+                const data = await r.json();
+                
+                if(data.success) {
+                    statusBox.innerHTML = '<span style="color:var(--green)">✅ Varredura Concluída</span>';
+                    btn.innerHTML = 'Refazer Busca';
+                    btn.disabled = false;
+                    
+                    resRow.style.display = 'table-row';
+                    
+                    let html = `<h4 style="color:var(--blue); margin:0 0 10px 0;">Descobertas do V-Bot:</h4>`;
+                    
+                    if (data.folderFound) html += `<div style="margin-bottom:8px;">📁 <strong>Pasta local encontrada:</strong> Lendo históricos antigos...</div>`;
+                    else html += `<div style="margin-bottom:8px; color:var(--red);">⚠️ Pasta local não encontrada.</div>`;
+                    
+                    if (data.possibleCnpj) html += `<div style="margin-bottom:8px;">🏢 <strong>CNPJ Encontrado:</strong> ${data.possibleCnpj}</div>`;
+                    if (data.possibleSite) html += `<div style="margin-bottom:8px;">🌐 <strong>Website Encontrado:</strong> <a href="${data.possibleSite}" target="_blank" style="color:var(--blue)">${data.possibleSite}</a></div>`;
+                    
+                    if (data.emails && data.emails.length > 0) {
+                        html += `<div style="margin-bottom:8px;">📧 <strong>E-mails extraídos:</strong><br><span style="color:var(--text-muted); font-size:0.8rem;">${data.emails.join(', ')}</span></div>`;
+                    }
+                    if (data.phones && data.phones.length > 0) {
+                        html += `<div style="margin-bottom:8px;">📱 <strong>Telefones extraídos:</strong><br><span style="color:var(--text-muted); font-size:0.8rem;">${data.phones.join(', ')}</span></div>`;
+                    }
+                    
+                    if (!data.possibleCnpj && !data.possibleSite && data.emails.length === 0) {
+                        html += `<div style="color:var(--text-muted)">Nenhum dado novo expressivo foi encontrado na varredura.</div>`;
+                    } else {
+                        html += `
+                        <div style="margin-top:10px;">
+                            <button class="btn" style="background:var(--green); border-radius:5px; padding:6px 15px;" onclick="openEditModal('${id}')">✏️ Abrir Ficha para Salvar Dados</button>
+                        </div>`;
+                    }
+                    resContent.innerHTML = html;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (err) {
+                statusBox.innerHTML = '<span style="color:var(--red)">Erro na varredura</span>';
+                btn.innerHTML = 'Tentar Novamente';
+                btn.disabled = false;
             }
         }
     </script>

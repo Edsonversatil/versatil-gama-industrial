@@ -1176,6 +1176,91 @@ app.delete('/api/crm/clientes/:id', (req, res) => {
     }
 });
 
+// POST /api/crm/vbot/enrich/:id — Motor do V-Bot Hunter
+app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
+    try {
+        const clientesPath = path.join(parentDir, 'clientes_database.json');
+        const dbClientes = JSON.parse(fs.readFileSync(clientesPath, 'utf8'));
+        const client = dbClientes.find(c => c.id_cliente === req.params.id);
+        if (!client) return res.status(404).json({ error: 'Cliente não encontrado' });
+
+        const rootPropostas = path.join(parentDir, 'CRM Versatil Propostas Clientes');
+        let folderPath = null;
+        
+        // Procurar pasta
+        const subDirs = ['Propostas Antigas', 'Propostas Recentes'];
+        for (const sub of subDirs) {
+            const dir = path.join(rootPropostas, sub);
+            if (fs.existsSync(dir)) {
+                const pastas = fs.readdirSync(dir);
+                const alvo = pastas.find(p => p.startsWith(req.params.id));
+                if (alvo) {
+                    folderPath = path.join(dir, alvo);
+                    break;
+                }
+            }
+        }
+
+        let extractedEmails = [];
+        let extractedPhones = [];
+
+        // Ler arquivos locais se achou a pasta
+        if (folderPath) {
+            const traverse = (dir) => {
+                const files = fs.readdirSync(dir);
+                for (const file of files) {
+                    const full = path.join(dir, file);
+                    if (fs.statSync(full).isDirectory()) {
+                        traverse(full);
+                    } else if (file.endsWith('.msg') || file.endsWith('.txt') || file.endsWith('.eml')) {
+                        try {
+                            const content = fs.readFileSync(full, 'utf8');
+                            // Emails
+                            const emails = content.match(/[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/g);
+                            if (emails) extractedEmails.push(...emails);
+                            // Phones (simple regex)
+                            const phones = content.match(/(?:\+55)?\s?(?:\(?0?[1-9]{2}\)?)\s?(?:9\d{4}|\d{4})[-.\s]?\d{4}/g);
+                            if (phones) extractedPhones.push(...phones);
+                        } catch (e) {}
+                    }
+                }
+            };
+            traverse(folderPath);
+        }
+
+        // Pesquisa Web 
+        let possibleCnpj = null;
+        let possibleSite = null;
+        try {
+            const query = encodeURIComponent(`cnpj site ${client.nome_cliente}`);
+            const r = await fetch(`https://html.duckduckgo.com/html/?q=${query}`, {
+                headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
+            });
+            const html = await r.text();
+            
+            // Tenta achar um CNPJ no HTML
+            const cnpjMatch = html.match(/\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/);
+            if (cnpjMatch) possibleCnpj = cnpjMatch[0];
+            
+            // Tenta achar um site
+            const siteMatch = html.match(/https?:\/\/(?:www\.)?[a-zA-Z0-9-]+\.com\.br/);
+            if (siteMatch) possibleSite = siteMatch[0];
+        } catch(e) {}
+
+        res.json({
+            success: true,
+            folderFound: !!folderPath,
+            emails: [...new Set(extractedEmails)].slice(0, 10), // Max 10 para nao poluir
+            phones: [...new Set(extractedPhones)].slice(0, 10),
+            possibleCnpj,
+            possibleSite
+        });
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // GET /api/crm/cnpj/:cnpj — Busca dados da empresa via múltiplas APIs (fallback)
 app.get('/api/crm/cnpj/:cnpj', async (req, res) => {
     try {
