@@ -2720,6 +2720,8 @@
                     statusIcon = '✅ ';
                 } else if (c.status_verificacao === 'homologacao') {
                     statusIcon = '🟣 ';
+                } else {
+                    statusIcon = '🔴 ';
                 }
                 const nomeFormatado = statusIcon + c.nome_cliente;
 
