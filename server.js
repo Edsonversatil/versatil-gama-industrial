@@ -1574,9 +1574,9 @@ async function executarEnvioMensal() {
     for (let i = 0; i < pendentes.length; i++) {
         const c = pendentes[i];
         const roteiro = c.roteiro_comercial || {};
-        const subject = `Serviços de Usinagem em Campo`;
+        const subject = `Usinagem de Campo - Serviços Industriais`;
         const body = roteiro.mensagem_email || config.mensagem_padrao || 
-            `Prezado(a), A Versatil Services é referência em USINAGEM DE CAMPO (in-situ) para ${c.segmento_industrial || 'o segmento Industrial'}. Já atendemos a ${c.nome_cliente.toUpperCase()}. Realizamos faceamento de flanges, retífica de sedes, mandrilhamento e torneamento em campo. Também atuamos com Retubagem de Trocadores de Calor - Troca Térmica ASME, Caldeiraria e END. Att, Eng. Edson de Oliveira Silva - Versatil Services`;
+            `Prezado(a),\n\nA Versátil Services é especializada em USINAGEM DE CAMPO (In-Situ), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.\n\nTemos experiência comprovada em grandes grupos industriais, incluindo serviços realizados para a ${c.nome_cliente}.\n\nNossos principais serviços incluem:\n\n• Faceamento de Flanges In-Situ;\n• Mandrilhamento em Campo;\n• Retífica de Pistas e Assentamentos;\n• Usinagem em Pontas de Eixos;\n• Recuperação e Alinhamento de Equipamentos Rotativos;\n• Manutenção Mecânica Industrial;\n• Retubagem de Trocadores de Calor;\n• Serviços de Troca Térmica conforme ASME;\n• Caldeiraria Industrial;\n• Ensaios Não Destrutivos (END).\n\nColocamo-nos à disposição para avaliar suas necessidades e apresentar soluções técnicas com rapidez, segurança e qualidade.\n\nAtt,\nEng. Edson de Oliveira Silva\nVersátil Services\n(13) 99150-9140`;
 
         // Coletar todos os e-mails (principal + adicionais)
         const emails = [];
