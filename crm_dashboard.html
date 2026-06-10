@@ -2160,6 +2160,10 @@
                     <span id="drawer-detail-id">0495</span>
                 </div>
                 <div class="detail-item">
+                    <label>CNPJ</label>
+                    <span id="drawer-detail-cnpj" style="font-family:var(--font-outfit);">Não cadastrado</span>
+                </div>
+                <div class="detail-item">
                     <label>Porte Corporativo</label>
                     <span id="drawer-detail-porte">Grande</span>
                 </div>
@@ -2812,6 +2816,7 @@
             document.getElementById('drawer-segment-badge').textContent = client.segmento_industrial;
             
             document.getElementById('drawer-detail-id').textContent = client.id_cliente;
+            document.getElementById('drawer-detail-cnpj').textContent = client.cnpj || 'Não cadastrado';
             document.getElementById('drawer-detail-porte').textContent = client.porte_empresa || 'Grande';
             
             // Atrela o ID do cliente ao botão de Editar
@@ -2887,6 +2892,20 @@
                     estado: client.estado || '-',
                     email: client.contato_email || 'Sem e-mail',
                     telefone: client.contato_telefone || client.contato_whatsapp || 'Sem telefone'
+                });
+            }
+
+            // Injeta os e-mails adicionais (caso tenham sido adicionados no modal)
+            if (client.emails_adicionais && Array.isArray(client.emails_adicionais)) {
+                client.emails_adicionais.forEach(ea => {
+                    contatosToShow.push({
+                        nome: 'E-mail Adicional',
+                        cargo: ea.departamento || 'Outros',
+                        cidade: client.cidade || '-',
+                        estado: client.estado || '-',
+                        email: ea.email,
+                        telefone: 'Sem telefone'
+                    });
                 });
             }
 
