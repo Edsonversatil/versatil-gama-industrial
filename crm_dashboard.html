@@ -2205,6 +2205,9 @@
                 <svg style="width:16px; margin-right:5px; vertical-align:middle;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 Editar Ficha (E-mail, Telefone, etc)
             </button>
+            <button class="btn" id="drawer-btn-verificar" style="margin-top:8px; width:100%; background:transparent; border:1px solid var(--green); color:var(--green); font-weight:600;" onclick="toggleVerificado(this.dataset.id)">
+                Marcar Ficha como Verificada
+            </button>
         </div>
         
         <!-- Ficha técnica -->
@@ -2733,9 +2736,11 @@
                     ? `<span class="inactivity-info inactivity-active">Ativo</span>` 
                     : `<span class="inactivity-info inactivity-critical">${c.dias_inativo} dias inativo</span>`;
 
+                const nomeFormatado = c.verificado ? `✅ ${c.nome_cliente}` : c.nome_cliente;
+
                 tr.innerHTML = `
                     <td><span class="client-id">${c.id_cliente}</span></td>
-                    <td><span class="client-name">${c.nome_cliente}</span></td>
+                    <td><span class="client-name">${nomeFormatado}</span></td>
                     <td><span class="badge-segment">${c.segmento_industrial}</span></td>
                     <td><span class="badge-priority ${priBadge}">${priText}</span></td>
                     <td>${inactivitySpan}</td>
@@ -2913,8 +2918,22 @@
             
             document.getElementById('drawer-detail-porte').textContent = client.porte_empresa || 'Grande';
             
-            // Atrela o ID do cliente ao botão de Editar
+            // Atrela o ID do cliente ao botão de Editar e Verificar
             document.getElementById('drawer-btn-edit').dataset.id = client.id_cliente;
+            
+            const btnVerificar = document.getElementById('drawer-btn-verificar');
+            btnVerificar.dataset.id = client.id_cliente;
+            if (client.verificado) {
+                btnVerificar.innerHTML = '✅ Ficha Verificada';
+                btnVerificar.style.background = 'var(--green-soft)';
+                btnVerificar.style.color = 'var(--green)';
+                btnVerificar.style.borderColor = 'transparent';
+            } else {
+                btnVerificar.innerHTML = 'Marcar Ficha como Verificada';
+                btnVerificar.style.background = 'transparent';
+                btnVerificar.style.color = 'var(--green)';
+                btnVerificar.style.borderColor = 'var(--green)';
+            }
             
             const priBadge = client.prioridade_comercial.includes('A') ? 'A' : (client.prioridade_comercial.includes('B') ? 'B' : 'C');
             const detailPri = document.getElementById('drawer-detail-prioridade');
@@ -2966,6 +2985,29 @@
         function closeDrawer() {
             document.getElementById('details-drawer').classList.remove('open');
             document.getElementById('drawer-overlay').classList.remove('active');
+        }
+
+        async function toggleVerificado(clientId) {
+            const client = clientes.find(c => c.id_cliente === clientId);
+            if (!client) return;
+            const novoStatus = !client.verificado;
+            
+            try {
+                const res = await fetch(`/api/crm/clientes/${clientId}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ verificado: novoStatus })
+                });
+                if (res.ok) {
+                    client.verificado = novoStatus;
+                    renderClientesTable(); // Atualiza a tabela principal
+                    openClientDetails(clientId); // Atualiza visualmente o drawer
+                    showToast(novoStatus ? `✅ Ficha de ${client.nome_cliente} verificada!` : `Atenção: Verificação removida.`, true);
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Erro ao atualizar status de verificação.', false);
+            }
         }
 
         function renderDrawerContacts(client) {
