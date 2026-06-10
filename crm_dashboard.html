@@ -1956,8 +1956,18 @@
                 </div>
             </div>
 
-            <!-- CONTROLES DA CAMPANHA -->
-            <div class="panel">
+            <!-- TABS DA CAMPANHA -->
+            <div style="display:flex; gap:10px; margin-bottom:20px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+                <button class="btn btn-primary" id="btn-tab-envio" onclick="switchCampanhaTab('envio')" style="min-width:180px;">Lista de Envio (Leads)</button>
+                <button class="btn btn-secondary" id="btn-tab-bounces" onclick="switchCampanhaTab('bounces')" style="min-width:180px; position:relative;">
+                    Relatório de Entregabilidade (Falhas)
+                    <span class="badge" style="position:absolute; top:-8px; right:-8px; background:var(--red); display:none;" id="badge-bounces">0</span>
+                </button>
+            </div>
+
+            <!-- TAB: ENVIO DE CAMPANHA -->
+            <div id="campanha-tab-envio">
+                <div class="panel">
                 <div class="panel-header">
                     <div class="panel-title">
                         <h2>📧 Leads Prontos para Contato — Usinagem de Campo</h2>
@@ -2084,6 +2094,29 @@
                     </table>
                 </div>
             </div>
+            </div> <!-- End TAB ENVIO -->
+
+            <!-- TAB: RELATÓRIO DE ENTREGABILIDADE (BOUNCES) -->
+            <div id="campanha-tab-bounces" style="display:none;">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <h2 style="color:var(--red);">⚠️ Relatório de Falhas de Entrega (Bounces Imediatos)</h2>
+                            <p>E-mails que foram rejeitados imediatamente pelo provedor durante disparos automáticos.</p>
+                        </div>
+                        <button class="btn" style="background:var(--blue);" onclick="carregarBounces()">Atualizar Relatório</button>
+                    </div>
+
+                    <div style="background:rgba(255,0,0,0.05); border:1px solid rgba(255,0,0,0.1); border-radius:var(--radius-lg); padding:20px;">
+                        <h3 style="color:var(--red); font-size:1.1rem; margin-bottom:10px;">Divergências Identificadas</h3>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">Os e-mails abaixo apresentaram erro de conexão ou não existem. Corrija a ficha do cliente para retentar no próximo lote.</p>
+                        <div id="bounces-container" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+                            <div style="font-size:0.9rem; color:var(--text-muted); text-align:center; padding:20px;">Carregando relatório...</div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End TAB BOUNCES -->
+
         </div>
 
         <!-- VIEW PANEL 8: GESTÃO DE EQUIPE -->
@@ -3406,6 +3439,63 @@
         let campanhaLeads = [];
         let campanhaLog = [];
         let campanhaFiltered = [];
+
+        function switchCampanhaTab(tab) {
+            document.getElementById('btn-tab-envio').className = tab === 'envio' ? 'btn btn-primary' : 'btn btn-secondary';
+            document.getElementById('btn-tab-bounces').className = tab === 'bounces' ? 'btn btn-primary' : 'btn btn-secondary';
+            
+            document.getElementById('campanha-tab-envio').style.display = tab === 'envio' ? 'block' : 'none';
+            document.getElementById('campanha-tab-bounces').style.display = tab === 'bounces' ? 'block' : 'none';
+
+            if (tab === 'bounces') {
+                carregarBounces();
+            }
+        }
+
+        async function carregarBounces() {
+            try {
+                const res = await fetch('/api/crm/campanha-log');
+                if (!res.ok) return;
+                const logs = await res.json();
+                
+                // Filtra apenas os logs de erro
+                const erros = logs.filter(l => l.status === 'erro' && l.tipo === 'campanha');
+                
+                // Agrupa por e-mail
+                const errosUnicos = {};
+                erros.forEach(e => {
+                    if (!errosUnicos[e.to]) errosUnicos[e.to] = e;
+                });
+
+                const listaErros = Object.values(errosUnicos);
+                const container = document.getElementById('bounces-container');
+                const badge = document.getElementById('badge-bounces');
+
+                if (listaErros.length > 0) {
+                    badge.style.display = 'block';
+                    badge.textContent = listaErros.length;
+                    
+                    container.innerHTML = listaErros.map(e => `
+                        <div style="background:var(--card-bg); padding:15px; border-radius:8px; margin-bottom:10px; border-left:4px solid var(--red); display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <strong style="color:var(--text-color); font-family:var(--font-outfit); font-size:1.05rem;">${e.nome || 'Empresa Desconhecida'}</strong> 
+                                <span style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;">[Cód: ${e.clientId || 'N/A'}]</span>
+                                <div style="font-size:0.85rem; color:var(--red); margin-top:4px;">✉️ ${e.to}</div>
+                                <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Erro: ${e.erro}</div>
+                            </div>
+                            ${e.clientId ? `<button class="btn" style="background:var(--blue); font-size:0.8rem; padding:6px 12px;" onclick="openEditModal('${e.clientId}')">✏️ Editar Ficha</button>` : ''}
+                        </div>
+                    `).join('');
+                } else {
+                    badge.style.display = 'none';
+                    container.innerHTML = '<div style="color:var(--green); text-align:center; padding:30px;">🎉 Excelente! Não há falhas de entrega pendentes registradas no log.</div>';
+                }
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('bounces-container').innerHTML = '<div style="color:var(--red); padding:20px;">Erro ao carregar relatório.</div>';
+            }
+        }
 
         async function loadCampanhaData() {
             campanhaLeads = clientes.filter(c => c.contato_email && c.contato_email.length > 3);
