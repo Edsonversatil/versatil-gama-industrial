@@ -1274,10 +1274,44 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                 possibleCnpj = matrizFull.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
             }
             
-            // Tenta achar um site
-            const siteMatch = html.match(/https?:\/\/(?:www\.)?[a-zA-Z0-9-]+\.com\.br/);
-            if (siteMatch) possibleSite = siteMatch[0];
+            // Tenta achar um site — aceita múltiplos domínios
+            const blocklist = ['google','facebook','linkedin','instagram','twitter','youtube','wikipedia','gov.br','jusbrasil','reclameaqui','glassdoor','indeed','cnpj.biz','econodata','speedio','casadosdados','consultasocio','infoplex','cnpja','companywall','emis','dnb','Bloomberg'];
+            const siteRegex = /https?:\/\/(?:www\.)?([a-zA-Z0-9-]+\.(?:com\.br|com|ind\.br|net\.br|org\.br|eng\.br))/gi;
+            const allSites = [...(html.matchAll(siteRegex) || [])];
+            
+            for (const m of allSites) {
+                const domain = m[1].toLowerCase();
+                const isBlocked = blocklist.some(b => domain.includes(b.toLowerCase()));
+                if (!isBlocked) {
+                    possibleSite = m[0];
+                    break;
+                }
+            }
         } catch(e) { console.log('[V-Bot] Web search error:', e.message); }
+
+        // === BUSCA DEDICADA DE WEBSITE (se não achou na primeira) ===
+        if (!possibleSite) {
+            try {
+                const query2 = encodeURIComponent(`"${client.nome_cliente}" site oficial`);
+                const r2 = await fetch(`https://html.duckduckgo.com/html/?q=${query2}`, {
+                    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
+                });
+                const html2 = await r2.text();
+                
+                const blocklist = ['google','facebook','linkedin','instagram','twitter','youtube','wikipedia','gov.br','jusbrasil','reclameaqui','glassdoor','indeed','cnpj.biz','econodata','speedio','casadosdados'];
+                const siteRegex2 = /https?:\/\/(?:www\.)?([a-zA-Z0-9-]+\.(?:com\.br|com|ind\.br|net\.br|org\.br|eng\.br))/gi;
+                const allSites2 = [...(html2.matchAll(siteRegex2) || [])];
+                
+                for (const m of allSites2) {
+                    const domain = m[1].toLowerCase();
+                    const isBlocked = blocklist.some(b => domain.includes(b.toLowerCase()));
+                    if (!isBlocked) {
+                        possibleSite = m[0];
+                        break;
+                    }
+                }
+            } catch(e) {}
+        }
 
         // ============================================================
         // CONSULTA RECEITA FEDERAL — Verifica se empresa existe/mudou
