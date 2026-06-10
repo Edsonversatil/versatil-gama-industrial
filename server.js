@@ -854,7 +854,7 @@ function gerarEmailHtml(bodyText) {
                 <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                     <!-- Header -->
                     <tr><td style="background:#BF2026;padding:28px 32px;text-align:center;">
-                        <h1 style="margin:0;font-size:22px;color:#ffffff;font-weight:700;letter-spacing:1px;">VERSATIL GLOBAL SERVICES</h1>
+                        <h1 style="margin:0;font-size:22px;color:#ffffff;font-weight:700;letter-spacing:1px;">VERSATIL SERVICES</h1>
                         <p style="margin:6px 0 0;font-size:12px;color:#f8d0d2;letter-spacing:0.5px;">Usinagem de Campo & Serviços Industriais</p>
                     </td></tr>
                     <!-- Hero Images 2x2 Grid -->
@@ -893,12 +893,12 @@ function gerarEmailHtml(bodyText) {
                     <!-- Footer -->
                     <tr><td style="background:#f9f9f9;padding:24px 32px;border-top:1px solid #e0e0e0;">
                         <p style="margin:0;font-size:13px;color:#555;"><strong>Eng. Edson de Oliveira Silva</strong></p>
-                        <p style="margin:4px 0 0;font-size:12px;color:#888;">Gerente Técnico Comercial — Versatil Global Services</p>
+                        <p style="margin:4px 0 0;font-size:12px;color:#888;">Gerente Técnico Comercial — Versatil Services</p>
                         <p style="margin:4px 0 0;font-size:12px;color:#888;">📱 (13) 99150-9140 | dp.tecnico@versatilservices.com.br</p>
                     </td></tr>
                     <!-- Bottom bar -->
                     <tr><td style="background:#BF2026;padding:10px;text-align:center;">
-                        <p style="margin:0;font-size:10px;color:#f8d0d2;">© ${new Date().getFullYear()} Versatil Global Services — Todos os direitos reservados</p>
+                        <p style="margin:0;font-size:10px;color:#f8d0d2;">© ${new Date().getFullYear()} Versatil Services — Todos os direitos reservados</p>
                     </td></tr>
                 </table>
             </td></tr>
@@ -967,9 +967,9 @@ app.post('/api/crm/smtp-test', async (req, res) => {
         }
         const testTo = req.body.to || SMTP_CONFIG.auth.user;
         const transporter = nodemailer.createTransport(SMTP_CONFIG);
-        const htmlBody = gerarEmailHtml('Este é um <strong>email de teste</strong> enviado pelo CRM Versatil Global Services.\n\nSe você recebeu esta mensagem, a configuração SMTP está funcionando corretamente!');
+        const htmlBody = gerarEmailHtml('Este é um <strong>email de teste</strong> enviado pelo CRM Versatil Services.\n\nSe você recebeu esta mensagem, a configuração SMTP está funcionando corretamente!');
         const info = await transporter.sendMail({
-            from: `Eng. Edson - Versatil Global Services <${SMTP_CONFIG.auth.user}>`,
+            from: `Eng. Edson - Versatil Services <${SMTP_CONFIG.auth.user}>`,
             to: testTo,
             subject: '[TESTE] CRM Versatil — Verificação SMTP',
             html: htmlBody
@@ -995,7 +995,7 @@ app.post('/api/crm/enviar-email', async (req, res) => {
         const transporter = nodemailer.createTransport(SMTP_CONFIG);
         const htmlBody = gerarEmailHtml(body);
         const info = await transporter.sendMail({
-            from: `Eng. Edson - Versatil Global Services <${SMTP_CONFIG.auth.user}>`,
+            from: `Eng. Edson - Versatil Services <${SMTP_CONFIG.auth.user}>`,
             to,
             subject,
             html: htmlBody
@@ -1075,7 +1075,7 @@ app.post('/api/crm/campanha-email', (req, res) => {
         try {
             const htmlBody = gerarEmailHtml(lead.body);
             const info = await transporter.sendMail({
-                from: `Eng. Edson - Versatil Global Services <${SMTP_CONFIG.auth.user}>`,
+                from: `Eng. Edson - Versatil Services <${SMTP_CONFIG.auth.user}>`,
                 to: lead.to,
                 subject: lead.subject,
                 html: htmlBody
@@ -1574,9 +1574,9 @@ async function executarEnvioMensal() {
     for (let i = 0; i < pendentes.length; i++) {
         const c = pendentes[i];
         const roteiro = c.roteiro_comercial || {};
-        const subject = `Usinagem de Campo (In-Situ) — Versatil Global Services para ${c.nome_cliente}`;
+        const subject = `Usinagem de Campo (In-Situ) — Versatil Services para ${c.nome_cliente}`;
         const body = roteiro.mensagem_email || config.mensagem_padrao || 
-            `Prezado,\n\nSomos referência em USINAGEM DE CAMPO (in-situ) para o segmento ${c.segmento_industrial || 'Industrial'}.\n\nRealizamos faceamento de flanges, retífica de sedes, retífica de alianças e roletes, mandrilhamento e torneamento direto na planta.\n\nTambém atuamos com Troca Térmica ASME, Caldeiraria e END.\n\nAtt, Eng. Edson - (13) 99150-9140`;
+            `Prezado(a),\n\nA Versatil Services é referência em USINAGEM DE CAMPO (in-situ) para ${c.segmento_industrial || 'o segmento Industrial'}. Em outras oportunidades já atendemos a ${c.nome_cliente}.\n\nRealizamos faceamento de flanges, retífica de sedes, mandrilhamento e torneamento em campo.\n\nTambém atuamos com Troca Térmica ASME, Caldeiraria e END.\n\nAtt,\nEng. Edson de Oliveira Silva - Versatil Services\n(13) 99150-9140`;
 
         // Coletar todos os e-mails (principal + adicionais)
         const emails = [];
@@ -1589,7 +1589,7 @@ async function executarEnvioMensal() {
             try {
                 const htmlBody = gerarEmailHtml(body);
                 const info = await transporter.sendMail({
-                    from: `Eng. Edson - Versatil Global Services <${SMTP_CONFIG.auth.user}>`,
+                    from: `Eng. Edson - Versatil Services <${SMTP_CONFIG.auth.user}>`,
                     to: email,
                     subject: subject,
                     html: htmlBody

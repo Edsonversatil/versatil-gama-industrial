@@ -3861,7 +3861,7 @@
 
             const leads = [];
             const roteiro = client.roteiro_comercial || {};
-            const subject = `Usinagem de Campo (In-Situ) — Versatil Global Services para ${client.nome_cliente}`;
+            const subject = `Usinagem de Campo (In-Situ) — Versatil Services para ${client.nome_cliente}`;
             const body = roteiro.mensagem_email || `Prezado(a), gostaríamos de apresentar nossos serviços de Usinagem de Campo para a ${client.nome_cliente}.`;
 
             if (client.contato_email && client.contato_email.length > 3) {
@@ -3916,7 +3916,7 @@
             selected.forEach(id => {
                 const c = clientes.find(cl => cl.id_cliente === id);
                 const roteiro = c.roteiro_comercial || {};
-                const subject = `Usinagem de Campo (In-Situ) — Versatil Global Services para ${c.nome_cliente}`;
+                const subject = `Usinagem de Campo (In-Situ) — Versatil Services para ${c.nome_cliente}`;
                 const body = roteiro.mensagem_email || `Apresentação de serviços de Usinagem de Campo para a ${c.nome_cliente}.`;
 
                 // E-mail principal
