@@ -774,7 +774,7 @@ app.post('/api/crm/leads', (req, res) => {
         // Text templates for the lead
         const wa = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Petróleo e Gás, Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
 
 Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
 
@@ -795,10 +795,11 @@ Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Eng
 📞 +55 13 99150-9140 (WhatsApp)
 
 Versátil Services
+www.versatilservices.com.br
 Santos/SP – Brasil`;
         const emailMsg = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Petróleo e Gás, Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
 
 Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
 
@@ -821,10 +822,11 @@ Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Eng
 📞 +55 13 99150-9140 (WhatsApp)
 
 Versátil Services
+www.versatilservices.com.br
 Santos/SP – Brasil`;
         const linkedin = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Petróleo e Gás, Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
 
 Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
 
@@ -845,6 +847,7 @@ Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Eng
 📞 +55 13 99150-9140 (WhatsApp)
 
 Versátil Services
+www.versatilservices.com.br
 Santos/SP – Brasil`;
 
         const newClient = {
@@ -972,7 +975,7 @@ function gerarEmailHtml(bodyText) {
                     </td></tr>
                     <!-- Bottom bar -->
                     <tr><td style="background:#BF2026;padding:10px;text-align:center;">
-                        <p style="margin:0;font-size:10px;color:#f8d0d2;">© ${new Date().getFullYear()} Versátil Services — Santos/SP — Todos os direitos reservados</p>
+                        <p style="margin:0;font-size:10px;color:#f8d0d2;">© 2002 Versátil Services — Santos/SP — www.versatilservices.com.br — Todos os direitos reservados</p>
                     </td></tr>
                 </table>
             </td></tr>
