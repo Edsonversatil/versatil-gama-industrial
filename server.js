@@ -774,11 +774,28 @@ app.post('/api/crm/leads', (req, res) => {
         // Text templates for the lead
         const wa = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Óleo & Gás, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em Usinagem de Campo (In-Situ), Manutenção Industrial, Equipamentos Rotativos e Recuperação de Componentes Industriais, atendendo os segmentos de Petroquímica, Refinarias de Petróleo, Naval & Offshore, Energia, Mineração, Química, Siderurgia, Papel & Celulose, Cimento, Alimentício, Ferroviário, Saneamento, Borracha & Plástico, Geração Elétrica, Construção Pesada, Farmacêutico, Sucroalcooleiro e Indústria em Geral.
 
-Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
+Com mais de 23 anos de experiência, executamos serviços diretamente na planta do cliente, reduzindo paradas operacionais, eliminando desmontagens desnecessárias e aumentando a disponibilidade dos ativos industriais.
 
-Estamos à disposição para avaliar eventuais demandas de Usinagem de Campo (In-Situ), Manutenção Industrial e Equipamentos Rotativos.
+Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, petroquímica, química, fertilizantes, siderurgia, papel & celulose e energia.
+
+Principais especialidades:
+
+✅ Faceamento de Flanges In-Situ;
+✅ Mandrilhamento em Campo;
+✅ Retífica de Pistas e Assentamentos;
+✅ Usinagem em Pontas de Eixos;
+✅ Torneamento In-Situ;
+✅ Recuperação de Equipamentos Rotativos;
+✅ Retubagem de Trocadores de Calor;
+✅ Serviços de Troca Térmica conforme ASME;
+✅ Caldeiraria Industrial;
+✅ Ensaios Não Destrutivos (END).
+
+Estamos à disposição para avaliar demandas de manutenção, paradas programadas, emergências industriais e recuperação de equipamentos diretamente em campo.
+
+Será um prazer alinharmos uma conversa técnica para identificar oportunidades de apoio às operações de sua empresa.
 
 Eng. Edson de Oliveira Silva
 Gerente Técnico Comercial
@@ -789,7 +806,7 @@ Pós-Graduado em Gestão de Projetos (PMI-PMBOK)
 Pós-Graduado em Engenharia de Software
 
 23 anos de experiência em:
-Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Engenharia Industrial
+Usinagem de Campo ✅ Manutenção Industrial ✅ Equipamentos Rotativos ✅ Engenharia Industrial
 
 📧 dp.tecnico@versatilservices.com.br
 📞 +55 13 99150-9140 (WhatsApp)
@@ -799,13 +816,28 @@ Versátil Services
 Santos/SP – Brasil`;
         const emailMsg = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Óleo & Gás, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em Usinagem de Campo (In-Situ), Manutenção Industrial, Equipamentos Rotativos e Recuperação de Componentes Industriais, atendendo os segmentos de Petroquímica, Refinarias de Petróleo, Naval & Offshore, Energia, Mineração, Química, Siderurgia, Papel & Celulose, Cimento, Alimentício, Ferroviário, Saneamento, Borracha & Plástico, Geração Elétrica, Construção Pesada, Farmacêutico, Sucroalcooleiro e Indústria em Geral.
 
-Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
+Com mais de 23 anos de experiência, executamos serviços diretamente na planta do cliente, reduzindo paradas operacionais, eliminando desmontagens desnecessárias e aumentando a disponibilidade dos ativos industriais.
 
-Estamos à disposição para avaliar eventuais demandas de Usinagem de Campo (In-Situ), Manutenção Industrial e Equipamentos Rotativos.
+Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, petroquímica, química, fertilizantes, siderurgia, papel & celulose e energia.
 
-Atenciosamente,
+Principais especialidades:
+
+• Faceamento de Flanges In-Situ;
+• Mandrilhamento em Campo;
+• Retífica de Pistas e Assentamentos;
+• Usinagem em Pontas de Eixos;
+• Torneamento In-Situ;
+• Recuperação de Equipamentos Rotativos;
+• Retubagem de Trocadores de Calor;
+• Serviços de Troca Térmica conforme ASME;
+• Caldeiraria Industrial;
+• Ensaios Não Destrutivos (END).
+
+Estamos à disposição para avaliar demandas de manutenção, paradas programadas, emergências industriais e recuperação de equipamentos diretamente em campo.
+
+Será um prazer alinharmos uma conversa técnica para identificar oportunidades de apoio às operações de sua empresa.
 
 Eng. Edson de Oliveira Silva
 Gerente Técnico Comercial
@@ -826,11 +858,28 @@ Versátil Services
 Santos/SP – Brasil`;
         const linkedin = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Óleo & Gás, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em Usinagem de Campo (In-Situ), Manutenção Industrial, Equipamentos Rotativos e Recuperação de Componentes Industriais, atendendo os segmentos de Petroquímica, Refinarias de Petróleo, Naval & Offshore, Energia, Mineração, Química, Siderurgia, Papel & Celulose, Cimento, Alimentício, Ferroviário, Saneamento, Borracha & Plástico, Geração Elétrica, Construção Pesada, Farmacêutico, Sucroalcooleiro e Indústria em Geral.
 
-Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
+Com mais de 23 anos de experiência, executamos serviços diretamente na planta do cliente, reduzindo paradas operacionais, eliminando desmontagens desnecessárias e aumentando a disponibilidade dos ativos industriais.
 
-Estamos à disposição para avaliar eventuais demandas de Usinagem de Campo (In-Situ), Manutenção Industrial e Equipamentos Rotativos.
+Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, petroquímica, química, fertilizantes, siderurgia, papel & celulose e energia.
+
+Principais especialidades:
+
+• Faceamento de Flanges In-Situ;
+• Mandrilhamento em Campo;
+• Retífica de Pistas e Assentamentos;
+• Usinagem em Pontas de Eixos;
+• Torneamento In-Situ;
+• Recuperação de Equipamentos Rotativos;
+• Retubagem de Trocadores de Calor;
+• Serviços de Troca Térmica conforme ASME;
+• Caldeiraria Industrial;
+• Ensaios Não Destrutivos (END).
+
+Estamos à disposição para avaliar demandas de manutenção, paradas programadas, emergências industriais e recuperação de equipamentos diretamente em campo.
+
+Será um prazer alinharmos uma conversa técnica para identificar oportunidades de apoio às operações de sua empresa.
 
 Eng. Edson de Oliveira Silva
 Gerente Técnico Comercial
