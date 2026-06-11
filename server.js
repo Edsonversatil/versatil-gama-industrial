@@ -793,9 +793,9 @@ Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Eng
 
 📧 dp.tecnico@versatilservices.com.br
 📞 +55 13 99150-9140 (WhatsApp)
+🌐 www.versatilservices.com.br
 
 Versátil Services
-www.versatilservices.com.br
 Santos/SP – Brasil`;
         const emailMsg = `Prezado(a),
 
@@ -820,9 +820,9 @@ Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Eng
 
 📧 dp.tecnico@versatilservices.com.br
 📞 +55 13 99150-9140 (WhatsApp)
+🌐 www.versatilservices.com.br
 
 Versátil Services
-www.versatilservices.com.br
 Santos/SP – Brasil`;
         const linkedin = `Prezado(a),
 
@@ -845,9 +845,9 @@ Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Eng
 
 📧 dp.tecnico@versatilservices.com.br
 📞 +55 13 99150-9140 (WhatsApp)
+🌐 www.versatilservices.com.br
 
 Versátil Services
-www.versatilservices.com.br
 Santos/SP – Brasil`;
 
         const newClient = {
@@ -970,12 +970,17 @@ function gerarEmailHtml(bodyText) {
                         <p style="margin:4px 0 0;font-size:12px;color:#555;">Gerente Técnico Comercial — Versátil Services</p>
                         <p style="margin:4px 0 0;font-size:11px;color:#888;">Engenheiro Mecânico – CREA-SP 5068954051</p>
                         <p style="margin:2px 0 0;font-size:11px;color:#888;">Engenheiro de Segurança do Trabalho</p>
-                        <p style="margin:8px 0 0;font-size:12px;color:#555;">📧 dp.tecnico@versatilservices.com.br</p>
-                        <p style="margin:2px 0 0;font-size:12px;color:#555;">📞 +55 13 99150-9140 (WhatsApp)</p>
+                        <p style="margin:8px 0 0;font-size:12px;color:#555;">📧 <a href="mailto:dp.tecnico@versatilservices.com.br" style="color:#555;text-decoration:none;">dp.tecnico@versatilservices.com.br</a></p>
+                        <p style="margin:2px 0 0;font-size:12px;color:#555;">📞 <a href="https://wa.me/5513991509140" style="color:#555;text-decoration:none;">+55 13 99150-9140 (WhatsApp)</a></p>
+                        <p style="margin:2px 0 0;font-size:12px;color:#555;">🌐 <a href="https://www.versatilservices.com.br" style="color:#555;text-decoration:none;">www.versatilservices.com.br</a></p>
                     </td></tr>
                     <!-- Bottom bar -->
                     <tr><td style="background:#BF2026;padding:10px;text-align:center;">
-                        <p style="margin:0;font-size:10px;color:#f8d0d2;">© 2002 Versátil Services — Santos/SP — www.versatilservices.com.br — Todos os direitos reservados</p>
+                        <p style="margin:0;font-size:12px;color:#f8d0d2;line-height:1.6;">
+                            © 2002 Versátil Services – Santos/SP – Brasil<br>
+                            <a href="https://www.versatilservices.com.br" style="color:#ffffff;text-decoration:none;font-weight:bold;font-size:14px;display:inline-block;margin-top:4px;">🌐 www.versatilservices.com.br</a><br>
+                            <span style="font-size:10px;display:inline-block;margin-top:4px;">Todos os direitos reservados</span>
+                        </p>
                     </td></tr>
                 </table>
             </td></tr>
