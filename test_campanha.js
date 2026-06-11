@@ -31,7 +31,7 @@ const htmlEmail = `
         </p>
         
         <p style="color: #333; font-size: 15px; line-height: 1.6;">
-            A <strong>Versátil Global Services</strong> é referência em <strong style="color: #e94560;">USINAGEM DE CAMPO (In-Situ)</strong> para o segmento de <strong>${segmento}</strong>.
+            A <strong>Versátil Services</strong> é referência em <strong style="color: #e94560;">USINAGEM DE CAMPO (In-Situ)</strong> para o segmento de <strong>${segmento}</strong>.
         </p>
         
         <p style="color: #333; font-size: 15px; line-height: 1.6;">
@@ -65,7 +65,7 @@ const htmlEmail = `
             Eng. Edson de Oliveira Silva
         </p>
         <p style="color: #a0a0b0; margin: 3px 0; font-size: 12px;">
-            Gerente Técnico Comercial — Versátil Global Services
+            Gerente Técnico Comercial — Versátil Services
         </p>
         <p style="color: #a0a0b0; margin: 3px 0; font-size: 12px;">
             📞 (13) 3221-8000 &nbsp;|&nbsp; 📧 dp.tecnico@versatilservices.com.br
@@ -77,7 +77,7 @@ const htmlEmail = `
 </div>
 `;
 
-const whatsappMsg = `Olá, Gestor! Aqui é o Eng. Edson da Versátil Global Services.
+const whatsappMsg = `Olá, Gestor! Aqui é o Eng. Edson da Versátil Services.
 
 Somos referência em *USINAGEM DE CAMPO (in-situ)* para ${segmento}.
 
@@ -97,9 +97,9 @@ www.versatilservices.com.br`;
 
 // Enviar email teste
 transport.sendMail({
-    from: 'Versatil Global Services <dp.tecnico@versatilservices.com.br>',
+    from: 'Versatil Services <dp.tecnico@versatilservices.com.br>',
     to: 'dp.tecnico@versatilservices.com.br',
-    subject: `Usinagem de Campo (In-Situ) — Versatil Global Services para ${nomeCliente}`,
+    subject: `Usinagem de Campo (In-Situ) — Versatil Services para ${nomeCliente}`,
     html: htmlEmail
 }).then(info => {
     console.log('✅ EMAIL TESTE ENVIADO!');

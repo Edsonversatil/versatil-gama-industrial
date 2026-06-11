@@ -772,9 +772,80 @@ app.post('/api/crm/leads', (req, res) => {
         }
 
         // Text templates for the lead
-        const wa = `Prezado(a),\n\nA *Versátil Global Services* é especializada em *USINAGEM DE CAMPO (In-Situ)*, atendendo Agronegócio, Fertilizantes, Mineração, Siderurgia, Papel & Celulose e Indústria em Geral.\n\nExperiência comprovada em grandes grupos nacionais: CBMM, Yara, Polimix, Renova, RPR, Metalac.\n\nPrincipais serviços:\n✅ Faceamento de Flanges In-Situ\n✅ Mandrilhamento em Campo\n✅ Retífica de Pistas e Assentamentos\n✅ Torneamento In-Situ\n✅ Retubagem de Trocadores de Calor\n✅ Troca Térmica ASME\n✅ Caldeiraria Industrial\n✅ END\n\nEng. Edson de Oliveira Silva\nGerente Técnico Comercial\nCREA-SP 5068954051\n📱 +55 13 99150-9140\n*VERSÁTIL GLOBAL SERVICES*`;
-        const emailMsg = `Prezado(a),\n\nA Versátil Services é especializada em USINAGEM DE CAMPO (In-Situ), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.\n\nTemos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.\n\nPrincipais serviços:\n\n• Faceamento de Flanges In-Situ;\n• Mandrilhamento em Campo;\n• Retífica de Pistas e Assentamentos;\n• Usinagem em Pontas de Eixos;\n• Torneamento In-Situ;\n• Recuperação e Alinhamento de Equipamentos Rotativos;\n• Manutenção Mecânica Industrial;\n• Retubagem de Trocadores de Calor;\n• Serviços de Troca Térmica conforme ASME;\n• Caldeiraria Industrial;\n• Ensaios Não Destrutivos (END).\n\nEstamos à disposição para avaliar eventuais demandas e apresentar soluções técnicas com rapidez, segurança e qualidade.\n\nAtenciosamente,\n\nEng. Edson de Oliveira Silva\nGerente Técnico Comercial\nVersátil Global Services\n\nEngenheiro Mecânico – CREA-SP 5068954051\nEngenheiro de Segurança do Trabalho\n\n📧 dp.tecnico@versatilservices.com.br\n📞 +55 13 99150-9140 (WhatsApp)`;
-        const linkedin = `Prezado(a),\n\nSou Eng. Edson de Oliveira Silva, Gerente Técnico Comercial da Versátil Global Services — especializada em Usinagem de Campo (In-Situ) para os segmentos de Agronegócio, Fertilizantes, Mineração, Siderurgia, Papel & Celulose e Indústria em Geral.\n\nTemos experiência comprovada em grandes grupos nacionais como CBMM, Yara, Polimix, Renova, RPR e Metalac.\n\nGostaria de me conectar para eventualmente apresentar nossas soluções técnicas com rapidez, segurança e qualidade.\n\nEng. Edson de Oliveira Silva\nGerente Técnico Comercial\nCREA-SP 5068954051\nVERSÁTIL GLOBAL SERVICES`;
+        const wa = `Prezado(a),
+
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+
+Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
+
+Estamos à disposição para avaliar eventuais demandas de Usinagem de Campo (In-Situ), Manutenção Industrial e Equipamentos Rotativos.
+
+Eng. Edson de Oliveira Silva
+Gerente Técnico Comercial
+
+Engenheiro Mecânico – CREA-SP 5068954051
+Engenheiro de Segurança do Trabalho
+Pós-Graduado em Gestão de Projetos (PMI-PMBOK)
+Pós-Graduado em Engenharia de Software
+
+23 anos de experiência em:
+Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Engenharia Industrial
+
+📧 dp.tecnico@versatilservices.com.br
+📞 +55 13 99150-9140 (WhatsApp)
+
+Versátil Services
+Santos/SP – Brasil`;
+        const emailMsg = `Prezado(a),
+
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+
+Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
+
+Estamos à disposição para avaliar eventuais demandas de Usinagem de Campo (In-Situ), Manutenção Industrial e Equipamentos Rotativos.
+
+Atenciosamente,
+
+Eng. Edson de Oliveira Silva
+Gerente Técnico Comercial
+
+Engenheiro Mecânico – CREA-SP 5068954051
+Engenheiro de Segurança do Trabalho
+Pós-Graduado em Gestão de Projetos (PMI-PMBOK)
+Pós-Graduado em Engenharia de Software
+
+23 anos de experiência em:
+Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Engenharia Industrial
+
+📧 dp.tecnico@versatilservices.com.br
+📞 +55 13 99150-9140 (WhatsApp)
+
+Versátil Services
+Santos/SP – Brasil`;
+        const linkedin = `Prezado(a),
+
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+
+Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
+
+Estamos à disposição para avaliar eventuais demandas de Usinagem de Campo (In-Situ), Manutenção Industrial e Equipamentos Rotativos.
+
+Eng. Edson de Oliveira Silva
+Gerente Técnico Comercial
+
+Engenheiro Mecânico – CREA-SP 5068954051
+Engenheiro de Segurança do Trabalho
+Pós-Graduado em Gestão de Projetos (PMI-PMBOK)
+Pós-Graduado em Engenharia de Software
+
+23 anos de experiência em:
+Usinagem de Campo • Manutenção Industrial • Equipamentos Rotativos • Engenharia Industrial
+
+📧 dp.tecnico@versatilservices.com.br
+📞 +55 13 99150-9140 (WhatsApp)
+
+Versátil Services
+Santos/SP – Brasil`;
 
         const newClient = {
             id_cliente: nextId,
@@ -854,7 +925,7 @@ function gerarEmailHtml(bodyText) {
                 <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                     <!-- Header -->
                     <tr><td style="background:#BF2026;padding:28px 32px;text-align:center;">
-                        <h1 style="margin:0;font-size:22px;color:#ffffff;font-weight:700;letter-spacing:1px;">VERSÁTIL GLOBAL SERVICES</h1>
+                        <h1 style="margin:0;font-size:22px;color:#ffffff;font-weight:700;letter-spacing:1px;">Versátil Services</h1>
                         <p style="margin:6px 0 0;font-size:12px;color:#f8d0d2;letter-spacing:0.5px;">Usinagem de Campo & Serviços Industriais</p>
                     </td></tr>
                     <!-- Hero Images 2x2 Grid -->
@@ -893,7 +964,7 @@ function gerarEmailHtml(bodyText) {
                     <!-- Footer -->
                     <tr><td style="background:#f9f9f9;padding:24px 32px;border-top:1px solid #e0e0e0;">
                         <p style="margin:0;font-size:14px;color:#333;"><strong>Eng. Edson de Oliveira Silva</strong></p>
-                        <p style="margin:4px 0 0;font-size:12px;color:#555;">Gerente Técnico Comercial — Versátil Global Services</p>
+                        <p style="margin:4px 0 0;font-size:12px;color:#555;">Gerente Técnico Comercial — Versátil Services</p>
                         <p style="margin:4px 0 0;font-size:11px;color:#888;">Engenheiro Mecânico – CREA-SP 5068954051</p>
                         <p style="margin:2px 0 0;font-size:11px;color:#888;">Engenheiro de Segurança do Trabalho</p>
                         <p style="margin:8px 0 0;font-size:12px;color:#555;">📧 dp.tecnico@versatilservices.com.br</p>
@@ -901,7 +972,7 @@ function gerarEmailHtml(bodyText) {
                     </td></tr>
                     <!-- Bottom bar -->
                     <tr><td style="background:#BF2026;padding:10px;text-align:center;">
-                        <p style="margin:0;font-size:10px;color:#f8d0d2;">© ${new Date().getFullYear()} Versátil Global Services — Santos/SP — Todos os direitos reservados</p>
+                        <p style="margin:0;font-size:10px;color:#f8d0d2;">© ${new Date().getFullYear()} Versátil Services — Santos/SP — Todos os direitos reservados</p>
                     </td></tr>
                 </table>
             </td></tr>
@@ -970,9 +1041,9 @@ app.post('/api/crm/smtp-test', async (req, res) => {
         }
         const testTo = req.body.to || SMTP_CONFIG.auth.user;
         const transporter = nodemailer.createTransport(SMTP_CONFIG);
-        const htmlBody = gerarEmailHtml('Este é um <strong>email de teste</strong> enviado pelo CRM Versátil Global Services.\n\nSe você recebeu esta mensagem, a configuração SMTP está funcionando corretamente!');
+        const htmlBody = gerarEmailHtml('Este é um <strong>email de teste</strong> enviado pelo CRM Versátil Services.\n\nSe você recebeu esta mensagem, a configuração SMTP está funcionando corretamente!');
         const info = await transporter.sendMail({
-            from: `Eng. Edson - Versátil Global Services <${SMTP_CONFIG.auth.user}>`,
+            from: `Eng. Edson - Versátil Services <${SMTP_CONFIG.auth.user}>`,
             to: testTo,
             subject: '[TESTE] CRM Versatil — Verificação SMTP',
             html: htmlBody
@@ -998,7 +1069,7 @@ app.post('/api/crm/enviar-email', async (req, res) => {
         const transporter = nodemailer.createTransport(SMTP_CONFIG);
         const htmlBody = gerarEmailHtml(body);
         const info = await transporter.sendMail({
-            from: `Eng. Edson - Versátil Global Services <${SMTP_CONFIG.auth.user}>`,
+            from: `Eng. Edson - Versátil Services <${SMTP_CONFIG.auth.user}>`,
             to,
             subject,
             html: htmlBody
@@ -1078,7 +1149,7 @@ app.post('/api/crm/campanha-email', (req, res) => {
         try {
             const htmlBody = gerarEmailHtml(lead.body);
             const info = await transporter.sendMail({
-                from: `Eng. Edson - Versátil Global Services <${SMTP_CONFIG.auth.user}>`,
+                from: `Eng. Edson - Versátil Services <${SMTP_CONFIG.auth.user}>`,
                 to: lead.to,
                 subject: lead.subject,
                 html: htmlBody
@@ -1592,7 +1663,7 @@ async function executarEnvioMensal() {
             try {
                 const htmlBody = gerarEmailHtml(body);
                 const info = await transporter.sendMail({
-                    from: `Eng. Edson - Versátil Global Services <${SMTP_CONFIG.auth.user}>`,
+                    from: `Eng. Edson - Versátil Services <${SMTP_CONFIG.auth.user}>`,
                     to: email,
                     subject: subject,
                     html: htmlBody

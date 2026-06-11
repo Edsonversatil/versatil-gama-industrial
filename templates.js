@@ -30,7 +30,7 @@ const TEMPLATES_SERVICO = {
             'Ensaios não destrutivos externos (END)'
         ],
         metodologia: 'A recuperação será executada por mandrilhamento interno progressivo, com alinhamento preciso da mandrilhadora e remoção controlada do material deformado, restabelecendo a geometria original do componente. O equipamento opera através da conversão de energia hidráulica em energia mecânica rotativa e linear, garantindo operação suave e controle preciso.',
-        equipamento: 'Mandrilhadora hidráulica portátil — fabricação própria Versatil Global Services\n• Barra de mandrilhamento: Ø 2" (50,8 mm)\n• Comprimento: 2000 mm\n• Sistema de acionamento: Hidráulico de alto torque\n• Avanço micrométrico progressivo\n• Precisão geométrica: 0,05 mm',
+        equipamento: 'Mandrilhadora hidráulica portátil — fabricação própria Versatil Services\n• Barra de mandrilhamento: Ø 2" (50,8 mm)\n• Comprimento: 2000 mm\n• Sistema de acionamento: Hidráulico de alto torque\n• Avanço micrométrico progressivo\n• Precisão geométrica: 0,05 mm',
         controleDimensional: 'Serão utilizados instrumentos calibrados: paquímetros industriais, micrômetros internos e relógios comparadores para garantir a precisão dimensional da peça recuperada.',
         prazoEstimado: '2 a 3 dias',
         itensComerciais: [
@@ -521,7 +521,7 @@ const TEMPLATES_SERVICO = {
 
 // Dados fixos da empresa
 const DADOS_VERSATIL = {
-    razaoSocial: 'VERSATIL GLOBAL SERVICES LTDA',
+    razaoSocial: 'Versatil Services LTDA',
     razaoSocialCurta: 'VERSATIL GLOBAL SERVICE',
     enderecoLinha1: 'RUA: VISCONDE DE EMBARE, 230 – VALONGO – CONJ. 1901',
     cidadeUfCep: 'SANTOS-SP C.E.P.: 11010-240',

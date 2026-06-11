@@ -12,7 +12,7 @@ const transport = nodemailer.createTransport({
 });
 
 transport.sendMail({
-    from: 'Versatil Global Services <dp.tecnico@versatilservices.com.br>',
+    from: 'Versatil Services <dp.tecnico@versatilservices.com.br>',
     to: 'dp.tecnico@versatilservices.com.br',
     subject: 'TESTE CRM - SMTP Funcionando!',
     html: '<h2>SMTP Operacional!</h2><p>Este e-mail de teste foi enviado pelo CRM Versatil.</p><p>Data: ' + new Date().toLocaleString('pt-BR') + '</p><p><strong>O sistema esta pronto para disparar campanhas.</strong></p>'
