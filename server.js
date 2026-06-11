@@ -774,7 +774,7 @@ app.post('/api/crm/leads', (req, res) => {
         // Text templates for the lead
         const wa = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Petróleo e Gás, Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Óleo & Gás, Papel & Celulose, Siderurgia e Indústria em Geral.
 
 Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
 
@@ -799,7 +799,7 @@ Versátil Services
 Santos/SP – Brasil`;
         const emailMsg = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Petróleo e Gás, Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Óleo & Gás, Papel & Celulose, Siderurgia e Indústria em Geral.
 
 Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
 
@@ -826,7 +826,7 @@ Versátil Services
 Santos/SP – Brasil`;
         const linkedin = `Prezado(a),
 
-A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Petróleo e Gás, Agronegócio, Fertilizantes, Sucroenergético, Mineração, Papel & Celulose, Siderurgia e Indústria em Geral.
+A Versátil Services é especializada em USINAGEM DE CAMPO (IN-SITU), atendendo os segmentos de Agronegócio, Fertilizantes, Sucroenergético, Mineração, Óleo & Gás, Papel & Celulose, Siderurgia e Indústria em Geral.
 
 Temos experiência comprovada na execução de serviços industriais para grandes grupos nacionais, atuando em empresas como CBMM, Yara Brasil Fertilizantes, Polimix, Renova, RPR, Metalac e diversos clientes dos setores de mineração, fertilizantes, siderurgia, papel e celulose.
 
