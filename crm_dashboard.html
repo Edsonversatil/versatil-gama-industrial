@@ -3117,27 +3117,32 @@
                 toast.classList.remove('show');
             }, 3000);
         }
-
-        // Máscara de telefone: (DD) XXXXX-XXXX (BR) ou livre se começar com +
+        // Máscara de telefone dinâmica: Fixos (10 dígitos) e Celulares (11 dígitos)
         function aplicarMascaraTel(input) {
             input.addEventListener('input', function() {
                 const raw = this.value;
                 // Se começa com +, é internacional — formato livre
                 if (raw.startsWith('+')) {
-                    // Permite apenas + dígitos e espaços
                     this.value = raw.replace(/[^+\d\s-]/g, '');
                     return;
                 }
                 let v = raw.replace(/\D/g, '');
                 // Remove 55 do início se digitou
                 if (v.startsWith('55') && v.length > 11) v = v.substring(2);
-                if (v.length > 11) v = v.substring(0, 11);
-                if (v.length > 6) {
-                    this.value = `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
-                } else if (v.length > 2) {
-                    this.value = `(${v.substring(0,2)}) ${v.substring(2)}`;
-                } else if (v.length > 0) {
+                
+                if (v.length === 0) {
+                    this.value = '';
+                } else if (v.length <= 2) {
                     this.value = `(${v}`;
+                } else if (v.length <= 6) {
+                    this.value = `(${v.substring(0,2)}) ${v.substring(2)}`;
+                } else if (v.length <= 10) {
+                    // Fixo ou digitando: (DD) XXXX-XXXX
+                    this.value = `(${v.substring(0,2)}) ${v.substring(2,6)}-${v.substring(6)}`;
+                } else {
+                    // Celular: (DD) XXXXX-XXXX
+                    if (v.length > 11) v = v.substring(0, 11);
+                    this.value = `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
                 }
             });
         }
