@@ -1041,6 +1041,14 @@ function gerarEmailHtml(bodyText) {
                             <span style="font-size:10px;display:inline-block;margin-top:4px;">Todos os direitos reservados</span>
                         </p>
                     </td></tr>
+                    <!-- Opt-out Footer -->
+                    <tr><td style="background:#f0f0f0;padding:20px 32px;text-align:center;border-top:2px solid #ddd;">
+                        <p style="margin:0;font-size:12px;color:#777;line-height:1.8;">
+                            Não deseja mais receber nossos comunicados?<br>
+                            <a href="{{OPTOUT_LINK}}" style="color:#BF2026;text-decoration:underline;font-size:13px;font-weight:600;">🔗 Descadastrar ou pausar comunicações</a><br>
+                            <span style="font-size:11px;color:#aaa;">Você pode cancelar, pausar por 30/90/180 dias ou continuar recebendo.</span>
+                        </p>
+                    </td></tr>
                 </table>
             </td></tr>
         </table>
@@ -1134,7 +1142,19 @@ app.post('/api/crm/enviar-email', async (req, res) => {
             return res.status(400).json({ error: 'SMTP não configurado.' });
         }
         const transporter = nodemailer.createTransport(SMTP_CONFIG);
-        const htmlBody = gerarEmailHtml(body);
+
+        // === VERIFICAÇÃO OPT-OUT ===
+        if (!emailPodeReceber(to)) {
+            console.log(`[EMAIL CRM] ⏭️ ${to} — OPTOUT (não enviado)`);
+            return res.json({ success: false, optout: true, message: 'Contato descadastrado. Email não enviado.' });
+        }
+
+        // === GERAR LINK OPT-OUT TOKENIZADO ===
+        const optoutToken = gerarOptoutToken(to, clientId || '', '');
+        const optoutUrl = `${req.protocol}://${req.get('host')}/optout/${optoutToken}`;
+        let htmlBody = gerarEmailHtml(body);
+        htmlBody = htmlBody.replace('{{OPTOUT_LINK}}', optoutUrl);
+
         const info = await transporter.sendMail({
             from: `Eng. Edson - Versátil Services <${SMTP_CONFIG.auth.user}>`,
             to,
@@ -1214,7 +1234,36 @@ app.post('/api/crm/campanha-email', (req, res) => {
         }
         const lead = leads[index];
         try {
-            const htmlBody = gerarEmailHtml(lead.body);
+            // === VERIFICAÇÃO OPT-OUT ===
+            if (!emailPodeReceber(lead.to)) {
+                console.log(`[CAMPANHA] ${campanhaId} [${index+1}/${totalLeads}] ⏭️ ${lead.to} — OPTOUT (ignorado)`);
+                const log = lerCampanhaLog();
+                log.unshift({
+                    id: `${campanhaId}_${index}`,
+                    tipo: 'campanha',
+                    campanhaId,
+                    to: lead.to,
+                    subject: lead.subject,
+                    clientId: lead.clientId || null,
+                    nome: lead.nome || '',
+                    status: 'optout_ignorado',
+                    posicao: `${index+1}/${totalLeads}`,
+                    data: new Date().toISOString()
+                });
+                salvarCampanhaLog(log);
+                // Pular para o próximo sem delay
+                return enviarProximo(index + 1);
+            }
+            if (lead.clientId && empresaBloqueada(lead.clientId)) {
+                console.log(`[CAMPANHA] ${campanhaId} [${index+1}/${totalLeads}] 🏢 ${lead.to} — EMPRESA BLOQUEADA (ignorado)`);
+                return enviarProximo(index + 1);
+            }
+            // === GERAR LINK OPT-OUT TOKENIZADO ===
+            const optoutToken = gerarOptoutToken(lead.to, lead.clientId || '', lead.nome || '');
+            const optoutUrl = `${req.protocol}://${req.get('host')}/optout/${optoutToken}`;
+            let htmlBody = gerarEmailHtml(lead.body);
+            htmlBody = htmlBody.replace('{{OPTOUT_LINK}}', optoutUrl);
+
             const info = await transporter.sendMail({
                 from: `Eng. Edson - Versátil Services <${SMTP_CONFIG.auth.user}>`,
                 to: lead.to,
@@ -1273,6 +1322,367 @@ app.post('/api/crm/campanha-email', (req, res) => {
 app.get('/api/crm/campanha-log', (req, res) => {
     res.json(lerCampanhaLog());
 });
+
+// =============================================
+// GESTÃO DE OPT-OUT (Descadastramento)
+// Banco dedicado: optout_database.json
+// =============================================
+const optoutPath = path.join(parentDir, 'optout_database.json');
+
+function lerOptout() {
+    try {
+        if (fs.existsSync(optoutPath)) return JSON.parse(fs.readFileSync(optoutPath, 'utf8'));
+    } catch(e) { console.error('[OPTOUT] Erro ao ler:', e.message); }
+    return [];
+}
+function salvarOptout(data) {
+    fs.writeFileSync(optoutPath, JSON.stringify(data, null, 2), 'utf8');
+}
+
+// Verifica se um email pode receber comunicações
+function emailPodeReceber(email) {
+    if (!email) return false;
+    const optouts = lerOptout();
+    const registro = optouts.find(r => r.email?.toLowerCase() === email.toLowerCase() && r.tipo !== 'empresa');
+    if (!registro) return true; // Não está na lista = pode receber
+    if (registro.status === 'ativo') return true;
+    if (registro.status === 'pausado' && registro.pausado_ate) {
+        if (new Date(registro.pausado_ate) <= new Date()) {
+            // Pausa expirou — reativar automaticamente
+            registro.status = 'ativo';
+            registro.reativado_em = new Date().toISOString();
+            registro.reativado_motivo = 'Pausa expirada automaticamente';
+            salvarOptout(optouts);
+            console.log(`[OPTOUT] ✅ ${email} reativado automaticamente (pausa expirada)`);
+            return true;
+        }
+        return false; // Ainda pausado
+    }
+    if (registro.status === 'descadastrado') return false;
+    return true;
+}
+
+// Verifica se uma empresa inteira está bloqueada
+function empresaBloqueada(empresaId) {
+    if (!empresaId) return false;
+    const optouts = lerOptout();
+    return optouts.some(r => r.empresa_id === empresaId && r.tipo === 'empresa' && r.status === 'descadastrado');
+}
+
+// Gera token JWT para link de preferências (válido por 365 dias)
+function gerarOptoutToken(email, empresaId, empresaNome) {
+    return jwt.sign({ email, empresaId, empresaNome }, JWT_SECRET, { expiresIn: '365d' });
+}
+
+// Decodifica token de opt-out
+function decodificarOptoutToken(token) {
+    try { return jwt.verify(token, JWT_SECRET); }
+    catch(e) { return null; }
+}
+
+// GET /api/crm/optout — Lista todos os registros de opt-out
+app.get('/api/crm/optout', (req, res) => {
+    res.json(lerOptout());
+});
+
+// POST /api/crm/optout — Registrar opt-out manualmente (admin)
+app.post('/api/crm/optout', (req, res) => {
+    try {
+        const { email, empresa_id, empresa_nome, status, motivo, tipo, pausar_dias, usuario } = req.body;
+        if (!email && tipo !== 'empresa') return res.status(400).json({ error: 'Email é obrigatório.' });
+        if (tipo === 'empresa' && !empresa_id) return res.status(400).json({ error: 'ID da empresa é obrigatório para bloqueio por empresa.' });
+
+        const optouts = lerOptout();
+
+        // Verificar se já existe registro para esse email/empresa
+        const chave = tipo === 'empresa' ? empresa_id : email.toLowerCase();
+        const idxExistente = optouts.findIndex(r => 
+            tipo === 'empresa' ? (r.empresa_id === chave && r.tipo === 'empresa') : (r.email?.toLowerCase() === chave && r.tipo !== 'empresa')
+        );
+
+        let statusFinal = status || 'descadastrado';
+        let pausadoAte = null;
+        if (statusFinal === 'pausado' && pausar_dias) {
+            pausadoAte = new Date(Date.now() + pausar_dias * 24 * 60 * 60 * 1000).toISOString();
+        }
+
+        const registro = {
+            id: `optout_${Date.now()}`,
+            email: tipo === 'empresa' ? null : email.toLowerCase(),
+            empresa_id: empresa_id || null,
+            empresa_nome: empresa_nome || null,
+            tipo: tipo || 'contato', // 'contato' ou 'empresa'
+            status: statusFinal, // 'ativo', 'descadastrado', 'pausado'
+            motivo: motivo || 'Solicitação administrativa',
+            origem: 'admin',
+            usuario: usuario || 'sistema',
+            pausado_ate: pausadoAte,
+            data: new Date().toISOString(),
+            historico: [{
+                acao: statusFinal,
+                motivo: motivo || 'Solicitação administrativa',
+                origem: 'admin',
+                usuario: usuario || 'sistema',
+                data: new Date().toISOString()
+            }]
+        };
+
+        if (idxExistente !== -1) {
+            // Atualizar registro existente (preservar histórico)
+            const existente = optouts[idxExistente];
+            registro.id = existente.id;
+            registro.historico = [...(existente.historico || []), ...registro.historico];
+            optouts[idxExistente] = registro;
+        } else {
+            optouts.unshift(registro);
+        }
+
+        salvarOptout(optouts);
+        console.log(`[OPTOUT] ${tipo === 'empresa' ? '🏢 Empresa' : '📧 Contato'} ${tipo === 'empresa' ? empresa_nome : email} → ${statusFinal}`);
+        res.json({ success: true, registro });
+    } catch(err) {
+        console.error('[OPTOUT] Erro:', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// DELETE /api/crm/optout/:id — Reativar contato (remove opt-out)
+app.delete('/api/crm/optout/:id', (req, res) => {
+    try {
+        const optouts = lerOptout();
+        const idx = optouts.findIndex(r => r.id === req.params.id);
+        if (idx === -1) return res.status(404).json({ error: 'Registro não encontrado.' });
+
+        // Não apagar — mudar status para 'ativo' (auditoria)
+        optouts[idx].status = 'ativo';
+        optouts[idx].historico = optouts[idx].historico || [];
+        optouts[idx].historico.push({
+            acao: 'reativado',
+            motivo: 'Reativação administrativa',
+            origem: 'admin',
+            data: new Date().toISOString()
+        });
+
+        salvarOptout(optouts);
+        console.log(`[OPTOUT] ✅ Reativado: ${optouts[idx].email || optouts[idx].empresa_nome}`);
+        res.json({ success: true });
+    } catch(err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// GET /api/crm/optout/verificar/:email — Verificar se email pode receber
+app.get('/api/crm/optout/verificar/:email', (req, res) => {
+    const pode = emailPodeReceber(req.params.email);
+    res.json({ email: req.params.email, podeReceber: pode });
+});
+
+// =============================================
+// PÁGINA PÚBLICA DE PREFERÊNCIAS (acessível via link no email)
+// =============================================
+
+// GET /optout/:token — Página de preferências (HTML público)
+app.get('/optout/:token', (req, res) => {
+    const dados = decodificarOptoutToken(req.params.token);
+    if (!dados) return res.status(400).send('<h1>Link expirado ou inválido</h1><p>Entre em contato pelo WhatsApp: (13) 99150-9140</p>');
+
+    const optouts = lerOptout();
+    const registro = optouts.find(r => r.email?.toLowerCase() === dados.email?.toLowerCase() && r.tipo !== 'empresa');
+    const statusAtual = registro?.status || 'ativo';
+
+    res.send(`<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Preferências de Comunicação — Versátil Services</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',Arial,sans-serif; background:#f4f4f4; color:#333; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+        .container { background:#fff; border-radius:12px; box-shadow:0 4px 24px rgba(0,0,0,0.1); max-width:520px; width:90%; overflow:hidden; }
+        .header { background:#BF2026; padding:28px 32px; text-align:center; }
+        .header h1 { color:#fff; font-size:20px; font-weight:700; letter-spacing:1px; }
+        .header p { color:#f8d0d2; font-size:12px; margin-top:6px; }
+        .body { padding:32px; }
+        .body h2 { font-size:18px; margin-bottom:8px; }
+        .body .email-info { background:#f9f9f9; padding:12px 16px; border-radius:8px; margin:12px 0 20px; font-size:14px; color:#555; }
+        .body .email-info strong { color:#333; }
+        .status-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+        .status-ativo { background:#e6f7e6; color:#2d8c2d; }
+        .status-descadastrado { background:#fde8e8; color:#c62828; }
+        .status-pausado { background:#fff3e0; color:#e65100; }
+        .options { margin-top:20px; }
+        .option { display:block; width:100%; padding:14px 20px; margin:8px 0; border:2px solid #e0e0e0; border-radius:10px; background:#fff; cursor:pointer; text-align:left; font-size:14px; transition:all 0.2s; }
+        .option:hover { border-color:#BF2026; background:#fef5f5; }
+        .option.selected { border-color:#BF2026; background:#fef5f5; }
+        .option .opt-title { font-weight:600; color:#333; }
+        .option .opt-desc { font-size:12px; color:#888; margin-top:4px; }
+        .btn-confirm { display:block; width:100%; padding:14px; margin-top:20px; background:#BF2026; color:#fff; border:none; border-radius:10px; font-size:16px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+        .btn-confirm:hover { background:#a01a1f; }
+        .btn-confirm:disabled { background:#ccc; cursor:not-allowed; }
+        .footer { background:#f9f9f9; padding:20px 32px; text-align:center; border-top:1px solid #e0e0e0; }
+        .footer p { font-size:11px; color:#888; }
+        .msg-success { display:none; text-align:center; padding:40px 20px; }
+        .msg-success .check { font-size:48px; margin-bottom:16px; }
+        .msg-success h3 { font-size:18px; color:#333; }
+        .msg-success p { font-size:14px; color:#666; margin-top:8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Versátil Services</h1>
+            <p>Usinagem de Campo & Serviços Industriais</p>
+        </div>
+        <div class="body" id="formArea">
+            <h2>Preferências de Comunicação</h2>
+            <div class="email-info">
+                📧 <strong>${dados.email}</strong><br>
+                🏢 ${dados.empresaNome || 'N/A'}<br>
+                Status atual: <span class="status-badge status-${statusAtual}">${statusAtual === 'ativo' ? '✅ Ativo' : statusAtual === 'descadastrado' ? '❌ Descadastrado' : '⏸️ Pausado'}</span>
+            </div>
+            <div class="options">
+                <label class="option" onclick="selectOption('ativo')">
+                    <input type="radio" name="pref" value="ativo" style="display:none">
+                    <div class="opt-title">✅ Continuar recebendo</div>
+                    <div class="opt-desc">Desejo continuar recebendo apresentações e comunicações da Versátil.</div>
+                </label>
+                <label class="option" onclick="selectOption('pausado_30')">
+                    <input type="radio" name="pref" value="pausado_30" style="display:none">
+                    <div class="opt-title">⏸️ Pausar por 30 dias</div>
+                    <div class="opt-desc">Parar temporariamente. Voltarei a receber após 30 dias.</div>
+                </label>
+                <label class="option" onclick="selectOption('pausado_90')">
+                    <input type="radio" name="pref" value="pausado_90" style="display:none">
+                    <div class="opt-title">⏸️ Pausar por 90 dias</div>
+                    <div class="opt-desc">Parar temporariamente. Voltarei a receber após 90 dias.</div>
+                </label>
+                <label class="option" onclick="selectOption('pausado_180')">
+                    <input type="radio" name="pref" value="pausado_180" style="display:none">
+                    <div class="opt-title">⏸️ Pausar por 180 dias</div>
+                    <div class="opt-desc">Parar temporariamente. Voltarei a receber após 6 meses.</div>
+                </label>
+                <label class="option" onclick="selectOption('descadastrado')">
+                    <input type="radio" name="pref" value="descadastrado" style="display:none">
+                    <div class="opt-title">❌ Descadastrar definitivamente</div>
+                    <div class="opt-desc">Não desejo mais receber nenhuma comunicação da Versátil.</div>
+                </label>
+            </div>
+            <button class="btn-confirm" id="btnConfirm" disabled onclick="confirmar()">Confirmar Preferência</button>
+        </div>
+        <div class="msg-success" id="successArea">
+            <div class="check">✅</div>
+            <h3>Preferência atualizada!</h3>
+            <p id="successMsg"></p>
+        </div>
+        <div class="footer">
+            <p>© 2002 Versátil Services — Santos/SP — Brasil</p>
+            <p>WhatsApp: (13) 99150-9140 | www.versatilservices.com.br</p>
+        </div>
+    </div>
+    <script>
+        let escolha = null;
+        function selectOption(val) {
+            escolha = val;
+            document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            document.getElementById('btnConfirm').disabled = false;
+        }
+        async function confirmar() {
+            if (!escolha) return;
+            document.getElementById('btnConfirm').disabled = true;
+            document.getElementById('btnConfirm').textContent = 'Processando...';
+            try {
+                const resp = await fetch('/optout/${req.params.token}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preferencia: escolha })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    document.getElementById('formArea').style.display = 'none';
+                    document.getElementById('successArea').style.display = 'block';
+                    const msgs = {
+                        'ativo': 'Você continuará recebendo nossas comunicações normalmente.',
+                        'pausado_30': 'Suas comunicações foram pausadas por 30 dias.',
+                        'pausado_90': 'Suas comunicações foram pausadas por 90 dias.',
+                        'pausado_180': 'Suas comunicações foram pausadas por 180 dias.',
+                        'descadastrado': 'Você foi descadastrado e não receberá mais comunicações.'
+                    };
+                    document.getElementById('successMsg').textContent = msgs[escolha] || 'Preferência salva.';
+                }
+            } catch(e) {
+                alert('Erro ao salvar. Tente novamente ou entre em contato pelo WhatsApp.');
+                document.getElementById('btnConfirm').disabled = false;
+                document.getElementById('btnConfirm').textContent = 'Confirmar Preferência';
+            }
+        }
+    </script>
+</body>
+</html>`);
+});
+
+// POST /optout/:token — Salvar preferência (API pública)
+app.post('/optout/:token', (req, res) => {
+    try {
+        const dados = decodificarOptoutToken(req.params.token);
+        if (!dados) return res.status(400).json({ error: 'Token inválido.' });
+
+        const { preferencia } = req.body;
+        const optouts = lerOptout();
+
+        let statusFinal = 'ativo';
+        let pausarDias = null;
+        if (preferencia === 'descadastrado') statusFinal = 'descadastrado';
+        else if (preferencia?.startsWith('pausado_')) {
+            statusFinal = 'pausado';
+            pausarDias = parseInt(preferencia.split('_')[1]);
+        }
+
+        const pausadoAte = pausarDias ? new Date(Date.now() + pausarDias * 24 * 60 * 60 * 1000).toISOString() : null;
+
+        const idxExistente = optouts.findIndex(r => r.email?.toLowerCase() === dados.email?.toLowerCase() && r.tipo !== 'empresa');
+
+        const registro = {
+            id: idxExistente !== -1 ? optouts[idxExistente].id : `optout_${Date.now()}`,
+            email: dados.email.toLowerCase(),
+            empresa_id: dados.empresaId || null,
+            empresa_nome: dados.empresaNome || null,
+            tipo: 'contato',
+            status: statusFinal,
+            motivo: preferencia === 'descadastrado' ? 'Descadastramento pelo destinatário' : preferencia?.startsWith('pausado_') ? `Pausa de ${pausarDias} dias pelo destinatário` : 'Optou por continuar recebendo',
+            origem: 'destinatario',
+            usuario: dados.email,
+            pausado_ate: pausadoAte,
+            data: new Date().toISOString(),
+            historico: idxExistente !== -1 ? [...(optouts[idxExistente].historico || []), {
+                acao: statusFinal,
+                motivo: `Preferência via link: ${preferencia}`,
+                origem: 'destinatario',
+                data: new Date().toISOString()
+            }] : [{
+                acao: statusFinal,
+                motivo: `Preferência via link: ${preferencia}`,
+                origem: 'destinatario',
+                data: new Date().toISOString()
+            }]
+        };
+
+        if (idxExistente !== -1) {
+            optouts[idxExistente] = registro;
+        } else {
+            optouts.unshift(registro);
+        }
+
+        salvarOptout(optouts);
+        console.log(`[OPTOUT] 📩 ${dados.email} escolheu: ${preferencia}`);
+        res.json({ success: true, status: statusFinal });
+    } catch(err) {
+        console.error('[OPTOUT] Erro ao salvar preferência:', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 // PUT /api/crm/clientes/:id — Atualizar dados de um cliente
 app.put('/api/crm/clientes/:id', (req, res) => {
@@ -4441,7 +4851,17 @@ async function executarEnvioMensal() {
 
         for (const email of emails) {
             try {
-                const htmlBody = gerarEmailHtml(body);
+                // === VERIFICAÇÃO OPT-OUT ===
+                if (!emailPodeReceber(email) || empresaBloqueada(c.id_cliente)) {
+                    console.log(`[AUTO-ENVIO] ⏭️ ${email} — OPTOUT (ignorado)`);
+                    continue;
+                }
+                // === GERAR LINK OPT-OUT TOKENIZADO ===
+                const optoutToken = gerarOptoutToken(email, c.id_cliente || '', c.nome_cliente || '');
+                const optoutUrl = `${process.env.BASE_URL || 'http://localhost:' + PORT}/optout/${optoutToken}`;
+                let htmlBody = gerarEmailHtml(body);
+                htmlBody = htmlBody.replace('{{OPTOUT_LINK}}', optoutUrl);
+
                 const info = await transporter.sendMail({
                     from: `Eng. Edson - Versátil Services <${SMTP_CONFIG.auth.user}>`,
                     to: email,
