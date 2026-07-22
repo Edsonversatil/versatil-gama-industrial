@@ -2199,7 +2199,7 @@
             </div>
 
             <!-- PAINEL AUTO-ENVIO MENSAL -->
-            <div class="panel" style="display:none; margin-top:20px; border:1px solid rgba(37,211,102,0.2);">
+            <div class="panel" style="margin-top:20px; border:1px solid rgba(37,211,102,0.2);">
                 <div class="panel-header">
                     <div class="panel-title">
                         <h2>📅 Envio Mensal Automático</h2>
@@ -3809,18 +3809,13 @@
         }
 
         async function loadCampanhaData() {
-            campanhaLeads = clientes.filter(c => 
-                c.contato_email && 
-                c.contato_email.length > 3 &&
-                (c.status_verificacao === 'verificado' || (c.verificado && c.status_verificacao !== 'homologacao')) &&
-                c.habilitado_campanha !== false
-            );
+            campanhaLeads = clientes.filter(c => c.contato_email && c.contato_email.length > 3);
             campanhaFiltered = [...campanhaLeads];
 
             // Stats
-            const comEmail = campanhaLeads.filter(c => c.contato_email && c.contato_email.length > 3).length;
-            const comTel = campanhaLeads.filter(c => c.contato_telefone && c.contato_telefone.length > 5).length;
-            document.getElementById('camp-total').textContent = campanhaLeads.length;
+            const comEmail = clientes.filter(c => c.contato_email && c.contato_email.length > 3).length;
+            const comTel = clientes.filter(c => c.contato_telefone && c.contato_telefone.length > 5).length;
+            document.getElementById('camp-total').textContent = clientes.length;
             document.getElementById('camp-email').textContent = comEmail;
             document.getElementById('camp-whats').textContent = comTel;
 
@@ -3833,7 +3828,7 @@
             const tbody = document.getElementById('campanha-tbody');
             tbody.innerHTML = '';
 
-            const items = campanhaFiltered;
+            const items = campanhaFiltered.length > 0 ? campanhaFiltered : clientes;
             const displayItems = items.slice(0, 200);
 
             displayItems.forEach(c => {
@@ -3991,7 +3986,7 @@
             const query = document.getElementById('camp-search').value.toLowerCase();
             const status = document.getElementById('camp-filter-status').value;
 
-            campanhaFiltered = campanhaLeads.filter(c => {
+            campanhaFiltered = clientes.filter(c => {
                 const email = c.contato_email || '';
                 const hasEmail = email.length > 3;
                 const wasEnviado = campanhaLog.some(l => l.clientId === c.id_cliente && l.status === 'enviado');
@@ -4767,26 +4762,24 @@
 
         async function loadVbotClients() {
             const tbody = document.getElementById('vbot-tbody');
-            // Pega clientes (mostra todos, mas pendentes primeiro)
-            let pending = [...clientes];
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Analisando base de clientes pendentes...</td></tr>';
             
-            pending.sort((a, b) => {
-                const aVerified = a.verificado === true || a.status_verificacao === 'verificado' || a.status_verificacao === 'homologacao';
-                const bVerified = b.verificado === true || b.status_verificacao === 'verificado' || b.status_verificacao === 'homologacao';
-                if (aVerified && !bVerified) return 1;
-                if (!aVerified && bVerified) return -1;
-                return 0;
+            // Pega clientes que nao estao verificados e nem homologados
+            const pending = clientes.filter(c => {
+                const isVerifiedLegacy = c.verificado === true;
+                const isVerifiedNew = c.status_verificacao === 'verificado' || c.status_verificacao === 'homologacao';
+                return !isVerifiedLegacy && !isVerifiedNew;
             });
             
             if (pending.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--green);">🎉 Parabéns! Não há clientes na base.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--green);">🎉 Parabéns! Todos os clientes foram verificados ou estão em homologação.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = '';
             pending.forEach(c => {
                 const tr = document.createElement('tr');
-                const isVerified = c.status_verificacao === 'verificado' || c.status_verificacao === 'homologacao' || c.verificado === true;
+                const isVerified = c.status_verificacao === 'verificado' && c.fonte_verificacao === 'vbot_hunter';
                 const isRevisao = c.status_verificacao === 'revisao';
                 let statusHtml = '';
                 if (isVerified) {
@@ -4830,10 +4823,7 @@
             statusBox.innerHTML = '<span style="color:var(--gold)">Analisando Pastas e Internet...</span>';
             
             try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 minutos
-                const r = await fetch(`/api/crm/vbot/enrich/${id}`, { method: 'POST', credentials: 'include', signal: controller.signal });
-                clearTimeout(timeoutId);
+                const r = await fetch(`/api/crm/vbot/enrich/${id}`, { method: 'POST', credentials: 'include' });
                 const data = await r.json();
                 
                 if(data.success) {
@@ -4952,7 +4942,7 @@
                     if (allPhones.length > 0) {
                         html += `<div style="margin-bottom:8px;"><span style="color:var(--text-muted); font-size:0.72rem;">📱 Telefones (${allPhones.length}):</span><div style="margin-top:4px; display:flex; flex-wrap:wrap; gap:4px;">`;
                         allPhones.forEach(p => {
-                            html += `<span onclick="navigator.clipboard.writeText('${p}');this.style.background='rgba(37,211,102,0.35)';setTimeout(()=>this.style.background='rgba(37,211,102,0.1)',1000)" style="padding:4px 10px; background:rgba(52,152,219,0.1); border-radius:12px; font-size:0.78rem; color:#3498db; cursor:pointer; transition:all 0.2s;" title="Clique para copiar">${p}</span>`;
+                            html += `<span onclick="navigator.clipboard.writeText('${p}');this.style.background='rgba(52,152,219,0.35)';setTimeout(()=>this.style.background='rgba(52,152,219,0.1)',1000)" style="padding:4px 10px; background:rgba(52,152,219,0.1); border-radius:12px; font-size:0.78rem; color:#3498db; cursor:pointer; transition:all 0.2s;" title="Clique para copiar">${p}</span>`;
                         });
                         html += `</div></div>`;
                     }
@@ -4965,10 +4955,7 @@
                     }
                     // Presença digital
                     html += `<div style="margin-top:10px;"><span style="color:var(--text-muted); font-size:0.72rem;">🌐 Presença Digital:</span><div style="margin-top:4px; display:flex; flex-wrap:wrap; gap:6px;">`;
-                    if (data.possibleSite && data.possibleSite !== 'Não encontrado') {
-                        let siteDisplay = data.possibleSite.replace(/^https?:\/\//, '').replace(/\/$/, '');
-                        html += `<a href="${data.possibleSite.startsWith('http') ? data.possibleSite : 'https://' + data.possibleSite}" target="_blank" style="padding:4px 12px; background:rgba(52,152,219,0.1); border-radius:12px; font-size:0.75rem; color:#3498db; text-decoration:none;">🔗 ${siteDisplay}</a>`;
-                    }
+                    if (data.possibleSite && data.possibleSite !== 'Não encontrado') html += `<a href="${data.possibleSite.startsWith('http') ? data.possibleSite : 'https://' + data.possibleSite}" target="_blank" style="padding:4px 12px; background:rgba(52,152,219,0.1); border-radius:12px; font-size:0.75rem; color:#3498db; text-decoration:none;">🔗 Site</a>`;
                     if (data.linkedin) html += `<a href="${data.linkedin}" target="_blank" style="padding:4px 12px; background:rgba(0,119,181,0.15); border-radius:12px; font-size:0.75rem; color:#0077b5; text-decoration:none;">💼 LinkedIn</a>`;
                     if (data.instagram) html += `<a href="${data.instagram}" target="_blank" style="padding:4px 12px; background:rgba(225,48,108,0.12); border-radius:12px; font-size:0.75rem; color:#e1306c; text-decoration:none;">📸 Instagram</a>`;
                     if (data.facebook) html += `<a href="${data.facebook}" target="_blank" style="padding:4px 12px; background:rgba(66,103,178,0.12); border-radius:12px; font-size:0.75rem; color:#4267b2; text-decoration:none;">📘 Facebook</a>`;
@@ -5009,31 +4996,6 @@
                         }
                         html += `</div>`;
                     }
-
-                    // ─── E-MAILS HISTÓRICOS DA CAIXA POSTAL (IMAP) ───
-                    const imapEmailsEncontrados = data.imap_emails || [];
-                    const imapDominio = (data.possibleSite || data.scrape_site?.domain || 'Caixa Postal').replace(/^https?:\/\//, '').replace(/\/$/, '');
-                    html += `<div style="margin-bottom:14px; padding:14px; background:rgba(255,255,255,0.02); border-radius:10px; border-left:4px solid #f1c40f;">
-                        <div style="color:#f1c40f; font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:8px;">📧 E-mails Históricos Encontrados — ${imapDominio} (${imapEmailsEncontrados.length})</div>`;
-                    
-                    if (imapEmailsEncontrados.length > 0) {
-                        html += `<div style="max-height: 150px; overflow-y: auto; padding-right: 5px;">`;
-                        imapEmailsEncontrados.forEach(em => {
-                            const dataFormatada = new Date(em.date).toLocaleDateString('pt-BR');
-                            // Escapar o subject para não quebrar o HTML (caso venha com aspas)
-                            const subjectSeguro = em.subject ? em.subject.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'Sem assunto';
-                            const fromSeguro = em.from ? em.from.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'Desconhecido';
-                            
-                            html += `<div style="padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:0.75rem;">
-                                <div style="color:#ccc;"><strong>De:</strong> ${fromSeguro} &nbsp;|&nbsp; <strong>Data:</strong> ${dataFormatada}</div>
-                                <div style="color:var(--text-muted); margin-top:2px;"><strong>Assunto:</strong> ${subjectSeguro}</div>
-                            </div>`;
-                        });
-                        html += `</div>`;
-                    } else {
-                        html += `<div style="color:var(--text-muted); font-size:0.75rem; font-style:italic;">Nenhum e-mail histórico foi encontrado nas caixas postais para este domínio.</div>`;
-                    }
-                    html += `</div>`;
 
                     // ─── INTELIGÊNCIA COMERCIAL VERSÁTIL ───
                     if (data.opportunity) {
@@ -5122,20 +5084,18 @@
 
                     // ─── BOTÕES DE AÇÃO ───
                     const canApprove = conf >= 80;
-                    html += `<div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;" id="vbot-action-buttons-${id}">`;
-                    // Botão AI - Novo!
-                    html += `<button class="btn" style="background:linear-gradient(90deg, #4285F4, #9b72cb, #d96570); border:none; color:#fff; border-radius:5px; padding:8px 18px; font-weight:700; cursor:pointer; box-shadow:0 4px 15px rgba(155,114,203,0.3); transition:transform 0.2s;" id="vbot-ai-btn-${id}" onclick="analisarComIA('${id}')">✨ Analisar com IA (Gemini)</button>`;
-                    html += `<button class="btn" style="background:transparent; border:1px solid var(--blue); color:var(--blue); border-radius:5px; padding:8px 18px; font-weight:600;" onclick="openEditModalWithVbot('${id}')">✏️ Revisar Dados</button>`;
-                    // Botão APROVAR — sempre visível
-                    html += `<button class="btn" style="background:${canApprove ? 'var(--green)' : 'transparent'}; border:1px solid var(--green); color:${canApprove ? '#fff' : 'var(--green)'}; border-radius:5px; padding:8px 18px; font-weight:700; font-size:0.9rem; cursor:pointer;" onclick="aprovarVbot('${id}')">✅ ${canApprove ? 'Aprovar e Salvar' : 'Aprovar Manualmente'}</button>`;
+                    html += `<div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                        <button class="btn" style="background:transparent; border:1px solid var(--blue); color:var(--blue); border-radius:5px; padding:8px 18px; font-weight:600;" onclick="openEditModalWithVbot('${id}')">✏️ Revisar Dados</button>`;
+                    if (canApprove) {
+                        html += `<button class="btn" style="background:var(--green); border-radius:5px; padding:8px 18px; font-weight:700; font-size:0.9rem;" onclick="aprovarVbot('${id}')">✅ Aprovar e Salvar</button>`;
+                    } else {
+                        html += `<button class="btn" style="background:#6c757d; border-radius:5px; padding:8px 18px; font-weight:700; font-size:0.9rem; color:#fff;" onclick="marcarRevisao('${id}', ${conf})">⚪ Marcar para Revisão</button>`;
+                        html += `<button class="btn" style="background:transparent; border:1px solid #555; color:#888; border-radius:5px; padding:8px 18px; font-size:0.8rem; opacity:0.5; cursor:not-allowed;" disabled>🔒 Bloqueada (${conf}%)</button>`;
+                    }
                     html += `</div>`;
-                    
-                    // Container para o resultado da IA
-                    html += `<div id="vbot-ai-result-${id}" style="display:none; margin-top:15px; padding:15px; background:rgba(66, 133, 244, 0.05); border-left:4px solid #9b72cb; border-radius:8px;"></div>`;
-                    // Ocultado temporariamente a pedido do usuário: a opção de revisar sempre deve aparecer
-                    html += `<div style="margin-top:6px; display:flex; align-items:center; gap:6px;" id="vbot-mark-review-container-${id}">
-                        <a href="javascript:void(0)" onclick="marcarRevisao('${id}', ${conf})" style="font-size:0.75rem; color:#888; text-decoration:underline; transition:color 0.2s;" onmouseover="this.style.color='#adb5bd'" onmouseout="this.style.color='#888'">⚪ Marcar para revisão depois</a>
-                    </div>`;
+                    if (!canApprove) {
+                        html += `<div style="margin-top:8px; padding:6px 12px; background:rgba(108,117,125,0.1); border-radius:6px; font-size:0.78rem; color:#aaa;">💡 Marque para revisão para continuar. Você poderá revisar manualmente depois.</div>`;
+                    }
                     html += `<div style="margin-top:10px; display:flex; align-items:center; gap:8px;">
                         <input type="checkbox" id="vbot-campanha-${id}" ${canApprove ? 'checked' : ''} style="accent-color:var(--green); width:16px; height:16px;">
                         <label for="vbot-campanha-${id}" style="font-size:0.8rem; color:var(--text-muted); cursor:pointer;">Habilitar para envio de apresentação comercial</label>
@@ -5155,175 +5115,6 @@
                 btn.innerHTML = 'Tentar Novamente';
                 btn.disabled = false;
                 console.error('[V-Bot Hunter Error]', err);
-            }
-        }
-
-        async function analisarComIA(id) {
-            const aiBtn = document.getElementById(`vbot-ai-btn-${id}`);
-            const aiResultBox = document.getElementById(`vbot-ai-result-${id}`);
-            const vbotData = vbotResults[id] || JSON.parse(localStorage.getItem('vbot_' + id));
-
-            if (!vbotData) {
-                alert('Dados do V-Bot não encontrados. Refaça a busca profunda primeiro.');
-                return;
-            }
-
-            aiBtn.innerHTML = '✨ IA Processando...';
-            aiBtn.disabled = true;
-            aiResultBox.style.display = 'block';
-            aiResultBox.innerHTML = '<div style="color:#9b72cb; font-weight:600; font-size:0.9rem;"><span class="spinner" style="display:inline-block; animation:spin 1s linear infinite;">🔄</span> Conectando ao Google Gemini 2.5 Flash... (Pode levar até 2min se houver fila)</div>';
-
-            try {
-                const aiController = new AbortController();
-                const aiTimeout = setTimeout(() => aiController.abort(), 180000); // 3 minutos (inclui retries do servidor)
-                const r = await fetch(`/api/crm/vbot/ai-analyze/${id}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(vbotData),
-                    signal: aiController.signal
-                });
-                clearTimeout(aiTimeout);
-                const data = await r.json();
-
-                if (data.success && data.ai_report) {
-                    const ai = data.ai_report;
-                    
-                    let html = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <h4 style="color:#9b72cb; margin:0;">🤖 Dossiê Comercial (Gemini AI)</h4>
-                        <span style="font-size:0.7rem; padding:3px 8px; border-radius:12px; background:rgba(255,255,255,0.1); color:#ccc;">Status: ${ai.status_pesquisa || 'Concluída'}</span>
-                    </div>`;
-                    
-                    if (ai.status_pesquisa && ai.status_pesquisa.includes('Humana')) {
-                        html += `<div style="background:rgba(240, 173, 78, 0.1); border-left:3px solid #f0ad4e; padding:10px; margin-bottom:12px; font-size:0.8rem; color:#ccc;">
-                            <strong style="color:#f0ad4e;">Aviso da IA:</strong> ${ai.motivo_revisao || 'Revisão necessária'}
-                        </div>`;
-                    }
-                    
-                    html += `<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.85rem;">
-                        <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:6px;">
-                            <div style="color:var(--text-muted); font-size:0.7rem; text-transform:uppercase;">Identificação Validada</div>
-                            <div style="font-weight:bold; color:#fff; margin-top:4px;">${ai.dados_cadastrais?.razao_social || 'N/A'}</div>
-                            <div><span style="color:#25d366;">CNPJ:</span> ${ai.dados_cadastrais?.cnpj_validado || 'N/A'}</div>
-                            ${ai.dados_cadastrais?.grupo_economico ? `<div style="margin-top:4px; font-size:0.75rem; color:#aaa;">🏢 Grupo: ${ai.dados_cadastrais.grupo_economico} (${ai.dados_cadastrais.empresas_do_grupo} empresas)</div>` : ''}
-                        </div>
-                        
-                        <div style="background:rgba(0,0,0,0.2); padding:10px; border-radius:6px; border-left:3px solid ${ai.inteligencia_comercial?.score_oportunidade >= 70 ? '#25d366' : '#f0ad4e'};">
-                            <div style="color:var(--text-muted); font-size:0.7rem; text-transform:uppercase;">Score de Oportunidade AI</div>
-                            <div style="font-weight:bold; font-size:1.4rem; color:${ai.inteligencia_comercial?.score_oportunidade >= 70 ? '#25d366' : '#f0ad4e'};">${ai.inteligencia_comercial?.score_oportunidade || 0}%</div>
-                        </div>
-                    </div>`;
-
-                    html += `<div style="margin-top:12px; background:rgba(0,0,0,0.2); padding:10px; border-radius:6px; font-size:0.85rem;">
-                        <div style="color:var(--text-muted); font-size:0.7rem; text-transform:uppercase; margin-bottom:6px;">Saúde Financeira e Porte</div>
-                        <div><strong style="color:#fff;">Situação:</strong> ${ai.saude_financeira?.situacao || 'N/A'}</div>
-                        <div><strong style="color:#fff;">Capital Social:</strong> ${ai.saude_financeira?.capital_social || 'N/A'}</div>
-                        <div style="color:#ccc; margin-top:4px; font-size:0.8rem;"><i>${ai.saude_financeira?.resumo_financeiro || ''}</i></div>
-                    </div>`;
-
-                    if (ai.contatos_qualificados) {
-                        html += `<div style="margin-top:12px; background:rgba(0,0,0,0.2); padding:10px; border-radius:6px; font-size:0.85rem;">
-                            <div style="color:var(--text-muted); font-size:0.7rem; text-transform:uppercase; margin-bottom:6px;">Contatos Qualificados (Revisados)</div>`;
-                            
-                        const setores = [
-                            { key: 'engenharia_manutencao', label: 'Engenharia/Manutenção' },
-                            { key: 'compras_suprimentos', label: 'Compras/Suprimentos' },
-                            { key: 'portais_fornecedor', label: 'Portais de Fornecedor' }
-                        ];
-                        
-                        setores.forEach(setor => {
-                            if (ai.contatos_qualificados[setor.key] && ai.contatos_qualificados[setor.key].length > 0) {
-                                html += `<div style="margin-bottom:4px;"><strong style="color:#9b72cb;">${setor.label}:</strong> 
-                                    ${ai.contatos_qualificados[setor.key].join(', ')}</div>`;
-                            }
-                        });
-                        
-                        if (ai.contatos_qualificados.pessoas_chave && ai.contatos_qualificados.pessoas_chave.length > 0) {
-                            html += `<div style="margin-top:6px; border-top:1px solid rgba(255,255,255,0.1); padding-top:6px;">
-                                <strong style="color:#fff;">Pessoas Chave:</strong><br>`;
-                            ai.contatos_qualificados.pessoas_chave.forEach(p => {
-                                html += `<span style="color:#ccc;">• ${p.nome} (${p.cargo}) - ${p.email || 'sem email'}</span><br>`;
-                            });
-                            html += `</div>`;
-                        }
-                        html += `</div>`;
-                    }
-
-                    html += `<div style="margin-top:12px; background:rgba(0,0,0,0.2); padding:10px; border-radius:6px; font-size:0.85rem;">
-                        <div style="color:var(--text-muted); font-size:0.7rem; text-transform:uppercase; margin-bottom:6px;">Análise Estratégica (Versátil)</div>
-                        <div style="color:#ccc; line-height:1.4;">${ai.inteligencia_comercial?.justificativa_score || ''}</div>
-                        <div style="margin-top:8px;">
-                            <strong>Serviços Alvo:</strong> 
-                            ${(ai.inteligencia_comercial?.servicos_com_maior_potencial || []).map(s => `<span style="background:rgba(155,114,203,0.2); color:#9b72cb; padding:2px 6px; border-radius:4px; font-size:0.75rem; margin-right:4px;">${s}</span>`).join('')}
-                        </div>
-                    </div>`;
-
-                    html += `<div style="margin-top:12px; background:rgba(37, 211, 102, 0.1); padding:10px; border-radius:6px; border-left:3px solid #25d366; font-size:0.85rem;">
-                        <div style="color:#25d366; font-size:0.7rem; text-transform:uppercase; font-weight:bold; margin-bottom:6px;">🚀 Próxima Ação Comercial Recomendada</div>
-                        <div style="color:#fff;">${ai.inteligencia_comercial?.proxima_acao_recomendada || 'Nenhuma'}</div>
-                    </div>`;
-
-                    if (ai.alertas_conflito && ai.alertas_conflito.length > 0) {
-                        html += `<div style="margin-top:12px; background:rgba(231, 76, 60, 0.1); padding:10px; border-radius:6px; border-left:3px solid #e74c3c; font-size:0.85rem;">
-                            <div style="color:#e74c3c; font-size:0.7rem; text-transform:uppercase; font-weight:bold; margin-bottom:6px;">⚠️ Alertas de IA (Conflitos Detectados)</div>
-                            <ul style="margin:0; padding-left:20px; color:#ccc;">
-                                ${ai.alertas_conflito.map(a => `<li>${a}</li>`).join('')}
-                            </ul>
-                        </div>`;
-                    }
-
-                    aiResultBox.innerHTML = html;
-                    aiBtn.innerHTML = '✅ Analisado com IA';
-                    aiBtn.style.background = '#25d366';
-
-                    // ── PERSISTÊNCIA EM MEMÓRIA (Fonte Única da Verdade) ──
-                    // Armazena ai_report junto com vbotResults para que
-                    // openEditModalWithVbot possa acessar os dados da IA
-                    if (vbotResults[id]) {
-                        vbotResults[id].ai_report = ai;
-                    }
-                    try { localStorage.setItem('vbot_' + id, JSON.stringify(vbotResults[id])); } catch(e) {}
-
-                    // Atualiza o objeto cliente em memória para refletir os dados da IA
-                    const clienteIdx = clientes.findIndex(c => c.id_cliente === id);
-                    if (clienteIdx !== -1) {
-                        clientes[clienteIdx].ai_report = ai;
-                        clientes[clienteIdx].ai_report_date = new Date().toISOString();
-                        clientes[clienteIdx].ai_report_source = 'gemini';
-                    }
-                    
-                } else if (data.success && data.ai_skipped) {
-                    // IA temporariamente indisponível (rate limit) — mostrar aviso amigável
-                    aiResultBox.innerHTML = `<div style="color:#f0ad4e; padding:10px; background:rgba(240,173,78,0.1); border-radius:8px; border-left:3px solid #f0ad4e;">
-                        <strong>⏳ Limite de requisições atingido</strong><br>
-                        <span style="font-size:0.8rem;">A análise de IA atingiu o limite temporário de requisições por minuto. Aguarde 1 minuto e clique em <strong>"Tentar Novamente"</strong>. Os dados locais (CNPJ, e-mails, telefones, contatos) já foram coletados com sucesso.</span>
-                    </div>`;
-                    aiBtn.innerHTML = '✨ Tentar Novamente';
-                    aiBtn.disabled = false;
-                } else {
-                    throw new Error(data.error || 'Erro desconhecido');
-                }
-            } catch (err) {
-                let errorMsg = err.message || 'desconhecido';
-                let errorHtml = '';
-                
-                if (err.name === 'AbortError') {
-                    errorHtml = `<div style="color:#f0ad4e; padding:10px; background:rgba(240,173,78,0.1); border-radius:8px; border-left:3px solid #f0ad4e;">
-                        <strong>⏱️ Tempo esgotado</strong><br>
-                        <span style="font-size:0.8rem;">A análise demorou mais de 3 minutos. A API pode estar com alta demanda. Tente novamente em alguns instantes.</span>
-                    </div>`;
-                } else if (errorMsg.includes('429') || errorMsg.includes('quota') || errorMsg.includes('RESOURCE_EXHAUSTED')) {
-                    errorHtml = `<div style="color:#f0ad4e; padding:10px; background:rgba(240,173,78,0.1); border-radius:8px; border-left:3px solid #f0ad4e;">
-                        <strong>⚠️ Limite de API atingido</strong><br>
-                        <span style="font-size:0.8rem;">O Google Gemini atingiu o limite gratuito (20 req/min). Aguarde 1 minuto e clique em "Tentar Novamente".</span>
-                    </div>`;
-                } else {
-                    errorHtml = `<span style="color:var(--red)">Erro na IA: ${errorMsg}</span>`;
-                }
-                
-                aiResultBox.innerHTML = errorHtml;
-                aiBtn.innerHTML = '✨ Tentar Novamente';
-                aiBtn.disabled = false;
-                console.error('[V-Bot AI Error]', err);
             }
         }
 
@@ -5483,96 +5274,6 @@
                 }
                 
                 console.log(`[V-Bot] Ficha preenchida: ${hunterEmails.length} emails, ${hunterPhones.length} telefones para ${id}`);
-
-                // ============================================================
-                // ENRIQUECIMENTO COM DADOS DA IA (Gemini)
-                // Prioridade: Dados manuais > V-Bot Hunter > IA
-                // Só preenche campos que ainda estiverem VAZIOS
-                // (Regra Nº 6: Fonte Única da Verdade)
-                // (Regra Nº 7: Revisar Dados abre preenchida)
-                // ============================================================
-                const aiReport = data.ai_report || (clientes.find(c => c.id_cliente === id) || {}).ai_report;
-                if (aiReport) {
-                    console.log('[V-Bot IA] Enriquecendo formulário com dados da IA...');
-
-                    // CNPJ validado pela IA
-                    const cnpjField = document.getElementById('edit-cnpj');
-                    if ((!cnpjField.value || cnpjField.value.trim() === '') && aiReport.dados_cadastrais?.cnpj_validado) {
-                        cnpjField.value = aiReport.dados_cadastrais.cnpj_validado;
-                    }
-
-                    // Contato principal (pessoas_chave da IA)
-                    if (aiReport.contatos_qualificados?.pessoas_chave && aiReport.contatos_qualificados.pessoas_chave.length > 0) {
-                        const pessoa = aiReport.contatos_qualificados.pessoas_chave[0];
-                        const nomeField = document.getElementById('edit-contato-nome');
-                        const cargoField = document.getElementById('edit-contato-cargo');
-                        if ((!nomeField.value || nomeField.value === 'Não informado') && pessoa.nome) {
-                            nomeField.value = pessoa.nome;
-                        }
-                        if ((!cargoField.value || cargoField.value === 'Não informado') && pessoa.cargo) {
-                            cargoField.value = pessoa.cargo;
-                        }
-                        // Email da pessoa-chave como email principal se vazio
-                        const emailField = document.getElementById('edit-contato-email');
-                        if ((!emailField.value || emailField.value.trim() === '') && pessoa.email) {
-                            emailField.value = pessoa.email;
-                        }
-                    }
-
-                    // Telefones da IA
-                    if (aiReport.contatos_qualificados?.telefones && aiReport.contatos_qualificados.telefones.length > 0) {
-                        const telField = document.getElementById('edit-contato-telefone');
-                        if (!telField.value || telField.value.trim() === '') {
-                            telField.value = aiReport.contatos_qualificados.telefones[0];
-                        }
-                        const fixoField = document.getElementById('edit-contato-fixo');
-                        if (fixoField && (!fixoField.value || fixoField.value.trim() === '') && aiReport.contatos_qualificados.telefones.length > 1) {
-                            fixoField.value = aiReport.contatos_qualificados.telefones[1];
-                        }
-                    }
-
-                    // Emails adicionais da IA (engenharia, compras, institucionais)
-                    const existingEmails = new Set();
-                    const mainEmail = document.getElementById('edit-contato-email').value.toLowerCase();
-                    if (mainEmail) existingEmails.add(mainEmail);
-                    document.querySelectorAll('#emails-adicionais-container input[type="email"]').forEach(inp => {
-                        if (inp.value) existingEmails.add(inp.value.toLowerCase());
-                    });
-
-                    const aiEmailSources = [
-                        { key: 'engenharia_manutencao', dept: 'Técnico' },
-                        { key: 'compras_suprimentos', dept: 'Compras' },
-                        { key: 'institucionais', dept: 'Comercial' },
-                        { key: 'portais_fornecedor', dept: 'Outro' }
-                    ];
-                    aiEmailSources.forEach(src => {
-                        const emails = aiReport.contatos_qualificados?.[src.key] || [];
-                        emails.forEach(emailStr => {
-                            // Extrair email do formato "nome@dominio.com" ou "Texto - nome@dominio.com"
-                            const emailMatch = emailStr.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/);
-                            if (emailMatch) {
-                                const email = emailMatch[1].toLowerCase();
-                                if (!existingEmails.has(email) && !email.includes('versatil')) {
-                                    existingEmails.add(email);
-                                    addEmailField(emailMatch[1], src.dept);
-                                }
-                            }
-                        });
-                    });
-
-                    // Emails de pessoas-chave adicionais (a partir do 2º)
-                    if (aiReport.contatos_qualificados?.pessoas_chave) {
-                        aiReport.contatos_qualificados.pessoas_chave.forEach((p, i) => {
-                            if (i === 0) return; // Primeiro já usado acima
-                            if (p.email && !existingEmails.has(p.email.toLowerCase()) && !p.email.toLowerCase().includes('versatil')) {
-                                existingEmails.add(p.email.toLowerCase());
-                                addEmailField(p.email, 'Diretoria');
-                            }
-                        });
-                    }
-
-                    console.log(`[V-Bot IA] Enriquecimento concluído. Emails adicionais da IA integrados.`);
-                }
             }, 150);
         }
 
@@ -5603,9 +5304,9 @@
                     // Feedback visual no botão
                     const resContent = document.getElementById(`vbot-res-content-${id}`);
                     if (resContent) {
-                        const btnArea = resContent.querySelector(`#vbot-action-buttons-${id}`);
+                        const btnArea = resContent.querySelector('div[style*="margin-top:16px"]');
                         if (btnArea) {
-                            btnArea.innerHTML = `<div style="padding:10px 16px; background:rgba(108,117,125,0.15); border-radius:8px; display:flex; align-items:center; gap:10px; width:100%;">
+                            btnArea.innerHTML = `<div style="padding:10px 16px; background:rgba(108,117,125,0.15); border-radius:8px; display:flex; align-items:center; gap:10px;">
                                 <span style="font-size:1.3rem;">⚪</span>
                                 <div>
                                     <strong style="color:#adb5bd;">Marcado para Revisão</strong><br>
@@ -5614,12 +5315,6 @@
                                 <button class="btn" style="margin-left:auto; background:transparent; border:1px solid var(--blue); color:var(--blue); border-radius:5px; padding:6px 14px; font-size:0.78rem; font-weight:600;" onclick="openEditModalWithVbot('${id}')">✏️ Revisar Agora</button>
                             </div>`;
                         }
-                    }
-                    
-                    // Esconder o link "Marcar para revisão depois"
-                    const markReviewContainer = document.getElementById(`vbot-mark-review-container-${id}`);
-                    if (markReviewContainer) {
-                        markReviewContainer.style.display = 'none';
                     }
 
                     console.log(`[V-Bot] Cliente ${id} marcado para revisão (confiança: ${conf}%)`);
@@ -5692,15 +5387,9 @@
             };
 
             // Montar emails adicionais (todos exceto o primeiro)
-            const addedEmails = new Set();
-            if (payload.contato_email) addedEmails.add(payload.contato_email.toLowerCase());
-
             if (data.emails && data.emails.length > 1) {
                 for (let i = 1; i < data.emails.length; i++) {
                     const email = data.emails[i];
-                    if (addedEmails.has(email.toLowerCase())) continue;
-                    addedEmails.add(email.toLowerCase());
-
                     const local = email.split('@')[0].toLowerCase();
                     let dept = 'Comercial';
                     if (local.includes('compra') || local.includes('suprimento')) dept = 'Compras';
@@ -5710,77 +5399,6 @@
                     else if (local.includes('manutencao') || local.includes('pcm')) dept = 'Manutenção';
                     
                     payload.emails_adicionais.push({ email, departamento: dept });
-                }
-            }
-
-            // EXTRAÇÃO DOS E-MAILS DO IMAP (INBOX DA DIRETORIA)
-            if (data.imap_emails && data.imap_emails.length > 0) {
-                const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi;
-                data.imap_emails.forEach(msg => {
-                    const strToSearch = (msg.from + ' ' + msg.to).toLowerCase();
-                    const matches = strToSearch.match(emailRegex);
-                    if (matches) {
-                        matches.forEach(email => {
-                            if (!addedEmails.has(email) && email.includes('@')) {
-                                addedEmails.add(email);
-                                payload.emails_adicionais.push({ email: email, departamento: 'Diretoria (IMAP)' });
-                            }
-                        });
-                    }
-                });
-            }
-
-            // ============================================================
-            // EXTRAÇÃO DOS E-MAILS DA IA (Gemini AI Report)
-            // Regra Nº 6: Fonte Única da Verdade
-            // ============================================================
-            const aiReport = data.ai_report || (cliente ? cliente.ai_report : null);
-            if (aiReport && aiReport.contatos_qualificados) {
-                const aiCQ = aiReport.contatos_qualificados;
-                const aiEmailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/;
-
-                // E-mails de setores qualificados
-                const aiSources = [
-                    { key: 'engenharia_manutencao', dept: 'Técnico (IA)' },
-                    { key: 'compras_suprimentos', dept: 'Compras (IA)' },
-                    { key: 'institucionais', dept: 'Comercial (IA)' },
-                    { key: 'portais_fornecedor', dept: 'Portal Fornecedor (IA)' }
-                ];
-                aiSources.forEach(src => {
-                    const entries = aiCQ[src.key] || [];
-                    entries.forEach(entry => {
-                        const match = entry.match(aiEmailRegex);
-                        if (match) {
-                            const email = match[1].toLowerCase();
-                            if (!addedEmails.has(email) && !email.includes('versatil')) {
-                                addedEmails.add(email);
-                                payload.emails_adicionais.push({ email: match[1], departamento: src.dept });
-                            }
-                        }
-                    });
-                });
-
-                // E-mails de pessoas-chave
-                if (aiCQ.pessoas_chave && Array.isArray(aiCQ.pessoas_chave)) {
-                    aiCQ.pessoas_chave.forEach(p => {
-                        if (p.email && p.email !== 'sem email') {
-                            const email = p.email.toLowerCase();
-                            if (!addedEmails.has(email) && !email.includes('versatil')) {
-                                addedEmails.add(email);
-                                payload.emails_adicionais.push({ email: p.email, departamento: 'Diretoria (IA)' });
-                            }
-                        }
-                    });
-                }
-
-                // Contato principal da IA (se o campo principal ainda estiver vazio)
-                if (!payload.contato_email && aiCQ.pessoas_chave && aiCQ.pessoas_chave.length > 0 && aiCQ.pessoas_chave[0].email) {
-                    payload.contato_email = aiCQ.pessoas_chave[0].email;
-                }
-                // Nome e cargo do contato da IA (se vazios)
-                if (!payload.contato_nome && aiCQ.pessoas_chave && aiCQ.pessoas_chave.length > 0) {
-                    payload.contato_nome = aiCQ.pessoas_chave[0].nome || '';
-                    payload.contato_cargo = aiCQ.pessoas_chave[0].cargo || '';
                 }
             }
 
@@ -5817,58 +5435,22 @@
                         campContainer.parentElement.innerHTML = `<span style="color:var(--green); font-size:0.8rem;">✅ ${habilitadoCampanha ? 'Habilitado para campanha' : 'Campanha não habilitada'}</span>`;
                     }
 
-                    // ============================================================
-                    // RESUMO PÓS-APROVAÇÃO — Emails encontrados/gravados/campanha
-                    // ============================================================
-                    const totalEmailsEncontrados = addedEmails.size;
-                    const totalEmailsGravados = 1 + payload.emails_adicionais.length; // principal + adicionais
-                    const totalCampanha = habilitadoCampanha ? totalEmailsGravados : 0;
-
-                    let resumoHtml = `<div style="margin-top:16px; padding:16px; background:linear-gradient(135deg, rgba(37,211,102,0.08) 0%, rgba(37,211,102,0.02) 100%); border-radius:12px; border:1px solid rgba(37,211,102,0.2);">
-                        <div style="color:var(--green); font-size:0.78rem; text-transform:uppercase; letter-spacing:1.5px; font-weight:700; margin-bottom:12px;">📊 Resumo da Aprovação</div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:14px;">
-                            <div style="text-align:center; padding:10px; background:rgba(0,0,0,0.3); border-radius:8px;">
-                                <div style="font-size:1.5rem; font-weight:900; color:#3498db;">${totalEmailsEncontrados}</div>
-                                <div style="font-size:0.68rem; color:var(--text-muted); text-transform:uppercase;">E-mails Encontrados</div>
-                            </div>
-                            <div style="text-align:center; padding:10px; background:rgba(0,0,0,0.3); border-radius:8px;">
-                                <div style="font-size:1.5rem; font-weight:900; color:var(--green);">${totalEmailsGravados}</div>
-                                <div style="font-size:0.68rem; color:var(--text-muted); text-transform:uppercase;">E-mails Gravados</div>
-                            </div>
-                            <div style="text-align:center; padding:10px; background:rgba(0,0,0,0.3); border-radius:8px;">
-                                <div style="font-size:1.5rem; font-weight:900; color:${habilitadoCampanha ? '#9b72cb' : '#e74c3c'};">${totalCampanha}</div>
-                                <div style="font-size:0.68rem; color:var(--text-muted); text-transform:uppercase;">Na Campanha</div>
-                            </div>
-                        </div>`;
-
-                    // Lista detalhada dos e-mails gravados
-                    resumoHtml += `<div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:6px;">📧 E-mails gravados na ficha:</div>`;
-                    if (payload.contato_email) {
-                        resumoHtml += `<div style="padding:3px 0; font-size:0.78rem;"><span style="color:var(--green);">●</span> <strong style="color:#eee;">${payload.contato_email}</strong> <span style="font-size:0.65rem; background:rgba(191,32,38,0.1); color:var(--red); padding:1px 5px; border-radius:4px;">Principal</span></div>`;
-                    }
-                    payload.emails_adicionais.forEach(ea => {
-                        resumoHtml += `<div style="padding:3px 0; font-size:0.78rem;"><span style="color:var(--green);">●</span> <span style="color:#ccc;">${ea.email}</span> <span style="font-size:0.65rem; background:rgba(37,211,102,0.1); color:var(--green); padding:1px 5px; border-radius:4px;">${ea.departamento}</span></div>`;
-                    });
-
-                    resumoHtml += `<div style="margin-top:12px; display:flex; gap:8px;">
-                        <button class="btn" style="background:transparent; border:1px solid var(--blue); color:var(--blue); border-radius:5px; padding:8px 18px; font-weight:600;" onclick="openEditModal('${id}')">✏️ Editar Ficha</button>
-                        <span style="color:var(--green); font-weight:700; font-size:0.9rem; display:flex; align-items:center;">✅ Aprovado e salvo com sucesso</span>
-                    </div></div>`;
-
-                    // Substituir botões de ação com o resumo
+                    // Substituir botões de ação
                     const resContent = document.getElementById(`vbot-res-content-${id}`);
                     if (resContent) {
                         const btns = resContent.querySelectorAll('div[style*="gap:10px"]');
                         if (btns.length > 0) {
-                            btns[0].innerHTML = resumoHtml;
+                            btns[0].innerHTML = `
+                                <button class="btn" style="background:transparent; border:1px solid var(--blue); color:var(--blue); border-radius:5px; padding:8px 18px; font-weight:600;" onclick="openEditModal('${id}')">✏️ Editar Ficha</button>
+                                <span style="color:var(--green); font-weight:700; font-size:0.9rem;">✅ Aprovado e salvo com sucesso</span>
+                            `;
                         }
                     }
 
-                    showToast(`✅ ${result.message} | ${totalEmailsGravados} e-mails gravados | ${totalCampanha} na campanha`, true);
+                    showToast(`✅ ${result.message}`, true);
                     
-                    // Recarregar dados para atualizar Fichas Comerciais e Campanha
+                    // Recarregar dados para atualizar Fichas Comerciais
                     await loadCrmData();
-                    loadCampanhaData();
                 } else {
                     throw new Error(result.error);
                 }

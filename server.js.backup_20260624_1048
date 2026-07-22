@@ -13,25 +13,9 @@ const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 const XLSX = require('xlsx');
 const { parse: csvParseSync } = require('csv-parse/sync');
-require('dotenv').config();
-const { GoogleGenAI } = require('@google/genai');
-
-// =============================================
-// PROTEÇÃO GLOBAL — Evita crash por PDFs corrompidos e erros assíncronos
-// =============================================
-process.on('unhandledRejection', (reason, promise) => {
-    console.error('[SERVER] ⚠️ Unhandled Promise Rejection (capturado, servidor continua):', reason?.message || reason);
-});
-process.on('uncaughtException', (err) => {
-    console.error('[SERVER] ⚠️ Uncaught Exception (capturado, servidor continua):', err.message);
-    if (err.message?.includes('EADDRINUSE')) {
-        process.exit(1); // Única exceção: porta em uso = sair
-    }
-});
-
 const app = express();
-const PORT = process.env.PORT || 8080;
-const JWT_SECRET = process.env.JWT_SECRET || 'versatil-crm-secret-2026';
+const PORT = 8080;
+const JWT_SECRET = 'versatil-crm-secret-2026';
 
 // =============================================
 // CONFIGURAÇÃO ASAAS
@@ -42,7 +26,7 @@ const ASAAS_BASE_URL = 'https://api.asaas.com/v3';
 // =============================================
 // MIDDLEWARE
 // =============================================
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -1287,30 +1271,6 @@ app.put('/api/crm/clientes/:id', (req, res) => {
         Object.keys(campos).forEach(key => {
             if (key === 'roteiro_comercial' && typeof campos[key] === 'object') {
                 dbClientes[idx].roteiro_comercial = { ...dbClientes[idx].roteiro_comercial, ...campos[key] };
-            } else if (key === 'emails_adicionais') {
-                // ============================================================
-                // MERGE INTELIGENTE DE E-MAILS — Nunca sobrescreve, só adiciona
-                // ============================================================
-                const existentes = dbClientes[idx].emails_adicionais || [];
-                const novos = Array.isArray(campos[key]) ? campos[key] : [];
-                
-                // Cria mapa de e-mails existentes (preserva todos)
-                const emailMap = new Map();
-                existentes.forEach(ea => {
-                    if (ea.email) emailMap.set(ea.email.toLowerCase().trim(), ea);
-                });
-                
-                // Adiciona novos e-mails do formulário (não sobrescreve existentes)
-                novos.forEach(ea => {
-                    if (ea.email && ea.email.trim()) {
-                        const key = ea.email.toLowerCase().trim();
-                        // Atualiza departamento se já existe, adiciona se novo
-                        emailMap.set(key, { email: ea.email.trim(), departamento: ea.departamento || 'Outro' });
-                    }
-                });
-                
-                dbClientes[idx].emails_adicionais = Array.from(emailMap.values());
-                console.log(`[CRM] Merge de e-mails para ${req.params.id}: ${existentes.length} existentes + ${novos.length} do form = ${dbClientes[idx].emails_adicionais.length} únicos`);
             } else {
                 dbClientes[idx][key] = campos[key];
             }
@@ -1534,8 +1494,7 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
 
         // Regex patterns
         const REGEX = {
-            // CNPJ: exige separadores OU exatamente 14 dígitos isolados
-            cnpj: /(?:\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2})|(?:(?<![\d.])\d{14}(?!\d))/g,
+            cnpj: /\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}/g,
             email: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
             phone: /(?:\+55\s?)?(?:\(?\d{2}\)?[\s.-]?)(?:9\s?\d{4}|\d{4})[\s.-]?\d{4}/g,
             cep: /\d{5}-?\d{3}/g,
@@ -1544,52 +1503,8 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
             ie: /(?:I\.?E\.?|Inscri[çc][aã]o\s*Estadual)[:\s]*[\d./-]+/gi,
             website: /(?:(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.(?:com\.br|com|ind\.br|net\.br|org\.br|eng\.br)(?:\/[^\s]*)?)/gi,
             contato: /(?:A\/C|Att?\.?|Aten[çc][aã]o)[:\s]+([A-ZÀ-Ú][a-záéíóúãõê]+(?:\s+(?:de|da|do|dos|das)\s+)?(?:[A-ZÀ-Ú][a-záéíóúãõê]+)*)/gi,
-            cargo: /(?:Gerente|Diretor|Coordenador|Supervisor|Engenheiro|T[ée]cnico|Comprador|Analista|Chefe|Responsável|Gestor|PCM)(?:\s+(?:de|da|do)\s+[A-ZÀ-Úa-záéíóúãõê]+)*/gi
+            cargo: /(?:Gerente|Diretor|Coordenador|Supervisor|Engenheiro|T[ée]cnico|Comprador|Analista|Chefe|Responsável|Gestor)(?:\s+(?:de|da|do)\s+[A-ZÀ-Úa-záéíóúãõê]+)*/gi
         };
-
-        // ── NORMALIZAÇÃO OBRIGATÓRIA DE CNPJ (STRING, NUNCA NÚMERO) ──
-        function normalizeCnpj(raw) {
-            if (!raw) return null;
-            const clean = String(raw).replace(/\D/g, '');
-            if (clean.length !== 14) return null;
-            // Rejeita todos iguais
-            if (/^(\d)\1{13}$/.test(clean)) return null;
-            // Validação matemática
-            const w1 = [5,4,3,2,9,8,7,6,5,4,3,2];
-            let sum = 0;
-            for (let i = 0; i < 12; i++) sum += parseInt(clean[i]) * w1[i];
-            let r = sum % 11;
-            const d1 = r < 2 ? 0 : 11 - r;
-            if (parseInt(clean[12]) !== d1) return null;
-            const w2 = [6,5,4,3,2,9,8,7,6,5,4,3,2];
-            sum = 0;
-            for (let i = 0; i < 13; i++) sum += parseInt(clean[i]) * w2[i];
-            r = sum % 11;
-            const d2 = r < 2 ? 0 : 11 - r;
-            if (parseInt(clean[13]) !== d2) return null;
-            // Formata como STRING XX.XXX.XXX/XXXX-XX
-            return clean.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
-        }
-
-        // ── CONVERSÃO SEGURA DE CÉLULAS EXCEL ──
-        function safeCellToString(cell) {
-            if (cell === null || cell === undefined) return '';
-            // Se for número, verificar se pode ser CNPJ
-            if (typeof cell === 'number') {
-                const str = cell.toString();
-                // Números com ponto decimal NUNCA são CNPJ
-                if (str.includes('.') || str.includes('e') || str.includes('E')) {
-                    return str;
-                }
-                // Número inteiro com 14 dígitos pode ser CNPJ sem máscara
-                const digits = Math.floor(Math.abs(cell)).toString();
-                if (digits.length === 14) {
-                    const formatted = normalizeCnpj(digits);
-                    if (formatted) return formatted;
-                }
-            }
-            return String(cell);
-        }
 
         // Serviços industriais VERSÁTIL para identificação
         const SERVICOS_KEYWORDS = [
@@ -1635,26 +1550,7 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
             for (let i = 0; i < s2.length - 1; i++) bigrams2.add(s2.substring(i, i + 2));
             let intersection = 0;
             bigrams1.forEach(b => { if (bigrams2.has(b)) intersection++; });
-            let baseSim = Math.round((2 * intersection) / (bigrams1.size + bigrams2.size) * 100);
-
-            // Boost se for um prefixo ou substring perfeito (ex: "QWS" em "QWS - INSPECAO E SERVICOS LTDA")
-            if (s1.length >= 3 && s2.length >= 3) {
-                if (s2.includes(s1) || s1.includes(s2)) {
-                    baseSim = Math.max(baseSim, 70);
-                }
-            }
-            return baseSim;
-        }
-
-        function calcMaxSimilarity(dbName, rfName, extractedSet) {
-            if (!rfName) return 0;
-            let maxSim = calcSimilarity(dbName, rfName);
-            if (extractedSet) {
-                extractedSet.forEach(rz => {
-                    maxSim = Math.max(maxSim, calcSimilarity(rz, rfName));
-                });
-            }
-            return maxSim;
+            return Math.round((2 * intersection) / (bigrams1.size + bigrams2.size) * 100);
         }
 
         // Rastreamento de fontes por campo
@@ -1702,58 +1598,42 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
         if (folderPath && fs.existsSync(folderPath)) {
 
             // Função: extrair dados de um texto
-            // Log por arquivo
-            const fileExtractionLog = {};
-
             function extractFromText(text, fileName) {
                 if (!text || text.length < 10) return;
-                const logEntry = { cnpjs: [], emails: [], phones: [], sites: [], contatos: [], razoes: [] };
 
-                // ── EXTRAÇÃO DE RAZÃO SOCIAL (múltiplos padrões) ──
-                // Padrão 1: Prefixo explícito (Empresa:, Razão Social:, etc.)
-                const rzPatterns = [
-                    /(?:Empresa|Raz[aã]o\s*Social|Cliente|Para|Contratante|Ref)[:\s]+([A-Z0-9À-Ú][A-Z0-9À-Úa-záéíóúãõê\s.,&'\-]{3,80}?)(?:\s*(?:LTDA|S\/A|S\.A\.|ME|EPP|EIRELI|INC\.|CORP\.|LLC|SA))/gi,
-                    // Padrão 2: Nome + sufixo jurídico livre (sem prefixo)
-                    /([A-ZÀ-Ú][A-Za-zÀ-ú\s&.'-]{3,60})\s+(LTDA|S\/A|S\.A\.|SA|ME|EPP|EIRELI)(?=[^a-záéíóúãõê]|$)/g,
-                    // Padrão 3: Contexto de CNPJ (linha anterior ao CNPJ)
-                    /([A-ZÀ-Ú][A-Za-zÀ-ú\s&.'-]{3,80})\s*(?:\n|\r|\|)\s*(?:CNPJ|C\.N\.P\.J)[:\s]*\d{2}/gi
-                ];
-                rzPatterns.forEach(rx => {
-                    let m;
-                    while ((m = rx.exec(text)) !== null) {
-                        let rz = m[1].trim();
-                        // Se capturou o sufixo separado (padrão 2), juntá-lo
-                        if (m[2]) rz = rz + ' ' + m[2];
-                        if (rz.length > 5 && rz.length < 100 && !rz.toLowerCase().includes('versatil') && rz.split(' ').length <= 10) {
-                            extractedRazaoSocial.add(rz);
-                            logEntry.razoes.push(rz);
-                        }
-                    }
-                    rx.lastIndex = 0;
-                });
-
-                // Padrão 4: Extrair do assunto de email
-                const assuntoMatch = text.match(/Assunto[:\s]+.*?[-–]\s*([A-ZÀ-Ú][A-Za-zÀ-ú\s&.'-]+)/i);
-                if (assuntoMatch && assuntoMatch[1]) {
-                    const rz = assuntoMatch[1].trim();
-                    if (rz.length > 3 && rz.length < 80 && !rz.toLowerCase().includes('versatil')) {
+                // Extração de Razão Social
+                const rzMatch = text.match(/(?:Empresa|Raz[aã]o Social|Cliente|Para|Contratante)[\s:]+([A-Z0-9À-Ú][A-Z0-9À-Úa-záéíóúãõê\s.,&'-]{3,60}(?:\bLTDA\b|\bS\/?A\b|\bME\b|\bEPP\b|\bEIRELI\b|\bS\.A\.\b|\bS\.A\b|\bINC\.\b|\bCORP\.\b|\bLLC\b))/i);
+                if (rzMatch && rzMatch[1]) {
+                    const rz = rzMatch[1].trim();
+                    if (rz.length > 5 && !rz.toLowerCase().includes('versatil') && rz.split(' ').length <= 6) {
                         extractedRazaoSocial.add(rz);
-                        logEntry.razoes.push(rz);
                     }
                 }
 
-                // CNPJs (usa normalizeCnpj para validar + formatar como STRING)
+                // CNPJs (filtra os da própria VERSÁTIL + valida dígitos)
                 const cnpjs = text.match(REGEX.cnpj);
                 if (cnpjs) cnpjs.forEach(c => {
-                    const formatted = normalizeCnpj(c);
-                    if (!formatted) return;
-                    const clean = formatted.replace(/\D/g, '');
-                    // Filtra VERSÁTIL
-                    const raiz = clean.substring(0, 8);
-                    const isVersatil = CNPJ_BLACKLIST.some(b => clean.includes(b) || raiz === b);
-                    if (!isVersatil) {
-                        extractedCnpjs.add(formatted); // Sempre STRING formatada
-                        logEntry.cnpjs.push(formatted);
+                    const clean = c.replace(/\D/g, '');
+                    if (clean.length === 14) {
+                        // Rejeita CNPJs com todos os dígitos iguais (ex: 33333333333333)
+                        if (/^(\d)\1{13}$/.test(clean)) return;
+                        // Validação de dígitos verificadores
+                        const w1 = [5,4,3,2,9,8,7,6,5,4,3,2];
+                        let sum = 0;
+                        for (let i = 0; i < 12; i++) sum += parseInt(clean[i]) * w1[i];
+                        let r = sum % 11;
+                        const d1 = r < 2 ? 0 : 11 - r;
+                        if (parseInt(clean[12]) !== d1) return;
+                        const w2 = [6,5,4,3,2,9,8,7,6,5,4,3,2];
+                        sum = 0;
+                        for (let i = 0; i < 13; i++) sum += parseInt(clean[i]) * w2[i];
+                        r = sum % 11;
+                        const d2 = r < 2 ? 0 : 11 - r;
+                        if (parseInt(clean[13]) !== d2) return;
+                        // Filtra VERSÁTIL
+                        const raiz = clean.substring(0, 8);
+                        const isVersatil = CNPJ_BLACKLIST.some(b => clean.includes(b) || raiz === b);
+                        if (!isVersatil) extractedCnpjs.add(c);
                     }
                 });
 
@@ -1774,7 +1654,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                     const isBlacklisted = EMAIL_BLACKLIST.some(b => lower.includes(b));
                     if (!isBlacklisted) {
                         extractedEmails.add(lower);
-                        logEntry.emails.push(lower);
                     }
                 });
 
@@ -1805,7 +1684,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                     const isVersatilPhone = PHONE_BLACKLIST.some(b => semPais.includes(b) || clean.includes(b));
                     if (isVersatilPhone) return;
                     extractedPhones.add(raw);
-                    logEntry.phones.push(raw);
                 });
 
                 // CEPs
@@ -1829,60 +1707,31 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                     const lower = s.toLowerCase();
                     if (!lower.includes('versatilservices') && !lower.includes('google') && !lower.includes('facebook')) {
                         extractedSites.add(s.trim());
-                        logEntry.sites.push(s.trim());
                     }
                 });
 
-                // ── CONTATOS (múltiplos padrões) ──
+                // Contatos (A/C, Att., Atenção)
                 let contatoMatch;
-                // Padrão 1: Prefixos tradicionais
                 const contatoRegex = /(?:A\/C|Att?\.?|Aten[çc][aã]o|Prezado\(?a?\)?|Sr\.?|Sra\.?)[:\s]+([A-ZÀ-Ú][a-záéíóúãõê]+(?:\s+(?:de|da|do|dos|das)\s+)?(?:[A-ZÀ-Ú][a-záéíóúãõê]+)*)/g;
                 while ((contatoMatch = contatoRegex.exec(text)) !== null) {
                     const nome = contatoMatch[1].trim();
                     if (nome.length > 3 && nome.length < 60 && !nome.match(/^(?:Prezado|Senhor|Empresa|Cliente|Departamento)$/i)) {
+                        // Tenta achar cargo próximo
                         const surroundingText = text.substring(Math.max(0, contatoMatch.index - 50), contatoMatch.index + contatoMatch[0].length + 100);
                         const cargoMatch = surroundingText.match(REGEX.cargo);
-                        extractedContatos.push({ nome, cargo: cargoMatch ? cargoMatch[0] : 'Não informado', fonte: fileName });
-                        logEntry.contatos.push(nome + (cargoMatch ? ' (' + cargoMatch[0] + ')' : ''));
+                        extractedContatos.push({
+                            nome: nome,
+                            cargo: cargoMatch ? cargoMatch[0] : 'Não informado',
+                            fonte: fileName
+                        });
                     }
                 }
-
-                // Padrão 2: "De: NomePessoa [mailto:email]" (emails encaminhados)
-                const deMatch = text.match(/De[:\s]+([A-ZÀ-Ú][a-záéíóúãõê]+(?:\s+[A-ZÀ-Úa-záéíóúãõê]+){1,4})\s*\[mailto:/i);
-                if (deMatch && deMatch[1]) {
-                    const nome = deMatch[1].trim();
-                    if (nome.length > 3 && !nome.toLowerCase().includes('versatil')) {
-                        // Buscar cargo próximo
-                        const afterDe = text.substring(text.indexOf(deMatch[0]) + deMatch[0].length, text.indexOf(deMatch[0]) + deMatch[0].length + 300);
-                        const cargoMatch = afterDe.match(REGEX.cargo);
-                        if (!extractedContatos.some(c => c.nome.toLowerCase() === nome.toLowerCase())) {
-                            extractedContatos.push({ nome, cargo: cargoMatch ? cargoMatch[0] : 'Não informado', fonte: fileName + ' (remetente)' });
-                            logEntry.contatos.push(nome + ' (remetente)');
-                        }
-                    }
-                }
-
-                // Padrão 3: Nome seguido de cargo em linhas consecutivas (assinatura de email)
-                const cargoKeywords = ['Gerente', 'Diretor', 'Coordenador', 'Supervisor', 'Engenheiro', 'Técnico', 'Comprador', 'Analista', 'Chefe', 'Responsável', 'Gestor', 'PCM', 'Inspetor'];
-                cargoKeywords.forEach(cargo => {
-                    const cargoRx = new RegExp('([A-ZÀ-Ú][a-záéíóúãõê]+(?:\\s+[A-ZÀ-Úa-záéíóúãõê]+){1,4})\\s*(?:\\n|\\r|\\|)?\\s*(' + cargo + '[^\\n]{0,40})', 'gi');
-                    let cm;
-                    while ((cm = cargoRx.exec(text)) !== null) {
-                        const nome = cm[1].trim();
-                        const cargoFull = cm[2].trim();
-                        if (nome.length > 3 && nome.length < 60 && !nome.toLowerCase().includes('versatil') && !nome.match(/^(?:Prezado|Senhor|Empresa|Cliente|Departamento|Total|Item|Nota|Quadro)$/i)) {
-                            if (!extractedContatos.some(c => c.nome.toLowerCase() === nome.toLowerCase())) {
-                                extractedContatos.push({ nome, cargo: cargoFull, fonte: fileName + ' (assinatura)' });
-                                logEntry.contatos.push(nome + ' (' + cargoFull + ')');
-                            }
-                        }
-                    }
-                });
 
                 // Serviços industriais
                 const textLower = text.toLowerCase();
                 SERVICOS_KEYWORDS.forEach(kw => {
                     if (textLower.includes(kw)) {
+                        // Captura contexto: pega a frase que contém o serviço
                         const idx = textLower.indexOf(kw);
                         const start = Math.max(0, textLower.lastIndexOf('\n', idx) + 1);
                         const end = Math.min(text.length, textLower.indexOf('\n', idx + kw.length));
@@ -1892,9 +1741,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                         }
                     }
                 });
-
-                // Salvar log de extração por arquivo
-                fileExtractionLog[fileName] = logEntry;
             }
 
             // Função recursiva para percorrer todas as pastas
@@ -1916,7 +1762,7 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                     inventario.total_arquivos++;
                     const ext = path.extname(item).toLowerCase();
                     const sizeKB = Math.round(stat.size / 1024);
-                    const maxSizeMB = 2; // Limite de 2MB por arquivo (PDFs grandes explodem a memória do pdfParse)
+                    const maxSizeMB = 15; // Limite de 15MB por arquivo
 
                     // Classificar no inventário
                     switch (ext) {
@@ -1946,23 +1792,9 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
 
                         // === PDF ===
                         if (ext === '.pdf') {
-                            // Proteção extra: PDFs usam ~100x seu tamanho em RAM durante parsing
-                            if (stat.size > 2 * 1024 * 1024) {
-                                inventario.arquivos_detalhes.push({ nome: item, tipo: ext, tamanho_kb: sizeKB, status: 'pdf_muito_grande' });
-                                console.log(`[V-Bot] ⚠️ PDF ignorado (${sizeKB}KB > 2MB): ${item}`);
-                                continue;
-                            }
-                            try {
-                                const buffer = fs.readFileSync(full);
-                                const data = await pdfParse(buffer, { max: 50 }); // Máximo 50 páginas
-                                text = data.text || '';
-                                // Liberar buffer imediatamente
-                                buffer.fill(0);
-                            } catch (pdfErr) {
-                                console.log(`[V-Bot] ⚠️ Erro ao parsear PDF ${item}: ${pdfErr.message}`);
-                                inventario.arquivos_detalhes.push({ nome: item, tipo: ext, tamanho_kb: sizeKB, status: 'erro_pdf_parse' });
-                                continue;
-                            }
+                            const buffer = fs.readFileSync(full);
+                            const data = await pdfParse(buffer);
+                            text = data.text || '';
                         }
                         // === DOCX ===
                         else if (ext === '.docx') {
@@ -1987,10 +1819,10 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                             const allText = [];
                             workbook.SheetNames.forEach(sheetName => {
                                 const sheet = workbook.Sheets[sheetName];
-                                const json = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: false });
+                                const json = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
                                 json.forEach(row => {
                                     if (Array.isArray(row)) {
-                                        allText.push(row.map(cell => safeCellToString(cell)).join(' | '));
+                                        allText.push(row.map(cell => String(cell)).join(' | '));
                                     }
                                 });
                             });
@@ -2046,33 +1878,11 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                             continue;
                         }
 
-                        // Truncar texto extraído para evitar estouro de memória (máx 500KB de texto)
-                        const MAX_TEXT_LENGTH = 500000;
-                        if (text && text.length > MAX_TEXT_LENGTH) {
-                            console.log(`[V-Bot] ⚠️ Texto truncado: ${item} (${(text.length/1024).toFixed(0)}KB → ${(MAX_TEXT_LENGTH/1024).toFixed(0)}KB)`);
-                            text = text.substring(0, MAX_TEXT_LENGTH);
-                        }
-
                         // Se extraiu texto, processar com regex
                         if (text && text.trim().length > 10) {
                             extractFromText(text, item);
                             inventario.arquivos_lidos++;
                             fontesUtilizadas.push(`${item} (${ext.replace('.','').toUpperCase()}, ${sizeKB}KB)`);
-                            // Log detalhado por arquivo
-                            const flog = fileExtractionLog[item];
-                            if (flog) {
-                                const parts = [];
-                                if (flog.cnpjs.length) parts.push(`CNPJ: ${flog.cnpjs.join(', ')}`);
-                                if (flog.razoes.length) parts.push(`Razão: ${flog.razoes.join(', ')}`);
-                                if (flog.emails.length) parts.push(`Email: ${flog.emails.join(', ')}`);
-                                if (flog.phones.length) parts.push(`Tel: ${flog.phones.join(', ')}`);
-                                if (flog.sites.length) parts.push(`Site: ${flog.sites.join(', ')}`);
-                                if (flog.contatos.length) parts.push(`Contato: ${flog.contatos.join(', ')}`);
-                                if (parts.length > 0) {
-                                    console.log(`[V-Bot] 📄 ${item} (${ext.toUpperCase()}, ${sizeKB}KB)`);
-                                    parts.forEach(p => console.log(`  ${p} ✅`));
-                                }
-                            }
                         } else {
                             inventario.arquivos_detalhes.push({ nome: item, tipo: ext, tamanho_kb: sizeKB, status: 'sem_texto_extraido' });
                         }
@@ -2092,68 +1902,7 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
         // ETAPA 4: CONSOLIDAR EXTRAÇÃO LOCAL
         // ============================================================
         const localCnpjs = [...extractedCnpjs];
-        
-        // ── FILTRO INTELIGENTE DE EMAILS ──
-        // Prioriza emails do domínio do cliente, filtra emails de outras empresas
-        const allExtractedEmails = [...extractedEmails];
-        const nomeCleanLower = client.nome_cliente.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
-        
-        // Identificar domínios do cliente (ex: "termag" → @termag.com.br)
-        const clientDomains = new Set();
-        const clientKeywords = client.nome_cliente.toLowerCase().split(/[\s\-_.,&]+/).filter(w => w.length >= 3);
-        
-        // Sites já identificados → filtrar para incluir apenas do cliente
-        [...extractedSites].forEach(s => {
-            const domain = s.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0].toLowerCase();
-            const domainBase = domain.replace(/\.com\.br$|\.com$|\.ind\.br$|\.net\.br$|\.org\.br$/, '').replace(/[^a-z0-9]/g, '');
-            // Só adicionar se o domínio contém o nome do cliente ou vice-versa
-            const matchesClient = clientKeywords.some(kw => domainBase.includes(kw) || kw.includes(domainBase));
-            if (matchesClient) {
-                clientDomains.add(domain);
-            }
-        });
-        
-        // Separar emails em: do cliente vs de terceiros
-        const emailsDoCliente = [];
-        const emailsDeTerceiros = [];
-        
-        allExtractedEmails.forEach(email => {
-            const domain = email.split('@')[1] || '';
-            const domainBase = domain.replace(/\.com\.br$|\.com$|\.ind\.br$|\.net\.br$|\.org\.br$/, '');
-            
-            // 1. Email do domínio do site do cliente → ACEITAR
-            const matchesSite = [...clientDomains].some(cd => domain.includes(cd.replace(/^www\./, '')) || cd.includes(domain));
-            if (matchesSite) {
-                emailsDoCliente.push(email);
-                return;
-            }
-            
-            // 2. Domínio contém nome do cliente ou vice-versa → ACEITAR
-            const domainClean = domainBase.replace(/[^a-z0-9]/g, '');
-            const matchesName = clientKeywords.some(kw => domainClean.includes(kw) || kw.includes(domainClean));
-            if (matchesName) {
-                emailsDoCliente.push(email);
-                return;
-            }
-            
-            // 3. Domínio genérico (gmail, outlook, hotmail, yahoo) → ACEITAR (pode ser contato pessoal)
-            if (['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'yahoo.com.br', 'live.com', 'bol.com.br', 'uol.com.br'].includes(domain)) {
-                emailsDoCliente.push(email);
-                return;
-            }
-            
-            // 4. Email de outro domínio → TERCEIROS (filtrar)
-            emailsDeTerceiros.push(email);
-        });
-        
-        // Se não encontrou nenhum email do cliente, usar todos (melhor ter algo do que nada)
-        const localEmails = emailsDoCliente.length > 0 ? emailsDoCliente.slice(0, 20) : allExtractedEmails.slice(0, 5);
-        
-        if (emailsDeTerceiros.length > 0) {
-            console.log(`[V-Bot] 📧 Emails filtrados: ${emailsDoCliente.length} do cliente, ${emailsDeTerceiros.length} de terceiros removidos`);
-            console.log(`[V-Bot]   Terceiros: ${emailsDeTerceiros.join(', ')}`);
-        }
-        
+        const localEmails = [...extractedEmails].slice(0, 20);
         const localPhones = [...extractedPhones].slice(0, 20);
         const localValores = [...extractedValores].slice(0, 15);
         const localDatas = [...extractedDatas].slice(0, 15);
@@ -2173,122 +1922,24 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
         });
 
         // ============================================================
-        // HELPERS DE REDE (usados em ETAPA 5+)
-        // ============================================================
-        const DDG_HEADERS = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' };
-
-        async function fetchWithTimeout(url, opts = {}, timeoutMs = 8000) {
-            return fetch(url, { ...opts, signal: AbortSignal.timeout(timeoutMs) });
-        }
-
-        // ============================================================
         // ETAPA 5: MOTOR DE INTELIGÊNCIA EMPRESARIAL v2.0
         // ============================================================
-        // CNPJ LOCAL: Validar CADA candidato contra o nome do cliente
-        // (Pastas podem conter docs de outras empresas misturados)
-        // ============================================================
-        let possibleCnpj = null;
+        let possibleCnpj = localCnpjs.length > 0
+            ? localCnpjs.find(c => c.includes('/0001')) || localCnpjs[0]
+            : (client.cnpj || null);
+
         let cnpjFonte = null;
         let cnpjSimilaridade = 0;
         let cnpjValidado = false;
 
-        if (localCnpjs.length > 0) {
-            console.log(`[V-Bot] ${localCnpjs.length} CNPJ(s) locais encontrados. Validando contra nome "${client.nome_cliente}"...`);
-            
-            // Priorizar CNPJs que são matriz (/0001)
-            const sortedCnpjs = [...localCnpjs].sort((a, b) => {
-                const aMatriz = a.includes('/0001') ? 1 : 0;
-                const bMatriz = b.includes('/0001') ? 1 : 0;
-                return bMatriz - aMatriz;
-            });
-
-            // Validar cada CNPJ contra BrasilAPI para ver se nome confere
-            for (const candidatoCnpj of sortedCnpjs) {
-                const cleanCnpj = candidatoCnpj.replace(/\D/g, '');
-                try {
-                    const tVal = Date.now();
-                    const rVal = await fetchWithTimeout(`https://brasilapi.com.br/api/cnpj/v1/${cleanCnpj}`, { headers: { 'User-Agent': 'Mozilla/5.0' } }, 6000);
-                    if (rVal.ok) {
-                        const dVal = await rVal.json();
-                        if (dVal.razao_social) {
-                            // VALIDAÇÃO ESTRITA: Comparar APENAS nome do cliente vs RF
-                            // NÃO usar extractedRazaoSocial aqui — contém nomes de OUTRAS empresas
-                            const sim1 = calcSimilarity(client.nome_cliente, dVal.razao_social);
-                            const sim2 = calcSimilarity(client.nome_cliente, dVal.nome_fantasia || '');
-                            const simMax = Math.max(sim1, sim2);
-                            console.log(`[V-Bot]   CNPJ ${candidatoCnpj} → ${dVal.razao_social} (${dVal.nome_fantasia || '—'}) → Similaridade ESTRITA: ${simMax}%`);
-                            
-                            if (simMax >= 35) {
-                                possibleCnpj = candidatoCnpj;
-                                cnpjFonte = 'Documento Local (validado RF)';
-                                cnpjSimilaridade = Math.max(simMax, 85);
-                                cnpjValidado = true;
-                                fontes.cnpj = { fonte: 'Documento Local (validado RF)', confianca: cnpjSimilaridade, razao_rf: dVal.razao_social };
-                                console.log(`[V-Bot]   ✅ CNPJ ACEITO: ${candidatoCnpj} — ${dVal.razao_social}`);
-                                logEtapa('CNPJ Local Validado', 'BrasilAPI', '✅ ' + simMax + '%', simMax, tVal);
-                                break;
-                            } else {
-                                console.log(`[V-Bot]   ❌ CNPJ REJEITADO: ${dVal.razao_social} não é "${client.nome_cliente}" (${simMax}% < 35%)`);
-                                logEtapa('CNPJ Local Rejeitado', 'BrasilAPI', '❌ ' + dVal.razao_social + ' (' + simMax + '%)', 0, tVal);
-                            }
-                        }
-                    }
-                } catch(e) {
-                    // Se BrasilAPI falhar, marcar como não-validado mas não rejeitar
-                    console.log(`[V-Bot]   ⚠️ CNPJ ${candidatoCnpj}: BrasilAPI indisponível (${e.message})`);
-                }
-            }
-
-
-        }
-        
-        // Fallback: CNPJ do banco de dados
-        if (!possibleCnpj && client.cnpj) {
-            possibleCnpj = normalizeCnpj(client.cnpj);
-            if (possibleCnpj) {
-                cnpjFonte = 'Banco de Dados';
-                cnpjSimilaridade = 80;
-                cnpjValidado = false;
-                fontes.cnpj = { fonte: 'Banco de Dados', confianca: 80 };
-            }
+        if (possibleCnpj) {
+            cnpjFonte = 'Documento Local';
+            cnpjSimilaridade = 95;
+            cnpjValidado = true;
+            fontes.cnpj = { fonte: 'Documento Local', confianca: 95 };
         }
 
-        let possibleSite = null;
-        if (localSites.length > 0) {
-            const sitesArr = [...localSites];
-            const nomeStr = client.nome_cliente.toLowerCase().replace(/[^a-z0-9]/g, '');
-            const emailDomains = localEmails.map(e => e.split('@')[1]).filter(Boolean);
-            const domainCounts = {};
-            emailDomains.forEach(d => { domainCounts[d] = (domainCounts[d] || 0) + 1; });
-            
-            // Ordena os sites pela frequência que aparecem nos e-mails
-            sitesArr.sort((a,b) => {
-                const aDom = a.toLowerCase().replace(/^www\./, '');
-                const bDom = b.toLowerCase().replace(/^www\./, '');
-                return (domainCounts[bDom] || 0) - (domainCounts[aDom] || 0);
-            });
-
-            // Prioridade 1: Site cujo nome contém o nome do cliente (agora ordenado por e-mails)
-            const siteMatch = sitesArr.find(s => {
-                const sClean = s.toLowerCase().replace(/[^a-z0-9]/g, '').replace(/^www/, '');
-                return sClean.includes(nomeStr) || (nomeStr.length > 3 && nomeStr.includes(sClean));
-            });
-            
-            if (siteMatch) {
-                possibleSite = siteMatch;
-            } else {
-                // Prioridade 2: Site que bate com o domínio de e-mail mais frequente
-                const sortedDomains = Object.keys(domainCounts).sort((a,b) => domainCounts[b] - domainCounts[a]);
-                if (sortedDomains.length > 0) {
-                    const bestDomain = sortedDomains[0];
-                    const domainSiteMatch = sitesArr.find(s => s.includes(bestDomain) || bestDomain.includes(s));
-                    if (domainSiteMatch) possibleSite = domainSiteMatch;
-                }
-            }
-            if (!possibleSite) possibleSite = sitesArr[0]; // fallback
-        }
-        console.log(`[V-Bot DEBUG] possibleSite calculado: ${possibleSite}`);
-        
+        let possibleSite = localSites.length > 0 ? [...localSites][0] : null;
         if (possibleSite) fontes.site = { fonte: 'Documento Local', confianca: 90 };
 
         // ============================================================
@@ -2297,7 +1948,11 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
         // Busca em diretórios de CNPJ (que indexam a base da RF por nome)
         // MUITO mais eficaz que DDG genérico para descoberta de CNPJ
         // ============================================================
-        const tEtapa5 = Date.now();
+        const DDG_HEADERS = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' };
+
+        async function fetchWithTimeout(url, opts = {}, timeoutMs = 8000) {
+            return fetch(url, { ...opts, signal: AbortSignal.timeout(timeoutMs) });
+        }
 
         if (!possibleCnpj) {
             const nomeBusca = client.nome_cliente.trim();
@@ -2387,7 +2042,7 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                         const dVal = await rVal.json();
                         if (!dVal.message && dVal.razao_social) {
                             const sim1 = calcSimilarity(client.nome_cliente, dVal.razao_social);
-                            const sim2 = calcSimilarity(client.nome_cliente, dVal.nome_fantasia || '');
+                            const sim2 = dVal.nome_fantasia ? calcSimilarity(client.nome_cliente, dVal.nome_fantasia) : 0;
                             const simMax = Math.max(sim1, sim2);
                             if (simMax >= 35) {
                                 possibleCnpj = bestCnpjRaw.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
@@ -2616,7 +2271,7 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                         const dVal = await rVal.json();
                         if (!dVal.message && dVal.razao_social) {
                             const sim1 = calcSimilarity(client.nome_cliente, dVal.razao_social);
-                            const sim2 = calcSimilarity(client.nome_cliente, dVal.nome_fantasia || '');
+                            const sim2 = dVal.nome_fantasia ? calcSimilarity(client.nome_cliente, dVal.nome_fantasia) : 0;
                             cnpjSimilaridade = Math.max(sim1, sim2);
                             if (cnpjSimilaridade >= 40) {
                                 cnpjValidado = true;
@@ -2637,7 +2292,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
             }
 
             // ── CONSOLIDAR SITE: selecionar o mais provável ──
-            console.log(`[V-Bot DEBUG] todosWebSites antes de consolidar: ${todosWebSites.join(', ')}`);
             if (!possibleSite && todosWebSites.length > 0) {
                 // Score de relevância: domínio que contém parte do nome da empresa ganha prioridade
                 const nomeSimples = client.nome_cliente.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -2662,11 +2316,11 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
         }
 
         // ============================================================
-        // ETAPA 5c: BUSCA NOTÍCIAS (LinkedIn removido para a próxima fase)
+        // ETAPA 5c: BUSCA LINKEDIN E NOTÍCIAS
         // ============================================================
         let linkedinUrl = null;
         let noticias = [];
-        /*
+
         try {
             const queryLi = encodeURIComponent(`"${client.nome_cliente}" site:linkedin.com/company`);
             const rLi = await fetchWithTimeout(`https://search.yahoo.com/search?p=${queryLi}`, {
@@ -2679,7 +2333,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                 fontes.linkedin = { fonte: 'DuckDuckGo', confianca: 75 };
             }
         } catch(e) {}
-        */
 
         try {
             const queryNews = encodeURIComponent(`"${client.nome_cliente}" notícias 2025 2026`);
@@ -2875,89 +2528,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
             console.log(`- E-mails corporativos: ${siteScrapeData.emails.length > 0 ? siteScrapeData.emails.join(', ') : 'NENHUM'}`);
             console.log(`--------------------------------------------------\n`);
 
-            // ============================================================
-            // FALLBACK: Se scraping direto falhou (Cloudflare/WAF), usar DuckDuckGo snippets
-            // ============================================================
-            if (siteScrapeData.totalBytes === 0 || (siteScrapeData.emails.length === 0 && siteScrapeData.phones.length === 0)) {
-                const cleanDomain = siteBase.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
-                console.log(`[V-Bot] ⚠️ Site bloqueado/sem dados. Ativando fallback DuckDuckGo para ${cleanDomain}`);
-                
-                const ddgQueries = [
-                    `site:${cleanDomain} contato OR contact OR "fale conosco"`,
-                    `"${cleanDomain}" email telefone contato`,
-                    `site:${cleanDomain} CNPJ OR "razão social"`
-                ];
-                
-                for (const q of ddgQueries) {
-                    try {
-                        const rDDG = await fetchWithTimeout(`https://search.yahoo.com/search?p=${encodeURIComponent(q)}`, {
-                            headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
-                        });
-                        const htmlDDG = await rDDG.text();
-                        
-                        // Extrair e-mails dos snippets
-                        const ddgEmails = htmlDDG.match(/[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g) || [];
-                        ddgEmails.forEach(e => {
-                            const lower = e.toLowerCase();
-                            if (lower.includes('versatil') || lower.includes('duckduckgo') || lower.includes('example.com')) return;
-                            if (lower.includes('.png') || lower.includes('.jpg') || lower.includes('.svg')) return;
-                            if (EMAIL_BLACKLIST.some(b => lower.includes(b))) return;
-                            if (!siteScrapeData.emails.includes(lower)) {
-                                siteScrapeData.emails.push(lower);
-                            }
-                        });
-                        
-                        // Extrair telefones dos snippets
-                        const ddgPhonePatterns = [
-                            /\+55\s?\(?\d{2}\)?\s?\d{4,5}[-.\s]\d{4}/g,
-                            /\(\d{2}\)\s?\d{4,5}[-.\s]\d{4}/g,
-                            /\+\d{2,3}\s\d{2,3}[-.\s]\d{3}[-.\s]\d{2}[-.\s]\d{2}/g
-                        ];
-                        ddgPhonePatterns.forEach(rx => {
-                            const matches = htmlDDG.match(rx) || [];
-                            matches.forEach(p => {
-                                const clean = p.replace(/\D/g, '');
-                                const digits = clean.startsWith('55') && clean.length > 11 ? clean.substring(2) : clean;
-                                if (digits.length < 10 || digits.length > 13) return;
-                                const formatted = p.trim();
-                                if (!siteScrapeData.phones.some(sp => sp.replace(/\D/g, '') === clean)) {
-                                    siteScrapeData.phones.push(formatted);
-                                }
-                            });
-                        });
-                        
-                        // Extrair CNPJs dos snippets
-                        const ddgCnpjs = htmlDDG.match(/\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}/g) || [];
-                        ddgCnpjs.forEach(c => {
-                            const clean = c.replace(/\D/g, '');
-                            if (/^(\d)\1{13}$/.test(clean)) return;
-                            if (!CNPJ_BLACKLIST.some(b => clean.includes(b))) {
-                                if (!siteScrapeData.cnpjs.includes(c)) {
-                                    siteScrapeData.cnpjs.push(c);
-                                }
-                            }
-                        });
-                        
-                    } catch(e) { /* timeout/error silencioso */ }
-                }
-                
-                if (siteScrapeData.emails.length > 0 || siteScrapeData.phones.length > 0 || siteScrapeData.cnpjs.length > 0) {
-                    console.log(`[V-Bot] ✅ Fallback DuckDuckGo recuperou: ${siteScrapeData.emails.length} emails, ${siteScrapeData.phones.length} tels, ${siteScrapeData.cnpjs.length} CNPJs`);
-                } else {
-                    console.log(`[V-Bot] ❌ Fallback DuckDuckGo também não encontrou dados para ${cleanDomain}`);
-                }
-                
-                // Reavaliar CNPJ se encontrou via fallback
-                if ((!possibleCnpj || possibleCnpj === 'Não encontrado') && siteScrapeData.cnpjs.length > 0) {
-                    const matriz = siteScrapeData.cnpjs.find(c => c.includes('/0001-'));
-                    possibleCnpj = matriz || siteScrapeData.cnpjs[0];
-                    cnpjFonte = 'DuckDuckGo Fallback';
-                    cnpjValidado = true;
-                    cnpjSimilaridade = 85;
-                    fontes.cnpj = { fonte: 'DuckDuckGo Fallback (site bloqueado)', confianca: 85 };
-                }
-            }
-
 
             // Mesclar dados do site com os dados locais (sem duplicar)
             if (siteScrapeData.emails.length > 0) {
@@ -2981,14 +2551,13 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
         }
 
         // ============================================================
-        // ETAPA 5b: BUSCA DE E-MAILS E TELEFONES PÚBLICOS NA INTERNET
-        // (Complementar dados locais com contatos adicionais)
+        // ETAPA 5b: BUSCA DE E-MAILS PÚBLICOS NA INTERNET
+        // (somente se não encontrou e-mails nos documentos locais NEM no site)
         // ============================================================
-        {
+        if (localEmails.length === 0) {
             try {
                 const nomeEmpresa = client.nome_cliente.replace(/[^a-zA-ZÀ-ú\s]/g, '').trim();
-                const qStr = `"${nomeEmpresa}" email contato`;
-                const queryEmail = encodeURIComponent(qStr);
+                const queryEmail = encodeURIComponent(`"${nomeEmpresa}" email contato @`);
                 const rEmail = await fetchWithTimeout(`https://search.yahoo.com/search?p=${queryEmail}`, {
                     headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
                 });
@@ -2996,51 +2565,20 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                 
                 // Extrair e-mails do resultado
                 const webEmails = htmlEmail.match(/[a-zA-Z][a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g) || [];
-                const emailBlocklist = ['example.com', 'email.com', 'teste.com', 'duckduckgo.com', 'wixpress.com', 'econodata', 'casadosdados', 'cnpj.biz', 'infoplex', 'transparencia', 'sentry.io'];
+                const emailBlocklist = ['example.com', 'email.com', 'teste.com', 'gmail.com', 'hotmail.com', 'yahoo.com', 'outlook.com', 'duckduckgo.com'];
                 
                 webEmails.forEach(e => {
                     const lower = e.toLowerCase();
+                    // Filtra VERSÁTIL
+                    if (lower.includes('versatil')) return;
+                    // Filtra genéricos
                     if (emailBlocklist.some(b => lower.includes(b))) return;
+                    // Filtra blacklist
                     if (EMAIL_BLACKLIST.some(b => lower.includes(b))) return;
+                    // Filtra começando com dígito
                     if (/^\d/.test(lower)) return;
-                    
-                    const emailDomain = lower.split('@')[1] || '';
-                    const emailDomainBase = emailDomain.replace(/\.com\.br$|\.com$|\.ind\.br$|\.net\.br$|\.org\.br$/, '').replace(/[^a-z0-9]/g, '');
-                    const matchesSite = [...clientDomains].some(cd => emailDomain.includes(cd.replace(/^www\./, '')) || cd.includes(emailDomain));
-                    const matchesName = clientKeywords.some(kw => emailDomainBase.includes(kw) || kw.includes(emailDomainBase));
-                    const isGeneric = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'yahoo.com.br', 'live.com', 'bol.com.br', 'uol.com.br'].includes(emailDomain);
-                    
-                    // Como a busca foi altamente direcionada para a empresa, aceitar e-mails corporativos mesmo que o domínio seja de um grupo (ex: tebgrupo)
-                    if (matchesSite || matchesName || !isGeneric) {
-                        if (!localEmails.includes(lower)) {
-                            localEmails.push(lower);
-                            fontes.emails = fontes.emails || { fonte: 'Yahoo Search (Web)', confianca: 75 };
-                        }
-                    } else if (isGeneric && clientKeywords.some(kw => lower.includes(kw))) {
-                        // Só aceitar genéricos (gmail) se o nome do cliente estiver na parte local do email
-                        if (!localEmails.includes(lower)) {
-                            localEmails.push(lower);
-                            fontes.emails = fontes.emails || { fonte: 'Yahoo Search (Genérico)', confianca: 60 };
-                        }
-                    }
+                    localEmails.push(lower);
                 });
-                
-                // Extrair telefones do resultado (fallback)
-                if (possibleSite && possibleSite !== 'Não encontrado') {
-                    const ddgPhoneRegex = /(?:\+?\d{2,3}\s)?(?:\(?\d{2,3}\)?\s)?(?:\d{4,5})[-.\s]?\d{4}/g;
-                    const ddgPhonesMatches = htmlEmail.match(ddgPhoneRegex) || [];
-                    ddgPhonesMatches.forEach(p => {
-                        const cleaned = p.replace(/[^\d+]/g, '');
-                        if (cleaned.length >= 10 && cleaned.length <= 14) {
-                            let fmt = cleaned;
-                            if (cleaned.startsWith('55') && cleaned.length >= 12) fmt = '+' + cleaned;
-                            else if (!cleaned.startsWith('+')) fmt = '+55' + cleaned;
-                            if (!localPhones.some(lp => lp.replace(/\D/g, '') === fmt.replace(/\D/g, ''))) {
-                                localPhones.push(fmt);
-                            }
-                        }
-                    });
-                }
                 
                 // Deduplica
                 const uniqueEmails = [...new Set(localEmails)];
@@ -3333,7 +2871,7 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                                 console.log(`  Situação     : ${dVal.descricao_situacao_cadastral || dVal.situacao_cadastral || 'N/A'}`);
 
                                 const sim1 = calcSimilarity(client.nome_cliente, dVal.razao_social);
-                                const sim2 = calcSimilarity(client.nome_cliente, dVal.nome_fantasia || '');
+                                const sim2 = dVal.nome_fantasia ? calcSimilarity(client.nome_cliente, dVal.nome_fantasia) : 0;
                                 const simMax = Math.max(sim1, sim2);
 
                                 let bonus = 0;
@@ -3407,30 +2945,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
                 console.log(`\n==================================================`);
                 console.log(`[V-Bot DEBUG] ❌ NENHUM CANDIDATO DE CNPJ RETORNADO (Nenhuma busca reversa gerou hash de CNPJ)`);
                 console.log(`==================================================\n`);
-            }
-        }
-
-        // ============================================================
-        // ETAPA 5.X: CAIXA POSTAL / IMAP SCANNER
-        // ============================================================
-        let imapEmails = [];
-        if (possibleSite && possibleSite !== 'Não encontrado') {
-            const domainOnly = possibleSite.replace(/^https?:\/\//, '').replace('www.', '').split('/')[0];
-            const tImap = Date.now();
-            try {
-                const { searchEmailsByDomain } = require('./imap_service');
-                const emailsFound = await searchEmailsByDomain(domainOnly, 5);
-                
-                if (emailsFound && emailsFound.length > 0) {
-                    imapEmails = emailsFound;
-                    console.log(`[V-Bot IMAP] Foram resgatados ${emailsFound.length} e-mails históricos para o domínio ${domainOnly}.`);
-                    logEtapa('Busca IMAP', 'UOL Host', '✅', emailsFound.length, tImap);
-                } else {
-                    logEtapa('Busca IMAP', 'UOL Host', '❌ Sem e-mails', 0, tImap);
-                }
-            } catch(e) {
-                console.error('[V-Bot IMAP] Erro ao integrar IMAP:', e);
-                logEtapa('Busca IMAP', 'UOL Host', '❌ Erro', 0, tImap);
             }
         }
 
@@ -3668,12 +3182,14 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
         const pesoConfianca = {
             cnpj_encontrado:     { peso: 15, valor: (possibleCnpj && possibleCnpj !== 'Não encontrado') ? 15 : 0, label: 'CNPJ encontrado' },
             cnpj_validado_rf:    { peso: 15, valor: (receitaData && receitaData.razao_social) ? 15 : 0, label: 'CNPJ validado na RF' },
-            nome_confirmado:     { peso: 10, valor: (similaridadeNome >= 60 || (possibleCnpj && possibleCnpj !== 'Não encontrado')) ? 10 : (similaridadeNome >= 40 ? 5 : 0), label: 'Razão Social confirmada' },
+            nome_confirmado:     { peso: 10, valor: similaridadeNome >= 60 ? 10 : (similaridadeNome >= 40 ? 5 : 0), label: 'Razão Social confirmada' },
             website_encontrado:  { peso: 8,  valor: (possibleSite && possibleSite !== 'Não encontrado') ? 8 : 0, label: 'Website encontrado' },
             website_acessivel:   { peso: 7,  valor: (siteScrapeData && (siteScrapeData.emails.length > 0 || siteScrapeData.phones.length > 0)) ? 7 : 0, label: 'Website acessível com dados' },
-            emails_encontrados:  { peso: 13, valor: localEmails.length > 0 ? 13 : 0, label: 'E-mails encontrados' },
-            telefones:           { peso: 13, valor: localPhones.length > 0 ? 13 : 0, label: 'Telefones encontrados' },
+            emails_encontrados:  { peso: 8,  valor: localEmails.length > 0 ? 8 : 0, label: 'E-mails encontrados' },
+            emails_site:         { peso: 5,  valor: (siteScrapeData && siteScrapeData.emails.length > 0) ? 5 : 0, label: 'E-mails do site oficial' },
+            telefones:           { peso: 8,  valor: localPhones.length > 0 ? 8 : 0, label: 'Telefones encontrados' },
             endereco_cep:        { peso: 5,  valor: ((receitaData && receitaData.cep) || (siteScrapeData && siteScrapeData.enderecos.length > 0)) ? 5 : 0, label: 'Endereço/CEP confirmado' },
+            linkedin:            { peso: 5,  valor: linkedinUrl ? 5 : 0, label: 'LinkedIn encontrado' },
             situacao_ativa:      { peso: 7,  valor: (receitaData && receitaData.situacao && receitaData.situacao.toUpperCase().includes('ATIVA')) ? 7 : 0, label: 'Situação Ativa na RF' },
             multiplas_fontes:    { peso: 7,  valor: 0, label: 'Múltiplas fontes concordam' }
         };
@@ -3877,8 +3393,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
             youtube: youtubeUrl,
             // Dados extraídos do site oficial
             scrape_site: siteScrapeData,
-            // E-mails resgatados da caixa postal (IMAP)
-            imap_emails: imapEmails,
             // Matriz / Filiais
             matriz_filial: matrizFilial,
             // OpenCorporates (internacional)
@@ -3946,296 +3460,6 @@ app.post('/api/crm/vbot/enrich/:id', async (req, res) => {
     } catch (err) {
         console.error('[V-Bot Hunter] Erro crítico:', err);
         res.status(500).json({ error: err.message });
-    }
-});
-
-// POST /api/crm/vbot/ai-analyze/:id — Motor de Inteligência Comercial (Gemini)
-app.post('/api/crm/vbot/ai-analyze/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const vbotData = req.body;
-
-        if (!process.env.GEMINI_API_KEY) {
-            return res.status(500).json({ success: false, error: "GEMINI_API_KEY não configurada no servidor." });
-        }
-
-        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-        const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-
-        const prompt = `V-BOT HUNTER AI - DIRETRIZ MESTRA DE INTELIGÊNCIA COMERCIAL
-
-Você é o Agente de Inteligência Comercial da Versátil Services.
-Sua missão NÃO é apenas localizar um CNPJ. Sua missão é produzir um dossiê comercial completo, identificando todas as oportunidades de relacionamento e prospecção para a Versátil.
-
-OBJETIVO PRINCIPAL:
-A prioridade máxima é localizar contatos comerciais qualificados.
-Ordem de prioridade:
-1. E-mails de Engenharia
-2. E-mails de Manutenção
-3. E-mails de Compras
-4. E-mails de Suprimentos
-5. E-mails de Cadastro de Fornecedores
-6. E-mails de Contratos
-7. E-mails Institucionais
-8. Telefones e Nomes dos responsáveis
-
-ETAPA DE REVISÃO E ENRIQUECIMENTO COM IA (OBRIGATÓRIA):
-Você está recebendo a coleta inicial de informações locais e web realizadas pelo script Hunter.
-Você deverá:
-* validar os dados encontrados;
-* identificar inconsistências e cruzar informações entre múltiplas fontes;
-* SE OS DADOS ESTIVEREM INCOMPLETOS (especialmente e-mails e telefones), VOCÊ DEVE UTILIZAR SUA FERRAMENTA DE BUSCA NO GOOGLE para procurar contatos adicionais (ex: pesquise "Nome da Empresa email contato" ou busque no LinkedIn). Incorpore os e-mails e telefones encontrados na sua resposta final;
-* reconhecer grupos econômicos (empresas do grupo, filiais);
-* SE HOUVER "imap_emails" NOS DADOS BRUTOS, DÊ PRIORIDADE MÁXIMA A ELES. Eles são o histórico real da caixa postal da diretoria. Leia o texto/assinaturas desses e-mails para extrair Nomes, Cargos, Telefones e E-mails exatos;
-* gerar um Score de Oportunidade (0-100) focado em serviços de Manutenção Industrial, Caldeiraria e Usinagem;
-* gerar o relatório executivo final em formato JSON.
-
-DADOS BRUTOS EXTRAÍDOS PELO V-BOT:
-${JSON.stringify(vbotData, null, 2)}
-
-REGRA DE SAÍDA:
-Retorne EXCLUSIVAMENTE um objeto JSON válido, sem formatação markdown (sem \`\`\`json).
-
-FORMATO JSON ESPERADO:
-{
-    "status_pesquisa": "Concluída | Revisão Humana Necessária",
-    "motivo_revisao": "...",
-    "dados_cadastrais": {
-        "cnpj_validado": "XX.XXX.XXX/0001-XX",
-        "razao_social": "...",
-        "grupo_economico": "...",
-        "empresas_do_grupo": 1,
-        "unidades_ativas": ["..."]
-    },
-    "saude_financeira": {
-        "situacao": "Ativa/Baixada",
-        "capital_social": "...",
-        "porte": "...", // IMPORTANTE: Se vier como 'DEMAIS', traduza para 'Média/Grande Empresa'
-        "resumo_financeiro": "..."
-    },
-    "contatos_qualificados": {
-        "engenharia_manutencao": ["..."],
-        "compras_suprimentos": ["..."],
-        "institucionais": ["..."],
-        "portais_fornecedor": ["..."],
-        "telefones": ["..."],
-        "pessoas_chave": [{"nome": "...", "cargo": "...", "email": "..."}]
-    },
-    "inteligencia_comercial": {
-        "empresa_ativa": true,
-        "historico_versatil": "...",
-        "score_oportunidade": 95,
-        "servicos_com_maior_potencial": ["Manutenção Industrial", "Caldeiraria"],
-        "unidade_alvo_prioritaria": "...",
-        "justificativa_score": "...",
-        "proxima_acao_recomendada": "..."
-    },
-    "alertas_inconsistencia": ["(lista de dados conflitantes encontrados)"]
-}`;
-
-        // ============================================================
-        // MOTOR MULTI-IA — Cadeia de Fallback Automático
-        // Gemini (principal) → Groq (gratuito) → OpenAI (opcional)
-        // ============================================================
-        let textResponse = null;
-        let aiProvider = null;
-
-        // --- TENTATIVA 1: GEMINI (com Google Search grounding) ---
-        console.log(`[V-Bot AI] 🔄 Tentando Gemini para cliente ${id}...`);
-        try {
-            const geminiResponse = await ai.models.generateContent({
-                model: model,
-                contents: prompt,
-                config: {
-                    temperature: 0.2,
-                    tools: [{ googleSearch: {} }]
-                }
-            });
-            textResponse = geminiResponse.text;
-            aiProvider = 'gemini';
-            console.log(`[V-Bot AI] ✅ Gemini respondeu com sucesso!`);
-        } catch (geminiErr) {
-            const isRateLimit = geminiErr.status === 429 || (geminiErr.message && (
-                geminiErr.message.includes('429') || 
-                geminiErr.message.includes('RESOURCE_EXHAUSTED') || 
-                geminiErr.message.includes('quota') ||
-                geminiErr.message.includes('rate-limit')
-            ));
-            if (isRateLimit) {
-                console.log(`[V-Bot AI] ⚠️ Gemini quota/rate-limit. Tentando fallback...`);
-            } else {
-                console.log(`[V-Bot AI] ⚠️ Gemini erro: ${geminiErr.message}. Tentando fallback...`);
-            }
-        }
-
-        // --- TENTATIVA 2: GROQ ou OPENROUTER (fallback gratuito) ---
-        const fallbackKey = process.env.GROQ_API_KEY || process.env.OPENROUTER_API_KEY;
-        const fallbackHost = process.env.GROQ_API_KEY ? 'api.groq.com' : 'openrouter.ai';
-        const fallbackPath = process.env.GROQ_API_KEY ? '/openai/v1/chat/completions' : '/api/v1/chat/completions';
-        const fallbackModel = process.env.GROQ_API_KEY ? 'llama-3.3-70b-versatile' : 'google/gemini-2.0-flash-exp:free';
-        const fallbackName = process.env.GROQ_API_KEY ? 'Groq' : 'OpenRouter';
-        
-        if (!textResponse && fallbackKey) {
-            console.log(`[V-Bot AI] 🔄 Tentando ${fallbackName} (${fallbackModel}) para cliente ${id}...`);
-            try {
-                const fallbackBody = JSON.stringify({
-                    model: fallbackModel,
-                    messages: [
-                        { role: 'system', content: 'Você é um analista comercial especializado. Responda APENAS em JSON válido, sem markdown, sem texto adicional.' },
-                        { role: 'user', content: prompt }
-                    ],
-                    temperature: 0.2,
-                    max_tokens: 4096
-                });
-                
-                const fallbackResponse = await new Promise((resolve, reject) => {
-                    const https = require('https');
-                    const headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${fallbackKey}`
-                    };
-                    if (fallbackHost === 'openrouter.ai') {
-                        headers['HTTP-Referer'] = 'https://versatilservices.com.br';
-                        headers['X-Title'] = 'V-Bot Hunter CRM';
-                    }
-                    const req = https.request({
-                        hostname: fallbackHost,
-                        path: fallbackPath,
-                        method: 'POST',
-                        headers: headers,
-                        timeout: 90000
-                    }, (res) => {
-                        let data = '';
-                        res.on('data', chunk => data += chunk);
-                        res.on('end', () => {
-                            if (res.statusCode === 200) {
-                                try {
-                                    const parsed = JSON.parse(data);
-                                    resolve(parsed.choices[0].message.content);
-                                } catch (e) { reject(new Error(`${fallbackName} parse error`)); }
-                            } else {
-                                reject(new Error(`${fallbackName} HTTP ${res.statusCode}: ${data.substring(0, 200)}`));
-                            }
-                        });
-                    });
-                    req.on('error', reject);
-                    req.on('timeout', () => { req.destroy(); reject(new Error(`${fallbackName} timeout`)); });
-                    req.write(fallbackBody);
-                    req.end();
-                });
-                
-                textResponse = fallbackResponse;
-                aiProvider = fallbackName.toLowerCase();
-                console.log(`[V-Bot AI] ✅ ${fallbackName} respondeu com sucesso!`);
-            } catch (fallbackErr) {
-                console.log(`[V-Bot AI] ⚠️ ${fallbackName} erro: ${fallbackErr.message}. Tentando próximo...`);
-            }
-        }
-
-        // --- TENTATIVA 3: OPENAI (GPT-4o-mini — opcional) ---
-        if (!textResponse && process.env.OPENAI_API_KEY) {
-            console.log(`[V-Bot AI] 🔄 Tentando OpenAI (GPT-4o-mini) para cliente ${id}...`);
-            try {
-                const openaiBody = JSON.stringify({
-                    model: 'gpt-4o-mini',
-                    messages: [
-                        { role: 'system', content: 'Você é um analista comercial especializado. Responda APENAS em JSON válido, sem markdown, sem texto adicional.' },
-                        { role: 'user', content: prompt }
-                    ],
-                    temperature: 0.2,
-                    max_tokens: 4096
-                });
-                
-                const openaiResponse = await new Promise((resolve, reject) => {
-                    const https = require('https');
-                    const req = https.request({
-                        hostname: 'api.openai.com',
-                        path: '/v1/chat/completions',
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-                        },
-                        timeout: 60000
-                    }, (res) => {
-                        let data = '';
-                        res.on('data', chunk => data += chunk);
-                        res.on('end', () => {
-                            if (res.statusCode === 200) {
-                                try {
-                                    const parsed = JSON.parse(data);
-                                    resolve(parsed.choices[0].message.content);
-                                } catch (e) { reject(new Error('OpenAI parse error')); }
-                            } else {
-                                reject(new Error(`OpenAI HTTP ${res.statusCode}: ${data.substring(0, 200)}`));
-                            }
-                        });
-                    });
-                    req.on('error', reject);
-                    req.on('timeout', () => { req.destroy(); reject(new Error('OpenAI timeout')); });
-                    req.write(openaiBody);
-                    req.end();
-                });
-                
-                textResponse = openaiResponse;
-                aiProvider = 'openai';
-                console.log(`[V-Bot AI] ✅ OpenAI respondeu com sucesso!`);
-            } catch (openaiErr) {
-                console.log(`[V-Bot AI] ⚠️ OpenAI erro: ${openaiErr.message}`);
-            }
-        }
-
-        // --- FALLBACK FINAL: Nenhum provedor disponível ---
-        if (!textResponse) {
-            console.log(`[V-Bot AI] ❌ Todos os provedores falharam para cliente ${id}. Retornando dados locais.`);
-            return res.json({ 
-                success: true, 
-                ai_report: null,
-                ai_skipped: true,
-                message: 'Todos os provedores de IA estão temporariamente indisponíveis. Os dados locais foram coletados com sucesso.'
-            });
-        }
-
-        let aiResult;
-        try {
-            // Extração blindada: pega do primeiro '{' até o último '}' ignorando texto conversacional e marcações Markdown
-            const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
-            const cleaned = jsonMatch ? jsonMatch[0] : textResponse;
-            aiResult = JSON.parse(cleaned);
-        } catch(e) {
-            console.error(`[${aiProvider} AI] Falha no Parse do JSON:`, e);
-            throw new Error(`A IA (${aiProvider}) não retornou um formato estruturado válido.`);
-        }
-
-        console.log(`[V-Bot AI] Análise concluída via ${aiProvider.toUpperCase()} para cliente ${id}. Score: ${aiResult?.inteligencia_comercial?.score_oportunidade}`);
-
-        // ============================================================
-        // PERSISTÊNCIA AUTOMÁTICA — Grava ai_report na ficha do cliente
-        // (Regra Nº 6: Fonte Única da Verdade)
-        // (Regra Nº 8: Persistência)
-        // (Regra Nº 9: Auditoria)
-        // ============================================================
-        try {
-            const clientesPath = path.join(parentDir, 'clientes_database.json');
-            let dbClientes = JSON.parse(fs.readFileSync(clientesPath, 'utf8'));
-            const idx = dbClientes.findIndex(c => c.id_cliente === id);
-            if (idx !== -1) {
-                dbClientes[idx].ai_report = aiResult;
-                dbClientes[idx].ai_report_date = new Date().toISOString();
-                dbClientes[idx].ai_report_source = aiProvider;
-                fs.writeFileSync(clientesPath, JSON.stringify(dbClientes, null, 2), 'utf8');
-                console.log(`[V-Bot AI] ✅ ai_report gravado na ficha do cliente ${id}`);
-            }
-        } catch (saveErr) {
-            console.error(`[V-Bot AI] ⚠️ Erro ao gravar ai_report (análise foi concluída, mas não persistiu):`, saveErr.message);
-        }
-
-        res.json({ success: true, ai_report: aiResult });
-
-    } catch (err) {
-        console.error('[V-Bot AI] Erro na análise com IA:', err);
-        // Em vez de 500, retorna sucesso parcial para não travar o frontend
-        res.json({ success: true, ai_report: null, ai_skipped: true, error: err.message });
     }
 });
 
@@ -4517,8 +3741,8 @@ setInterval(() => {
     }
 
     if (primeiraSegunda && horaOk) {
-        console.log('[AUTO-ENVIO] 📅 Primeira segunda-feira do mês detectada, mas o envio automático foi desativado por regra de negócio.');
-        // executarEnvioMensal();
+        console.log('[AUTO-ENVIO] 📅 Primeira segunda-feira do mês detectada! Iniciando...');
+        executarEnvioMensal();
     }
 }, 60 * 60 * 1000); // Verifica a cada 1 hora
 
@@ -4593,4 +3817,3 @@ app.listen(PORT, () => {
         console.log(`  📬 Auto-envio: ${pendentes.length} pendentes | Próximo: ${prox.toLocaleDateString('pt-BR')} às ${config.hora_envio || 9}h`);
     }
 });
-
