@@ -1494,6 +1494,12 @@
                     Campanha de Prospecção
                 </button>
             </li>
+            <li class="nav-item" data-view="optout">
+                <button>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+                    Gestão de Opt-out
+                </button>
+            </li>
             <li class="nav-item" data-view="equipe" id="nav-equipe" style="display:none;">
                 <button data-i18n="menu.equipe">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -2300,6 +2306,121 @@
                 </div>
             </div> <!-- End TAB BOUNCES -->
 
+        </div>
+
+        <!-- VIEW PANEL: GESTÃO DE OPT-OUT -->
+        <div id="view-optout" class="view-panel">
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <h2>📧 Gestão de Opt-out (Descadastramento)</h2>
+                        <p>Gerencie contatos que solicitaram descadastramento ou pausa nas comunicações.</p>
+                    </div>
+                </div>
+
+                <!-- Cards de resumo -->
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px;" id="optout-cards">
+                    <div class="card" style="text-align:center;padding:20px;">
+                        <div style="font-size:28px;font-weight:800;color:#2d8c2d;" id="optout-count-ativos">—</div>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">✅ Ativos</div>
+                    </div>
+                    <div class="card" style="text-align:center;padding:20px;">
+                        <div style="font-size:28px;font-weight:800;color:#c62828;" id="optout-count-descadastrados">—</div>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">❌ Descadastrados</div>
+                    </div>
+                    <div class="card" style="text-align:center;padding:20px;">
+                        <div style="font-size:28px;font-weight:800;color:#e65100;" id="optout-count-pausados">—</div>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">⏸️ Pausados</div>
+                    </div>
+                    <div class="card" style="text-align:center;padding:20px;">
+                        <div style="font-size:28px;font-weight:800;color:#1565c0;" id="optout-count-empresas">—</div>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">🏢 Empresas Bloqueadas</div>
+                    </div>
+                </div>
+
+                <!-- Ações -->
+                <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="document.getElementById('optout-form-contato').style.display='block'">📧 Descadastrar Contato</button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('optout-form-empresa').style.display='block'">🏢 Bloquear Empresa</button>
+                    <button class="btn btn-secondary" onclick="carregarOptouts()">🔄 Atualizar</button>
+                </div>
+
+                <!-- Formulário: Descadastrar contato -->
+                <div id="optout-form-contato" class="card" style="display:none;padding:20px;margin-bottom:20px;border:2px solid var(--accent);">
+                    <h3 style="margin:0 0 16px;">📧 Descadastrar Contato</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div>
+                            <label style="font-size:12px;font-weight:600;">Email *</label>
+                            <input type="email" id="optout-email" class="form-control" placeholder="email@empresa.com" style="margin-top:4px;">
+                        </div>
+                        <div>
+                            <label style="font-size:12px;font-weight:600;">Empresa (nome)</label>
+                            <input type="text" id="optout-empresa-nome" class="form-control" placeholder="Nome da empresa" style="margin-top:4px;">
+                        </div>
+                        <div>
+                            <label style="font-size:12px;font-weight:600;">Ação</label>
+                            <select id="optout-acao" class="form-control" style="margin-top:4px;">
+                                <option value="descadastrado">❌ Descadastrar definitivamente</option>
+                                <option value="pausado_30">⏸️ Pausar 30 dias</option>
+                                <option value="pausado_90">⏸️ Pausar 90 dias</option>
+                                <option value="pausado_180">⏸️ Pausar 180 dias</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size:12px;font-weight:600;">Motivo</label>
+                            <input type="text" id="optout-motivo" class="form-control" placeholder="Ex: Solicitou por email" style="margin-top:4px;">
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:16px;">
+                        <button class="btn btn-primary" onclick="salvarOptoutContato()">Confirmar</button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('optout-form-contato').style.display='none'">Cancelar</button>
+                    </div>
+                </div>
+
+                <!-- Formulário: Bloquear empresa -->
+                <div id="optout-form-empresa" class="card" style="display:none;padding:20px;margin-bottom:20px;border:2px solid #c62828;">
+                    <h3 style="margin:0 0 16px;">🏢 Bloquear Comunicações da Empresa Inteira</h3>
+                    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">⚠️ Use apenas quando houver solicitação formal da própria empresa.</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div>
+                            <label style="font-size:12px;font-weight:600;">ID do Cliente *</label>
+                            <input type="text" id="optout-emp-id" class="form-control" placeholder="Ex: 0001" style="margin-top:4px;">
+                        </div>
+                        <div>
+                            <label style="font-size:12px;font-weight:600;">Nome da Empresa *</label>
+                            <input type="text" id="optout-emp-nome" class="form-control" placeholder="Ex: Petrobras S.A." style="margin-top:4px;">
+                        </div>
+                        <div style="grid-column:1/-1;">
+                            <label style="font-size:12px;font-weight:600;">Motivo</label>
+                            <input type="text" id="optout-emp-motivo" class="form-control" placeholder="Ex: Solicitação formal via ofício" style="margin-top:4px;">
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:16px;">
+                        <button class="btn btn-primary" style="background:#c62828;" onclick="salvarOptoutEmpresa()">Bloquear Empresa</button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('optout-form-empresa').style.display='none'">Cancelar</button>
+                    </div>
+                </div>
+
+                <!-- Tabela de registros -->
+                <div class="card" style="padding:0;overflow:hidden;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;" id="optout-table">
+                        <thead>
+                            <tr style="background:var(--bg-secondary);">
+                                <th style="padding:12px 16px;text-align:left;font-weight:600;">Tipo</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:600;">Email / Empresa</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:600;">Status</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:600;">Motivo</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:600;">Data</th>
+                                <th style="padding:12px 16px;text-align:left;font-weight:600;">Origem</th>
+                                <th style="padding:12px 16px;text-align:center;font-weight:600;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="optout-tbody">
+                            <tr><td colspan="7" style="padding:40px;text-align:center;color:var(--text-muted);">Nenhum registro de opt-out. Todos os contatos estão ativos.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <!-- VIEW PANEL 8: GESTÃO DE EQUIPE -->
@@ -3718,7 +3839,8 @@
                 'reativacao': ['Fila de Reativação Comercial', 'Clientes estratégicos A e B inativos há mais de 12 meses para contato.'],
                 'vbot': ['IA V-Bot Hunter (Enriquecimento)', 'Varredura automática nas pastas locais e internet para enriquecimento de dados comerciais.'],
                 'novo-lead': ['Capturar Novo Prospect', 'Cadastre novos leads no CRM e gere roteiros e-mail/WhatsApp/LinkedIn instantâneos.'],
-                'campanha': ['Campanha de Prospecção', 'Dispare e-mails e abra WhatsApp com mensagens personalizadas de Usinagem de Campo.']
+                'campanha': ['Campanha de Prospecção', 'Dispare e-mails e abra WhatsApp com mensagens personalizadas de Usinagem de Campo.'],
+                'optout': ['Gestão de Opt-out (Descadastramento)', 'Gerencie contatos que solicitaram descadastramento ou pausa nas comunicações.']
             };
 
             const pageTitle = document.getElementById('page-title');
@@ -3741,6 +3863,143 @@
             // Auto-carrega fila do V-Bot Hunter ao entrar na aba
             if (viewId === 'vbot') {
                 loadVbotClients();
+            }
+            // Auto-carrega opt-outs ao entrar na aba
+            if (viewId === 'optout') {
+                carregarOptouts();
+            }
+        }
+
+        // ==========================================================================
+        // GESTÃO DE OPT-OUT — JavaScript
+        // ==========================================================================
+        let optoutData = [];
+
+        async function carregarOptouts() {
+            try {
+                const resp = await fetch('/api/crm/optout');
+                optoutData = await resp.json();
+                renderOptoutTable();
+                atualizarOptoutCards();
+            } catch(e) {
+                console.error('[OPTOUT] Erro ao carregar:', e);
+            }
+        }
+
+        function atualizarOptoutCards() {
+            const ativos = optoutData.filter(r => r.status === 'ativo').length;
+            const desc = optoutData.filter(r => r.status === 'descadastrado' && r.tipo !== 'empresa').length;
+            const paus = optoutData.filter(r => r.status === 'pausado').length;
+            const emp = optoutData.filter(r => r.tipo === 'empresa' && r.status === 'descadastrado').length;
+            document.getElementById('optout-count-ativos').textContent = ativos;
+            document.getElementById('optout-count-descadastrados').textContent = desc;
+            document.getElementById('optout-count-pausados').textContent = paus;
+            document.getElementById('optout-count-empresas').textContent = emp;
+        }
+
+        function renderOptoutTable() {
+            const tbody = document.getElementById('optout-tbody');
+            if (!optoutData || optoutData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="padding:40px;text-align:center;color:var(--text-muted);">Nenhum registro de opt-out. Todos os contatos estão ativos.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = optoutData.map(r => {
+                const tipo = r.tipo === 'empresa' ? '🏢 Empresa' : '📧 Contato';
+                const ref = r.tipo === 'empresa' ? (r.empresa_nome || r.empresa_id) : r.email;
+                const statusBadge = r.status === 'ativo' 
+                    ? '<span style="background:#e6f7e6;color:#2d8c2d;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">✅ Ativo</span>'
+                    : r.status === 'descadastrado'
+                    ? '<span style="background:#fde8e8;color:#c62828;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">❌ Descadastrado</span>'
+                    : '<span style="background:#fff3e0;color:#e65100;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;">⏸️ Pausado</span>';
+                const data = r.data ? new Date(r.data).toLocaleDateString('pt-BR') + ' ' + new Date(r.data).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) : '—';
+                const pausaInfo = r.status === 'pausado' && r.pausado_ate ? '<br><small style="color:#e65100;">Até ' + new Date(r.pausado_ate).toLocaleDateString('pt-BR') + '</small>' : '';
+                const origem = r.origem === 'admin' ? '🔧 Admin' : r.origem === 'destinatario' ? '📩 Destinatário' : r.origem || '—';
+                const acoes = r.status !== 'ativo' 
+                    ? `<button class="btn btn-secondary" style="font-size:11px;padding:4px 10px;" onclick="reativarOptout('${r.id}')">✅ Reativar</button>`
+                    : '<span style="color:var(--text-muted);font-size:11px;">Ativo</span>';
+                return `<tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:10px 16px;">${tipo}</td>
+                    <td style="padding:10px 16px;font-weight:600;">${ref}</td>
+                    <td style="padding:10px 16px;">${statusBadge}${pausaInfo}</td>
+                    <td style="padding:10px 16px;font-size:12px;color:var(--text-muted);">${r.motivo || '—'}</td>
+                    <td style="padding:10px 16px;font-size:12px;">${data}</td>
+                    <td style="padding:10px 16px;font-size:12px;">${origem}</td>
+                    <td style="padding:10px 16px;text-align:center;">${acoes}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        async function salvarOptoutContato() {
+            const email = document.getElementById('optout-email').value.trim();
+            const empresaNome = document.getElementById('optout-empresa-nome').value.trim();
+            const acao = document.getElementById('optout-acao').value;
+            const motivo = document.getElementById('optout-motivo').value.trim();
+            if (!email) return alert('Email é obrigatório.');
+
+            let status = 'descadastrado';
+            let pausarDias = null;
+            if (acao.startsWith('pausado_')) {
+                status = 'pausado';
+                pausarDias = parseInt(acao.split('_')[1]);
+            }
+
+            try {
+                const resp = await fetch('/api/crm/optout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, empresa_nome: empresaNome, status, motivo: motivo || 'Solicitação administrativa', tipo: 'contato', pausar_dias: pausarDias })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    document.getElementById('optout-form-contato').style.display = 'none';
+                    document.getElementById('optout-email').value = '';
+                    document.getElementById('optout-empresa-nome').value = '';
+                    document.getElementById('optout-motivo').value = '';
+                    carregarOptouts();
+                    alert('✅ Contato registrado no opt-out com sucesso!');
+                }
+            } catch(e) {
+                alert('Erro: ' + e.message);
+            }
+        }
+
+        async function salvarOptoutEmpresa() {
+            const empresaId = document.getElementById('optout-emp-id').value.trim();
+            const empresaNome = document.getElementById('optout-emp-nome').value.trim();
+            const motivo = document.getElementById('optout-emp-motivo').value.trim();
+            if (!empresaId || !empresaNome) return alert('ID e Nome da empresa são obrigatórios.');
+
+            try {
+                const resp = await fetch('/api/crm/optout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ empresa_id: empresaId, empresa_nome: empresaNome, status: 'descadastrado', motivo: motivo || 'Solicitação formal da empresa', tipo: 'empresa' })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    document.getElementById('optout-form-empresa').style.display = 'none';
+                    document.getElementById('optout-emp-id').value = '';
+                    document.getElementById('optout-emp-nome').value = '';
+                    document.getElementById('optout-emp-motivo').value = '';
+                    carregarOptouts();
+                    alert('🏢 Empresa bloqueada com sucesso!');
+                }
+            } catch(e) {
+                alert('Erro: ' + e.message);
+            }
+        }
+
+        async function reativarOptout(id) {
+            if (!confirm('Deseja reativar este contato/empresa para receber comunicações novamente?')) return;
+            try {
+                const resp = await fetch(`/api/crm/optout/${id}`, { method: 'DELETE' });
+                const data = await resp.json();
+                if (data.success) {
+                    carregarOptouts();
+                    alert('✅ Reativado com sucesso!');
+                }
+            } catch(e) {
+                alert('Erro: ' + e.message);
             }
         }
 
