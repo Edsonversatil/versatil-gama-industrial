@@ -1042,10 +1042,11 @@ function gerarEmailHtml(bodyText) {
                         </p>
                     </td></tr>
                     <!-- Opt-out Footer -->
-                    <tr><td style="background:#f0f0f0;padding:16px 32px;text-align:center;border-top:1px solid #ddd;">
-                        <p style="margin:0;font-size:11px;color:#999;line-height:1.6;">
-                            Não deseja mais receber apresentações ou comunicações da Versátil?<br>
-                            <a href="{{OPTOUT_LINK}}" style="color:#BF2026;text-decoration:underline;font-size:11px;">Clique aqui para gerenciar suas preferências de comunicação.</a>
+                    <tr><td style="background:#f0f0f0;padding:20px 32px;text-align:center;border-top:2px solid #ddd;">
+                        <p style="margin:0;font-size:12px;color:#777;line-height:1.8;">
+                            Não deseja mais receber nossos comunicados?<br>
+                            <a href="{{OPTOUT_LINK}}" style="color:#BF2026;text-decoration:underline;font-size:13px;font-weight:600;">🔗 Descadastrar ou pausar comunicações</a><br>
+                            <span style="font-size:11px;color:#aaa;">Você pode cancelar, pausar por 30/90/180 dias ou continuar recebendo.</span>
                         </p>
                     </td></tr>
                 </table>
@@ -4857,7 +4858,7 @@ async function executarEnvioMensal() {
                 }
                 // === GERAR LINK OPT-OUT TOKENIZADO ===
                 const optoutToken = gerarOptoutToken(email, c.id_cliente || '', c.nome_cliente || '');
-                const optoutUrl = `http://localhost:${PORT}/optout/${optoutToken}`;
+                const optoutUrl = `${process.env.BASE_URL || 'http://localhost:' + PORT}/optout/${optoutToken}`;
                 let htmlBody = gerarEmailHtml(body);
                 htmlBody = htmlBody.replace('{{OPTOUT_LINK}}', optoutUrl);
 
