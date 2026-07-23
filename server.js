@@ -1151,7 +1151,7 @@ app.post('/api/crm/enviar-email', async (req, res) => {
 
         // === GERAR LINK OPT-OUT TOKENIZADO ===
         const optoutToken = gerarOptoutToken(to, clientId || '', '');
-        const optoutUrl = `${req.protocol}://${req.get('host')}/optout/${optoutToken}`;
+        const optoutUrl = `${process.env.BASE_URL || req.protocol + '://' + req.get('host')}/optout/${optoutToken}`;
         let htmlBody = gerarEmailHtml(body);
         htmlBody = htmlBody.replace('{{OPTOUT_LINK}}', optoutUrl);
 
@@ -1260,7 +1260,7 @@ app.post('/api/crm/campanha-email', (req, res) => {
             }
             // === GERAR LINK OPT-OUT TOKENIZADO ===
             const optoutToken = gerarOptoutToken(lead.to, lead.clientId || '', lead.nome || '');
-            const optoutUrl = `${req.protocol}://${req.get('host')}/optout/${optoutToken}`;
+            const optoutUrl = `${process.env.BASE_URL || req.protocol + '://' + req.get('host')}/optout/${optoutToken}`;
             let htmlBody = gerarEmailHtml(lead.body);
             htmlBody = htmlBody.replace('{{OPTOUT_LINK}}', optoutUrl);
 
