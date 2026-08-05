@@ -46,6 +46,43 @@
     <meta name="apple-mobile-web-app-title" content="Versátil Services">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="apple-touch-startup-image" href="/icons/splash-screen.png">
+
+    <!-- Google Ads Tag (gtag.js) — AW-18193151612 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193151612"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-18193151612');
+
+        // Track WhatsApp clicks as conversions
+        function trackWhatsAppClick() {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-18193151612/whatsapp_click',
+                'event_category': 'lead',
+                'event_label': 'whatsapp_contact'
+            });
+        }
+
+        // Track phone calls as conversions
+        function trackPhoneClick() {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-18193151612/phone_click',
+                'event_category': 'lead',
+                'event_label': 'phone_contact'
+            });
+        }
+
+        // Auto-attach tracking to WhatsApp and phone links
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href*="wa.me"]').forEach(function(link) {
+                link.addEventListener('click', trackWhatsAppClick);
+            });
+            document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
+                link.addEventListener('click', trackPhoneClick);
+            });
+        });
+    </script>
 </head>
 
 <body>

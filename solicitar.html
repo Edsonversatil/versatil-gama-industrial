@@ -11,6 +11,43 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#BF2026">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Google Ads Tag (gtag.js) — AW-18193151612 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193151612"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-18193151612');
+
+        // Track form submissions as conversions
+        function trackFormSubmission() {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-18193151612/form_submit',
+                'event_category': 'lead',
+                'event_label': 'quotation_form'
+            });
+        }
+
+        // Track WhatsApp clicks as conversions
+        function trackWhatsAppClick() {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-18193151612/whatsapp_click',
+                'event_category': 'lead',
+                'event_label': 'whatsapp_contact'
+            });
+        }
+
+        // Auto-attach tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href*="wa.me"]').forEach(function(link) {
+                link.addEventListener('click', trackWhatsAppClick);
+            });
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', trackFormSubmission);
+            });
+        });
+    </script>
 </head>
 <body>
 
